@@ -111,6 +111,13 @@ body {
 }
 
 /* END: WHEEL IMAGE STABILITY FIX */
+/* START: ANTI WOBBLE FIX */
+
+.wheel-img {
+    transform-style: preserve-3d;
+}
+
+/* END: ANTI WOBBLE FIX */
 /* START: POINTER CONTROL - UPDATED BIG SIZE */
 
 .pointer-img {
