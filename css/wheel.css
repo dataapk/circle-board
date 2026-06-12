@@ -37,18 +37,22 @@ body {
 /* END: GAME CONTAINER */
 /* START: WHEEL WRAPPER FIX */
 
+/* START: WHEEL POSITION CONTROL */
+
 .wheel-wrapper {
     position: relative;
 
-    width: 280px;
-    height: 280px;
+    width: 300px;
+    height: 300px;
 
-    margin-top: 10px;
+    margin-top: 5vh;
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+/* END: WHEEL POSITION CONTROL */
 
 /* END: WHEEL WRAPPER FIX */
 
@@ -79,20 +83,47 @@ body {
 }
 
 /* END: POINTER FIX */
-/* START: CHIP CONTAINER FIX */
+/* START: CHIP DOCK STYLE */
 
 .chips-container {
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 10px;
-
-    padding: 10px 0;
-
-    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+    padding-bottom: 10px;
 }
 
-/* END: CHIP CONTAINER FIX */
+.chip {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    position: relative;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.chip img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.chip.active {
+    transform: scale(1.4);
+    z-index: 5;
+}
+
+.chip span {
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: white;
+}
+
+/* END: CHIP DOCK STYLE */
 
 
 /* START: CHIP STYLE (ROUND + CLEAN) */
