@@ -1,150 +1,135 @@
-const canvas = document.getElementById("wheelCanvas");
+// START: PREMIUM WHEEL ENGINE
 
-if (canvas) {
-
-    const ctx = canvas.getContext("2d");
-
-    const totalSegments = 18;
-
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-
-    const radius = 320;
-
-    function drawWheel() {
-
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-        const angle =
-        (Math.PI * 2) / totalSegments;
-
-        for (let i = 0; i < totalSegments; i++) {
-
-            ctx.beginPath();
-
-            ctx.moveTo(
-                centerX,
-                centerY
-            );
-
-            ctx.arc(
-                centerX,
-                centerY,
-                radius,
-                angle * i,
-                angle * (i + 1)
-            );
-
-            ctx.closePath();
-
-            ctx.fillStyle =
-            i % 2 === 0
-            ? "#D4AF37"
-            : "#333";
-
-            ctx.fill();
-
-            ctx.lineWidth = 3;
-
-            ctx.strokeStyle = "#fff";
-
-            ctx.stroke();
-        }
-
-        // Outer Gold Ring
-
-        ctx.beginPath();
-
-        ctx.arc(
-            centerX,
-            centerY,
-            radius + 10,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.lineWidth = 12;
-
-        ctx.strokeStyle = "#FFD700";
-
-        ctx.stroke();
-        // START: OUTER SHADOW RING
-        ctx.beginPath();
-
-ctx.arc(
-    centerX,
-    centerY,
-    radius + 22,
-    0,
-    Math.PI * 2
+const canvas =
+document.getElementById(
+    "wheelCanvas"
 );
 
-ctx.lineWidth = 14;
+if(canvas){
 
-ctx.strokeStyle = "#6b4f00";
+const ctx =
+canvas.getContext("2d");
 
-ctx.stroke();
-        
-       // START: INNER GOLD RING
-        ctx.beginPath();
+const totalSegments = 18;
 
-ctx.arc(
-    centerX,
-    centerY,
-    radius - 6,
-    0,
-    Math.PI * 2
+const centerX =
+canvas.width / 2;
+
+const centerY =
+canvas.height / 2;
+
+const radius = 320;
+
+// START: PREMIUM COLOR SYSTEM
+
+const segmentColors = [
+
+"#FF4D4D",
+
+"#4D79FF",
+
+"#33CC66",
+
+"#FF9933",
+
+"#CC66FF",
+
+"#00CCCC",
+
+"#FFD700",
+
+"#FF66B2"
+
+];
+
+// END: PREMIUM COLOR SYSTEM
+
+function drawWheel(){
+
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
 );
 
-ctx.lineWidth = 6;
+const angle =
+(Math.PI * 2) /
+totalSegments;
 
-ctx.strokeStyle = "#fff1a8";
+for(
+let i=0;
+i<totalSegments;
+i++
+){
 
-ctx.stroke();
-        
-        
-        //START: PREMIUM CENTER HUB
+ctx.beginPath();
 
-        ctx.beginPath();
-
-ctx.arc(
-    centerX,
-    centerY,
-    80,
-    0,
-    Math.PI * 2
+ctx.moveTo(
+centerX,
+centerY
 );
 
-ctx.fillStyle = "#FFD700";
+ctx.arc(
+centerX,
+centerY,
+radius,
+angle * i,
+angle * (i + 1)
+);
+
+ctx.closePath();
+
+// START: RAINBOW SEGMENT COLOR
+
+ctx.fillStyle =
+segmentColors[
+i %
+segmentColors.length
+];
+
+// END: RAINBOW SEGMENT COLOR
 
 ctx.fill();
 
-ctx.lineWidth = 4;
+ctx.lineWidth = 3;
 
-ctx.strokeStyle = "#fff";
+ctx.strokeStyle =
+"#ffffff";
 
 ctx.stroke();
+
+}
+
+// START: OUTER GOLD RING
 
 ctx.beginPath();
 
 ctx.arc(
-    centerX,
-    centerY,
-    50,
-    0,
-    Math.PI * 2
+centerX,
+centerY,
+radius + 10,
+0,
+Math.PI * 2
 );
 
-ctx.fillStyle = "#111";
+ctx.lineWidth = 12;
 
-ctx.fill();
-        }
+ctx.strokeStyle =
+"#FFD700";
+
+ctx.stroke();
+
+// END: OUTER GOLD RING
+
+}
+
+// START: DRAW WHEEL
 
 drawWheel();
 
+// END: DRAW WHEEL
+
 }
+
+// END: PREMIUM WHEEL ENGINE
