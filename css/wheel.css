@@ -37,22 +37,22 @@ body {
 /* END: GAME CONTAINER */
 /* START: WHEEL WRAPPER FIX */
 
-/* START: WHEEL POSITION CONTROL */
+/* START: WHEEL POSITION CONTROL v2 */
 
 .wheel-wrapper {
     position: relative;
 
-    width: 300px;
-    height: 300px;
+    width: 4500px;
+    height: 450px;
 
-    margin-top: 5vh;
+    margin-top: 2vh;
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* END: WHEEL POSITION CONTROL */
+/* END: WHEEL POSITION CONTROL v2 */
 
 /* END: WHEEL WRAPPER FIX */
 
