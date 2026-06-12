@@ -109,6 +109,21 @@ body {
 }
 
 /* END: WHEEL IMAGE STABILITY FIX */
+/* START: SYMBOL TABLE AREA */
+
+.symbol-table {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 10px;
+
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* END: SYMBOL TABLE AREA */
 /* START: ANTI WOBBLE FIX */
 
 .wheel-img {
