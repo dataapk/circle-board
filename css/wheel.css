@@ -1,45 +1,40 @@
-.wheel-wrapper{
+/* START: WHEEL CENTER FIX */
 
-    position:relative;
-
-    width:100%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
+.wheel-wrapper {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 40px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#wheelCanvas{
+/* END: WHEEL CENTER FIX */
 
-    width:100%;
 
-    max-width:420px;
+/* START: WHEEL IMAGE */
 
-    aspect-ratio:1/1;
-
-    display:block;
-
+.wheel-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 50%;
+    transform-origin: center center;
 }
 
-.pointer{
+/* END: WHEEL IMAGE */
 
-    position:absolute;
 
-    top:-5px;
+/* START: POINTER FIX */
 
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:0;
-    height:0;
-
-    border-left:20px solid transparent;
-    border-right:20px solid transparent;
-    border-top:40px solid gold;
-
-    z-index:100;
+.pointer-img {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    z-index: 10;
 }
+
+/* END: POINTER FIX */
