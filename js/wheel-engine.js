@@ -157,26 +157,60 @@ ctx.stroke();
 
 // END: METAL DIVIDER
 
+// START: DOUBLE GOLD RING
+
 ctx.beginPath();
 
 ctx.arc(
 centerX,
 centerY,
-radius + 10,
+radius + 18,
 0,
 Math.PI * 2
 );
 
-ctx.lineWidth = 12;
+ctx.lineWidth = 18;
+
+ctx.strokeStyle =
+"#8B6508";
+
+ctx.stroke();
+
+ctx.beginPath();
+
+ctx.arc(
+centerX,
+centerY,
+radius + 8,
+0,
+Math.PI * 2
+);
+
+ctx.lineWidth = 10;
 
 ctx.strokeStyle =
 "#FFD700";
 
 ctx.stroke();
 
-// END: OUTER GOLD RING
+ctx.beginPath();
 
-}
+ctx.arc(
+centerX,
+centerY,
+radius - 2,
+0,
+Math.PI * 2
+);
+
+ctx.lineWidth = 4;
+
+ctx.strokeStyle =
+"#FFF4B0";
+
+ctx.stroke();
+
+// END: DOUBLE GOLD RING
 
 // START: DRAW WHEEL
 
