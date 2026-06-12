@@ -118,20 +118,44 @@ gradient;
 
 ctx.fill();
 
-// END: 3D SEGMENT GRADIENT
+// START: METAL DIVIDER
 
-ctx.fill();
-
-ctx.lineWidth = 3;
+ctx.lineWidth = 6;
 
 ctx.strokeStyle =
-"#ffffff";
+"#f5f5f5";
 
 ctx.stroke();
 
-}
+ctx.beginPath();
 
-// START: OUTER GOLD RING
+ctx.moveTo(
+centerX,
+centerY
+);
+
+ctx.lineTo(
+
+centerX +
+Math.cos(
+angle * i
+) * radius,
+
+centerY +
+Math.sin(
+angle * i
+) * radius
+
+);
+
+ctx.lineWidth = 2;
+
+ctx.strokeStyle =
+"#999999";
+
+ctx.stroke();
+
+// END: METAL DIVIDER
 
 ctx.beginPath();
 
