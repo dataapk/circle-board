@@ -1,157 +1,78 @@
-// START: PREMIUM WHEEL ENGINE
+// START: PREMIUM PNG WHEEL ENGINE
 
-const canvas =
+const wheel =
 document.getElementById(
-    "wheelCanvas"
+    "wheel"
 );
 
-if(canvas){
-
-const ctx =
-canvas.getContext("2d");
-
-const totalSegments = 18;
-
-const centerX =
-canvas.width / 2;
-
-const centerY =
-canvas.height / 2;
-
-const radius = 320;
-
-// START: PREMIUM COLOR SYSTEM
-
-const segmentColors = [
-
-"#FF4D4D",
-
-"#4D79FF",
-
-"#33CC66",
-
-"#FF9933",
-
-"#CC66FF",
-
-"#00CCCC",
-
-"#FFD700",
-
-"#FF66B2"
-
-];
-
-// END: PREMIUM COLOR SYSTEM
-
-function drawWheel(){
-
-ctx.clearRect(
-0,
-0,
-canvas.width,
-canvas.height
+const spinBtn =
+document.getElementById(
+    "spinBtn"
 );
 
-const angle =
-(Math.PI * 2) /
-totalSegments;
+let isSpinning = false;
 
-for(
-let i=0;
-i<totalSegments;
-i++
-){
+let currentRotation = 0;
 
-ctx.beginPath();
+// START: SPIN FUNCTION
 
-ctx.moveTo(
-centerX,
-centerY
-);
+function spinWheel(){
 
-ctx.arc(
-centerX,
-centerY,
-radius,
-angle * i,
-angle * (i + 1)
-);
+    if(isSpinning){
+        return;
+    }
 
-ctx.closePath();
+    isSpinning = true;
 
-// START: SEGMENT INSET SHADOW
+    const extraRotation =
 
-const gradient =
-ctx.createLinearGradient(
+        3600 +
 
-centerX,
-centerY - radius,
+        Math.floor(
+            Math.random() * 360
+        );
 
-centerX,
-centerY + radius
+    currentRotation +=
+    extraRotation;
 
-);
+    wheel.style.transition =
+    "transform 6s cubic-bezier(0.17,0.67,0.12,0.99)";
 
-gradient.addColorStop(
-0,
-"#ffffff55"
-);
+    wheel.style.transform =
+    `rotate(${currentRotation}deg)`;
 
-gradient.addColorStop(
-0.25,
-segmentColors[
-i %
-segmentColors.length
-]
-);
+    setTimeout(()=>{
 
-gradient.addColorStop(
-0.75,
-segmentColors[
-i %
-segmentColors.length
-]
-);
+        isSpinning = false;
 
-gradient.addColorStop(
-1,
-"#00000055"
-);
+        const finalAngle =
 
-ctx.fillStyle =
-gradient;
+        currentRotation % 360;
 
-ctx.fill();
+        console.log(
+            "Final Angle:",
+            finalAngle
+        );
 
-// END: SEGMENT INSET SHADOW
-    // START: INNER SHADOW EDGE
-
-ctx.save();
-
-ctx.strokeStyle =
-"rgba(0,0,0,0.25)";
-
-ctx.lineWidth = 8;
-
-ctx.stroke();
-
-ctx.restore();
-
-// END: INNER SHADOW EDGE
-
-// END: DOUBLE GOLD RING
+    },6000);
 
 }
 
-// END: FOR LOOP
+// END: SPIN FUNCTION
+
+
+// START: BUTTON EVENT
+
+if(spinBtn){
+
+    spinBtn.addEventListener(
+        "click",
+        spinWheel
+    );
 
 }
 
-// END: DRAW WHEEL FUNCTION
+// END: BUTTON EVENT
 
-drawWheel();
 
-}
-
-// END: PREMIUM WHEEL ENGINE
+// END: PREMIUM PNG WHEEL ENGINE
