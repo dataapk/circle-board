@@ -104,22 +104,23 @@ body {
 }
 
 /* END: WHEEL IMAGE FIX */
-/* START: POINTER FIX */
+/* START: POINTER CONTROL - UPDATED BIG SIZE */
 
 .pointer-img {
     position: absolute;
 
-    top: -40px;
+    top: -55px;
 
     left: 50%;
     transform: translateX(-50%);
 
-    width: 85px;
+    width: 110px;
+    height: auto;
 
     z-index: 10;
 }
 
-/* END: POINTER FIX */
+/* END: POINTER CONTROL - UPDATED BIG SIZE */
 /* START: CHIP DOCK STYLE */
 
 .chips-container {
