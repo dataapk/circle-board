@@ -80,15 +80,45 @@ angle * (i + 1)
 
 ctx.closePath();
 
-// START: RAINBOW SEGMENT COLOR
+// START: 3D SEGMENT GRADIENT
 
-ctx.fillStyle =
+const gradient =
+ctx.createRadialGradient(
+
+centerX,
+centerY,
+60,
+
+centerX,
+centerY,
+radius
+
+);
+
+gradient.addColorStop(
+0,
+"#ffffff"
+);
+
+gradient.addColorStop(
+0.15,
 segmentColors[
 i %
 segmentColors.length
-];
+]
+);
 
-// END: RAINBOW SEGMENT COLOR
+gradient.addColorStop(
+1,
+"#111111"
+);
+
+ctx.fillStyle =
+gradient;
+
+ctx.fill();
+
+// END: 3D SEGMENT GRADIENT
 
 ctx.fill();
 
