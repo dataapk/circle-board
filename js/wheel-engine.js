@@ -80,28 +80,34 @@ angle * (i + 1)
 
 ctx.closePath();
 
-// START: 3D SEGMENT GRADIENT
+// START: SEGMENT INSET SHADOW
 
 const gradient =
-ctx.createRadialGradient(
+ctx.createLinearGradient(
 
 centerX,
-centerY,
-60,
+centerY - radius,
 
 centerX,
-centerY,
-radius
+centerY + radius
 
 );
 
 gradient.addColorStop(
 0,
-"#ffffff"
+"#ffffff55"
 );
 
 gradient.addColorStop(
-0.15,
+0.25,
+segmentColors[
+i %
+segmentColors.length
+]
+);
+
+gradient.addColorStop(
+0.75,
 segmentColors[
 i %
 segmentColors.length
@@ -110,7 +116,7 @@ segmentColors.length
 
 gradient.addColorStop(
 1,
-"#111111"
+"#00000055"
 );
 
 ctx.fillStyle =
@@ -118,99 +124,21 @@ gradient;
 
 ctx.fill();
 
-// START: METAL DIVIDER
+// END: SEGMENT INSET SHADOW
+    // START: INNER SHADOW EDGE
 
-ctx.lineWidth = 6;
+ctx.save();
 
 ctx.strokeStyle =
-"#f5f5f5";
+"rgba(0,0,0,0.25)";
+
+ctx.lineWidth = 8;
 
 ctx.stroke();
 
-ctx.beginPath();
+ctx.restore();
 
-ctx.moveTo(
-centerX,
-centerY
-);
-
-ctx.lineTo(
-
-centerX +
-Math.cos(
-angle * i
-) * radius,
-
-centerY +
-Math.sin(
-angle * i
-) * radius
-
-);
-
-ctx.lineWidth = 2;
-
-ctx.strokeStyle =
-"#999999";
-
-ctx.stroke();
-
-// END: METAL DIVIDER
-
-// START: DOUBLE GOLD RING
-
-ctx.beginPath();
-
-ctx.arc(
-centerX,
-centerY,
-radius + 18,
-0,
-Math.PI * 2
-);
-
-ctx.lineWidth = 18;
-
-ctx.strokeStyle =
-"#8B6508";
-
-ctx.stroke();
-
-ctx.beginPath();
-
-ctx.arc(
-centerX,
-centerY,
-radius + 8,
-0,
-Math.PI * 2
-);
-
-ctx.lineWidth = 10;
-
-ctx.strokeStyle =
-"#FFD700";
-
-ctx.stroke();
-
-ctx.beginPath();
-
-ctx.arc(
-centerX,
-centerY,
-radius - 2,
-0,
-Math.PI * 2
-);
-
-ctx.lineWidth = 4;
-
-ctx.strokeStyle =
-"#FFF4B0";
-
-ctx.stroke();
-
-// END: DOUBLE GOLD RING
+// END: INNER SHADOW EDGE
 
 // END: DOUBLE GOLD RING
 
