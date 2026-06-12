@@ -143,3 +143,8 @@ ctx.arc(
 ctx.fillStyle = "#111";
 
 ctx.fill();
+        }
+
+drawWheel();
+
+}
