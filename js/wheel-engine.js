@@ -215,8 +215,3 @@ ctx.stroke();
 // START: DRAW WHEEL
 
 drawWheel();
-
-// END: DRAW WHEEL
-
-}
-// END: PREMIUM WHEEL ENGINE
