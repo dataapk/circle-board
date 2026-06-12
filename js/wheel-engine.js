@@ -90,23 +90,56 @@ ctx.strokeStyle = "#6b4f00";
 
 ctx.stroke();
         
+       // START: INNER GOLD RING
+        ctx.beginPath();
 
-        // Center Hub
+ctx.arc(
+    centerX,
+    centerY,
+    radius - 6,
+    0,
+    Math.PI * 2
+);
+
+ctx.lineWidth = 6;
+
+ctx.strokeStyle = "#fff1a8";
+
+ctx.stroke();
+        
+        
+        //START: PREMIUM CENTER HUB
 
         ctx.beginPath();
 
-        ctx.arc(
-            centerX,
-            centerY,
-            70,
-            0,
-            Math.PI * 2
-        );
+ctx.arc(
+    centerX,
+    centerY,
+    80,
+    0,
+    Math.PI * 2
+);
 
-        ctx.fillStyle = "#111";
+ctx.fillStyle = "#FFD700";
 
-        ctx.fill();
-    }
+ctx.fill();
 
-    drawWheel();
-}
+ctx.lineWidth = 4;
+
+ctx.strokeStyle = "#fff";
+
+ctx.stroke();
+
+ctx.beginPath();
+
+ctx.arc(
+    centerX,
+    centerY,
+    50,
+    0,
+    Math.PI * 2
+);
+
+ctx.fillStyle = "#111";
+
+ctx.fill();
