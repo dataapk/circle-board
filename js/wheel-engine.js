@@ -35,11 +35,13 @@ function spinWheel(){
     currentRotation +=
     extraRotation;
 
-    wheel.style.transition =
-    "transform 6s cubic-bezier(0.17,0.67,0.12,0.99)";
+    wheel.style.transformOrigin = "center center";
 
-    wheel.style.transform =
-    `rotate(${currentRotation}deg)`;
+wheel.style.transition =
+"transform 6s cubic-bezier(0.17,0.67,0.12,0.99)";
+
+wheel.style.transform =
+`rotate(${currentRotation}deg)`;
 
     setTimeout(()=>{
 
