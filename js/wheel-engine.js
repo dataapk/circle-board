@@ -73,6 +73,23 @@ if (canvas) {
         ctx.strokeStyle = "#FFD700";
 
         ctx.stroke();
+        // START: OUTER SHADOW RING
+        ctx.beginPath();
+
+ctx.arc(
+    centerX,
+    centerY,
+    radius + 22,
+    0,
+    Math.PI * 2
+);
+
+ctx.lineWidth = 14;
+
+ctx.strokeStyle = "#6b4f00";
+
+ctx.stroke();
+        
 
         // Center Hub
 
