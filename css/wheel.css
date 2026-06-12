@@ -76,10 +76,10 @@ body {
 .wheel-wrapper {
     position: relative;
 
-    width: 350px;
-    height: 350px;
+    width: 250px;
+    height: 250px;
 
-    margin-top: 2vh;
+    margin-top: -30;
 
     display: flex;
     justify-content: center;
