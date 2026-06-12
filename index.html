@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Safiki Wheel</title>
 
@@ -18,27 +18,103 @@
 
 <div class="game-container">
 
-    <!-- Balance Area -->
+    <!-- BALANCE SECTION START -->
 
     <div class="balance-box">
 
         <span>Balance</span>
 
-        <h2>$1000</h2>
+        <h2 id="balanceAmount">$1000.00</h2>
 
     </div>
 
-    <!-- Wheel Area -->
+    <!-- BALANCE SECTION END -->
+
+
+    <!-- WHEEL SECTION START -->
 
     <div class="wheel-wrapper">
 
-        <div class="pointer"></div>
+        <img
+            id="pointer"
+            class="pointer-img"
+            src="assets/pointer.png"
+            alt="Pointer">
 
-        <canvas id="wheelCanvas"
-                width="800"
-                height="800"></canvas>
+        <img
+            id="wheel"
+            class="wheel-img"
+            src="assets/wheel.png"
+            alt="Wheel">
 
     </div>
+
+    <!-- WHEEL SECTION END -->
+
+
+    <!-- RESULT SECTION START -->
+
+    <div class="result-box">
+
+        <span>Result</span>
+
+        <h3 id="resultText">Waiting...</h3>
+
+    </div>
+
+    <!-- RESULT SECTION END -->
+
+
+    <!-- CHIPS SECTION START -->
+
+    <div class="chips-container">
+
+        <div class="chip" data-value="0.10">
+            <img src="assets/chip_0.10c.png" alt="">
+            <span>$0.10</span>
+        </div>
+
+        <div class="chip" data-value="0.20">
+            <img src="assets/chip_20c.png" alt="">
+            <span>$0.20</span>
+        </div>
+
+        <div class="chip" data-value="0.50">
+            <img src="assets/chip_50c.png" alt="">
+            <span>$0.50</span>
+        </div>
+
+        <div class="chip" data-value="1">
+            <img src="assets/chip_1.png" alt="">
+            <span>$1</span>
+        </div>
+
+        <div class="chip" data-value="2">
+            <img src="assets/chip_2.png" alt="">
+            <span>$2</span>
+        </div>
+
+        <div class="chip" data-value="5">
+            <img src="assets/chip_5.png" alt="">
+            <span>$5</span>
+        </div>
+
+    </div>
+
+    <!-- CHIPS SECTION END -->
+
+
+    <!-- SPIN BUTTON SECTION START -->
+
+    <div class="spin-section">
+
+        <button id="spinBtn">
+            SPIN
+        </button>
+
+    </div>
+
+    <!-- SPIN BUTTON SECTION END -->
 
 </div>
 
