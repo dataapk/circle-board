@@ -260,5 +260,13 @@ body {
 }
 
 /* END: SPIN BUTTON */
+/* START: BALANCE BOX COMPACT */
+
+.balance-box {
+    transform: scale(0.75); /* ছোট করা */
+    margin-top: 5px;
+}
+
+/* END: BALANCE BOX COMPACT */
 
 
