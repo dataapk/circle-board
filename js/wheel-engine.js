@@ -20,54 +20,81 @@ function drawWheel(){
     (Math.PI * 2) / totalSegments;
 
     for(let i=0;i<totalSegments;i++){
-
+// =========================
+    // 3. Center Inner Circle
+    // =========================
         ctx.beginPath();
 
-        ctx.moveTo(centerX,centerY);
+ctx.arc(
+ centerX,
+ centerY,
+ 90,
+ 0,
+ Math.PI*2
+);
 
-        ctx.arc(
-            centerX,
-            centerY,
-            radius,
-            angle*i,
-            angle*(i+1)
-        );
+ctx.fillStyle="#FFD700";
 
-        ctx.closePath();
+ctx.fill();
 
-        ctx.fillStyle =
-        i % 2 === 0
-        ? "#D4AF37"
-        : "#444";
+ctx.lineWidth = 6;
 
-        ctx.fill();
+ctx.strokeStyle="#FFF";
 
-        ctx.lineWidth = 4;
+ctx.stroke();
 
-        ctx.strokeStyle =
-        "#fff";
+// =========================
+    // 4. Center Inner Circle
+    // =========================
 
-        ctx.stroke();
+ctx.beginPath();
 
-    }
+ctx.arc(
+ centerX,
+ centerY,
+ 55,
+ 0,
+ Math.PI*2
+);
 
-    // Center Circle
+ctx.fillStyle="#111";
 
-    ctx.beginPath();
+ctx.fill();
+// =========================
+    // 1. Outer Golden Ring
+    // =========================
+ctx.beginPath();
 
-    ctx.arc(
-        centerX,
-        centerY,
-        80,
-        0,
-        Math.PI*2
-    );
+ctx.arc(
+    centerX,
+    centerY,
+    radius + 15,
+    0,
+    Math.PI * 2
+);
 
-    ctx.fillStyle =
-    "#111";
+ctx.lineWidth = 20;
 
-    ctx.fill();
+ctx.strokeStyle = "#FFD700";
 
-}
+ctx.stroke();
+// =========================
+    // 2. Second Ring
+    // =========================
+ctx.beginPath();
 
-drawWheel();
+ctx.arc(
+    centerX,
+    centerY,
+    radius - 5,
+    0,
+    Math.PI * 2
+);
+
+ctx.lineWidth = 8;
+
+ctx.strokeStyle = "#B8860B";
+
+ctx.stroke();
+
+
