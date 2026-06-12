@@ -212,6 +212,18 @@ ctx.stroke();
 
 // END: DOUBLE GOLD RING
 
-// START: DRAW WHEEL
+// END: DOUBLE GOLD RING
+
+}
+
+// END: FOR LOOP
+
+}
+
+// END: DRAW WHEEL FUNCTION
 
 drawWheel();
+
+}
+
+// END: PREMIUM WHEEL ENGINE
