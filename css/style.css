@@ -1,1 +1,43 @@
-jhk
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    background:#111;
+
+    font-family:sans-serif;
+
+    color:white;
+
+    min-height:100vh;
+
+}
+
+.game-container{
+
+    width:100%;
+    max-width:500px;
+
+    margin:auto;
+
+    padding:15px;
+
+}
+
+.balance-box{
+
+    text-align:center;
+
+    margin-top:15px;
+    margin-bottom:20px;
+
+}
+
+.balance-box h2{
+
+    font-size:30px;
+
+}
