@@ -103,11 +103,9 @@ body {
 
     transform-origin: center center;
 
-    will-change: transform;
-
-    backface-visibility: hidden;
-
     display: block;
+
+    will-change: transform;
 }
 
 /* END: WHEEL IMAGE STABILITY FIX */
@@ -118,23 +116,22 @@ body {
 }
 
 /* END: ANTI WOBBLE FIX */
-/* START: POINTER CONTROL - UPDATED BIG SIZE */
+/* START: POINTER FINAL POSITION */
 
 .pointer-img {
     position: absolute;
 
-    top: -55px;
+    top: -65px; /* আরো উপরে */
 
     left: 50%;
     transform: translateX(-50%);
 
-    width: 200px;
-    height: auto;
+    width: 110px;
 
     z-index: 10;
 }
 
-/* END: POINTER CONTROL - UPDATED BIG SIZE */
+/* END: POINTER FINAL POSITION */
 /* START: CHIP DOCK STYLE */
 
 .chips-container {
