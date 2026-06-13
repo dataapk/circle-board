@@ -77,70 +77,101 @@ body {
     transform: scale(1.05);
 }
 /* =========================
-   🪙 CHIPS SYSTEM
+   🪙 CHIPS CONTAINER (PRO iGaming)
 ========================= */
 
 .chips-container {
-
     width: 100%;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     gap: 6px;
 
     margin-top: 4px;
-
     padding: 0;
-}
-
-.chip {
-
-    width: 48px;
-
-    height: 48px;
 
     position: relative;
 
+    transition: all 0.35s ease;
+}
+
+/* =========================
+   🪙 CHIP (iGaming FINAL POLISH)
+========================= */
+
+.chip {
+    width: 48px;
+    height: 48px;
+
+    position: relative;
     cursor: pointer;
 
     flex-shrink: 0;
+
+    border-radius: 50%;
+
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    will-change: transform;
 }
+/* =========================
+   🪙 CHIP IMAGE (PRO CASINO STYLE)
+========================= */
 
 .chip img {
-
     width: 100%;
-
     height: 100%;
 
     object-fit: contain;
-
     display: block;
+
+    pointer-events: none;
+
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
-.chip span {
+/* =========================
+   🪙 CHIP LABEL (PRO CASINO STYLE)
+========================= */
 
+.chip span {
     position: absolute;
 
     left: 50%;
-
     transform: translateX(-50%);
 
-    bottom: -12px;
+    bottom: -14px;
 
-    font-size: 9px;
+    font-size: 10px;
+    font-weight: 500;
 
-    color: #fff;
+    color: #ffffff;
 
     white-space: nowrap;
+
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+
+    pointer-events: none;
+
+    user-select: none;
 }
 
-.chip.active {
+/* =========================
+   🪙 CHIP ACTIVE (CASINO GLOW)
+========================= */
 
-    transform: scale(1.15);
+.chip.active {
+    transform: scale(1.2);
+
+    box-shadow:
+        0 0 10px rgba(255, 215, 0, 0.6),
+        0 0 20px rgba(255, 215, 0, 0.25);
+
+    z-index: 2;
 }
 
 
