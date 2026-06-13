@@ -1,466 +1,48 @@
-/* START: GLOBAL RESET */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* START: THEME ONLY (whole.css) */
 
 body {
     width: 100%;
     height: 100vh;
-    background: radial-gradient(circle at top, #1b1f2a, #0b0f16);
     font-family: Arial, sans-serif;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
+    background: radial-gradient(circle at top, #1b1f2a, #0b0f16);
+    color: white;
 }
 
-/* END: GLOBAL RESET */
-/* START: WHEEL CENTER HUB */
+/* END: THEME ONLY */
+/* START: WHEEL SYSTEM */
 
 .wheel-center-hub {
-
     position: absolute;
-
     top: 50%;
     left: 50%;
-
     transform: translate(-50%, -50%);
-
     width: 70px;
     height: 70px;
-
     border-radius: 50%;
-
     background: #111827;
-
     border: 4px solid gold;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    color: white;
     font-size: 12px;
-    font-weight: bold;
-
     z-index: 20;
 }
-
-/* END: WHEEL CENTER HUB */
-
-
-/* STEP 2: GAME CONTAINER */
-
-.game-container {
-    position: relative;
-    width: 100%;
-    max-width: 430px;
-    min-height: 100vh;
-    margin: 0 auto;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-
-    padding: 20px 10px 20px 10px;
-}
-
-/* END:GAME CONTAINER */
-/* START: GAME LAYOUT CONTROL - DESKTOP VERSION */
-
-@media (min-width: 768px) {
-
-    .wheel-wrapper {
-
-        width: 420px;
-        height: 420px;
-
-        margin-top: -20px; /* ⬅️ wheel উপরে উঠানোর main control */
-        outline: 1px solid red;
-    }
-
-}
-
-/* END: GAME LAYOUT CONTROL - DESKTOP VERSION */
-
-
-/* START: WHEEL TOP POSITION CONTROL MOBILE */
-
-.wheel-wrapper {
-    position: relative;
-    width: 320px;
-    height: 320px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin-top: 10px; /* ❗ safe instead of negative */
-}
-
-/* END: WHEEL TOP POSITION CONTROL */
-
-
-/* START: WHEEL IMAGE STABILITY FIX */
-
-/* START: WHEEL CENTER LOCK */
 
 .wheel-img {
     width: 100%;
     height: 100%;
     display: block;
-
     transform-origin: center;
     will-change: transform;
 }
 
-/* END: WHEEL CENTER LOCK */
-
-/* END: WHEEL IMAGE STABILITY FIX */
-/* START: WHEEL IMAGE DESKTOP START FIX */
-@media (min-width: 768px) {
-
-    .wheel-img {
-
-        width: 420px;
-        height: 420px;
-    }
-
-}
-
-/* START: SYMBOL TABLE AREA */
-
-.symbol-table {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 10px;
-    margin-top: 20px;
-    padding: 10px;
-}
-
-/* END: SYMBOL TABLE AREA */
-
-/* START: POINTER FINAL POSITION */
-
 .pointer-img {
     position: absolute;
-
-    top: -40px;   /* FIXED (was too high) */
+    top: -40px;
     left: 50%;
     transform: translateX(-50%);
-
     width: 90px;
     z-index: 999;
 }
 
-/* END: POINTER FINAL POSITION */
-/* START: SYMBOL TABLE DESIGN */
-
-.symbol-table {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 10px;
-    margin-top: 20px;
-    padding: 10px;
-}
-
-/* END: SYMBOL TABLE DESIGN */
-
-
-/* START: SYMBOL BOX STYLE */
-
-.symbol-box {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-
-    padding: 10px;
-    text-align: center;
-
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.symbol-box img {
-    width: 40px;
-    height: 40px;
-}
-
-.symbol-box span {
-    display: block;
-    margin-top: 5px;
-    font-size: 12px;
-    color: #fff;
-}
-
-.symbol-box.active {
-    background: rgba(255, 215, 0, 0.3);
-    transform: scale(1.05);
-}
-
-/* END: SYMBOL BOX STYLE */
-
-
-/* START: SYMBOL LABEL */
-
-.symbol-box span {
-    display: block;
-
-    margin-top: 5px;
-
-    font-size: 12px;
-
-    color: #fff;
-}
-
-/* END: SYMBOL LABEL */
-
-
-/* START: ACTIVE CLICK EFFECT */
-
-.symbol-box.active {
-    background: rgba(255, 215, 0, 0.3);
-    transform: scale(1.05);
-}
-
-/* END: ACTIVE CLICK EFFECT */
-/* START: CHIP DOCK STYLE */
-
-.chips-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 8px;
-    padding-bottom: 10px;
-}
-
-.chip {
-    width: 48px;
-    height: 48px;
-
-    border-radius: 50%;
-    position: relative;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    cursor: pointer;
-}
-
-.chip img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-}
-
-.chip span {
-    position: absolute;
-    bottom: -14px;
-    font-size: 10px;
-    color: #fff;
-}
-
-.chip.active {
-    transform: scale(1.3);
-}
-
-.spin-section {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-#spinBtn {
-    width: 120px;
-    height: 45px;
-
-    border: none;
-    border-radius: 10px;
-
-    background: gold;
-    font-weight: bold;
-    font-size: 16px;
-
-    cursor: pointer;
-}
-
-/* END: CHIP STYLE */
-
-
-/* START: SPIN BUTTON */
-/* START: PREMIUM 3D SPIN BUTTON */
-
-.spin-section {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 14px;
-}
-
-/* MAIN BUTTON */
-#spinBtn {
-    width: 150px;
-    height: 52px;
-
-    border: none;
-    border-radius: 16px;
-
-    font-weight: bold;
-    font-size: 17px;
-    letter-spacing: 1px;
-
-    color: #ffffff;
-    cursor: pointer;
-
-    position: relative;
-
-    background: linear-gradient(
-        180deg,
-        #00ff88,
-        #00b35a
-    );
-
-    box-shadow:
-        0 6px 0 #007a3d,                 /* bottom depth */
-        0 12px 25px rgba(0, 255, 136, 0.35),
-        0 0 20px rgba(0, 255, 136, 0.4);
-
-    transition: all 0.2s ease;
-
-    overflow: hidden;
-}
-
-/* PRESS EFFECT */
-#spinBtn:active {
-    transform: translateY(3px);
-    box-shadow:
-        0 3px 0 #007a3d,
-        0 6px 15px rgba(0, 255, 136, 0.3);
-}
-
-/* GLOW ANIMATION OVERLAY */
-#spinBtn::before {
-    content: "";
-    position: absolute;
-
-    top: 0;
-    left: -100%;
-
-    width: 100%;
-    height: 100%;
-
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,0.35),
-        transparent
-    );
-
-    animation: shine 2.5s infinite;
-}
-
-/* BOTTOM GLOW BASE */
-#spinBtn::after {
-    content: "";
-    position: absolute;
-
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-
-    width: 70%;
-    height: 10px;
-
-    background: rgba(0, 255, 136, 0.6);
-    filter: blur(12px);
-
-    border-radius: 50%;
-
-    animation: glowPulse 1.8s infinite ease-in-out;
-}
-
-/* SHINE ANIMATION */
-@keyframes shine {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
-/* PULSE GLOW */
-@keyframes glowPulse {
-    0%, 100% {
-        opacity: 0.4;
-        transform: translateX(-50%) scale(0.9);
-    }
-    50% {
-        opacity: 0.9;
-        transform: translateX(-50%) scale(1.1);
-    }
-}
-
-/* END: PREMIUM SPIN BUTTON */
-
-/* END: SPIN BUTTON */
-/* START: BALANCE BOX - DESKTOP DEFAULT (iGaming Premium) */
-
-.balance-box {
-
-    position: absolute;
-    top: 10px;
-    right: 10px;
-
-    min-width: 140px;
-    height: 42px;
-
-    padding: 0 15px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 14px;
-
-    background: linear-gradient(
-        180deg,
-        rgba(40,40,40,0.95),
-        rgba(15,15,15,0.95)
-    );
-
-    border: 2px solid #FFD700;
-
-    box-shadow:
-        0 0 12px rgba(255,215,0,0.35),
-        inset 0 2px 2px rgba(255,255,255,0.15);
-
-    color: #FFD700;
-
-    font-weight: bold;
-
-    font-size: 15px;
-
-    z-index: 100;
-
-    transition: all 0.3s ease;
-}
-
-/* END: DESKTOP BALANCE BOX */
-
-
-/* START: BALANCE VALUE TEXT */
-
-.balance-amount {
-
-    letter-spacing: 1px;
-
-    text-shadow: 0 0 8px rgba(255,215,0,0.5);
-}
-
-/* END: BALANCE VALUE */
+/* END: WHEEL SYSTEM */
