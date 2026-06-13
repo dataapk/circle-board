@@ -3,16 +3,19 @@
 @media (max-width: 768px) {
 
     html, body {
-        height: 100%;
-        overflow: hidden;
-    }
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 
-    .game-container {
-        height: 100dvh;
-        overflow: hidden;
-        padding-top: 10px;
-        padding-bottom: 20px;
-    }
+.game-container {
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
 
     .wheel-wrapper {
         width: 280px;
