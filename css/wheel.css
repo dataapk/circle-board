@@ -23,7 +23,7 @@ body {
     justify-content: center;
     align-items: center;
 
-    margin-top: 4px;   /* ❌ -10px remove */
+    margin-top: 0px;   /* ❌ -10px remove */
 }
 
 /* START: WHEEL SYSTEM */
