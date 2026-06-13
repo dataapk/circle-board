@@ -109,12 +109,58 @@ body {
 }
 
 /* =========================
-   🎮 SPIN BUTTON AREA
+   🎮 SPIN BUTTON AREA (FIXED ORDER)
 ========================= */
 
 .spin-section {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 14px;
+
+    margin-top: 8px;   /* tighter to symbol table */
+    margin-bottom: 10px; /* space before chips */
+}
+/* =========================
+   💰 BALANCE BOX (PREMIUM CASINO STYLE)
+========================= */
+
+.balance-box {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    min-width: 140px;
+    height: 42px;
+    padding: 0 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        180deg,
+        rgba(40,40,40,0.95),
+        rgba(10,10,10,0.95)
+    );
+
+    border: 2px solid #FFD700;
+
+    color: #FFD700;
+    font-weight: bold;
+    font-size: 14px;
+
+    letter-spacing: 1px;
+
+    box-shadow:
+        0 0 12px rgba(255,215,0,0.35),
+        inset 0 2px 2px rgba(255,255,255,0.12);
+
+    z-index: 100;
+}
+
+/* TEXT GLOW */
+.balance-amount {
+    text-shadow: 0 0 8px rgba(255,215,0,0.6);
 }
