@@ -34,17 +34,21 @@ body {
 }
 
 /* =========================
-   🎯 SYMBOL TABLE
+   🎯 SYMBOL TABLE (POLISHED UI)
 ========================= */
 
 .symbol-table {
-    width: 100%;
+    width: 95%;
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
 
-    gap: 10px;
-    margin-top: 5px;
-    padding: 5px;
+    gap: 8px;
+
+    margin-top: 0px;   /* wheel-এর কাছাকাছি */
+    padding: 3px;
+
+    transform: translateY(-6px);
 }
 
 /* SYMBOL BOX */
@@ -52,29 +56,39 @@ body {
     background: rgba(255, 255, 255, 0.08);
     border-radius: 12px;
 
-    padding: 10px;
+    padding: 8px;   /* smaller */
     text-align: center;
 
     cursor: pointer;
     transition: 0.2s ease;
+
+    /* subtle glow base */
+    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
 }
 
+/* ICON SIZE SMALL */
 .symbol-box img {
-    width: 40px;
-    height: 40px;
+    width: 34px;
+    height: 34px;
 }
 
+/* TEXT */
 .symbol-box span {
     display: block;
-    margin-top: 5px;
-    font-size: 12px;
+    margin-top: 4px;
+    font-size: 11px;
     color: #fff;
 }
 
-/* ACTIVE STATE */
+/* ACTIVE STATE (GLOW EFFECT) */
 .symbol-box.active {
-    background: rgba(255, 215, 0, 0.3);
-    transform: scale(1.05);
+    background: rgba(255, 215, 0, 0.15);
+
+    transform: scale(1.04);
+
+    box-shadow:
+        0 0 10px rgba(255, 215, 0, 0.35),
+        0 0 20px rgba(255, 215, 0, 0.15);
 }
 
 /* =========================
