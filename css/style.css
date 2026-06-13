@@ -76,6 +76,72 @@ body {
     background: rgba(255, 215, 0, 0.3);
     transform: scale(1.05);
 }
+/* =========================
+   🪙 CHIPS SYSTEM
+========================= */
+
+.chips-container {
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 4px;
+
+    padding: 0;
+}
+
+.chip {
+
+    width: 48px;
+
+    height: 48px;
+
+    position: relative;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+.chip img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.chip span {
+
+    position: absolute;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    bottom: -12px;
+
+    font-size: 9px;
+
+    color: #fff;
+
+    white-space: nowrap;
+}
+
+.chip.active {
+
+    transform: scale(1.15);
+}
 
 
 
