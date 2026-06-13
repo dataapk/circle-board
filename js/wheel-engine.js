@@ -1,20 +1,22 @@
 // START: PREMIUM PNG WHEEL ENGINE
-const spinSound = document.getElementById("spinSound");
 
-const wheel =
-document.getElementById(
-    "wheel"
-);
+let spinSound;
+let tickSound;
 
-const spinBtn =
-document.getElementById(
-    "spinBtn"
-);
+const wheel = document.getElementById("wheel");
+const spinBtn = document.getElementById("spinBtn");
 
 let isSpinning = false;
-
 let currentRotation = 0;
+let tickInterval;
 
+// DOM READY SAFE INIT
+document.addEventListener("DOMContentLoaded", () => {
+
+    spinSound = document.getElementById("spinSound");
+    tickSound = document.getElementById("tickSound");
+
+});
 // END: ENGINE SETUP
 // START: PROFESSIONAL SPIN FUNCTION
 
