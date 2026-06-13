@@ -13,11 +13,7 @@
 
     height: 100dvh;
 
-    overflow: hidden;
-
-    padding-top: 10px;
-
-    padding-bottom: 0;
+    overflow: visible !important;
 }
 
     .wheel-wrapper {
