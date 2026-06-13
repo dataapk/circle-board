@@ -37,35 +37,106 @@ document.addEventListener("DOMContentLoaded", () => {
 // ===============================
 function initChipSystem() {
 
-    const chips = document.querySelectorAll(".chip");
+    const container =
+    document.querySelector(".chips-container");
+
+    const chips =
+    document.querySelectorAll(".chip");
+
+    const defaultChip =
+    document.querySelector(".default-chip");
+
+    if (!container) return;
+
+    // DEFAULT CHIP OPEN/CLOSE
+
+    defaultChip.addEventListener(
+        "click",
+        (e) => {
+
+            e.stopPropagation();
+
+            container.classList.toggle(
+                "expanded"
+            );
+
+            container.classList.toggle(
+                "collapsed"
+            );
+
+        }
+    );
+
+    // CHIP SELECT
 
     chips.forEach(chip => {
 
-        chip.addEventListener("click", () => {
+        chip.addEventListener(
+            "click",
+            (e) => {
 
-            // ACTIVE GLOW
-            chips.forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
+                e.stopPropagation();
 
-            // STORE VALUE
-            selectedChip = chip.getAttribute("data-value");
+                chips.forEach(c =>
+                    c.classList.remove(
+                        "active"
+                    )
+                );
 
-            // SOUND
-            if (chipSound) {
+                chip.classList.add(
+                    "active"
+                );
 
-                chipSound.currentTime = 0;
+                selectedChip =
+                chip.getAttribute(
+                    "data-value"
+                );
 
-                chipSound.play().catch(() => {});
+                if (chipSound) {
+
+                    chipSound.currentTime = 0;
+
+                    chipSound.play()
+                    .catch(() => {});
+                }
+
+                // AUTO CLOSE
+
+                if (
+                    !chip.classList.contains(
+                        "default-chip"
+                    )
+                ){
+
+                    container.classList.remove(
+                        "expanded"
+                    );
+
+                    container.classList.add(
+                        "collapsed"
+                    );
+                }
 
             }
-
-            console.log(
-                "Selected Chip:",
-                selectedChip
-            );
-
-        });
+        );
 
     });
+
+    // OUTSIDE CLICK CLOSE
+
+    document.addEventListener(
+        "click",
+        () => {
+
+            container.classList.remove(
+                "expanded"
+            );
+
+            container.classList.add(
+                "collapsed"
+            );
+
+        }
+    );
 
 }
