@@ -1,4 +1,6 @@
-/* START: CLEAN BASE */
+/* =========================
+   🎨 BASE SYSTEM
+========================= */
 
 * {
     margin: 0;
@@ -12,59 +14,9 @@ body {
     color: white;
 }
 
-/* END: CLEAN BASE */
-/* START: SYMBOL TABLE CASINO LAYOUT FIX */
-
-.symbol-table {
-    width: 100%;
-    margin-top: 8px;   /* 🔥 tighter to wheel */
-    padding: 8px;
-
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px; /* 🔥 tighter casino spacing */
-}
-
-/* SYMBOL BOX IMPROVED TOUCH FEEL */
-.symbol-box {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 215, 0, 0.15);
-
-    border-radius: 10px;
-
-    padding: 8px;
-
-    text-align: center;
-
-    transition: 0.2s ease;
-
-    cursor: pointer;
-}
-
-/* HOVER / ACTIVE CASINO STYLE */
-.symbol-box:hover,
-.symbol-box.active {
-    background: rgba(255, 215, 0, 0.15);
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-}
-
-/* ICON SIZE CONTROL */
-.symbol-box img {
-    width: 36px;
-    height: 36px;
-}
-
-/* LABEL */
-.symbol-box span {
-    font-size: 11px;
-    color: #fff;
-    margin-top: 4px;
-    display: block;
-}
-
-/* END: SYMBOL TABLE CASINO LAYOUT FIX */
-/* START: GAME LAYOUT CORE */
+/* =========================
+   🧱 GAME LAYOUT CORE
+========================= */
 
 .game-container {
     position: relative;
@@ -81,22 +33,31 @@ body {
     padding: 20px 10px;
 }
 
-/* WHEEL WRAPPER (layout only) */
+/* =========================
+   🎰 WHEEL WRAPPER
+========================= */
+
 .wheel-wrapper {
     position: relative;
     width: 320px;
     height: 320px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     margin-top: 10px;
 }
 
-/* SYMBOL TABLE */
+/* =========================
+   🎯 SYMBOL TABLE
+========================= */
+
 .symbol-table {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+
     gap: 10px;
     margin-top: 10px;
     padding: 10px;
@@ -106,10 +67,12 @@ body {
 .symbol-box {
     background: rgba(255, 255, 255, 0.08);
     border-radius: 12px;
+
     padding: 10px;
     text-align: center;
+
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 
 .symbol-box img {
@@ -118,18 +81,22 @@ body {
 }
 
 .symbol-box span {
-    font-size: 12px;
-    color: #fff;
     display: block;
     margin-top: 5px;
+    font-size: 12px;
+    color: #fff;
 }
 
+/* ACTIVE STATE */
 .symbol-box.active {
     background: rgba(255, 215, 0, 0.3);
     transform: scale(1.05);
 }
 
-/* CHIPS */
+/* =========================
+   🪙 CHIPS
+========================= */
+
 .chips-container {
     width: 100%;
     display: flex;
@@ -142,8 +109,10 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    position: relative;
     cursor: pointer;
+
+    position: relative;
+    transition: 0.2s;
 }
 
 .chip img {
@@ -155,12 +124,13 @@ body {
     transform: scale(1.3);
 }
 
-/* SPIN BUTTON WRAP */
+/* =========================
+   🎮 SPIN BUTTON AREA
+========================= */
+
 .spin-section {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-top: 14px;
 }
-
-/* END: GAME LAYOUT CORE */
