@@ -11,8 +11,10 @@
     }
 
     .wheel-wrapper {
-    transform: scale(0.78);
-}
+        transform: scale(0.78);
+        margin-top: -12px;
+        margin-bottom: -8px;   /* 🔥 wheel নিচের gap কমানো */
+    }
 
     .wheel-img {
         width: 100%;
@@ -26,9 +28,9 @@
 }
 
     .spin-section {
-    margin-top: 0;
-    margin-bottom: 0;
-}
+        margin-top: -4px;
+        margin-bottom: 0;
+    }
 
     #spinBtn {
         width: 130px;
@@ -36,8 +38,9 @@
         font-size: 15px;
     }
     .symbol-table {
-    margin-top: 0;
-}
+        margin-top: -10px;  /* 🔥 wheel-এর কাছে আনা */
+    }
+
 
     .balance-box {
         transform: scale(0.42);
