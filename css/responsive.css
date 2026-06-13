@@ -20,7 +20,7 @@
     }
 
     .pointer-img {
-    top: -45px;
+    top: -55px;     /* 🔥 3px more up */
     width: 140px;   /* 🔥 doubled size */
     height: auto;
 }
