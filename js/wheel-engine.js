@@ -34,7 +34,7 @@ function spinWheel(){
     currentRotation + extraRotation;
 
     wheel.style.transition =
-    "transform 10s linear";
+    "transform 10s cubic-bezier(0.08,0.75,0.12,1)";
 
     wheel.style.transform =
     `rotate(${currentRotation}deg)`;
