@@ -68,61 +68,85 @@ function initChipSystem() {
         }
     );
 
-    // CHIP SELECT
+    // CHIP BEHAVIUR
 
-    chips.forEach(chip => {
+chips.forEach(chip => {
 
-        chip.addEventListener(
-            "click",
-            (e) => {
+    chip.addEventListener(
+        "click",
+        (e) => {
 
-                e.stopPropagation();
+            e.stopPropagation();
 
-                chips.forEach(c =>
-                    c.classList.remove(
-                        "active"
-                    )
+            chips.forEach(c =>
+                c.classList.remove("active")
+            );
+
+            chip.classList.add("active");
+
+            selectedChip =
+            chip.getAttribute("data-value");
+
+            // UPDATE MAIN CHIP
+            if (
+                !chip.classList.contains(
+                    "default-chip"
+                )
+            ) {
+
+                const defaultImg =
+                defaultChip.querySelector("img");
+
+                const defaultText =
+                defaultChip.querySelector("span");
+
+                const selectedImg =
+                chip.querySelector("img");
+
+                const selectedText =
+                chip.querySelector("span");
+
+                defaultImg.src =
+                selectedImg.src;
+
+                defaultText.textContent =
+                selectedText.textContent;
+
+                defaultChip.setAttribute(
+                    "data-value",
+                    selectedChip
                 );
-
-                chip.classList.add(
-                    "active"
-                );
-
-                selectedChip =
-                chip.getAttribute(
-                    "data-value"
-                );
-
-                if (chipSound) {
-
-                    chipSound.currentTime = 0;
-
-                    chipSound.play()
-                    .catch(() => {});
-                }
-
-                // AUTO CLOSE
-
-                if (
-                    !chip.classList.contains(
-                        "default-chip"
-                    )
-                ){
-
-                    container.classList.remove(
-                        "expanded"
-                    );
-
-                    container.classList.add(
-                        "collapsed"
-                    );
-                }
-
             }
-        );
 
-    });
+            // SOUND
+            if (chipSound) {
 
+                chipSound.currentTime = 0;
+
+                chipSound.play()
+                .catch(() => {});
+            }
+
+            // AUTO CLOSE
+            if (
+                !chip.classList.contains(
+                    "default-chip"
+                )
+            ) {
+
+                container.classList.remove(
+                    "expanded"
+                );
+
+                container.classList.add(
+                    "collapsed"
+                );
+            }
+
+        }
+    );
+
+});
     // OUTSIDE CLICK CLOSE
 
     document.addEventListener(
