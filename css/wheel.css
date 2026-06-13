@@ -380,30 +380,21 @@ body {
 
 @media (max-width: 768px) {
 
-    .balance-box {
-
-        transform: scale(0.42); /* 🔥 mobile এ অর্ধেকেরও কম */
-
-        top: 4px;   /* wheel clear রাখার জন্য উপরে */
-
-        right: 4px;
-
-        min-width: auto;
-
-        height: auto;
-
-        padding: 6px 10px;
-
-        border-radius: 10px;
-
-        font-size: 12px;
+    .wheel-wrapper {
+        width: 280px;
+        height: 280px;
+        margin-top: 5px;
     }
 
-    .balance-amount {
+    .pointer-img {
+        top: -30px;
+        width: 75px;
+    }
 
-        font-size: 12px;
-
-        letter-spacing: 0.3px;
+    .balance-box {
+        transform: scale(0.42);
+        top: 5px;
+        right: 5px;
     }
 }
 
