@@ -1,46 +1,18 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* START: CLEAN BASE */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-
-    background:#111;
-
-    font-family:sans-serif;
-
-    color:white;
-
-    min-height:100vh;
-
+body {
+    background: radial-gradient(circle at top, #1b1f2a, #0b0f16);
+    font-family: sans-serif;
+    color: white;
 }
 
-.game-container{
-
-    width:100%;
-    max-width:500px;
-
-    margin:auto;
-
-    padding:15px;
-
-}
-
-.balance-box{
-
-    text-align:center;
-
-    margin-top:15px;
-    margin-bottom:20px;
-
-}
-
-.balance-box h2{
-
-    font-size:30px;
-
-}
+/* END: CLEAN BASE */
 /* START: SYMBOL TABLE CASINO LAYOUT FIX */
 
 .symbol-table {
