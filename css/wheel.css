@@ -360,32 +360,26 @@ body {
 }
 
 /* END: SPIN BUTTON */
-/* START: PREMIUM BALANCE BOX */
+/* START: BALANCE BOX - DESKTOP DEFAULT (iGaming Premium) */
 
 .balance-box {
 
     position: absolute;
-
     top: 10px;
-
     right: 10px;
 
     min-width: 140px;
-
     height: 42px;
 
     padding: 0 15px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     border-radius: 14px;
 
-    background:
-    linear-gradient(
+    background: linear-gradient(
         180deg,
         rgba(40,40,40,0.95),
         rgba(15,15,15,0.95)
@@ -394,8 +388,8 @@ body {
     border: 2px solid #FFD700;
 
     box-shadow:
-    0 0 12px rgba(255,215,0,0.35),
-    inset 0 2px 2px rgba(255,255,255,0.15);
+        0 0 12px rgba(255,215,0,0.35),
+        inset 0 2px 2px rgba(255,255,255,0.15);
 
     color: #FFD700;
 
@@ -404,8 +398,54 @@ body {
     font-size: 15px;
 
     z-index: 100;
+
+    transition: all 0.3s ease;
 }
 
-/* END: PREMIUM BALANCE BOX */
+/* END: DESKTOP BALANCE BOX */
 
 
+/* START: BALANCE VALUE TEXT */
+
+.balance-amount {
+
+    letter-spacing: 1px;
+
+    text-shadow: 0 0 8px rgba(255,215,0,0.5);
+}
+
+/* END: BALANCE VALUE */
+
+
+/* START: MOBILE RESPONSIVE FIX */
+
+@media (max-width: 768px) {
+
+    .balance-box {
+
+        transform: scale(0.42); /* 🔥 mobile এ অর্ধেকেরও কম */
+
+        top: 4px;   /* wheel clear রাখার জন্য উপরে */
+
+        right: 4px;
+
+        min-width: auto;
+
+        height: auto;
+
+        padding: 6px 10px;
+
+        border-radius: 10px;
+
+        font-size: 12px;
+    }
+
+    .balance-amount {
+
+        font-size: 12px;
+
+        letter-spacing: 0.3px;
+    }
+}
+
+/* END: MOBILE RESPONSIVE FIX */
