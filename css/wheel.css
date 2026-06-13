@@ -75,20 +75,23 @@ body {
 
 /* START: WHEEL IMAGE STABILITY FIX */
 
+/* START: WHEEL CENTER LOCK */
+
 .wheel-img {
 
-    width: 220px;
-    height: 220px;
+    width: 320px;
+    height: 320px;
 
     display: block;
 
-    transform-origin: center center;
-
-    will-change: transform;
+    transform-origin: 50% 50%;
 
     backface-visibility: hidden;
-    outline: 1px solid yellow;
+
+    will-change: transform;
 }
+
+/* END: WHEEL CENTER LOCK */
 
 /* END: WHEEL IMAGE STABILITY FIX */
 /* START: WHEEL IMAGE DESKTOP START FIX */
