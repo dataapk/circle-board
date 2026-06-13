@@ -17,13 +17,15 @@ body {
 .wheel-wrapper {
     position: relative;
     width: 320px;
-    height: 320px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    margin-top: 0px;   /* ❌ -10px remove */
+    margin-top: 0px;
+
+    /* ❌ remove fixed height */
+    height: auto;
 }
 
 /* START: WHEEL SYSTEM */
@@ -60,12 +62,11 @@ body {
 .pointer-img {
     position: absolute;
 
-    top: -55px;
+    top: -45px;   /* একটু কমাও */
     left: 50%;
     transform: translateX(-50%);
 
-    width: 400px; 
-    height: auto;
+    width: 360px;
 
     z-index: 999;
 
