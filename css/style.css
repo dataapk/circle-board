@@ -146,6 +146,26 @@ body {
 
     transform: scale(1.15);
 }
+/* =========================
+   🪙 CHIP LABEL
+========================= */
+
+.chip span {
+
+    position: absolute;
+
+    bottom: -12px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    font-size: 9px;
+
+    color: #ffffff;
+
+    white-space: nowrap;
+}
 
 /* =========================
    🎮 SPIN BUTTON AREA (FIXED ORDER)
