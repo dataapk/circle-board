@@ -307,13 +307,13 @@ body {
 .chips-container.expanded .chip:nth-child(2){
 
     transform:
-        translate(-75px,-65px);
+        translate(-85px,-50px);
 }
 
 .chips-container.expanded .chip:nth-child(3){
 
     transform:
-        translate(-40px,-95px);
+        translate(-55px,-90px);
 }
 
 .chips-container.expanded .chip:nth-child(4){
@@ -325,17 +325,11 @@ body {
 .chips-container.expanded .chip:nth-child(5){
 
     transform:
-        translate(40px,-95px);
+        translate(55px,-90px);
 }
 
 .chips-container.expanded .chip:nth-child(6){
 
     transform:
-        translate(75px,-65px);
-}
-
-.chips-container.expanded .chip:not(.default-chip){
-
-    opacity:1;
-    pointer-events:auto;
+        translate(85px,-50px);
 }
