@@ -60,11 +60,11 @@ body {
 .pointer-img {
     position: absolute;
 
-    top: -55px; /* একটু উপরে রাখা */
+    top: -55px;
     left: 50%;
     transform: translateX(-50%);
 
-    width: 400px;   /* 🔥 আগে ছিল ~90px, এখন বড় */
+    width: 400px; 
     height: auto;
 
     z-index: 999;
