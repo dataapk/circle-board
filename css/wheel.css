@@ -84,7 +84,10 @@ body {
     transform-origin: center center;
 
     will-change: transform;
+
+    backface-visibility: hidden;
 }
+
 /* END: WHEEL IMAGE STABILITY FIX */
 /* START: WHEEL IMAGE DESKTOP START FIX */
 @media (min-width: 768px) {
@@ -112,13 +115,7 @@ body {
 }
 
 /* END: SYMBOL TABLE AREA */
-/* START: ANTI WOBBLE FIX */
 
-.wheel-img {
-    transform-style: preserve-3d;
-}
-
-/* END: ANTI WOBBLE FIX */
 /* START: POINTER FINAL POSITION */
 
 .pointer-img {
