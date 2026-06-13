@@ -75,21 +75,28 @@ body {
 /* START: WHEEL IMAGE STABILITY FIX */
 
 .wheel-img {
+
     width: 320px;
     height: 320px;
 
-    object-fit: cover;
-
-    border-radius: 50%;
+    display: block;
 
     transform-origin: center center;
 
-    display: block;
-
     will-change: transform;
 }
-
 /* END: WHEEL IMAGE STABILITY FIX */
+/* START: WHEEL IMAGE DESKTOP START FIX */
+@media (min-width: 768px) {
+
+    .wheel-img {
+
+        width: 420px;
+        height: 420px;
+    }
+
+}
+
 /* START: SYMBOL TABLE AREA */
 
 .symbol-table {
