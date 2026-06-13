@@ -9,6 +9,23 @@ body {
 }
 
 /* END: THEME ONLY */
+
+/* =========================
+   🎰 WHEEL WRAPPER
+========================= */
+
+.wheel-wrapper {
+    position: relative;
+    width: 320px;
+    height: 320px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 10px;
+}
+
 /* START: WHEEL SYSTEM */
 
 .wheel-center-hub {
