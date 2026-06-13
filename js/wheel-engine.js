@@ -121,20 +121,3 @@ function spinWheel() {
 // 🎯 BUTTON EVENT
 // ===============================
 spinBtn.addEventListener("click", spinWheel);
-
-
-// START: BUTTON EVENT
-
-if(spinBtn){
-
-    spinBtn.addEventListener(
-        "click",
-        spinWheel
-    );
-
-}
-
-// END: BUTTON EVENT
-
-
-// END: PREMIUM PNG WHEEL ENGINE
