@@ -294,7 +294,7 @@ body {
 }
 
 .chips-container.expanded .chip:nth-child(5){
-    transform: translate(calc(-50% + 45px), calc(-50% - 62px));
+    transform: translate(calc(-50% + 45px), calc(-50% - 60px));
 }
 
 .chips-container.expanded .chip:nth-child(6){
