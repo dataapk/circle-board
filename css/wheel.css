@@ -297,26 +297,116 @@ body {
 
 
 /* START: SPIN BUTTON */
+/* START: PREMIUM 3D SPIN BUTTON */
+
 .spin-section {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 14px;
 }
 
+/* MAIN BUTTON */
 #spinBtn {
-    width: 120px;
-    height: 45px;
+    width: 150px;
+    height: 52px;
 
     border: none;
-    border-radius: 10px;
+    border-radius: 16px;
 
-    background: gold;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 17px;
+    letter-spacing: 1px;
 
+    color: #ffffff;
     cursor: pointer;
+
+    position: relative;
+
+    background: linear-gradient(
+        180deg,
+        #00ff88,
+        #00b35a
+    );
+
+    box-shadow:
+        0 6px 0 #007a3d,                 /* bottom depth */
+        0 12px 25px rgba(0, 255, 136, 0.35),
+        0 0 20px rgba(0, 255, 136, 0.4);
+
+    transition: all 0.2s ease;
+
+    overflow: hidden;
 }
+
+/* PRESS EFFECT */
+#spinBtn:active {
+    transform: translateY(3px);
+    box-shadow:
+        0 3px 0 #007a3d,
+        0 6px 15px rgba(0, 255, 136, 0.3);
+}
+
+/* GLOW ANIMATION OVERLAY */
+#spinBtn::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.35),
+        transparent
+    );
+
+    animation: shine 2.5s infinite;
+}
+
+/* BOTTOM GLOW BASE */
+#spinBtn::after {
+    content: "";
+    position: absolute;
+
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 70%;
+    height: 10px;
+
+    background: rgba(0, 255, 136, 0.6);
+    filter: blur(12px);
+
+    border-radius: 50%;
+
+    animation: glowPulse 1.8s infinite ease-in-out;
+}
+
+/* SHINE ANIMATION */
+@keyframes shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* PULSE GLOW */
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.4;
+        transform: translateX(-50%) scale(0.9);
+    }
+    50% {
+        opacity: 0.9;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+/* END: PREMIUM SPIN BUTTON */
 
 /* END: SPIN BUTTON */
 /* START: BALANCE BOX - DESKTOP DEFAULT (iGaming Premium) */
