@@ -10,7 +10,7 @@ body {
     width: 100%;
     height: 100vh;
     background: radial-gradient(circle at top, #1b1f2a, #0b0f16);
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif;.wheel-wrapper
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -46,6 +46,7 @@ body {
         height: 420px;
 
         margin-top: -20px; /* ⬅️ wheel উপরে উঠানোর main control */
+        outline: 1px solid red;
     }
 
 }
@@ -86,6 +87,7 @@ body {
     will-change: transform;
 
     backface-visibility: hidden;
+    outline: 1px solid yellow;
 }
 
 /* END: WHEEL IMAGE STABILITY FIX */
