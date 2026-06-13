@@ -76,24 +76,6 @@ body {
     background: rgba(255, 215, 0, 0.3);
     transform: scale(1.05);
 }
-/* =========================
-   🪙 CHIPS CONTAINER (PRO iGaming)
-========================= */
-
-.chips-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-
-    margin-top: 4px;
-    padding: 0;
-
-    position: relative;
-
-    transition: all 0.35s ease;
-}
 
 /* =========================
    🪙 CHIP (iGaming FINAL POLISH)
@@ -176,11 +158,6 @@ body {
 /* =========================
    🪙 iGaming STATE CONTROL
 ========================= */
-
-.chips-container {
-    justify-content: center;
-    flex-wrap: nowrap;
-}
 
 .chip {
     opacity: 1;
@@ -309,15 +286,15 @@ body {
 }
 
 .chips-container.expanded .chip:nth-child(3){
-    transform: translate(-45px,-92px);
+    transform: translate(-45px,-90px);
 }
 
 .chips-container.expanded .chip:nth-child(4){
-    transform: translate(0px,-120px);
+    transform: translate(0px,-115px);
 }
 
 .chips-container.expanded .chip:nth-child(5){
-    transform: translate(45px,-92px);
+    transform: translate(45px,-90px);
 }
 
 .chips-container.expanded .chip:nth-child(6){
