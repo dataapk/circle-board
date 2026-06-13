@@ -18,10 +18,8 @@
 }
 
     .wheel-wrapper {
-        width: 280px;
-        height: 280px;
-        margin-top: 5px;
-    }
+    transform: scale(0.78);
+}
 
     .wheel-img {
         width: 100%;
@@ -34,14 +32,18 @@
     }
 
     .spin-section {
-        margin-top: 10px;
-    }
+    margin-top: 0;
+    margin-bottom: 0;
+}
 
     #spinBtn {
         width: 130px;
         height: 46px;
         font-size: 15px;
     }
+    .symbol-table {
+    margin-top: 0;
+}
 
     .balance-box {
         transform: scale(0.42);
@@ -50,6 +52,9 @@
         transform-origin: top right;
         z-index: 999;
     }
+    .chips-container {
+    margin-top: 0;
+}
 
     .result-box {
         font-size: 13px;
