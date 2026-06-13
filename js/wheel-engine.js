@@ -1,5 +1,6 @@
 
 // START: PREMIUM PNG WHEEL ENGINE
+const spinSound = document.getElementById("spinSound");
 
 const wheel =
 document.getElementById(
