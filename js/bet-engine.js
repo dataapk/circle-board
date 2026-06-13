@@ -38,26 +38,25 @@ document.addEventListener("DOMContentLoaded", () => {
 // ===============================
 function initChipSystem() {
 
-    const container = document.querySelector(".chips-container");
     const chips = document.querySelectorAll(".chip");
-    const defaultChip = document.querySelector(".default-chip");
 
-    if (!container || !chips.length) return;
+    chips.forEach(chip => {
 
-    // default state
-    container.classList.add("collapsed");
+        chip.addEventListener("click", () => {
 
-    // =========================
-    // DEFAULT CHIP → EXPAND
-    // =========================
-    if (defaultChip) {
-        defaultChip.addEventListener("click", (e) => {
-            e.stopPropagation();
+            chips.forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
 
-            container.classList.toggle("expanded");
-            container.classList.remove("collapsed");
+            if (chipSound) {
+                chipSound.currentTime = 0;
+                chipSound.play();
+            }
+
         });
-    }
+
+    });
+
+}
 
     // =========================
     // CHIP SELECT SYSTEM
