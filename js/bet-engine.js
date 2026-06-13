@@ -7,34 +7,29 @@ let spinSound = null;
 let selectedChip = null;
 
 // ===============================
-// 🚀 SAFE INIT (PRODUCTION READY)
+// 🚀 SAFE INIT
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 🎧 AUDIO SAFE BINDING
     chipSound = document.getElementById("chipSound");
     spinSound = document.getElementById("spinSound");
 
     if (chipSound) {
         chipSound.volume = 0.6;
-        chipSound.load();
     }
 
     if (spinSound) {
         spinSound.volume = 0.7;
-        spinSound.load();
     }
 
-    // 🪙 INIT SYSTEMS
     initChipSystem();
-    setupOutsideClickClose();
 
-    console.log("🎰 iGaming System Initialized Successfully");
+    console.log("🎰 Chip System Ready");
 
 });
 
 // ===============================
-// 🪙 INIT CHIP SYSTEM
+// 🪙 CHIP SYSTEM
 // ===============================
 function initChipSystem() {
 
@@ -44,67 +39,28 @@ function initChipSystem() {
 
         chip.addEventListener("click", () => {
 
-            chips.forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
-
-            if (chipSound) {
-                chipSound.currentTime = 0;
-                chipSound.play();
-            }
-
-        });
-
-    });
-
-}
-
-    // =========================
-    // CHIP SELECT SYSTEM
-    // =========================
-    chips.forEach(chip => {
-
-        chip.addEventListener("click", (e) => {
-
-            e.stopPropagation();
-
-            // SOUND
-            if (chipSound) {
-                chipSound.currentTime = 0;
-                chipSound.play();
-            }
-
-            // ACTIVE STATE
+            // ACTIVE GLOW
             chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
             // STORE VALUE
             selectedChip = chip.getAttribute("data-value");
 
-            // COLLAPSE AFTER SELECT
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
+            // SOUND
+            if (chipSound) {
 
-            console.log("Selected Chip:", selectedChip);
+                chipSound.currentTime = 0;
+
+                chipSound.play().catch(() => {});
+
+            }
+
+            console.log(
+                "Selected Chip:",
+                selectedChip
+            );
 
         });
-
-    });
-
-}
-
-// ===============================
-// 🪙 OUTSIDE CLICK → COLLAPSE
-// ===============================
-function setupOutsideClickClose() {
-
-    document.addEventListener("click", () => {
-
-        const container = document.querySelector(".chips-container");
-
-        if (!container) return;
-
-        container.classList.remove("expanded");
-        container.classList.add("collapsed");
 
     });
 
