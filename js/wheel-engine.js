@@ -27,14 +27,14 @@ function spinWheel(){
     isSpinning = true;
 
     const extraRotation =
-    7200 +
-    Math.floor(Math.random() * 360);
+    5400 +
+  Math.floor(Math.random() * 360);
 
     currentRotation =
     currentRotation + extraRotation;
 
     wheel.style.transition =
-    "transform 10s cubic-bezier(0.08,0.75,0.12,1)";
+     "transform 8s ease-out";
 
     wheel.style.transform =
     `rotate(${currentRotation}deg)`;
