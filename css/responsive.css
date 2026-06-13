@@ -1,27 +1,22 @@
-/* START: MOBILE FULL LAYOUT FIX (CASINO SAFE SCREEN) */
+/* START: MOBILE LAYOUT FINAL (CASINO SAFE) */
 
 @media (max-width: 768px) {
 
-    /* ✅ FIX 1: REMOVE MOBILE SCROLL + FOOTER SPACE */
     html, body {
         height: 100%;
         overflow: hidden;
     }
 
-    /* ✅ FIX 2: SAFE MOBILE VIEWPORT */
     .game-container {
         height: 100dvh;
         overflow: hidden;
-
         padding-top: 10px;
         padding-bottom: 20px;
     }
 
-    /* ✅ FIX 3: WHEEL POSITION FIX (NO CUT) */
     .wheel-wrapper {
         width: 280px;
         height: 280px;
-
         margin-top: 5px;
     }
 
@@ -30,13 +25,11 @@
         height: 100%;
     }
 
-    /* ✅ FIX 4: POINTER VISIBILITY FIX */
     .pointer-img {
         top: -35px;
         width: 75px;
     }
 
-    /* ✅ FIX 5: SPIN BUTTON POSITION (UNDER WHEEL) */
     .spin-section {
         margin-top: 10px;
     }
@@ -47,18 +40,18 @@
         font-size: 15px;
     }
 
-    /* ✅ FIX 6: BALANCE SAFE POSITION */
     .balance-box {
         transform: scale(0.42);
         top: 5px;
         right: 5px;
+        transform-origin: top right;
+        z-index: 999;
     }
 
-    /* ✅ FIX 7: RESULT BOX SAFE AREA */
     .result-box {
         font-size: 13px;
         margin-top: 8px;
     }
 }
 
-/* END: MOBILE FULL LAYOUT FIX */
+/* END: MOBILE LAYOUT FINAL */
