@@ -470,21 +470,23 @@ body {
 
 @media (max-width: 768px) {
 
+    body {
+        overflow-y: auto; /* ❗ important fix */
+    }
+
+    .game-container {
+        min-height: 100vh;
+        height: auto;
+        padding-bottom: 120px; /* 🔥 bottom cut fix */
+    }
+
     .wheel-wrapper {
-        width: 280px;
-        height: 280px;
-        margin-top: 5px;
+        margin-top: 10px;
+        transform: scale(0.92);
     }
 
-    .pointer-img {
-        top: -30px;
-        width: 75px;
-    }
-
-    .balance-box {
-        transform: scale(0.42);
-        top: 5px;
-        right: 5px;
+    .chips-container {
+        margin-bottom: 20px;
     }
 }
 
