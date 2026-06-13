@@ -282,21 +282,21 @@ body {
 /* EXPANDED FAN */
 
 .chips-container.expanded .chip:nth-child(2){
-    transform: translate(calc(-50% - 70px), calc(-50% - 35px));
+    transform: translate(calc(-50% - 75px), calc(-50% - 35px));
 }
 
 .chips-container.expanded .chip:nth-child(3){
-    transform: translate(calc(-50% - 40px), calc(-50% - 65px));
+    transform: translate(calc(-50% - 45px), calc(-50% - 70px));
 }
 
 .chips-container.expanded .chip:nth-child(4){
-    transform: translate(-50%, calc(-50% - 85px));
+    transform: translate(-50%, calc(-50% - 90px));
 }
 
 .chips-container.expanded .chip:nth-child(5){
-    transform: translate(calc(-50% + 40px), calc(-50% - 65px));
+    transform: translate(calc(-50% + 45px), calc(-50% - 68px));
 }
 
 .chips-container.expanded .chip:nth-child(6){
-    transform: translate(calc(-50% + 70px), calc(-50% - 35px));
+    transform: translate(calc(-50% + 75px), calc(-50% - 35px));
 }
