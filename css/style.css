@@ -305,31 +305,21 @@ body {
 /* EXPANDED FAN */
 
 .chips-container.expanded .chip:nth-child(2){
-
-    transform:
-        translate(-85px,-50px);
+    transform: translate(-80px,-55px);
 }
 
 .chips-container.expanded .chip:nth-child(3){
-
-    transform:
-        translate(-55px,-90px);
+    transform: translate(-45px,-92px);
 }
 
 .chips-container.expanded .chip:nth-child(4){
-
-    transform:
-        translate(0px,-115px);
+    transform: translate(0px,-120px);
 }
 
 .chips-container.expanded .chip:nth-child(5){
-
-    transform:
-        translate(55px,-90px);
+    transform: translate(45px,-92px);
 }
 
 .chips-container.expanded .chip:nth-child(6){
-
-    transform:
-        translate(85px,-50px);
+    transform: translate(80px,-55px);
 }
