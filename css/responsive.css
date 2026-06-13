@@ -50,17 +50,9 @@
         right: 5px;
         transform-origin: top right;
         z-index: 999;
-    }
-    .chips-container {
-
-    position: relative;
-
-    bottom: 0;
-
-    transform: none;
-}
-
-    .result-box {
+   }
+ 
+ .result-box {
         font-size: 13px;
         margin-top: 8px;
     }
