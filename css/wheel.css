@@ -54,17 +54,30 @@ body {
 /* START: GAME LAYOUT CORE */
 
 .game-container {
+
+    position: relative;
+
     width: 100%;
-    max-width: 420px;
-    height: 100vh;
+
+    max-width: 430px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
 
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
+
     justify-content: flex-start;
 
-    padding: 10px;
-    overflow: hidden;
+    padding: 5px 10px 20px 10px;
+
+    overflow-x: hidden;
+
+    overflow-y: auto;
 }
 
 /* END: GAME LAYOUT CORE */
