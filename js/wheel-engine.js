@@ -16,7 +16,7 @@ let isSpinning = false;
 let currentRotation = 0;
 
 // END: ENGINE SETUP
-// START: SPIN FUNCTION
+// START: PROFESSIONAL SPIN FUNCTION
 
 function spinWheel(){
 
@@ -26,28 +26,34 @@ function spinWheel(){
 
     isSpinning = true;
 
-    const extraRotation =
-    5400 +
-  Math.floor(Math.random() * 360);
+    const spins = 15;
 
-    currentRotation =
-    currentRotation + extraRotation;
+    const randomAngle =
+    Math.floor(Math.random() * 360);
+
+    currentRotation +=
+    (spins * 360) + randomAngle;
 
     wheel.style.transition =
-     "transform 8s ease-out";
+    "transform 9s ease-out";
 
     wheel.style.transform =
     `rotate(${currentRotation}deg)`;
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
         isSpinning = false;
 
-    },10000);
+        console.log(
+            "Final Angle:",
+            currentRotation % 360
+        );
+
+    }, 9000);
 
 }
 
-// END: SPIN FUNCTION
+// END: PROFESSIONAL SPIN FUNCTION
 
 
 // START: BUTTON EVENT
