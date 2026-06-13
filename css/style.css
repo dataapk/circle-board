@@ -154,8 +154,8 @@ body {
     display: flex;
     justify-content: center;
 
-    margin-top: 8px;   /* tighter to symbol table */
-    margin-bottom: 10px; /* space before chips */
+    margin-top: 3px;   /* tighter to symbol table */
+    margin-bottom: 2px; /* space before chips */
 }
 /* =========================
    💰 BALANCE BOX (PREMIUM CASINO STYLE)
