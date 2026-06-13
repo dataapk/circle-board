@@ -1,45 +1,73 @@
 // ===============================
-// 🪙 BET ENGINE (PRO iGaming)
+// 🪙 BET ENGINE (FINAL iGaming CORE)
 // ===============================
 
-let chipSound;
+let chipSound = null;
 let selectedChip = null;
 
-// ===============================
-// 🎧 INIT
-// ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
     chipSound = document.getElementById("chipSound");
 
-    initChips();
+    initChipSystem();
+
+    setupOutsideClickClose();
 
 });
 
 // ===============================
-// 🪙 CHIP INIT SYSTEM
+// 🪙 INIT CHIP SYSTEM
 // ===============================
-function initChips() {
+function initChipSystem() {
 
+    const container = document.querySelector(".chips-container");
     const chips = document.querySelectorAll(".chip");
+    const defaultChip = document.querySelector(".default-chip");
 
+    if (!container || !chips.length) return;
+
+    // default state
+    container.classList.add("collapsed");
+
+    // =========================
+    // DEFAULT CHIP → EXPAND
+    // =========================
+    if (defaultChip) {
+        defaultChip.addEventListener("click", (e) => {
+            e.stopPropagation();
+
+            container.classList.toggle("expanded");
+            container.classList.remove("collapsed");
+        });
+    }
+
+    // =========================
+    // CHIP SELECT SYSTEM
+    // =========================
     chips.forEach(chip => {
 
         chip.addEventListener("click", (e) => {
 
             e.stopPropagation();
 
-            // 🔊 SOUND
+            // SOUND
             if (chipSound) {
                 chipSound.currentTime = 0;
                 chipSound.play();
             }
 
-            // 🎯 ACTIVE STATE
+            // ACTIVE STATE
             chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
+            // STORE VALUE
             selectedChip = chip.getAttribute("data-value");
+
+            // COLLAPSE AFTER SELECT
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
+
+            console.log("Selected Chip:", selectedChip);
 
         });
 
@@ -48,14 +76,19 @@ function initChips() {
 }
 
 // ===============================
-// 🪙 CHIP FAN TOGGLE (OPTIONAL UI EFFECT)
+// 🪙 OUTSIDE CLICK → COLLAPSE
 // ===============================
-document.addEventListener("click", () => {
+function setupOutsideClickClose() {
 
-    const container = document.querySelector(".chips-container");
+    document.addEventListener("click", () => {
 
-    if (!container) return;
+        const container = document.querySelector(".chips-container");
 
-    container.classList.toggle("expanded");
+        if (!container) return;
 
-});
+        container.classList.remove("expanded");
+        container.classList.add("collapsed");
+
+    });
+
+}
