@@ -10,17 +10,14 @@
     }
 
     .game-container {
-        height: 100dvh;
-        overflow: hidden;
-    }
 
-.game-container {
-    min-height: 100dvh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    height: 100dvh;
+
+    overflow: hidden;
 
     padding-top: 10px;
-    padding-bottom: 20px;
+
+    padding-bottom: 0;
 }
 
     .wheel-wrapper {
