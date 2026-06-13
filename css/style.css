@@ -78,7 +78,7 @@ body {
 }
 
 /* =========================
-   🪙 CHIPS CONTAINER
+   🪙 CHIPS BAR
 ========================= */
 
 .chips-container {
@@ -91,13 +91,15 @@ body {
 
     align-items: center;
 
-    gap: 10px;
+    flex-wrap: wrap;
 
-    margin-top: 12px;
+    gap: 8px;
 
-    margin-bottom: 20px;
+    margin-top: 10px;
 
-    padding-bottom: 20px;
+    margin-bottom: 10px;
+
+    padding: 5px;
 }
 
 /* =========================
