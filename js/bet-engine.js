@@ -55,6 +55,7 @@ function initChipSystem() {
         (e) => {
 
             e.stopPropagation();
+            console.log("DEFAULT CHIP CLICK");
 
             container.classList.toggle(
                 "expanded"
