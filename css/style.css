@@ -94,11 +94,14 @@ body {
     flex-wrap: wrap;
 
     gap: 5px;
-    margin-top: 2px; 
 
-    margin-bottom: 1px;
+    margin-top: 0;
 
-    padding: 5px;
+    margin-bottom: 0;
+
+    padding: 0;
+
+    position: relative;
 }
 
 /* =========================
