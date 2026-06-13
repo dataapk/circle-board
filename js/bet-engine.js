@@ -3,7 +3,6 @@
 // ===============================
 
 let chipSound = null;
-let spinSound = null;
 let selectedChip = null;
 
 // ===============================
