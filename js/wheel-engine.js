@@ -28,11 +28,11 @@ function spinWheel(){
 
     const extraRotation =
 
-        3600 +
+    7200 +
 
-        Math.floor(
-            Math.random() * 360
-        );
+    Math.floor(
+        Math.random() * 360
+    );
 
     currentRotation +=
     extraRotation;
@@ -40,7 +40,7 @@ function spinWheel(){
     wheel.style.transformOrigin = "center center";
 
 wheel.style.transition =
-"transform 6s cubic-bezier(0.17,0.67,0.12,0.99)";
+"transform 10s ease-out";
 
 wheel.style.transform =
 `rotate(${currentRotation}deg)`;
@@ -58,7 +58,7 @@ wheel.style.transform =
             finalAngle
         );
 
-    },6000);
+    },10000);
 
 }
 
