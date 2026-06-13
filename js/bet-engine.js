@@ -15,9 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
     spinSound = document.getElementById("spinSound");
 
     if (chipSound) {
-        chipSound.volume = 0.6;
-    }
 
+    console.log("Chip Clicked");
+    console.log(chipSound);
+
+    chipSound.currentTime = 0;
+    chipSound.play().catch(() => {});
+
+    }
     if (spinSound) {
         spinSound.volume = 0.7;
     }
