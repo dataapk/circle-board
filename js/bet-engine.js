@@ -1,17 +1,35 @@
 // ===============================
-// 🪙 BET ENGINE (FINAL iGaming CORE)
+// 🪙 GLOBAL STATE (iGaming CORE)
 // ===============================
 
 let chipSound = null;
+let spinSound = null;
 let selectedChip = null;
 
+// ===============================
+// 🚀 SAFE INIT (PRODUCTION READY)
+// ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
+    // 🎧 AUDIO SAFE BINDING
     chipSound = document.getElementById("chipSound");
+    spinSound = document.getElementById("spinSound");
 
+    if (chipSound) {
+        chipSound.volume = 0.6;
+        chipSound.load();
+    }
+
+    if (spinSound) {
+        spinSound.volume = 0.7;
+        spinSound.load();
+    }
+
+    // 🪙 INIT SYSTEMS
     initChipSystem();
-
     setupOutsideClickClose();
+
+    console.log("🎰 iGaming System Initialized Successfully");
 
 });
 
