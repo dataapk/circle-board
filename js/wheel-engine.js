@@ -27,31 +27,34 @@ function spinWheel(){
 
     isSpinning = true;
 
+    // 🔊 START SOUND
+    spinSound.volume = 1;
+    spinSound.currentTime = 0;
+    spinSound.play();
+
     const spins = 15;
 
     const randomAngle =
-    Math.floor(Math.random() * 360);
+        Math.floor(Math.random() * 360);
 
-    currentRotation +=
-    (spins * 360) + randomAngle;
+    currentRotation += (spins * 360) + randomAngle;
 
-    wheel.style.transition =
-    "transform 9s ease-out";
+    wheel.style.transition = "transform 9s ease-out";
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-    wheel.style.transform =
-    `rotate(${currentRotation}deg)`;
+    // 🎯 SOUND FADE BEFORE STOP (1.5s আগে fade শুরু)
+    setTimeout(() => {
+        fadeOutSound(1500);
+    }, 7500); // 9s - 1.5s
 
+    // 🛑 END
     setTimeout(() => {
 
         isSpinning = false;
 
-        console.log(
-            "Final Angle:",
-            currentRotation % 360
-        );
+        console.log("Final Angle:", currentRotation % 360);
 
     }, 9000);
-
 }
 
 // END: PROFESSIONAL SPIN FUNCTION
