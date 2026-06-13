@@ -72,5 +72,67 @@ body {
 
     filter: drop-shadow(0px 6px 10px rgba(0,0,0,0.6));
 }
+/* =========================
+   🎯 POINTER (CASINO ANIMATED)
+========================= */
+
+.pointer-img {
+    position: absolute;
+
+    top: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 160px;
+    height: auto;
+
+    z-index: 999;
+
+    filter: drop-shadow(0px 6px 10px rgba(0,0,0,0.6));
+
+    /* smooth animation */
+    animation: pointerFloat 2.2s ease-in-out infinite;
+}
+/* =========================
+   🎯 POINTER (bounce ANIMATED)
+========================= */
+@keyframes pointerFloat {
+    0% {
+        transform: translateX(-50%) translateY(0px);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-4px);
+    }
+    100% {
+        transform: translateX(-50%) translateY(0px);
+    }
+}
+/* =========================
+   🎯 POINTER (GLOW EFFECT
+========================= */
+.pointer-img::after {
+    content: "";
+    position: absolute;
+
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+
+    width: 80px;
+    height: 20px;
+
+    background: radial-gradient(circle, rgba(255,215,0,0.7), transparent 70%);
+
+    filter: blur(6px);
+
+    z-index: -1;
+}
+/* =========================
+   🎯 POINTER (GLOW EFFECT
+========================= */
+
+
+
 
 /* END: WHEEL SYSTEM */
+
