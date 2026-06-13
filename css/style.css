@@ -173,7 +173,21 @@ body {
 
     z-index: 2;
 }
+/* =========================
+   🪙 iGaming STATE CONTROL
+========================= */
 
+/* hidden chips when collapsed */
+.chips-container.collapsed .chip:not(.default-chip) {
+    opacity: 0;
+    transform: scale(0.5);
+    pointer-events: none;
+}
+
+/* fan spread mode */
+.chips-container.expanded {
+    justify-content: space-evenly;
+}
 
 
 /* =========================
