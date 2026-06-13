@@ -40,55 +40,36 @@ body {
 
 @media (min-width: 768px) {
 
-.game-container {
-    max-width: 520px;
-    margin: 0 auto;
+    .wheel-wrapper {
 
-    transform: scale(1.05);
-}
+        width: 420px;
+        height: 420px;
+
+        margin-top: -20px;
+    }
 
 }
 
 /* END: GAME LAYOUT CONTROL - DESKTOP VERSION */
 
 
-/* START: WHEEL TOP POSITION CONTROL */
+/* START: WHEEL TOP POSITION CONTROL MOBILE */
 
 .wheel-wrapper {
+
     position: relative;
 
-    width: 200px;
-    height: 200px;
+    width: 320px;
+    height: 320px;
 
-    margin-top: 0vh;   /* ⬅️ wheel উপরে উঠানোর main control */
+    margin-top: -40px;
 
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1000px;
 }
 
 /* END: WHEEL TOP POSITION CONTROL */
-/* START: WHEEL WRAPPER FIX */
-
-/* START: WHEEL POSITION CONTROL v2 */
-
-.wheel-wrapper {
-    position: relative;
-
-    width: 250px;
-    height: 250px;
-
-    margin-top: -30;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* END: WHEEL POSITION CONTROL v2 */
-
-/* END: WHEEL WRAPPER FIX */
 
 
 /* START: WHEEL IMAGE STABILITY FIX */
