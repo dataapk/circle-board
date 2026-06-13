@@ -88,35 +88,62 @@ chips.forEach(chip => {
             chip.getAttribute("data-value");
 
             // UPDATE MAIN CHIP
-            if (
-                !chip.classList.contains(
-                    "default-chip"
-                )
-            ) {
+if (
+    !chip.classList.contains(
+        "default-chip"
+    )
+) {
 
-                const defaultImg =
-                defaultChip.querySelector("img");
+    const defaultImg =
+    defaultChip.querySelector("img");
 
-                const defaultText =
-                defaultChip.querySelector("span");
+    const defaultText =
+    defaultChip.querySelector("span");
 
-                const selectedImg =
-                chip.querySelector("img");
+    const selectedImg =
+    chip.querySelector("img");
 
-                const selectedText =
-                chip.querySelector("span");
+    const selectedText =
+    chip.querySelector("span");
 
-                defaultImg.src =
-                selectedImg.src;
+    // SWAP IMAGE
+    const tempImg =
+    defaultImg.src;
 
-                defaultText.textContent =
-                selectedText.textContent;
+    defaultImg.src =
+    selectedImg.src;
 
-                defaultChip.setAttribute(
-                    "data-value",
-                    selectedChip
-                );
-            }
+    selectedImg.src =
+    tempImg;
+
+    // SWAP TEXT
+    const tempText =
+    defaultText.textContent;
+
+    defaultText.textContent =
+    selectedText.textContent;
+
+    selectedText.textContent =
+    tempText;
+
+    // SWAP VALUE
+    const tempValue =
+    defaultChip.getAttribute(
+        "data-value"
+    );
+
+    defaultChip.setAttribute(
+        "data-value",
+        chip.getAttribute(
+            "data-value"
+        )
+    );
+
+    chip.setAttribute(
+        "data-value",
+        tempValue
+    );
+}
 
             // SOUND
             if (chipSound) {
