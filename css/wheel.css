@@ -347,13 +347,52 @@ body {
 }
 
 /* END: SPIN BUTTON */
-/* START: BALANCE BOX COMPACT */
+/* START: PREMIUM BALANCE BOX */
 
 .balance-box {
-    transform: scale(0.75); /* ছোট করা */
-    margin-top: 5px;
+
+    position: absolute;
+
+    top: 10px;
+
+    right: 10px;
+
+    min-width: 140px;
+
+    height: 42px;
+
+    padding: 0 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+    linear-gradient(
+        180deg,
+        rgba(40,40,40,0.95),
+        rgba(15,15,15,0.95)
+    );
+
+    border: 2px solid #FFD700;
+
+    box-shadow:
+    0 0 12px rgba(255,215,0,0.35),
+    inset 0 2px 2px rgba(255,255,255,0.15);
+
+    color: #FFD700;
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+    z-index: 100;
 }
 
-/* END: BALANCE BOX COMPACT */
+/* END: PREMIUM BALANCE BOX */
 
 
