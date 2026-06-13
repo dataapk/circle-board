@@ -93,13 +93,13 @@ body {
 
     flex-wrap: wrap;
 
-    gap: 5px;
+    gap: 5px; → chips-এর মাঝে বেশি ফাঁকা
 
-    margin-top: 2px;
+    margin-top: 2px; 
 
     margin-bottom: 1px;
 
-    padding: 5px;
+    padding: 5px;  চারপাশে extra space খাচ্ছে
 }
 
 /* =========================
