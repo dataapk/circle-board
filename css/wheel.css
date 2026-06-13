@@ -45,7 +45,7 @@ body {
         width: 420px;
         height: 420px;
 
-        margin-top: -20px;
+        margin-top: -20px; /* ⬅️ wheel উপরে উঠানোর main control */
     }
 
 }
