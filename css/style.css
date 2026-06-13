@@ -93,11 +93,11 @@ body {
 
     flex-wrap: wrap;
 
-    gap: 8px;
+    gap: 5px;
 
-    margin-top: 3px;
+    margin-top: 2px;
 
-    margin-bottom: 0px;
+    margin-bottom: 1px;
 
     padding: 5px;
 }
