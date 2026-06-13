@@ -6,15 +6,9 @@
     html,
     body {
         height: 100%;
-        overflow: hidden;
+        overflow-y: auto;   /* ❌ hidden না */
+        overflow-x: hidden;
     }
-
-    .game-container {
-
-    height: 100dvh;
-
-    overflow: visible !important;
-}
 
     .wheel-wrapper {
     transform: scale(0.78);
@@ -26,9 +20,10 @@
     }
 
     .pointer-img {
-        top: -35px;
-        width: 75px;
-    }
+    top: -45px;
+    width: 140px;   /* 🔥 doubled size */
+    height: auto;
+}
 
     .spin-section {
     margin-top: 0;
