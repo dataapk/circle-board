@@ -103,6 +103,49 @@ body {
 }
 
 /* =========================
+   🪙 CHIP SIZE FIX
+========================= */
+
+.chip {
+
+    width: 48px;
+
+    height: 48px;
+
+    min-width: 48px;
+
+    min-height: 48px;
+
+    max-width: 48px;
+
+    max-height: 48px;
+
+    position: relative;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    overflow: hidden;
+}
+
+.chip img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.chip.active {
+
+    transform: scale(1.15);
+}
+
+/* =========================
    🎮 SPIN BUTTON AREA (FIXED ORDER)
 ========================= */
 
