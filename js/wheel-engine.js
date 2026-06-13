@@ -27,36 +27,21 @@ function spinWheel(){
     isSpinning = true;
 
     const extraRotation =
-
     7200 +
+    Math.floor(Math.random() * 360);
 
-    Math.floor(
-        Math.random() * 360
-    );
+    currentRotation =
+    currentRotation + extraRotation;
 
-    currentRotation +=
-    extraRotation;
+    wheel.style.transition =
+    "transform 10s linear";
 
-    wheel.style.transformOrigin = "center center";
-
-wheel.style.transition =
-"transform 10s ease-out";
-
-wheel.style.transform =
-`rotate(${currentRotation}deg)`;
+    wheel.style.transform =
+    `rotate(${currentRotation}deg)`;
 
     setTimeout(()=>{
 
         isSpinning = false;
-
-        const finalAngle =
-
-        currentRotation % 360;
-
-        console.log(
-            "Final Angle:",
-            finalAngle
-        );
 
     },10000);
 
