@@ -28,17 +28,18 @@ window.GameEngine = {
 // 🚀 INIT ENGINE (START)
 // ======================================================
 
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 🔊 connect audio safely after DOM load
-    GameEngine.chipSound = document.getElementById("chipSound");
-    GameEngine.spinSound = document.getElementById("spinSound");
+    console.log("🚀 DOM LOADED");
 
-    if (GameEngine.spinSound) {
-        GameEngine.spinSound.volume = 0.7;
-    }
+    setTimeout(() => {
 
-    console.log("🧠 GAME ENGINE READY");
+        initGame();
+
+        console.log("🎮 GAME INITIALIZED");
+
+    }, 50);
 });
 
 // ======================================================
