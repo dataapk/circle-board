@@ -535,14 +535,14 @@ body {
         translate(-50%, -50%)
         scale(.5);
 }
-/* DEBUG */
-
-.chips-container.expanded .chip{
-    opacity:1 !important;
-    pointer-events:auto !important;
-}
 
 /* EXPANDED FAN */
+
+.chips-container.expanded .chip:not(.default-chip){
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
 
 .chips-container.expanded .chip:nth-child(2){
     transform: translate(calc(-50% - 75px), calc(-50% - 35px));
@@ -628,26 +628,4 @@ body {
             0.5
         )
     );
-}
-/* FORCE EXPANDED VISIBILITY */
-
-.chips-container.expanded .chip:not(.default-chip){
-
-    opacity: 1 !important;
-
-    visibility: visible !important;
-
-    pointer-events: auto !important;
-}
-/* =========================
-   🪙 FORCE CHIP VISIBILITY
-========================= */
-
-.chips-container.expanded .chip:not(.default-chip){
-
-    opacity: 1 !important;
-
-    visibility: visible !important;
-
-    pointer-events: auto !important;
 }
