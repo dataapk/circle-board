@@ -36,6 +36,56 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("🎰 Chip System Ready");
 
 });
+// START: PREMIUM SYMBOL ENGINE
+
+const symbolBoxes =
+document.querySelectorAll(
+    ".symbol-box"
+);
+
+const tableSound =
+new Audio(
+    "assets/table.mp3"
+);
+
+tableSound.volume = 0.35;
+
+let selectedSymbol = null;
+
+symbolBoxes.forEach(box => {
+
+    box.addEventListener(
+        "click",
+        () => {
+
+            tableSound.currentTime = 0;
+
+            tableSound.play();
+
+            symbolBoxes.forEach(item => {
+                item.classList.remove(
+                    "active"
+                );
+            });
+
+            box.classList.add(
+                "active"
+            );
+
+            selectedSymbol =
+            box.dataset.symbol;
+
+            console.log(
+                "Selected Symbol:",
+                selectedSymbol
+            );
+
+        }
+    );
+
+});
+
+// END: PREMIUM SYMBOL ENGINE
 
 // ===============================
 // 🪙 CHIP SYSTEM
