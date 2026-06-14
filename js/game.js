@@ -55,28 +55,31 @@ function initGame() {
 
 function initChipSystem() {
 
-    const chips =
-    document.querySelectorAll(".chip");
+    const chips = document.querySelectorAll(".chip");
 
     chips.forEach(chip => {
 
         chip.addEventListener("click", () => {
 
+            // 🪙 SET SELECTED CHIP
             GameEngine.selectedChip = {
-                value: parseFloat(
-                    chip.getAttribute("data-value")
-                ),
+                value: parseFloat(chip.dataset.value),
                 element: chip
             };
 
-            playChipSound();
+            console.log("🪙 CHIP:", GameEngine.selectedChip.value);
 
-            console.log(
-                "🪙 CHIP:",
-                GameEngine.selectedChip.value
-            );
+            // 🎯 VISUAL ACTIVE STATE
+            chips.forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
+
+            // 🔊 SOUND
+            if (GameEngine.chipSound) {
+                GameEngine.chipSound.currentTime = 0;
+                GameEngine.chipSound.play().catch(()=>{});
+            }
+
         });
-
     });
 }
 
