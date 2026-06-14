@@ -28,21 +28,6 @@ function initGame() {
 // 🚀 GAME INIT END
 // ===============================
 
-// ===============================
-// 🚀 INIT
-// ===============================
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    initChipSystem();
-    setupBoardSystem();
-    setupSpinButton();
-
-    updateBalanceUI();
-
-    console.log("🎮 GAME READY");
-});
-
 
 // ===============================
 // 🪙 CHIP SYSTEM
