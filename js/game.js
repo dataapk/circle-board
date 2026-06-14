@@ -28,19 +28,6 @@ function initGame() {
 // 🚀 GAME INIT END
 // ===============================
 
-
-// ===============================
-// 🧠 GLOBAL STATE LINK
-// ===============================
-
-window.GameEngine = window.GameEngine || {};
-
-GameEngine.selectedChip = null;
-GameEngine.bets = {};
-GameEngine.isSpinning = false;
-GameEngine.balance = GameEngine.balance || 1000;
-
-
 // ===============================
 // 🚀 INIT
 // ===============================
