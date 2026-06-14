@@ -1,27 +1,23 @@
 // ===============================
-// 🪙 GLOBAL STATE (iGaming CORE)
+// 🪙 GLOBAL STATE
 // ===============================
 
 let chipSound = null;
-let selectedChip = null;
+let spinSound = null;
+let selectedChip = {
+    value: null,
+    element: null
+};
 
 // ===============================
-// 🚀 SAFE INIT
+// 🚀 INIT
 // ===============================
+
 document.addEventListener("DOMContentLoaded", () => {
 
     chipSound = document.getElementById("chipSound");
     spinSound = document.getElementById("spinSound");
 
-    if (chipSound) {
-
-    console.log("Chip Clicked");
-    console.log(chipSound);
-
-    chipSound.currentTime = 0;
-    chipSound.play().catch(() => {});
-
-    }
     if (spinSound) {
         spinSound.volume = 0.7;
     }
@@ -29,166 +25,238 @@ document.addEventListener("DOMContentLoaded", () => {
     initChipSystem();
 
     console.log("🎰 Chip System Ready");
+});
+// ======================================================
+// 🪙 CHIP SYSTEM (IMPORTANT INSTRUCTIONS)
+// ======================================================
+// 👉 এই ফাইলটা CHIP UI + SELECTION control করে
+// 👉 এখানে BET ENGINE নাই (শুধু chip select + UI)
+// 👉 selectedChip পরে bet-engine.js এ use হবে
+// ======================================================
 
+
+
+// ===============================
+// 🪙 GLOBAL STATE
+// ===============================
+
+let chipSound = null;
+let spinSound = null;
+
+// 👉 selectedChip এখন object আকারে রাখা হচ্ছে
+// আগে string ছিল — এখন future bet system এর জন্য upgraded
+let selectedChip = {
+    value: null,
+    element: null
+};
+
+
+
+// ===============================
+// 🚀 INIT (PAGE LOAD)
+// ===============================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    chipSound = document.getElementById("chipSound");
+    spinSound = document.getElementById("spinSound");
+
+    if (spinSound) {
+        spinSound.volume = 0.7;
+    }
+
+    initChipSystem();
+
+    console.log("🎰 Chip System Ready");
 });
 
+
+
 // ===============================
-// 🪙 CHIP SYSTEM
+// 🪙 CHIP SYSTEM MAIN LOGIC
 // ===============================
+
 function initChipSystem() {
 
-    const container =
-    document.querySelector(".chips-container");
+    // 👉 chips container (HTML থেকে নিতে হবে)
+    const container = document.querySelector(".chips-container");
 
-    const chips =
-    document.querySelectorAll(".chip");
+    // 👉 সব chips select করা হচ্ছে
+    const chips = document.querySelectorAll(".chip");
 
-    const defaultChip =
-    document.querySelector(".default-chip");
+    // 👉 default chip (main chip UI button)
+    const defaultChip = document.querySelector(".default-chip");
 
-    if (!container) return;
 
-    // DEFAULT CHIP OPEN/CLOSE
 
-    defaultChip.addEventListener(
-        "click",
-        (e) => {
+    // ❗ IMPORTANT:
+    // যদি এগুলো HTML এ না থাকে, system কাজ করবে না
+    if (!container || !defaultChip) return;
+
+
+
+    // ===============================
+    // 🎯 DEFAULT CHIP CLICK (OPEN / CLOSE MENU)
+    // ===============================
+
+    defaultChip.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        // 👉 এখানে menu open/close হচ্ছে
+        container.classList.toggle("expanded");
+        container.classList.toggle("collapsed");
+
+    });
+
+
+
+    // ===============================
+    // 🪙 INDIVIDUAL CHIP CLICK
+    // ===============================
+
+    chips.forEach(chip => {
+
+        chip.addEventListener("click", (e) => {
 
             e.stopPropagation();
-            console.log("DEFAULT CHIP CLICK");
 
-            container.classList.toggle(
-                "expanded"
-            );
+            // 👉 সব chip থেকে active remove
+            chips.forEach(c => c.classList.remove("active"));
 
-            container.classList.toggle(
-                "collapsed"
-            );
-
-        }
-    );
-
-    // CHIP BEHAVIUR
-
-chips.forEach(chip => {
-
-    chip.addEventListener(
-        "click",
-        (e) => {
-
-            e.stopPropagation();
-
-            chips.forEach(c =>
-                c.classList.remove("active")
-            );
-
+            // 👉 clicked chip active করা
             chip.classList.add("active");
 
-            selectedChip =
-            chip.getAttribute("data-value");
 
-            // UPDATE MAIN CHIP
-if (
-    !chip.classList.contains(
-        "default-chip"
-    )
-) {
 
-    const defaultImg =
-    defaultChip.querySelector("img");
+            // ==================================================
+            // 🧠 IMPORTANT: SELECTED CHIP UPDATE
+            // ==================================================
+            // 👉 এখানে তুমি chip select করছো
+            // 👉 এই value পরে bet-engine.js এ যাবে
+            // ==================================================
 
-    const defaultText =
-    defaultChip.querySelector("span");
+            selectedChip = {
+                value: chip.getAttribute("data-value"),
+                element: chip
+            };
 
-    const selectedImg =
-    chip.querySelector("img");
 
-    const selectedText =
-    chip.querySelector("span");
 
-    // SWAP IMAGE
-    const tempImg =
-    defaultImg.src;
+            // ==================================================
+            // 🔁 DEFAULT CHIP UI UPDATE (SWAP SYSTEM)
+            // ==================================================
+            // 👉 এখানে selected chip UI তে দেখানো হচ্ছে
+            // 👉 default chip + selected chip swap হচ্ছে
+            // ==================================================
 
-    defaultImg.src =
-    selectedImg.src;
+            syncDefaultChip(defaultChip, chip);
 
-    selectedImg.src =
-    tempImg;
 
-    // SWAP TEXT
-    const tempText =
-    defaultText.textContent;
 
-    defaultText.textContent =
-    selectedText.textContent;
+            // ===============================
+            // 🔊 CHIP SOUND PLAY
+            // ===============================
 
-    selectedText.textContent =
-    tempText;
+            playChipSound();
 
-    // SWAP VALUE
-    const tempValue =
-    defaultChip.getAttribute(
-        "data-value"
-    );
+
+
+            // ===============================
+            // 📦 AUTO CLOSE MENU
+            // ===============================
+
+            if (!chip.classList.contains("default-chip")) {
+                closeChipPanel(container);
+            }
+
+        });
+
+    });
+
+
+
+    // ===============================
+    // 🌐 OUTSIDE CLICK → CLOSE MENU
+    // ===============================
+
+    document.addEventListener("click", () => {
+        closeChipPanel(container);
+    });
+}
+
+
+
+// ===============================
+// 🔁 DEFAULT CHIP UI SWAP FUNCTION
+// ===============================
+// 👉 এখানে default chip icon/text swap হয়
+
+function syncDefaultChip(defaultChip, chip) {
+
+    const defaultImg = defaultChip.querySelector("img");
+    const defaultText = defaultChip.querySelector("span");
+
+    const selectedImg = chip.querySelector("img");
+    const selectedText = chip.querySelector("span");
+
+
+
+    // ===============================
+    // 🖼 IMAGE SWAP
+    // ===============================
+
+    let tempImg = defaultImg.src;
+    defaultImg.src = selectedImg.src;
+    selectedImg.src = tempImg;
+
+
+
+    // ===============================
+    // 📝 TEXT SWAP
+    // ===============================
+
+    let tempText = defaultText.textContent;
+    defaultText.textContent = selectedText.textContent;
+    selectedText.textContent = tempText;
+
+
+
+    // ===============================
+    // 💰 VALUE SWAP (DATA ATTRIBUTE)
+    // ===============================
+
+    let tempValue = defaultChip.getAttribute("data-value");
 
     defaultChip.setAttribute(
         "data-value",
-        chip.getAttribute(
-            "data-value"
-        )
+        chip.getAttribute("data-value")
     );
 
-    chip.setAttribute(
-        "data-value",
-        tempValue
-    );
+    chip.setAttribute("data-value", tempValue);
 }
 
-            // SOUND
-            if (chipSound) {
 
-                chipSound.currentTime = 0;
 
-                chipSound.play()
-                .catch(() => {});
-            }
+// ===============================
+// 🔊 CHIP SOUND FUNCTION
+// ===============================
 
-            // AUTO CLOSE
-            if (
-                !chip.classList.contains(
-                    "default-chip"
-                )
-            ) {
+function playChipSound() {
+    if (!chipSound) return;
 
-                container.classList.remove(
-                    "expanded"
-                );
+    chipSound.currentTime = 0;
+    chipSound.play().catch(() => {});
+}
 
-                container.classList.add(
-                    "collapsed"
-                );
-            }
 
-        }
-    );
 
-});
-    // OUTSIDE CLICK CLOSE
+// ===============================
+// 📦 CLOSE CHIP PANEL
+// ===============================
 
-    document.addEventListener(
-        "click",
-        () => {
+function closeChipPanel(container) {
 
-            container.classList.remove(
-                "expanded"
-            );
-
-            container.classList.add(
-                "collapsed"
-            );
-
-        }
-    );
-
+    container.classList.remove("expanded");
+    container.classList.add("collapsed");
 }
