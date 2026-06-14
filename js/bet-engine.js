@@ -31,25 +31,19 @@ const chipMap = {
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
-    chipSound = document.getElementById("chipSound");
-    spinSound = document.getElementById("spinSound");
+    GameState.chipSound =
+        document.getElementById("chipSound");
 
-    if (chipSound) {
+    GameState.spinSound =
+        document.getElementById("spinSound");
 
-    console.log("Chip Clicked");
-    console.log(chipSound);
-
-    chipSound.currentTime = 0;
-    chipSound.play().catch(() => {});
-
-    }
-    if (spinSound) {
-        spinSound.volume = 0.7;
+    if (GameState.spinSound) {
+        GameState.spinSound.volume = 0.7;
     }
 
     initChipSystem();
 
-    console.log("🎰 Chip System Ready");
+    console.log("🎰 iGaming CORE READY");
 
 });
 // ===============================
