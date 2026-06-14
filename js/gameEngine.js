@@ -1,4 +1,57 @@
 
+// ======================================================
+// 🧠 GAME ENGINE (CORE STATE MANAGER)
+// ======================================================
+// START: GLOBAL GAME STATE (SINGLE SOURCE OF TRUTH)
+// ======================================================
+
+// 🧠 ALL GAME DATA LIVES HERE
+window.GameEngine = {
+
+    // 💰 PLAYER DATA
+    balance: 1000,
+
+    // 🪙 CHIP SYSTEM
+    selectedChip: null,
+
+    // 🎯 BET STORAGE
+    bets: {},
+
+    // 🎰 GAME STATE
+    isSpinning: false,
+    lastResult: null,
+
+    // 🔊 AUDIO ELEMENTS (linked from HTML)
+    chipSound: null,
+    spinSound: null
+};
+
+// ======================================================
+// END: GLOBAL GAME STATE
+// ======================================================
+
+
+
+// ======================================================
+// 🚀 INIT ENGINE (START)
+// ======================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // 🔊 connect audio safely after DOM load
+    GameEngine.chipSound = document.getElementById("chipSound");
+    GameEngine.spinSound = document.getElementById("spinSound");
+
+    if (GameEngine.spinSound) {
+        GameEngine.spinSound.volume = 0.7;
+    }
+
+    console.log("🧠 GAME ENGINE READY");
+});
+
+// ======================================================
+// INIT ENGINE (END)
+// ======================================================
 // ===============================
 // 💰 BET ENGINE (CORE)
 // ===============================
