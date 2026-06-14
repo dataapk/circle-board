@@ -8,7 +8,10 @@
 const GameState = {
     chipSound: null,
     spinSound: null,
-    selectedChip: null,
+
+    // DEFAULT CHIP SELECTED
+    selectedChip: "0.10",
+
     selectedSymbol: null,
     bets: {},
     betHistory: []
