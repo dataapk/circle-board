@@ -41,7 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initChipSystem();
     initSymbolSystem();
 
-    console.log(GameState.selectedChip);
+    console.log(
+document.querySelector(".chips-container").className
+);
 });
 
 // ===============================
