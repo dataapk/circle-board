@@ -1,9 +1,9 @@
 // ===============================
-// 🎰 iGaming BET ENGINE v2 (CLEAN CORE)
+// 🎰 iGaming BET ENGINE (STABLE FINAL)
 // ===============================
 
 // ===============================
-// 🧠 GAME STATE (NO DUPLICATION)
+// 🧠 GAME STATE
 // ===============================
 
 const GameState = {
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initChipSystem();
     initSymbolEngine();
 
-    console.log("🎰 iGaming Engine v2 Ready");
+    console.log("🎰 BET ENGINE READY (STABLE)");
 });
 
 // ===============================
@@ -77,7 +77,7 @@ function initChipSystem() {
             GameState.selectedChip =
                 (chip.dataset.value || chip.getAttribute("data-value"))?.toString();
 
-            // swap UI (if not default)
+            // SWAP MAIN CHIP
             if (!chip.classList.contains("default-chip")) {
 
                 const defaultImg = defaultChip.querySelector("img");
@@ -94,18 +94,14 @@ function initChipSystem() {
 
                 const tempValue = defaultChip.getAttribute("data-value");
 
-                defaultChip.setAttribute(
-                    "data-value",
-                    chip.getAttribute("data-value")
-                );
-
+                defaultChip.setAttribute("data-value", chip.getAttribute("data-value"));
                 chip.setAttribute("data-value", tempValue);
 
                 container.classList.remove("expanded");
                 container.classList.add("collapsed");
             }
 
-            // SOUND SAFE
+            // SOUND
             if (GameState.chipSound) {
                 GameState.chipSound.currentTime = 0;
                 GameState.chipSound.play().catch(() => {});
@@ -162,6 +158,10 @@ function initSymbolEngine() {
                 amount: chipValue
             });
 
+            // ===============================
+            // 🧱 BET MARKER UI
+            // ===============================
+
             let marker = box.querySelector(".bet-marker");
 
             if (!marker) {
@@ -174,22 +174,30 @@ function initSymbolEngine() {
 <div class="bet-total">
     $${bet.total.toFixed(2)}
 </div>
-
 <div class="chip-stack"></div>
 `;
 
             const chipStack = marker.querySelector(".chip-stack");
+
+            // IMPORTANT: clean render
             chipStack.innerHTML = "";
 
-            bet.chips.slice(-4).forEach((chipValue, index) => {
+            const visibleChips = bet.chips.slice(-4);
+
+            visibleChips.forEach((chipValue, index) => {
 
                 const chipImg = document.createElement("img");
 
                 chipImg.src = chipMap[String(chipValue)];
                 chipImg.className = "stack-chip";
 
+                // stable stacking (NO jump bug)
+                chipImg.style.position = "absolute";
+                chipImg.style.left = "50%";
+                chipImg.style.transform = "translateX(-50%)";
+
+                chipImg.style.bottom = `${index * 6}px`;
                 chipImg.style.zIndex = index + 1;
-                chipImg.style.bottom = `${index * 8}px`;
 
                 chipStack.appendChild(chipImg);
             });
