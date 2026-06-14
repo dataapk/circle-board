@@ -1,207 +1,107 @@
 
-// ======================================================
-// 🪙 CHIP SYSTEM (FINAL CLEAN VERSION)
-// ======================================================
-// ⚠️ IMPORTANT:
-// - এই ফাইলটা শুধু CHIP UI + SOUND + SELECTION handle করে
-// - BET ENGINE আলাদা থাকবে
-// - কোনো duplicate variable অন্য ফাইলে রাখবে না
-// ======================================================
-
-
 // ===============================
-// 🧠 GLOBAL STATE (ONLY ONCE USE)
+// 💰 BET ENGINE (CORE)
 // ===============================
 
-let chipSound = null;
-let spinSound = null;
+function placeBet(boxId) {
 
-let selectedChip = {
-    value: null,
-    element: null
-};
+    const chip = GameEngine.selectedChip;
 
-
-// ===============================
-// 🚀 INIT SYSTEM
-// ===============================
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    chipSound = document.getElementById("chipSound");
-    spinSound = document.getElementById("spinSound");
-
-    // 🎧 SAFE AUDIO SETUP
-    if (spinSound) {
-        spinSound.volume = 0.7;
-    }
-
-    if (!chipSound) {
-        console.log("⚠️ chipSound not found in HTML");
-    }
-
-    if (!spinSound) {
-        console.log("⚠️ spinSound not found in HTML");
-    }
-
-    initChipSystem();
-
-    console.log("🎰 CHIP SYSTEM READY");
-});
-
-
-// ===============================
-// 🪙 CHIP SYSTEM CORE
-// ===============================
-
-function initChipSystem() {
-
-    const container = document.querySelector(".chips-container");
-    const chips = document.querySelectorAll(".chip");
-    const defaultChip = document.querySelector(".default-chip");
-
-    // ❌ SAFETY CHECK
-    if (!container || !defaultChip) {
-        console.log("❌ CHIP SYSTEM DOM MISSING");
+    if (!chip || !chip.value) {
+        console.log("❌ No chip selected");
         return;
     }
 
+    if (GameEngine.isSpinning) {
+        console.log("❌ Wait for spin");
+        return;
+    }
 
-    // ===============================
-    // 🎯 DEFAULT CHIP TOGGLE
-    // ===============================
+    const amount = parseInt(chip.value);
 
-    defaultChip.addEventListener("click", (e) => {
-        e.stopPropagation();
+    if (GameEngine.balance < amount) {
+        console.log("❌ Not enough balance");
+        return;
+    }
 
-        container.classList.toggle("expanded");
-        container.classList.toggle("collapsed");
-    });
+    // 💰 deduct balance
+    GameEngine.balance -= amount;
 
+    // 🎯 store bet
+    if (!GameEngine.bets[boxId]) {
+        GameEngine.bets[boxId] = 0;
+    }
 
-    // ===============================
-    // 🪙 CHIP SELECT SYSTEM
-    // ===============================
+    GameEngine.bets[boxId] += amount;
 
-    chips.forEach(chip => {
+    console.log("💰 Bet Placed:", boxId, amount);
+}
+// ===============================
+// 💰STEP 2: WHEEL → RESULT CONNECT
+// ===============================
 
-        chip.addEventListener("click", (e) => {
-            e.stopPropagation();
+function handleWheelResult(angle) {
 
-            chips.forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
+    const normalized = angle % 360;
 
+    // 🎯 simple mapping (example)
+    const resultNumber = Math.floor(normalized / 36);
 
-            // ===============================
-            // 🧠 STORE SELECTED CHIP
-            // ===============================
+    GameEngine.lastResult = resultNumber;
 
-            selectedChip = {
-                value: chip.getAttribute("data-value"),
-                element: chip
-            };
+    console.log("🎯 RESULT:", resultNumber);
 
+    resolvePayout(resultNumber);
+}
+// ===============================
+// 💰 STEP 3: PAYOUT ENGINE
+// ===============================
 
-            // ===============================
-            // 🔁 SWAP UI (DEFAULT CHIP UPDATE)
-            // ===============================
+function resolvePayout(result) {
 
-            swapDefaultChip(defaultChip, chip);
+    let winAmount = 0;
 
+    const bets = GameEngine.bets;
 
-            // ===============================
-            // 🔊 SOUND PLAY
-            // ===============================
+    // 🎯 check all bets
+    for (let key in bets) {
 
-            playChipSound();
+        if (parseInt(key) === result) {
+            winAmount += bets[key] * 9;
+        }
+    }
 
+    GameEngine.balance += winAmount;
 
-            // ===============================
-            // 📦 AUTO CLOSE MENU
-            // ===============================
+    console.log("💰 WIN:", winAmount);
+    console.log("💰 BALANCE:", GameEngine.balance);
 
-            if (!chip.classList.contains("default-chip")) {
-                closeChipPanel(container);
-            }
+    // reset bets
+    GameEngine.bets = {};
+}
+// ===============================
+// STEP 4: CONNECT TO WHEEL ENGINE
+// ===============================
 
-        });
+// AFTER SPIN END
+setTimeout(() => {
 
-    });
+    isSpinning = false;
 
+    const finalAngle = currentRotation % 360;
 
-    // ===============================
-    // 🌐 OUTSIDE CLICK CLOSE
-    // ===============================
+    handleWheelResult(finalAngle);
 
-    document.addEventListener("click", () => {
-        closeChipPanel(container);
-    });
+}, 9000);
+// ===============================
+// STEP 5: CHIP → BET CONNECT
+// ===============================
+
+function onBoxClick(boxId) {
+    placeBet(boxId);
 }
 
 
-// ===============================
-// 🔁 CHIP SWAP FUNCTION
-// ===============================
-
-function swapDefaultChip(defaultChip, chip) {
-
-    const defaultImg = defaultChip.querySelector("img");
-    const defaultText = defaultChip.querySelector("span");
-
-    const selectedImg = chip.querySelector("img");
-    const selectedText = chip.querySelector("span");
-
-    if (!defaultImg || !selectedImg) return;
 
 
-    // 🖼 IMAGE SWAP
-    let tempImg = defaultImg.src;
-    defaultImg.src = selectedImg.src;
-    selectedImg.src = tempImg;
 
-
-    // 📝 TEXT SWAP
-    let tempText = defaultText.textContent;
-    defaultText.textContent = selectedText.textContent;
-    selectedText.textContent = tempText;
-
-
-    // 💰 VALUE SWAP
-    let tempValue = defaultChip.getAttribute("data-value");
-
-    defaultChip.setAttribute(
-        "data-value",
-        chip.getAttribute("data-value")
-    );
-
-    chip.setAttribute("data-value", tempValue);
-}
-
-
-// ===============================
-// 🔊 CHIP SOUND (SAFE)
-// ===============================
-
-function playChipSound() {
-
-    if (!chipSound) return;
-
-    chipSound.currentTime = 0;
-
-    chipSound.play().catch((err) => {
-        console.log("⚠️ Audio blocked:", err);
-    });
-}
-
-
-// ===============================
-// 📦 CLOSE PANEL
-// ===============================
-
-function closeChipPanel(container) {
-
-    if (!container) return;
-
-    container.classList.remove("expanded");
-    container.classList.add("collapsed");
-}
