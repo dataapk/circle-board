@@ -133,18 +133,18 @@ function setupSpinButton() {
 
 function spinGame() {
 
-    if (GameEngine.isSpinning) return;
+    console.log("🔥 spinGame() RUNNING");
 
-    if (!GameEngine.selectedChip) {
-        console.log("❌ Select chip first");
-        return;
-    }
+    if (GameEngine.isSpinning) return;
 
     GameEngine.isSpinning = true;
 
-    playSpinSound();
+    console.log("🎰 SPIN STARTED");
 
-    spinWheel();
+    if (typeof spinWheel === "function") {
+        spinWheel();
+    }
+
 }
 
 
