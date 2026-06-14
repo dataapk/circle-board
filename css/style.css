@@ -38,6 +38,7 @@ body {
 ========================= */
 
 .symbol-table {
+
     width: 95%;
 
     display: grid;
@@ -46,11 +47,13 @@ body {
     gap: 8px;
 
     margin-top: 0px;   /* wheel-এর কাছাকাছি */
+
+    margin-bottom: 25px;   /* ⬅️ Spin Button-এর আগে gap */
+
     padding: 3px;
 
     transform: translateY(-6px);
 }
-
 /* START: PREMIUM SYMBOL BOX */
 
 .symbol-box {
