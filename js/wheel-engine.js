@@ -1,123 +1,92 @@
+
 // ===============================
-// 🎰 PREMIUM WHEEL ENGINE (FINAL)
+// 🎰 WHEEL ENGINE (CLEAN CORE)
+// ===============================
+// ⚠️ IMPORTANT:
+// - শুধু wheel spin logic থাকবে
+// - audio / global state অন্য ফাইলে থাকবে
+// - duplicate variable এখানে থাকবে না
 // ===============================
 
-let wheel = document.getElementById("wheel");
-let spinBtn = document.getElementById("spinBtn");
 
-let spinSound;
-let tickSound;
+// ===============================
+// 🎯 DOM ELEMENTS
+// ===============================
+
+let wheel;
+let spinBtn;
+
+
+// ===============================
+// 🎮 STATE
+// ===============================
 
 let isSpinning = false;
 let currentRotation = 0;
-let tickInterval;
+
 
 // ===============================
-// 🎧 INIT AUDIO (SAFE)
+// 🚀 INIT
 // ===============================
+
 document.addEventListener("DOMContentLoaded", () => {
-    spinSound = document.getElementById("spinSound");
-    tickSound = document.getElementById("tickSound");
+
+    wheel = document.getElementById("wheel");
+    spinBtn = document.getElementById("spinBtn");
+
+    if (!wheel || !spinBtn) {
+        console.log("❌ Wheel or Spin button missing");
+        return;
+    }
+
+    spinBtn.addEventListener("click", spinWheel);
+
+    console.log("🎰 Wheel Engine Ready");
 });
 
-// ===============================
-// 🎧 FADE IN SOUND
-// ===============================
-function fadeInSound(duration = 800) {
-    if (!spinSound) return;
-
-    spinSound.volume = 0;
-    spinSound.currentTime = 0;
-    spinSound.play();
-
-    let volume = 0;
-    const step = 1 / (duration / 50);
-
-    const fade = setInterval(() => {
-        volume += step;
-
-        if (volume >= 1) {
-            volume = 1;
-            clearInterval(fade);
-        }
-
-        spinSound.volume = volume;
-    }, 50);
-}
 
 // ===============================
-// 🎧 FADE OUT SOUND
+// 🎰 MAIN SPIN FUNCTION (CORE)
 // ===============================
-function fadeOutSound(duration = 1500) {
-    if (!spinSound) return;
 
-    let volume = spinSound.volume;
-    const step = volume / (duration / 50);
-
-    const fade = setInterval(() => {
-        volume -= step;
-
-        if (volume <= 0) {
-            volume = 0;
-            spinSound.pause();
-            spinSound.currentTime = 0;
-            clearInterval(fade);
-        }
-
-        spinSound.volume = volume;
-    }, 50);
-}
-
-// ===============================
-// 🎰 MAIN SPIN FUNCTION
-// ===============================
 function spinWheel() {
 
     if (isSpinning) return;
     isSpinning = true;
 
-    // 🎧 START SOUND (FADE IN)
-    fadeInSound(800);
 
-    // 🎯 OPTIONAL TICK SYSTEM (UNCOMMENT IF NEEDED)
-    /*
-    tickInterval = setInterval(() => {
-        if (tickSound) {
-            tickSound.currentTime = 0;
-            tickSound.play();
-        }
-    }, 200);
-    */
+    // ===============================
+    // 🎯 RANDOM SPIN LOGIC
+    // ===============================
 
-    const spins = 15;
+    const spins = 10 + Math.floor(Math.random() * 10); // 10–20 spins
     const randomAngle = Math.floor(Math.random() * 360);
 
     currentRotation += (spins * 360) + randomAngle;
 
+
+    // ===============================
+    // 🎨 ANIMATION
+    // ===============================
+
     wheel.style.transition = "transform 9s ease-out";
     wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-    // 🎧 FADE OUT BEFORE END (1.5s আগে)
-    setTimeout(() => {
-        fadeOutSound(1500);
-    }, 7500);
 
-    // 🛑 END OF SPIN
+    // ===============================
+    // 🛑 END SPIN
+    // ===============================
+
     setTimeout(() => {
 
         isSpinning = false;
 
-        // stop tick if used
-        if (tickInterval) {
-            clearInterval(tickInterval);
-        }
+        const finalAngle = currentRotation % 360;
 
-        console.log("Final Angle:", currentRotation % 360);
+        console.log("🎯 FINAL ANGLE:", finalAngle);
+
+        // 👉 এখানে পরে bet-engine connect হবে
+        // resolveResult(finalAngle);
 
     }, 9000);
 }
-
-// ===============================
-// 🎯 BUTTON EVENT
-// ===============================
-spinBtn.addEventListener("click", spinWheel);
