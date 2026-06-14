@@ -155,9 +155,6 @@ function updateBetMarker(box, symbol, chipValue) {
 // ===============================
 // 🪙 CHIP SYSTEM
 // ===============================
-// ===============================
-// 🪙 CHIP SYSTEM
-// ===============================
 
 function initChipSystem() {
 
