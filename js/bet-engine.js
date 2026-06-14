@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initChipSystem();
     initSymbolSystem();
 
-    console.log("🎰 iGaming CORE READY");
+    console.log(GameState.selectedChip);
 });
 
 // ===============================
