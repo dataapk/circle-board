@@ -1,28 +1,11 @@
 
 // ===============================
-// 🎰 WHEEL ENGINE (CLEAN CORE)
+// 🎮 GAME.JS (MAIN GAME LOOP)
 // ===============================
-// ⚠️ IMPORTANT:
-// - শুধু wheel spin logic থাকবে
-// - audio / global state অন্য ফাইলে থাকবে
-// - duplicate variable এখানে থাকবে না
+// 🧠 THIS FILE CONTROLS EVERYTHING:
+// - Chip → Bet → Spin → Result → Payout
 // ===============================
 
-
-// ===============================
-// 🎯 DOM ELEMENTS
-// ===============================
-
-let wheel;
-let spinBtn;
-
-
-// ===============================
-// 🎮 STATE
-// ===============================
-
-let isSpinning = false;
-let currentRotation = 0;
 
 
 // ===============================
@@ -31,62 +14,199 @@ let currentRotation = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    wheel = document.getElementById("wheel");
-    spinBtn = document.getElementById("spinBtn");
+    initGame();
 
-    if (!wheel || !spinBtn) {
-        console.log("❌ Wheel or Spin button missing");
-        return;
-    }
-
-    spinBtn.addEventListener("click", spinWheel);
-
-    console.log("🎰 Wheel Engine Ready");
+    console.log("🎮 GAME READY");
 });
 
 
+
 // ===============================
-// 🎰 MAIN SPIN FUNCTION (CORE)
+// 🧠 INIT GAME
 // ===============================
 
-function spinWheel() {
+function initGame() {
 
-    if (isSpinning) return;
-    isSpinning = true;
+    setupBalanceUI();
+    setupBoardSystem();
+    setupSpinButton();
 
-
-    // ===============================
-    // 🎯 RANDOM SPIN LOGIC
-    // ===============================
-
-    const spins = 10 + Math.floor(Math.random() * 10); // 10–20 spins
-    const randomAngle = Math.floor(Math.random() * 360);
-
-    currentRotation += (spins * 360) + randomAngle;
-
-
-    // ===============================
-    // 🎨 ANIMATION
-    // ===============================
-
-    wheel.style.transition = "transform 9s ease-out";
-    wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-
-    // ===============================
-    // 🛑 END SPIN
-    // ===============================
-
-    setTimeout(() => {
-
-        isSpinning = false;
-
-        const finalAngle = currentRotation % 360;
-
-        console.log("🎯 FINAL ANGLE:", finalAngle);
-
-        // 👉 এখানে পরে bet-engine connect হবে
-        // resolveResult(finalAngle);
-
-    }, 9000);
 }
+
+
+
+// ===============================
+// 💰 BALANCE UI
+// ===============================
+
+function setupBalanceUI() {
+
+    if (!window.GameEngine) return;
+
+    updateBalanceUI();
+}
+
+
+
+// ===============================
+// 🎯 UPDATE BALANCE UI
+// ===============================
+
+function updateBalanceUI() {
+
+    const el = document.getElementById("balanceAmount");
+
+    if (!el) return;
+
+    el.innerText = "$" + GameEngine.balance.toFixed(2);
+}
+
+
+
+// ===============================
+// 🎯 BOARD SYSTEM
+// ===============================
+
+function setupBoardSystem() {
+
+    const boxes = document.querySelectorAll(".symbol-box");
+
+    boxes.forEach(box => {
+
+        box.addEventListener("click", () => {
+
+            const symbol = box.getAttribute("data-symbol");
+
+            placeBet(symbol);
+
+        });
+
+    });
+}
+
+
+
+// ===============================
+// 💰 PLACE BET
+// ===============================
+
+function placeBet(symbol) {
+
+    if (!GameEngine.selectedChip) {
+        console.log("❌ Select chip first");
+        return;
+    }
+
+    if (GameEngine.isSpinning) {
+        console.log("❌ Wait for spin");
+        return;
+    }
+
+    const amount = parseFloat(GameEngine.selectedChip.value);
+
+    if (GameEngine.balance < amount) {
+        console.log("❌ Not enough balance");
+        return;
+    }
+
+    // deduct balance
+    GameEngine.balance -= amount;
+
+    // store bet
+    if (!GameEngine.bets[symbol]) {
+        GameEngine.bets[symbol] = 0;
+    }
+
+    GameEngine.bets[symbol] += amount;
+
+    console.log("💰 Bet placed:", symbol, amount);
+
+    updateBalanceUI();
+}
+
+
+
+// ===============================
+// 🎰 SPIN SYSTEM
+// ===============================
+
+function setupSpinButton() {
+
+    const btn = document.getElementById("spinBtn");
+
+    if (!btn) return;
+
+    btn.addEventListener("click", spinGame);
+}
+
+
+
+// ===============================
+// 🔄 SPIN GAME
+// ===============================
+
+function spinGame() {
+
+    if (GameEngine.isSpinning) return;
+
+    GameEngine.isSpinning = true;
+
+    console.log("🎰 SPIN STARTED");
+
+    // call wheel engine spin (if exists)
+    if (typeof spinWheel === "function") {
+        spinWheel();
+    }
+
+}
+
+
+
+// ===============================
+// 🎯 RESULT HANDLER (CALLED FROM WHEEL ENGINE)
+// ===============================
+
+function handleWheelResult(result) {
+
+    GameEngine.lastResult = result;
+
+    console.log("🎯 RESULT:", result);
+
+    resolvePayout(result);
+
+    GameEngine.isSpinning = false;
+}
+
+
+
+// ===============================
+// 💰 PAYOUT SYSTEM
+// ===============================
+
+function resolvePayout(result) {
+
+    let win = 0;
+
+    for (let key in GameEngine.bets) {
+
+        if (key === result) {
+            win += GameEngine.bets[key] * 9;
+        }
+    }
+
+    GameEngine.balance += win;
+
+    console.log("💰 WIN:", win);
+
+    GameEngine.bets = {};
+
+    updateBalanceUI();
+}
+
+
+
+// ===============================
+// 🌐 GLOBAL EXPORT (for wheel engine)
+// ===============================
+
+window.handleWheelResult = handleWheelResult;
