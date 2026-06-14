@@ -270,11 +270,18 @@ if(selectedChip){
         !bets[selectedSymbol]
     ){
 
-        bets[selectedSymbol] = 0;
+        bets[selectedSymbol] = {
+
+            total: 0,
+
+            chips: []
+
+        };
     }
 
-    bets[selectedSymbol] +=
-    chipValue;
+    bets[
+        selectedSymbol
+    ].total += chipValue;
 
     betHistory.push({
 
@@ -285,6 +292,12 @@ if(selectedChip){
         chipValue
 
     });
+
+    bets[
+        selectedSymbol
+    ].chips.push(
+        selectedChip
+    );
 
     let marker =
     box.querySelector(
@@ -307,9 +320,11 @@ if(selectedChip){
     }
 
     marker.textContent =
+    "$" +
     bets[
         selectedSymbol
-    ].toFixed(2);
+    ].total
+    .toFixed(2);
 
 }
 
