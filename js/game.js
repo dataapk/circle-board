@@ -18,6 +18,63 @@ function initChipSystem() {
     });
 }
 // ===============================
+// FIX 4: SPIN CONNECT
+// ===============================
+
+function spinGame() {
+
+    if (!GameEngine.selectedChip) {
+        console.log("❌ Select chip first");
+        return;
+    }
+
+    if (GameEngine.isSpinning) return;
+
+    GameEngine.isSpinning = true;
+
+    playSpinSound();
+
+    spinWheel(); // wheel-engine function
+}
+// ===============================
+// 🎯 FIX 5: WHEEL FIX
+// ===============================
+ 
+let currentRotation = 0;
+
+function spinWheel() {
+
+    const wheel = document.getElementById("wheel");
+
+    const angle = Math.floor(Math.random() * 360);
+
+    currentRotation += 3600 + angle;
+
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+    setTimeout(() => {
+
+        if (typeof window.handleWheelResult === "function") {
+        window.handleWheelResult(angle);
+    } else {
+        console.log("❌ handleWheelResult missing");
+        GameEngine.isSpinning = false;
+    }
+
+}, 8000);
+// ===============================
+// FIX 4: SPIN SOUND
+// ===============================
+
+function playSpinSound() {
+
+    if (!GameEngine.spinSound) return;
+
+    GameEngine.spinSound.currentTime = 0;
+
+    GameEngine.spinSound.play().catch(() => {});
+}
+// ===============================
 // 🎮 GAME.JS (MAIN GAME LOOP)
 // ===============================
 // 🧠 THIS FILE CONTROLS EVERYTHING:
