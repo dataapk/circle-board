@@ -319,14 +319,72 @@ if(selectedChip){
         );
     }
 
-    marker.textContent =
-    "$" +
-    bets[
-        selectedSymbol
-    ].total
-    .toFixed(2);
+    marker.innerHTML =
 
-}
+`
+<div class="bet-total">
+
+    $
+    ${
+        bets[
+            selectedSymbol
+        ].total.toFixed(2)
+    }
+
+</div>
+
+<div class="chip-stack">
+
+</div>
+`;
+    const chipStack =
+
+marker.querySelector(
+    ".chip-stack"
+);
+
+chipStack.innerHTML = "";
+    const visibleChips =
+
+bets[
+    selectedSymbol
+]
+.chips
+.slice(-4);
+    visibleChips.forEach(
+
+    (
+        chipValue,
+        index
+    ) => {
+
+        const chipImg =
+
+        document.createElement(
+            "img"
+        );
+
+        chipImg.src =
+        chipMap[
+            chipValue
+        ];
+
+        chipImg.className =
+        "stack-chip";
+
+        chipImg.style.zIndex =
+        index + 1;
+
+        chipImg.style.bottom =
+        `${index * 8}px`;
+
+        chipStack.appendChild(
+            chipImg
+        );
+
+    }
+
+);
 
 // END: PROFESSIONAL BET STORAGE
 
