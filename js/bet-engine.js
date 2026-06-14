@@ -1,14 +1,21 @@
  // ===============================
 // 🪙 GLOBAL STATE (iGaming CORE)
 // ===============================
-
 const GameState = {
-    chipSound: null,
-    spinSound: null,
-    selectedChip: null,
-    selectedSymbol: null,
-    bets: {},
-    betHistory: []
+    chipSound: null,      // chip click sound
+    spinSound: null,      // spin sound
+    selectedChip: null,   // currently selected chip value
+    selectedSymbol: null, // which box user clicked
+    bets: {},             // all bets stored here
+    betHistory: []        // full history tracking
+};
+const chipMap = {
+    "0.10": "assets/chip_0.10c.png",
+    "0.20": "assets/chip_20c.png",
+    "0.50": "assets/chip_50c.png",
+    "1": "assets/chip_1.png",
+    "2": "assets/chip_2.png",
+    "5": "assets/chip_5.png"
 };
 // ===============================
 // 🚀 SAFE GAME INIT
