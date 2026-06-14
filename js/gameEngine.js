@@ -159,6 +159,24 @@ function resolvePayout(result) {
     updateBalanceUI();
 }
 // ===============================
+// 💰 BALANCE UI START
+// ===============================
+
+function updateBalanceUI() {
+
+    const el =
+    document.getElementById("balanceAmount");
+
+    if (!el) return;
+
+    el.innerText =
+    "$" + GameEngine.balance.toFixed(2);
+}
+
+// ===============================
+// 💰 BALANCE UI END
+// ===============================
+// ===============================
 // STEP 4: CONNECT TO WHEEL ENGINE
 // ===============================
 
@@ -174,6 +192,25 @@ setTimeout(() => {
 // ===============================
 // STEP 5: CHIP → BET CONNECT
 // ===============================
+// ===============================
+// 🔊 CHIP SOUND START
+// ===============================
+
+function playChipSound() {
+
+    if (!GameEngine.chipSound) return;
+
+    GameEngine.chipSound.currentTime = 0;
+
+    GameEngine.chipSound
+        .play()
+        .catch(() => {});
+}
+
+// ===============================
+// 🔊 CHIP SOUND END
+// ===============================
+
 
 function onBoxClick(boxId) {
     placeBet(boxId);
