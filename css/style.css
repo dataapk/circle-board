@@ -629,3 +629,13 @@ body {
         )
     );
 }
+/* FORCE EXPANDED VISIBILITY */
+
+.chips-container.expanded .chip:not(.default-chip){
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    pointer-events: auto !important;
+}
