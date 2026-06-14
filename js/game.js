@@ -17,25 +17,7 @@ function initChipSystem() {
 
     });
 }
-// ===============================
-// FIX 4: SPIN CONNECT
-// ===============================
 
-function spinGame() {
-
-    if (!GameEngine.selectedChip) {
-        console.log("❌ Select chip first");
-        return;
-    }
-
-    if (GameEngine.isSpinning) return;
-
-    GameEngine.isSpinning = true;
-
-    playSpinSound();
-
-    spinWheel(); // wheel-engine function
-}
 // ===============================
 // 🎯 FIX 5: WHEEL FIX
 // ===============================
@@ -160,47 +142,6 @@ function setupBoardSystem() {
 }
 
 
-
-// ===============================
-// 💰 PLACE BET
-// ===============================
-
-function placeBet(symbol) {
-
-    if (!GameEngine.selectedChip) {
-        console.log("❌ Select chip first");
-        return;
-    }
-
-    if (GameEngine.isSpinning) {
-        console.log("❌ Wait for spin");
-        return;
-    }
-
-    const amount = parseFloat(GameEngine.selectedChip.value);
-
-    if (GameEngine.balance < amount) {
-        console.log("❌ Not enough balance");
-        return;
-    }
-
-    // deduct balance
-    GameEngine.balance -= amount;
-
-    // store bet
-    if (!GameEngine.bets[symbol]) {
-        GameEngine.bets[symbol] = 0;
-    }
-
-    GameEngine.bets[symbol] += amount;
-
-    console.log("💰 Bet placed:", symbol, amount);
-
-    updateBalanceUI();
-}
-
-
-
 // ===============================
 // 🎰 SPIN SYSTEM
 // ===============================
@@ -234,25 +175,6 @@ function spinGame() {
     }
 
 }
-
-
-
-// ===============================
-// 🎯 RESULT HANDLER (CALLED FROM WHEEL ENGINE)
-// ===============================
-
-function handleWheelResult(result) {
-
-    GameEngine.lastResult = result;
-
-    console.log("🎯 RESULT:", result);
-
-    resolvePayout(result);
-
-    GameEngine.isSpinning = false;
-}
-
-
 
 // ===============================
 // 💰 PAYOUT SYSTEM
