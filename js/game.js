@@ -139,7 +139,20 @@ function spinGame() {
 
     console.log("🔥 spinGame() RUNNING");
 
-    if (GameEngine.isSpinning) return;
+    console.log(
+        "🧠 SELECTED CHIP:",
+        GameEngine.selectedChip
+    );
+
+    console.log(
+        "🧠 IS SPINNING:",
+        GameEngine.isSpinning
+    );
+
+    if (GameEngine.isSpinning) {
+        console.log("❌ ALREADY SPINNING");
+        return;
+    }
 
     if (!GameEngine.selectedChip) {
         console.log("❌ Select chip first");
@@ -147,6 +160,8 @@ function spinGame() {
     }
 
     GameEngine.isSpinning = true;
+
+    console.log("✅ SPIN VALIDATED");
 
     playSpinSound();
 
