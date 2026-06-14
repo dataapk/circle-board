@@ -541,20 +541,15 @@ body {
     z-index:100;
 }
 
-.chip-stack{
-
-    position:absolute;
-
-    left:50%;
-
-    bottom:8px;
-
-    transform:
-    translateX(-50%);
-
-    width:60px;
-
-    height:50px;
+.chip-stack {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    pointer-events: none;
 }
 
 .stack-chip{
