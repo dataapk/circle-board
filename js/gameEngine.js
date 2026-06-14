@@ -127,6 +127,29 @@ function handleWheelResult(angle) {
 // ===============================
 // 💰STEP 2: WHEEL → RESULT END
 // ===============================
+
+// ===============================
+// 🔊 SPIN SOUND START
+// ===============================
+
+function playSpinSound() {
+
+    if (!GameEngine.spinSound) return;
+
+    GameEngine.spinSound.currentTime = 0;
+
+    GameEngine.spinSound.play().catch(err => {
+
+        console.log(
+            "⚠️ Spin sound blocked:",
+            err
+        );
+    });
+}
+
+// ===============================
+// 🔊 SPIN SOUND END
+// ===============================
 // ===============================
 // 💰 STEP 3: PAYOUT ENGINE
 // ===============================
