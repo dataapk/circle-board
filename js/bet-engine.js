@@ -128,19 +128,25 @@ if(selectedChip){
 // ===============================
 // 🪙 CHIP SYSTEM
 // ===============================
+// ===============================
+// 🪙 CHIP SYSTEM
+// ===============================
+
 function initChipSystem() {
 
     const container =
-    document.querySelector(".chips-container");
+        document.querySelector(".chips-container");
 
     const chips =
-    document.querySelectorAll(".chip");
+        document.querySelectorAll(".chip");
 
     const defaultChip =
-    document.querySelector(".default-chip");
+        document.querySelector(".default-chip");
 
     if (!container) return;
 
+    // rest of logic...
+}
     // DEFAULT CHIP OPEN/CLOSE
 
     defaultChip.addEventListener(
