@@ -535,6 +535,12 @@ body {
         translate(-50%, -50%)
         scale(.5);
 }
+/* DEBUG */
+
+.chips-container.expanded .chip{
+    opacity:1 !important;
+    pointer-events:auto !important;
+}
 
 /* EXPANDED FAN */
 
