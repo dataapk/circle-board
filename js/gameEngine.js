@@ -73,12 +73,12 @@ function placeBet(boxId) {
         return;
     }
 
-    const amount = parseInt(chip.value);
+    const amount = parseFloat(chip.value);
 
-    if (GameEngine.balance < amount) {
-        console.log("❌ Not enough balance");
-        return;
-    }
+if (GameEngine.balance < amount) {
+    console.log("❌ Not enough balance");
+    return;
+}
 
     // 💰 deduct balance
     GameEngine.balance -= amount;
