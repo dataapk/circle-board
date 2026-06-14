@@ -38,21 +38,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initChipSystem() {
 
-    const chips = document.querySelectorAll(".chip");
+    const chips =
+    document.querySelectorAll(".chip");
 
     chips.forEach(chip => {
 
         chip.addEventListener("click", () => {
 
             GameEngine.selectedChip = {
-                value: parseFloat(chip.dataset.value),
+                value: parseFloat(
+                    chip.getAttribute("data-value")
+                ),
                 element: chip
             };
 
-            console.log("🪙 CHIP:", GameEngine.selectedChip.value);
-
             playChipSound();
+
+            console.log(
+                "🪙 CHIP:",
+                GameEngine.selectedChip.value
+            );
         });
+
     });
 }
 
