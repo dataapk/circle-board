@@ -2,6 +2,31 @@
 // 🎮 GAME.JS (FINAL CLEAN ENGINE)
 // CHIP → BET → SPIN → RESULT → PAYOUT
 // ======================================================
+// ===============================
+// 🚀 GAME INIT START
+// ===============================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    initGame();
+
+    console.log("🎮 GAME READY");
+});
+
+function initGame() {
+
+    initChipSystem();
+
+    setupBoardSystem();
+
+    setupSpinButton();
+
+    updateBalanceUI();
+}
+
+// ===============================
+// 🚀 GAME INIT END
+// ===============================
 
 
 // ===============================
