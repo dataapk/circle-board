@@ -1,9 +1,25 @@
 // ======================================================
-// 🎮 GAME.JS (FINAL CLEAN ENGINE)
+// 🎮 GAME.JS (FINAL CLEAN VERSION)
 // CHIP → BET → SPIN → RESULT → PAYOUT
 // ======================================================
+
+
 // ===============================
-// 🚀 GAME INIT START
+// 🚀 DOM READY ENTRY POINT
+// ===============================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    console.log("🚀 DOM LOADED");
+
+    initGame();
+
+    console.log("🎮 GAME READY");
+});
+
+
+// ===============================
+// 🚀 GAME INIT
 // ===============================
 
 function initGame() {
@@ -12,29 +28,10 @@ function initGame() {
 
         console.log("🧠 INIT GAME START");
 
-        if (typeof initChipSystem === "function") {
-            initChipSystem();
-        } else {
-            console.log("❌ initChipSystem missing");
-        }
-
-        if (typeof setupBoardSystem === "function") {
-            setupBoardSystem();
-        } else {
-            console.log("❌ setupBoardSystem missing");
-        }
-
-        if (typeof setupSpinButton === "function") {
-            setupSpinButton();
-        } else {
-            console.log("❌ setupSpinButton missing");
-        }
-
-        if (typeof updateBalanceUI === "function") {
-            updateBalanceUI();
-        } else {
-            console.log("❌ updateBalanceUI missing");
-        }
+        initChipSystem();
+        setupBoardSystem();
+        setupSpinButton();
+        updateBalanceUI();
 
         console.log("🎮 GAME READY SAFE");
 
@@ -42,10 +39,6 @@ function initGame() {
         console.log("💥 INIT ERROR:", err);
     }
 }
-
-// ===============================
-// 🚀 GAME INIT END
-// ===============================
 
 
 // ===============================
@@ -60,7 +53,6 @@ function initChipSystem() {
 
         chip.addEventListener("click", () => {
 
-            // 🪙 SET SELECTED CHIP
             GameEngine.selectedChip = {
                 value: parseFloat(chip.dataset.value),
                 element: chip
@@ -68,11 +60,9 @@ function initChipSystem() {
 
             console.log("🪙 CHIP:", GameEngine.selectedChip.value);
 
-            // 🎯 VISUAL ACTIVE STATE
             chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
-            // 🔊 SOUND
             if (GameEngine.chipSound) {
                 GameEngine.chipSound.currentTime = 0;
                 GameEngine.chipSound.play().catch(()=>{});
@@ -95,8 +85,7 @@ function setupBoardSystem() {
 
         box.addEventListener("click", () => {
 
-            const symbol = box.dataset.symbol;
-            placeBet(symbol);
+            placeBet(box.dataset.symbol);
         });
     });
 }
@@ -147,7 +136,10 @@ function setupSpinButton() {
 
     const btn = document.getElementById("spinBtn");
 
-    if (!btn) return;
+    if (!btn) {
+        console.log("❌ SPIN BUTTON NOT FOUND");
+        return;
+    }
 
     btn.addEventListener("click", spinGame);
 }
@@ -159,17 +151,7 @@ function setupSpinButton() {
 
 function spinGame() {
 
-    console.log("🔥 spinGame() RUNNING");
-
-    console.log(
-        "🧠 SELECTED CHIP:",
-        GameEngine.selectedChip
-    );
-
-    console.log(
-        "🧠 IS SPINNING:",
-        GameEngine.isSpinning
-    );
+    console.log("🔥 SPIN CLICKED");
 
     if (GameEngine.isSpinning) {
         console.log("❌ ALREADY SPINNING");
@@ -183,15 +165,9 @@ function spinGame() {
 
     GameEngine.isSpinning = true;
 
-    console.log("✅ SPIN VALIDATED");
+    console.log("✅ SPIN STARTED");
 
     playSpinSound();
 
     spinWheel();
 }
-
-// ===============================
-// 🌐 EXPORT (optional safe)
-// ===============================
-
-window.handleWheelResult = handleWheelResult;
