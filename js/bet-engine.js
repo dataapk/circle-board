@@ -396,6 +396,5 @@ bets[
         }
     );
 
-});
 
 // END: PREMIUM SYMBOL ENGINE
