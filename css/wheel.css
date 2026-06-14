@@ -51,8 +51,14 @@ body {
     width: 100%;
     height: 100%;
     display: block;
-    transform-origin: center;
+
+    transform-origin: center center;
+
+    transition: transform 8s cubic-bezier(.17,.67,.12,.99);
+
     will-change: transform;
+
+    backface-visibility: hidden;
 }
 
 /* =========================
