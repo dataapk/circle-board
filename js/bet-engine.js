@@ -86,6 +86,37 @@ symbolBoxes.forEach(box => {
 });
 
 // END: PREMIUM SYMBOL ENGINE
+// START: BET MARKER
+
+if(selectedChip){
+
+    const oldMarker =
+    box.querySelector(
+        ".bet-marker"
+    );
+
+    if(oldMarker){
+
+        oldMarker.remove();
+    }
+
+    const marker =
+    document.createElement(
+        "div"
+    );
+
+    marker.className =
+    "bet-marker";
+
+    marker.textContent =
+    selectedChip;
+
+    box.appendChild(
+        marker
+    );
+}
+
+// END: BET MARKER
 
 // ===============================
 // 🪙 CHIP SYSTEM
