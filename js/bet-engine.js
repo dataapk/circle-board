@@ -35,43 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // ======================================================
 
 
-
-// ===============================
-// 🪙 GLOBAL STATE
-// ===============================
-
-let chipSound = null;
-let spinSound = null;
-
-// 👉 selectedChip এখন object আকারে রাখা হচ্ছে
-// আগে string ছিল — এখন future bet system এর জন্য upgraded
-let selectedChip = {
-    value: null,
-    element: null
-};
-
-
-
-// ===============================
-// 🚀 INIT (PAGE LOAD)
-// ===============================
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    chipSound = document.getElementById("chipSound");
-    spinSound = document.getElementById("spinSound");
-
-    if (spinSound) {
-        spinSound.volume = 0.7;
-    }
-
-    initChipSystem();
-
-    console.log("🎰 Chip System Ready");
-});
-
-
-
 // ===============================
 // 🪙 CHIP SYSTEM MAIN LOGIC
 // ===============================
