@@ -130,8 +130,10 @@ function resolvePayout(result) {
     // 🎯 check all bets
     for (let key in bets) {
 
-        if (parseInt(key) === result) {
-            winAmount += bets[key] * 9;
+        if (key === result) {
+
+            winAmount += bets[key] * 6;
+
         }
     }
 
@@ -142,12 +144,15 @@ function resolvePayout(result) {
 
     // reset bets
     GameEngine.bets = {};
+
+    GameEngine.isSpinning = false;
+
+    updateBalanceUI();
 }
 // ===============================
 // STEP 4: CONNECT TO WHEEL ENGINE
 // ===============================
 
-// AFTER SPIN END
 setTimeout(() => {
 
     isSpinning = false;
@@ -164,8 +169,3 @@ setTimeout(() => {
 function onBoxClick(boxId) {
     placeBet(boxId);
 }
-
-
-
-
-
