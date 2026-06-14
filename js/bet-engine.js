@@ -4,6 +4,13 @@
 
 let chipSound = null;
 let selectedChip = null;
+// ===============================
+// 🎯 BET STORAGE
+// ===============================
+
+const bets = {};
+
+const betHistory = [];
 
 // ===============================
 // 🚀 SAFE INIT
