@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initChipSystem();
 
+    initSymbolSystem(); // ← এটা add করো
+
     console.log("🎰 iGaming CORE READY");
 
 });
