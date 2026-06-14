@@ -15,6 +15,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initGame() {
 
+    // 🔊 AUDIO LOAD
+
+    GameEngine.chipSound =
+        document.getElementById("chipSound");
+
+    GameEngine.spinSound =
+        document.getElementById("spinSound");
+
+    console.log(
+        "🔊 CHIP SOUND:",
+        GameEngine.chipSound
+    );
+
+    console.log(
+        "🔊 SPIN SOUND:",
+        GameEngine.spinSound
+    );
+
+    // 🎮 SYSTEMS
+
     initChipSystem();
 
     setupBoardSystem();
