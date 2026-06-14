@@ -11,6 +11,26 @@ let selectedChip = null;
 const bets = {};
 
 const betHistory = [];
+const chipMap = {
+
+    "0.10":
+    "assets/chip_0.10c.png",
+
+    "0.20":
+    "assets/chip_20c.png",
+
+    "0.50":
+    "assets/chip_50c.png",
+
+    "1":
+    "assets/chip_1.png",
+
+    "2":
+    "assets/chip_2.png",
+
+    "5":
+    "assets/chip_5.png"
+};
 
 // ===============================
 // 🚀 SAFE INIT
