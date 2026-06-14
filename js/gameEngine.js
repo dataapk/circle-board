@@ -21,6 +21,29 @@ window.GameEngine = {
 // ======================================================
 // END: GLOBAL GAME STATE
 // ======================================================
+// ===============================
+// 🔊 AUDIO INIT START
+// ===============================
+
+GameEngine.chipSound =
+document.getElementById("chipSound");
+
+GameEngine.spinSound =
+document.getElementById("spinSound");
+
+console.log(
+    "🔊 CHIP SOUND:",
+    GameEngine.chipSound
+);
+
+console.log(
+    "🔊 SPIN SOUND:",
+    GameEngine.spinSound
+);
+
+// ===============================
+// 🔊 AUDIO INIT END
+// ===============================
 
 // ===============================
 // 💰 BET ENGINE (CORE)
