@@ -443,76 +443,91 @@ body {
 
 /* TEXT GLOW */
 /* =========================
-   🪙 iGaming FAN CHIP MENU
+   🪙 iGaming FAN CHIP MENU (STABLE FIXED)
 ========================= */
 
-.chips-wrapper{
+.chips-wrapper {
     position: relative;
     width: 100%;
     height: 110px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: visible;
 }
 
-.chips-container{
+.chips-container {
     position: relative;
+
     width: 260px;
     height: 90px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: visible;
 }
 
-.chips-container .chip{
-    position:absolute;
-    left:50%;
-    top:50%;
+/* CHIP BASE */
+.chips-container .chip {
+    position: absolute;
+    left: 50%;
+    top: 50%;
 
-    transform:
-        translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
 
-    transition:
-        all .35s ease;
+    transform: translate(-50%, -50%);
 
-    z-index:1;
+    transition: transform 0.35s ease, opacity 0.25s ease;
+
+    z-index: 1;
+
+    cursor: pointer;
 }
 
 /* DEFAULT CHIP */
-
-.default-chip{
-    z-index:20 !important;
+.default-chip {
+    z-index: 50 !important;
 }
 
-/* COLLAPSED */
+/* COLLAPSED STATE */
+.chips-container.collapsed .chip:not(.default-chip) {
+    opacity: 0;
+    pointer-events: none;
 
-.chips-container.collapsed .chip:not(.default-chip){
-
-    opacity:0;
-    pointer-events:none;
-
-    transform:
-        translate(-50%, -50%)
-        scale(.5);
+    transform: translate(-50%, -50%) scale(0.6);
 }
 
-/* EXPANDED FAN */
+/* EXPANDED FAN LAYOUT (FIXED SYMMETRIC) */
 
-.chips-container.expanded .chip:nth-child(2){
-    transform: translate(calc(-50% - 75px), calc(-50% - 35px));
+.chips-container.expanded .chip:nth-child(2) {
+    transform: translate(calc(-50% - 90px), calc(-50% - 40px)) rotate(-12deg);
 }
 
-.chips-container.expanded .chip:nth-child(3){
-    transform: translate(calc(-50% - 45px), calc(-50% - 70px));
+.chips-container.expanded .chip:nth-child(3) {
+    transform: translate(calc(-50% - 45px), calc(-50% - 75px)) rotate(-6deg);
 }
 
-.chips-container.expanded .chip:nth-child(4){
-    transform: translate(-50%, calc(-50% - 90px));
+.chips-container.expanded .chip:nth-child(4) {
+    transform: translate(-50%, calc(-50% - 95px)) rotate(0deg);
 }
 
-.chips-container.expanded .chip:nth-child(5){
-    transform: translate(calc(-50% + 45px), calc(-50% - 80px));
+.chips-container.expanded .chip:nth-child(5) {
+    transform: translate(calc(-50% + 45px), calc(-50% - 75px)) rotate(6deg);
 }
 
-.chips-container.expanded .chip:nth-child(6){
-    transform: translate(calc(-50% + 75px), calc(-50% - 35px));
+.chips-container.expanded .chip:nth-child(6) {
+    transform: translate(calc(-50% + 90px), calc(-50% - 40px)) rotate(12deg);
+}
+
+/* HOVER EFFECT */
+.chips-container .chip:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 100;
 }
 /* =========================
    🎰 CHIP STACK SYSTEM
