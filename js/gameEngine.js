@@ -16,8 +16,9 @@ window.GameEngine = {
     lastResult: null,
 
     chipSound: null,
-    spinSound: null,
+    spinSound: null
 };
+
 // ===============================
 // 🎡 WHEEL GLOBAL STATE START
 // ===============================
