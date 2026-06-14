@@ -45,51 +45,61 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 // START: PREMIUM SYMBOL ENGINE
 
-const symbolBoxes =
-document.querySelectorAll(
-    ".symbol-box"
-);
-
-const tableSound =
-new Audio(
-    "assets/table.mp3"
-);
-
-tableSound.volume = 0.35;
-
-let selectedSymbol = null;
-
 symbolBoxes.forEach(box => {
 
-    box.addEventListener(
-        "click",
-        () => {
+    box.addEventListener("click", () => {
 
-            tableSound.currentTime = 0;
+        if (!GameState.selectedChip) return;
 
-            tableSound.play();
+        tableSound.currentTime = 0;
+        tableSound.play();
 
-            symbolBoxes.forEach(item => {
-                item.classList.remove(
-                    "active"
-                );
-            });
+        symbolBoxes.forEach(item => item.classList.remove("active"));
+        box.classList.add("active");
 
-            box.classList.add(
-                "active"
-            );
+        const symbol = box.dataset.symbol;
 
-            selectedSymbol =
-            box.dataset.symbol;
-
-            console.log(
-                "Selected Symbol:",
-                selectedSymbol
-            );
-
+        if (!GameState.bets[symbol]) {
+            GameState.bets[symbol] = {
+                total: 0,
+                chips: []
+            };
         }
-    );
 
+        const chipValue = parseFloat(GameState.selectedChip);
+
+        GameState.bets[symbol].total += chipValue;
+        GameState.bets[symbol].chips.push(GameState.selectedChip);
+
+        let marker = box.querySelector(".bet-marker");
+
+        if (!marker) {
+            marker = document.createElement("div");
+            marker.className = "bet-marker";
+            box.appendChild(marker);
+        }
+
+        marker.innerHTML = `
+            <div class="bet-total">$${GameState.bets[symbol].total.toFixed(2)}</div>
+            <div class="chip-stack"></div>
+        `;
+
+        const stack = marker.querySelector(".chip-stack");
+        stack.innerHTML = "";
+
+        GameState.bets[symbol].chips.slice(-4).forEach((v, i) => {
+
+            const img = document.createElement("img");
+            img.src = chipMap[String(v)];
+            img.className = "stack-chip";
+            img.style.bottom = `${i * 8}px`;
+            img.style.zIndex = i + 1;
+
+            stack.appendChild(img);
+        });
+
+        GameState.selectedSymbol = symbol;
+    });
 });
 
 // END: PREMIUM SYMBOL ENGINE
