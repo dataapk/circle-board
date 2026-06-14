@@ -62,10 +62,14 @@ function initChipSystem() {
 
     // TOGGLE
     defaultChip.addEventListener("click", (e) => {
-        e.stopPropagation();
-        container.classList.toggle("expanded");
-        container.classList.toggle("collapsed");
-    });
+
+    console.log("DEFAULT CHIP CLICKED");
+
+    e.stopPropagation();
+
+    container.classList.toggle("expanded");
+    container.classList.toggle("collapsed");
+});
 
     // CHIP SELECT
     chips.forEach(chip => {
