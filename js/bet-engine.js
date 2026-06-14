@@ -104,33 +104,50 @@ symbolBoxes.forEach(box => {
 
 // END: PREMIUM SYMBOL ENGINE
 // START: BET MARKER
+function updateBetMarker(box, symbol, chipValue) {
 
-if(selectedChip){
-
-    const oldMarker =
-    box.querySelector(
-        ".bet-marker"
-    );
-
-    if(oldMarker){
-
-        oldMarker.remove();
+    if (!GameState.bets[symbol]) {
+        GameState.bets[symbol] = {
+            total: 0,
+            chips: []
+        };
     }
 
-    const marker =
-    document.createElement(
-        "div"
-    );
+    const bet = GameState.bets[symbol];
 
-    marker.className =
-    "bet-marker";
+    bet.total += parseFloat(chipValue);
+    bet.chips.push(chipValue);
 
-    marker.textContent =
-    selectedChip;
+    let marker = box.querySelector(".bet-marker");
 
-    box.appendChild(
-        marker
-    );
+    if (!marker) {
+        marker = document.createElement("div");
+        marker.className = "bet-marker";
+        box.appendChild(marker);
+    }
+
+    marker.innerHTML = `
+        <div class="bet-total">
+            $${bet.total.toFixed(2)}
+        </div>
+
+        <div class="chip-stack"></div>
+    `;
+
+    const stack = marker.querySelector(".chip-stack");
+    stack.innerHTML = "";
+
+    bet.chips.slice(-4).forEach((v, i) => {
+
+        const img = document.createElement("img");
+        img.src = chipMap[String(v)];
+        img.className = "stack-chip";
+
+        img.style.bottom = `${i * 8}px`;
+        img.style.zIndex = i + 1;
+
+        stack.appendChild(img);
+    });
 }
 
 // END: BET MARKER
