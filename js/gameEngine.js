@@ -90,15 +90,33 @@ function handleWheelResult(angle) {
 
     const normalized = angle % 360;
 
-    // 🎯 simple mapping (example)
-    const resultNumber = Math.floor(normalized / 36);
+    const symbols = [
+        "heart",
+        "diamond",
+        "club",
+        "spade",
+        "crown",
+        "flag"
+    ];
 
-    GameEngine.lastResult = resultNumber;
+    const segmentSize = 360 / symbols.length;
 
-    console.log("🎯 RESULT:", resultNumber);
+    const index =
+    Math.floor(normalized / segmentSize);
 
-    resolvePayout(resultNumber);
+    const result =
+    symbols[index];
+
+    GameEngine.lastResult = result;
+
+    console.log("🎯 RESULT:", result);
+
+    resolvePayout(result);
 }
+
+// ===============================
+// 💰STEP 2: WHEEL → RESULT END
+// ===============================
 // ===============================
 // 💰 STEP 3: PAYOUT ENGINE
 // ===============================
