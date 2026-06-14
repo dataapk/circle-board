@@ -1,3 +1,40 @@
+// ======================================================
+// 🎮 GAME.JS (FINAL CLEAN ENGINE)
+// CHIP → BET → SPIN → RESULT → PAYOUT
+// ======================================================
+
+
+// ===============================
+// 🧠 GLOBAL STATE LINK
+// ===============================
+
+window.GameEngine = window.GameEngine || {};
+
+GameEngine.selectedChip = null;
+GameEngine.bets = {};
+GameEngine.isSpinning = false;
+GameEngine.balance = GameEngine.balance || 1000;
+
+
+// ===============================
+// 🚀 INIT
+// ===============================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    initChipSystem();
+    setupBoardSystem();
+    setupSpinButton();
+
+    updateBalanceUI();
+
+    console.log("🎮 GAME READY");
+});
+
+
+// ===============================
+// 🪙 CHIP SYSTEM
+// ===============================
 
 function initChipSystem() {
 
@@ -8,116 +45,16 @@ function initChipSystem() {
         chip.addEventListener("click", () => {
 
             GameEngine.selectedChip = {
-                value: parseFloat(chip.getAttribute("data-value")),
+                value: parseFloat(chip.dataset.value),
                 element: chip
             };
 
             console.log("🪙 CHIP:", GameEngine.selectedChip.value);
-        });
 
+            playChipSound();
+        });
     });
 }
-
-// ===============================
-// 🎯 FIX 5: WHEEL FIX
-// ===============================
- 
-let currentRotation = 0;
-
-function spinWheel() {
-
-    const wheel = document.getElementById("wheel");
-
-    const angle = Math.floor(Math.random() * 360);
-
-    currentRotation += 3600 + angle;
-
-    wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-    setTimeout(() => {
-
-        if (typeof window.handleWheelResult === "function") {
-        window.handleWheelResult(angle);
-    } else {
-        console.log("❌ handleWheelResult missing");
-        GameEngine.isSpinning = false;
-    }
-
-}, 8000);
-// ===============================
-// FIX 4: SPIN SOUND
-// ===============================
-
-function playSpinSound() {
-
-    if (!GameEngine.spinSound) return;
-
-    GameEngine.spinSound.currentTime = 0;
-
-    GameEngine.spinSound.play().catch(() => {});
-}
-// ===============================
-// 🎮 GAME.JS (MAIN GAME LOOP)
-// ===============================
-// 🧠 THIS FILE CONTROLS EVERYTHING:
-// - Chip → Bet → Spin → Result → Payout
-// ===============================
-
-
-
-// ===============================
-// 🚀 INIT
-// ===============================
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    initGame();
-
-    console.log("🎮 GAME READY");
-});
-
-
-
-// ===============================
-// 🧠 INIT GAME
-// ===============================
-
-function initGame() {
-
-    setupBalanceUI();
-    setupBoardSystem();
-    setupSpinButton();
-
-}
-
-
-
-// ===============================
-// 💰 BALANCE UI
-// ===============================
-
-function setupBalanceUI() {
-
-    if (!window.GameEngine) return;
-
-    updateBalanceUI();
-}
-
-
-
-// ===============================
-// 🎯 UPDATE BALANCE UI
-// ===============================
-
-function updateBalanceUI() {
-
-    const el = document.getElementById("balanceAmount");
-
-    if (!el) return;
-
-    el.innerText = "$" + GameEngine.balance.toFixed(2);
-}
-
 
 
 // ===============================
@@ -132,95 +69,17 @@ function setupBoardSystem() {
 
         box.addEventListener("click", () => {
 
-            const symbol = box.getAttribute("data-symbol");
-
+            const symbol = box.dataset.symbol;
             placeBet(symbol);
-
         });
-
     });
 }
 
 
 // ===============================
-// 🎰 SPIN SYSTEM
+// 💰 PLACE BET
 // ===============================
 
-function setupSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-
-    if (!btn) return;
-
-    btn.addEventListener("click", spinGame);
-}
-
-
-
-// ===============================
-// 🔄 SPIN GAME
-// ===============================
-
-function spinGame() {
-
-    if (GameEngine.isSpinning) return;
-
-    GameEngine.isSpinning = true;
-
-    console.log("🎰 SPIN STARTED");
-
-    // call wheel engine spin (if exists)
-    if (typeof spinWheel === "function") {
-        spinWheel();
-    }
-
-}
-
-// ===============================
-// 💰 PAYOUT SYSTEM
-// ===============================
-
-function resolvePayout(result) {
-
-    let win = 0;
-
-    for (let key in GameEngine.bets) {
-
-        if (key === result) {
-            win += GameEngine.bets[key] * 9;
-        }
-    }
-
-    GameEngine.balance += win;
-
-    console.log("💰 WIN:", win);
-
-    GameEngine.bets = {};
-
-    updateBalanceUI();
-}
-// ===============================
-// CHIP SELECT START
-// ===============================
-      
-chip.addEventListener("click", () => {
-
-    GameEngine.selectedChip = {
-        value: parseFloat(chip.getAttribute("data-value")),
-        element: chip
-    };
-
-    if (GameEngine.chipSound) {
-        GameEngine.chipSound.currentTime = 0;
-        GameEngine.chipSound.play().catch(()=>{});
-    }
-
-    console.log("🪙 CHIP SELECTED:", GameEngine.selectedChip.value);
-});
-// ===============================
-// 🎯 BET PLACE (board click)
-// ===============================
-     
 function placeBet(symbol) {
 
     if (!GameEngine.selectedChip) {
@@ -252,53 +111,74 @@ function placeBet(symbol) {
 
     console.log("💰 BET:", symbol, amount);
 }
+
+
 // ===============================
-// 🎰 SPIN BUTTON CLICK
+// 🎰 SPIN BUTTON
 // ===============================
 
-     function spinGame() {
+function setupSpinButton() {
+
+    const btn = document.getElementById("spinBtn");
+
+    if (!btn) return;
+
+    btn.addEventListener("click", spinGame);
+}
+
+
+// ===============================
+// 🎰 SPIN GAME
+// ===============================
+
+function spinGame() {
 
     if (GameEngine.isSpinning) return;
 
-    if (!GameEngine.spinSound) return;
+    if (!GameEngine.selectedChip) {
+        console.log("❌ Select chip first");
+        return;
+    }
 
     GameEngine.isSpinning = true;
 
-    GameEngine.spinSound.currentTime = 0;
-    GameEngine.spinSound.play().catch(()=>{});
+    playSpinSound();
 
-    spinWheel(); // from wheel-engine.js
-
-    console.log("🎰 SPIN STARTED");
+    spinWheel();
 }
+
+
 // ===============================
-// 🔊 SPIN SOUND + WHEEL ANIMATION
+// 🎡 WHEEL ENGINE
 // ===============================
 
+let currentRotation = 0;
 
 function spinWheel() {
 
     const wheel = document.getElementById("wheel");
 
     const randomAngle = Math.floor(Math.random() * 360);
-    const rotation = 3600 + randomAngle;
+
+    currentRotation += 3600 + randomAngle;
 
     wheel.style.transition = "transform 8s ease-out";
-    wheel.style.transform = `rotate(${rotation}deg)`;
+    wheel.style.transform = `rotate(${currentRotation}deg)`;
 
     setTimeout(() => {
 
-        const result = Math.floor(randomAngle / 60); // example mapping
+        const result = Math.floor(randomAngle / 60);
 
-        window.handleWheelResult(result);
+        handleWheelResult(result);
 
     }, 8000);
 }
+
+
 // ===============================
-//  🎯 PAYOUT ENGINE
+// 🎯 RESULT + PAYOUT
 // ===============================
 
- 
 function handleWheelResult(result) {
 
     console.log("🎯 RESULT:", result);
@@ -322,8 +202,9 @@ function handleWheelResult(result) {
     console.log("💰 WIN:", win);
 }
 
+
 // ===============================
-//  📊 UI UPDATE (balance + reset bets)
+// 📊 UI UPDATE
 // ===============================
 
 function updateBalanceUI() {
@@ -336,9 +217,29 @@ function updateBalanceUI() {
 }
 
 
+// ===============================
+// 🔊 SOUND HELPERS
+// ===============================
+
+function playChipSound() {
+
+    if (!GameEngine.chipSound) return;
+
+    GameEngine.chipSound.currentTime = 0;
+    GameEngine.chipSound.play().catch(() => {});
+}
+
+function playSpinSound() {
+
+    if (!GameEngine.spinSound) return;
+
+    GameEngine.spinSound.currentTime = 0;
+    GameEngine.spinSound.play().catch(() => {});
+}
+
 
 // ===============================
-// 🌐 GLOBAL EXPORT (for wheel engine)
+// 🌐 EXPORT (optional safe)
 // ===============================
 
 window.handleWheelResult = handleWheelResult;
