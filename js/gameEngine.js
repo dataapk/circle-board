@@ -8,22 +8,43 @@
 // 🧠 ALL GAME DATA LIVES HERE
 
 window.GameEngine = {
-
     balance: 1000,
     selectedChip: null,
     bets: {},
     isSpinning: false,
-    lastResult: null,
-
-    chipSound: null,
-    spinSound: null
+    lastResult: null
 };
 
-// ===============================
-// 🎡 WHEEL GLOBAL STATE START
-// ===============================
-
 let currentRotation = 0;
+
+function updateBalanceUI() {
+    const el = document.getElementById("balanceAmount");
+    if (!el) return;
+    el.innerText = "$" + GameEngine.balance.toFixed(2);
+}
+
+function playSpinSound() {
+    const sound = document.getElementById("spinSound");
+    if (!sound) return;
+    sound.currentTime = 0;
+    sound.play().catch(()=>{});
+}
+
+function resolvePayout(result) {
+    let win = 0;
+
+    for (let key in GameEngine.bets) {
+        if (key === result) {
+            win += GameEngine.bets[key] * 6;
+        }
+    }
+
+    GameEngine.balance += win;
+    GameEngine.bets = {};
+    GameEngine.isSpinning = false;
+
+    updateBalanceUI();
+}
 
 // ===============================
 // 🎡 WHEEL GLOBAL STATE END
