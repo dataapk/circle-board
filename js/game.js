@@ -1,4 +1,22 @@
-chip.addEventListener(...)
+
+function initChipSystem() {
+
+    const chips = document.querySelectorAll(".chip");
+
+    chips.forEach(chip => {
+
+        chip.addEventListener("click", () => {
+
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.getAttribute("data-value")),
+                element: chip
+            };
+
+            console.log("🪙 CHIP:", GameEngine.selectedChip.value);
+        });
+
+    });
+}
 // ===============================
 // 🎮 GAME.JS (MAIN GAME LOOP)
 // ===============================
