@@ -134,160 +134,64 @@ if(selectedChip){
 
 function initChipSystem() {
 
-    const container =
-        document.querySelector(".chips-container");
+    const container = document.querySelector(".chips-container");
+    const chips = document.querySelectorAll(".chip");
+    const defaultChip = document.querySelector(".default-chip");
 
-    const chips =
-        document.querySelectorAll(".chip");
+    if (!container || !chips.length || !defaultChip) return;
 
-    const defaultChip =
-        document.querySelector(".default-chip");
+    // DEFAULT TOGGLE
+    defaultChip.addEventListener("click", (e) => {
+        e.stopPropagation();
+        container.classList.toggle("expanded");
+        container.classList.toggle("collapsed");
+    });
 
-    if (!container) return;
+    // CHIP CLICK
+    chips.forEach(chip => {
 
-    // rest of logic...
-}
-    // DEFAULT CHIP OPEN/CLOSE
-
-    defaultChip.addEventListener(
-        "click",
-        (e) => {
-
-            e.stopPropagation();
-            console.log("DEFAULT CHIP CLICK");
-
-            container.classList.toggle(
-                "expanded"
-            );
-
-            container.classList.toggle(
-                "collapsed"
-            );
-
-        }
-    );
-
-    // CHIP BEHAVIUR
-
-chips.forEach(chip => {
-
-    chip.addEventListener(
-        "click",
-        (e) => {
+        chip.addEventListener("click", (e) => {
 
             e.stopPropagation();
 
-            chips.forEach(c =>
-                c.classList.remove("active")
-            );
-
+            chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
-            selectedChip =
-            chip.getAttribute("data-value");
+            GameState.selectedChip = chip.dataset.value;
 
-            // UPDATE MAIN CHIP
-if (
-    !chip.classList.contains(
-        "default-chip"
-    )
-) {
+            // SWAP UI
+            if (!chip.classList.contains("default-chip")) {
 
-    const defaultImg =
-    defaultChip.querySelector("img");
+                const defaultImg = defaultChip.querySelector("img");
+                const defaultText = defaultChip.querySelector("span");
 
-    const defaultText =
-    defaultChip.querySelector("span");
+                const selectedImg = chip.querySelector("img");
+                const selectedText = chip.querySelector("span");
 
-    const selectedImg =
-    chip.querySelector("img");
+                [defaultImg.src, selectedImg.src] =
+                [selectedImg.src, defaultImg.src];
 
-    const selectedText =
-    chip.querySelector("span");
+                [defaultText.textContent, selectedText.textContent] =
+                [selectedText.textContent, defaultText.textContent];
 
-    // SWAP IMAGE
-    const tempImg =
-    defaultImg.src;
-
-    defaultImg.src =
-    selectedImg.src;
-
-    selectedImg.src =
-    tempImg;
-
-    // SWAP TEXT
-    const tempText =
-    defaultText.textContent;
-
-    defaultText.textContent =
-    selectedText.textContent;
-
-    selectedText.textContent =
-    tempText;
-
-    // SWAP VALUE
-    const tempValue =
-    defaultChip.getAttribute(
-        "data-value"
-    );
-
-    defaultChip.setAttribute(
-        "data-value",
-        chip.getAttribute(
-            "data-value"
-        )
-    );
-
-    chip.setAttribute(
-        "data-value",
-        tempValue
-    );
-}
+                const temp = defaultChip.dataset.value;
+                defaultChip.dataset.value = chip.dataset.value;
+                chip.dataset.value = temp;
+            }
 
             // SOUND
-            if (chipSound) {
-
-                chipSound.currentTime = 0;
-
-                chipSound.play()
-                .catch(() => {});
+            if (GameState.chipSound) {
+                GameState.chipSound.currentTime = 0;
+                GameState.chipSound.play().catch(()=>{});
             }
 
-            // AUTO CLOSE
-            if (
-                !chip.classList.contains(
-                    "default-chip"
-                )
-            ) {
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
+        });
+    });
 
-                container.classList.remove(
-                    "expanded"
-                );
-
-                container.classList.add(
-                    "collapsed"
-                );
-            }
-
-        }
-    );
-
-});
-    // OUTSIDE CLICK CLOSE
-
-    document.addEventListener(
-        "click",
-        () => {
-
-            container.classList.remove(
-                "expanded"
-            );
-
-            container.classList.add(
-                "collapsed"
-            );
-
-        }
-    );
-
+    document.addEventListener("click", () => {
+        container.classList.remove("expanded");
+        container.classList.add("collapsed");
+    });
 }
