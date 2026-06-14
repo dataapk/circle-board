@@ -31,21 +31,27 @@ const chipMap = {
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
 
-    GameState.chipSound = document.getElementById("chipSound");
-    GameState.spinSound = document.getElementById("spinSound");
+    chipSound = document.getElementById("chipSound");
+    spinSound = document.getElementById("spinSound");
 
-    if (GameState.spinSound) {
-        GameState.spinSound.volume = 0.7;
+    if (chipSound) {
+
+    console.log("Chip Clicked");
+    console.log(chipSound);
+
+    chipSound.currentTime = 0;
+    chipSound.play().catch(() => {});
+
+    }
+    if (spinSound) {
+        spinSound.volume = 0.7;
     }
 
     initChipSystem();
-    initSymbolSystem();
 
-    console.log(
-document.querySelector(".chips-container").className
-);
+    console.log("🎰 Chip System Ready");
+
 });
-
 // ===============================
 // 🪙 CHIP SYSTEM
 // ===============================
