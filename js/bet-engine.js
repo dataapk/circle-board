@@ -237,37 +237,63 @@ symbolBoxes.forEach(box => {
             selectedSymbol =
             box.dataset.symbol;
     
-// START: BET MARKER
+// START: PROFESSIONAL BET STORAGE
 
 if(selectedChip){
 
-    const oldMarker =
+    const chipValue =
+    parseFloat(
+        selectedChip
+    );
+
+    if(
+        !bets[selectedSymbol]
+    ){
+
+        bets[selectedSymbol] = 0;
+    }
+
+    bets[selectedSymbol] +=
+    chipValue;
+
+    betHistory.push({
+
+        symbol:
+        selectedSymbol,
+
+        amount:
+        chipValue
+
+    });
+
+    let marker =
     box.querySelector(
         ".bet-marker"
     );
 
-    if(oldMarker){
+    if(!marker){
 
-        oldMarker.remove();
+        marker =
+        document.createElement(
+            "div"
+        );
+
+        marker.className =
+        "bet-marker";
+
+        box.appendChild(
+            marker
+        );
     }
 
-    const marker =
-    document.createElement(
-        "div"
-    );
-
-    marker.className =
-    "bet-marker";
-
     marker.textContent =
-    selectedChip;
+    bets[
+        selectedSymbol
+    ].toFixed(2);
 
-    box.appendChild(
-        marker
-    );
 }
 
-// END: BET MARKER
+// END: PROFESSIONAL BET STORAGE
 
             console.log(
                 "Selected Symbol:",
