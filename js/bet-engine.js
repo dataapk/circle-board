@@ -229,7 +229,8 @@ symbolBoxes.forEach(box => {
 
             selectedSymbol =
             box.dataset.symbol;
-            // START: BET MARKER
+    
+// START: BET MARKER
 
 if(selectedChip){
 
