@@ -200,19 +200,7 @@ function updateBalanceUI() {
 // ===============================
 // 💰 BALANCE UI END
 // ===============================
-// ===============================
-// STEP 4: CONNECT TO WHEEL ENGINE
-// ===============================
 
-setTimeout(() => {
-
-    isSpinning = false;
-
-    const finalAngle = currentRotation % 360;
-
-    handleWheelResult(finalAngle);
-
-}, 9000);
 // ===============================
 // STEP 5: CHIP → BET CONNECT
 // ===============================
