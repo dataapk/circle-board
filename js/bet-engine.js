@@ -33,10 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initChipSystem();
 
-    console.log(
-    "Selected Chip:",
-    selectedChip
-);
+    console.log("🎰 Chip System Ready");
+
+});
 // START: PREMIUM SYMBOL ENGINE
 
 const symbolBoxes =
