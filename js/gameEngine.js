@@ -6,26 +6,18 @@
 // ======================================================
 
 // 🧠 ALL GAME DATA LIVES HERE
+
 window.GameEngine = {
 
-    // 💰 PLAYER DATA
     balance: 1000,
-
-    // 🪙 CHIP SYSTEM
     selectedChip: null,
-
-    // 🎯 BET STORAGE
     bets: {},
-
-    // 🎰 GAME STATE
     isSpinning: false,
     lastResult: null,
 
-    // 🔊 AUDIO ELEMENTS (linked from HTML)
     chipSound: null,
-    spinSound: null
+    spinSound: null,
 };
-
 // ======================================================
 // END: GLOBAL GAME STATE
 // ======================================================
