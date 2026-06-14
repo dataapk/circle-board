@@ -137,106 +137,17 @@ function spinGame() {
 
     if (GameEngine.isSpinning) return;
 
+    if (!GameEngine.selectedChip) {
+        console.log("❌ Select chip first");
+        return;
+    }
+
     GameEngine.isSpinning = true;
 
-    console.log("🎰 SPIN STARTED");
+    playSpinSound();
 
-    if (typeof spinWheel === "function") {
-        spinWheel();
-    }
-
+    spinWheel();
 }
-
-
-// ===============================
-// 🎡 WHEEL ENGINE
-// ===============================
-
-let currentRotation = 0;
-
-function spinWheel() {
-
-    const wheel = document.getElementById("wheel");
-
-    const randomAngle = Math.floor(Math.random() * 360);
-
-    currentRotation += 3600 + randomAngle;
-
-    wheel.style.transition = "transform 8s ease-out";
-    wheel.style.transform = `rotate(${currentRotation}deg)`;
-
-    setTimeout(() => {
-
-        const result = Math.floor(randomAngle / 60);
-
-        handleWheelResult(result);
-
-    }, 8000);
-}
-
-
-// ===============================
-// 🎯 RESULT + PAYOUT
-// ===============================
-
-function handleWheelResult(result) {
-
-    console.log("🎯 RESULT:", result);
-
-    let win = 0;
-
-    for (let key in GameEngine.bets) {
-
-        if (parseInt(key) === result) {
-            win += GameEngine.bets[key] * 9;
-        }
-    }
-
-    GameEngine.balance += win;
-
-    GameEngine.bets = {};
-    GameEngine.isSpinning = false;
-
-    updateBalanceUI();
-
-    console.log("💰 WIN:", win);
-}
-
-
-// ===============================
-// 📊 UI UPDATE
-// ===============================
-
-function updateBalanceUI() {
-
-    const el = document.getElementById("balanceAmount");
-
-    if (!el) return;
-
-    el.innerText = "$" + GameEngine.balance.toFixed(2);
-}
-
-
-// ===============================
-// 🔊 SOUND HELPERS
-// ===============================
-
-function playChipSound() {
-
-    if (!GameEngine.chipSound) return;
-
-    GameEngine.chipSound.currentTime = 0;
-    GameEngine.chipSound.play().catch(() => {});
-}
-
-function playSpinSound() {
-
-    if (!GameEngine.spinSound) return;
-
-    GameEngine.spinSound.currentTime = 0;
-    GameEngine.spinSound.play().catch(() => {});
-}
-
 
 // ===============================
 // 🌐 EXPORT (optional safe)
