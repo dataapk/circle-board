@@ -6,42 +6,41 @@
 // 🚀 GAME INIT START
 // ===============================
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    initGame();
-
-    console.log("🎮 GAME READY");
-});
-
 function initGame() {
 
-    // 🔊 AUDIO LOAD
+    try {
 
-    GameEngine.chipSound =
-        document.getElementById("chipSound");
+        console.log("🧠 INIT GAME START");
 
-    GameEngine.spinSound =
-        document.getElementById("spinSound");
+        if (typeof initChipSystem === "function") {
+            initChipSystem();
+        } else {
+            console.log("❌ initChipSystem missing");
+        }
 
-    console.log(
-        "🔊 CHIP SOUND:",
-        GameEngine.chipSound
-    );
+        if (typeof setupBoardSystem === "function") {
+            setupBoardSystem();
+        } else {
+            console.log("❌ setupBoardSystem missing");
+        }
 
-    console.log(
-        "🔊 SPIN SOUND:",
-        GameEngine.spinSound
-    );
+        if (typeof setupSpinButton === "function") {
+            setupSpinButton();
+        } else {
+            console.log("❌ setupSpinButton missing");
+        }
 
-    // 🎮 SYSTEMS
+        if (typeof updateBalanceUI === "function") {
+            updateBalanceUI();
+        } else {
+            console.log("❌ updateBalanceUI missing");
+        }
 
-    initChipSystem();
+        console.log("🎮 GAME READY SAFE");
 
-    setupBoardSystem();
-
-    setupSpinButton();
-
-    updateBalanceUI();
+    } catch (err) {
+        console.log("💥 INIT ERROR:", err);
+    }
 }
 
 // ===============================
