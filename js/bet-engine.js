@@ -69,6 +69,7 @@ function initChipSystem() {
 
     container.classList.toggle("expanded");
     container.classList.toggle("collapsed");
+
 });
 
     // CHIP SELECT
