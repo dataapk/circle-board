@@ -7,11 +7,94 @@
 // 🚀 START: GAME INIT SECTION
 // ======================================================
 
-// initGame()
 
-// startGame()
 
-// connectSystems()
+function initGame() {
+
+    console.log(
+        "🧠 INIT GAME START"
+    );
+
+    try {
+
+        // 🪙 CHIP SYSTEM
+
+        if (
+            typeof initChipSystem ===
+            "function"
+        ) {
+
+            initChipSystem();
+        }
+
+        // 🎯 TABLE SYSTEM
+
+        if (
+            typeof setupBoardSystem ===
+            "function"
+        ) {
+
+            setupBoardSystem();
+        }
+
+        // 🎰 SPIN BUTTON
+
+        if (
+            typeof setupSpinButton ===
+            "function"
+        ) {
+
+            setupSpinButton();
+        }
+
+        console.log(
+            "🎮 GAME READY"
+        );
+
+    } catch (err) {
+
+        console.log(
+            "💥 GAME INIT ERROR:",
+            err
+        );
+    }
+}
+
+
+
+function startGame() {
+
+    initGame();
+}
+
+
+
+function connectSystems() {
+
+    console.log(
+        "🔗 SYSTEMS CONNECTED"
+    );
+}
+
+
+
+// AUTO START
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        console.log(
+            "🚀 GAME DOM READY"
+        );
+
+        startGame();
+
+        connectSystems();
+    }
+);
+
+
 
 // ======================================================
 // 🚀 END: GAME INIT SECTION
@@ -23,15 +106,116 @@
 // 🪙 START: CHIP SECTION
 // ======================================================
 
-// initChipSystem()
 
-// selectChip()
 
-// updateChipUI()
+function initChipSystem() {
 
-// openChipTray()
+    const chips =
+        document.querySelectorAll(
+            ".chip"
+        );
 
-// closeChipTray()
+    chips.forEach(
+        chip => {
+
+            chip.addEventListener(
+                "click",
+                () => {
+
+                    selectChip(
+                        chip
+                    );
+                }
+            );
+        }
+    );
+}
+
+
+
+function selectChip(
+    chip
+) {
+
+    const chips =
+        document.querySelectorAll(
+            ".chip"
+        );
+
+    chips.forEach(
+        c => {
+
+            c.classList.remove(
+                "active"
+            );
+        }
+    );
+
+    chip.classList.add(
+        "active"
+    );
+
+    GameEngine.selectedChip = {
+
+        value:
+            Number(
+                chip.dataset.value
+            ),
+
+        element:
+            chip
+    };
+
+    playChipSound();
+
+    console.log(
+        "🪙 CHIP:",
+        GameEngine.selectedChip.value
+    );
+}
+
+
+
+function getSelectedChip() {
+
+    return (
+        GameEngine.selectedChip
+    );
+}
+
+
+
+function clearSelectedChip() {
+
+    const chips =
+        document.querySelectorAll(
+            ".chip"
+        );
+
+    chips.forEach(
+        chip => {
+
+            chip.classList.remove(
+                "active"
+            );
+        }
+    );
+
+    GameEngine.selectedChip =
+        null;
+}
+
+
+
+function hasSelectedChip() {
+
+    return (
+        GameEngine.selectedChip !==
+        null
+    );
+}
+
+
 
 // ======================================================
 // 🪙 END: CHIP SECTION
@@ -43,13 +227,126 @@
 // 🎯 START: TABLE SECTION
 // ======================================================
 
-// setupBoardSystem()
 
-// onTableClick()
 
-// placeChipVisual()
+function setupBoardSystem() {
 
-// removeChipVisual()
+    const boxes =
+        document.querySelectorAll(
+            ".symbol-box"
+        );
+
+    boxes.forEach(
+        box => {
+
+            box.addEventListener(
+                "click",
+                () => {
+
+                    onTableClick(
+                        box
+                    );
+                }
+            );
+        }
+    );
+}
+
+
+
+function onTableClick(
+    box
+) {
+
+    if (
+        !hasSelectedChip()
+    ) {
+
+        console.log(
+            "❌ Select chip first"
+        );
+
+        return;
+    }
+
+    const symbol =
+        box.dataset.symbol;
+
+    const chip =
+        getSelectedChip();
+
+    const amount =
+        chip.value;
+
+    const success =
+        subtractBalance(
+            amount
+        );
+
+    if (
+        !success
+    ) {
+
+        return;
+    }
+
+    addBet(
+        symbol,
+        amount
+    );
+
+    placeChipVisual(
+        box,
+        amount
+    );
+
+    console.log(
+        "💰 BET:",
+        symbol,
+        amount
+    );
+}
+
+
+
+function placeChipVisual(
+    box,
+    amount
+) {
+
+    const marker =
+        document.createElement(
+            "div"
+        );
+
+    marker.className =
+        "bet-marker";
+
+    marker.innerText =
+        amount;
+
+    box.appendChild(
+        marker
+    );
+}
+
+
+
+function clearBoardVisuals() {
+
+    document
+        .querySelectorAll(
+            ".bet-marker"
+        )
+        .forEach(
+            marker => {
+
+                marker.remove();
+            }
+        );
+}
+
+
 
 // ======================================================
 // 🎯 END: TABLE SECTION
@@ -61,63 +358,371 @@
 // 🎰 START: SPIN BUTTON SECTION
 // ======================================================
 
-// setupSpinButton()
 
-// spinGame()
 
-// lockSpinButton()
+function setupSpinButton() {
 
-// unlockSpinButton()
+    const btn =
+        document.getElementById(
+            "spinBtn"
+        );
+
+    if (!btn) {
+
+        console.log(
+            "❌ spinBtn not found"
+        );
+
+        return;
+    }
+
+    btn.addEventListener(
+        "click",
+        spinGame
+    );
+
+    console.log(
+        "🎰 SPIN BUTTON READY"
+    );
+}
+
+
+
+function spinGame() {
+
+    console.log(
+        "🔥 SPIN START REQUEST"
+    );
+
+    if (
+        isWheelSpinning()
+    ) {
+
+        console.log(
+            "❌ Wheel already spinning"
+        );
+
+        return;
+    }
+
+    if (
+        !hasBets()
+    ) {
+
+        console.log(
+            "❌ Place a bet first"
+        );
+
+        return;
+    }
+
+    const started =
+        startSpin();
+
+    if (!started) {
+
+        return;
+    }
+
+    playSpinSound();
+
+    lockSpinButton();
+
+    spinWheel();
+}
+
+
+
+function lockSpinButton() {
+
+    const btn =
+        document.getElementById(
+            "spinBtn"
+        );
+
+    if (!btn) return;
+
+    btn.disabled = true;
+}
+
+
+
+function unlockSpinButton() {
+
+    const btn =
+        document.getElementById(
+            "spinBtn"
+        );
+
+    if (!btn) return;
+
+    btn.disabled = false;
+}
+
+
 
 // ======================================================
 // 🎰 END: SPIN BUTTON SECTION
 // ======================================================
 
 
-
 // ======================================================
 // 🎡 START: WHEEL ANIMATION SECTION
 // ======================================================
 
-// spinWheel()
 
-// animateWheel()
 
-// stopWheel()
+function spinWheel() {
 
-// updateWheelUI()
+    const wheel =
+        document.getElementById(
+            "wheel"
+        );
+
+    if (!wheel) {
+
+        console.log(
+            "❌ Wheel not found"
+        );
+
+        stopSpin();
+
+        unlockSpinButton();
+
+        return;
+    }
+
+    const spins = 15;
+
+    const randomAngle =
+        Math.floor(
+            Math.random() * 360
+        );
+
+    const totalRotation =
+        (spins * 360) +
+        randomAngle;
+
+    addWheelRotation(
+        totalRotation
+    );
+
+    const currentAngle =
+        getWheelRotation();
+
+    wheel.style.transition =
+        "transform 9s ease-out";
+
+    wheel.style.transform =
+        `rotate(${currentAngle}deg)`;
+
+
+    // ==========================
+    // 🎯 SPIN COMPLETE
+    // ==========================
+
+    setTimeout(
+        () => {
+
+            const finalAngle =
+                currentAngle % 360;
+
+            console.log(
+                "🎡 FINAL ANGLE:",
+                finalAngle
+            );
+
+            handleWheelResult(
+                finalAngle
+            );
+
+            clearBoardVisuals();
+
+            stopSpin();
+
+            unlockSpinButton();
+
+        },
+        9000
+    );
+}
+
+
 
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
 // ======================================================
 
 
-
 // ======================================================
-// 🎯 START: POINTER SECTION
-// ======================================================
-
-// animatePointer()
-
-// pointerTick()
-
-// pointerStop()
-
-// ======================================================
-// 🎯 END: POINTER SECTION
+// 📍 START: POINTER SECTION
 // ======================================================
 
+
+
+function initPointer() {
+
+    const pointer =
+        document.getElementById(
+            "pointer"
+        );
+
+    if (!pointer) {
+
+        console.log(
+            "❌ Pointer not found"
+        );
+
+        return;
+    }
+
+    console.log(
+        "📍 POINTER READY"
+    );
+}
+
+
+
+function pointerTick() {
+
+    const pointer =
+        document.getElementById(
+            "pointer"
+        );
+
+    if (!pointer) {
+        return;
+    }
+
+    pointer.classList.add(
+        "tick"
+    );
+
+    setTimeout(
+        () => {
+
+            pointer.classList.remove(
+                "tick"
+            );
+
+        },
+        100
+    );
+}
+
+
+
+function resetPointer() {
+
+    const pointer =
+        document.getElementById(
+            "pointer"
+        );
+
+    if (!pointer) {
+        return;
+    }
+
+    pointer.classList.remove(
+        "tick"
+    );
+}
+
+
+
+// ======================================================
+// 📍 END: POINTER SECTION
+// ======================================================
 
 
 // ======================================================
 // 🏆 START: RESULT DISPLAY SECTION
 // ======================================================
 
-// showResult()
 
-// hideResult()
 
-// highlightWinner()
+function updateResultDisplay(
+    result
+) {
+
+    const resultElement =
+        document.getElementById(
+            "resultText"
+        );
+
+    if (
+        !resultElement
+    ) {
+        return;
+    }
+
+    resultElement.innerText =
+        result.toUpperCase();
+}
+
+
+
+function highlightWinningBox(
+    result
+) {
+
+    clearWinningHighlight();
+
+    const winningBox =
+        document.querySelector(
+            `[data-symbol="${result}"]`
+        );
+
+    if (
+        !winningBox
+    ) {
+        return;
+    }
+
+    winningBox.classList.add(
+        "winner"
+    );
+}
+
+
+
+function clearWinningHighlight() {
+
+    document
+        .querySelectorAll(
+            ".symbol-box"
+        )
+        .forEach(
+            box => {
+
+                box.classList.remove(
+                    "winner"
+                );
+            }
+        );
+}
+
+
+
+function showResult(
+    result
+) {
+
+    updateResultDisplay(
+        result
+    );
+
+    highlightWinningBox(
+        result
+    );
+
+    console.log(
+        "🏆 RESULT UI:",
+        result
+    );
+}
+
+
 
 // ======================================================
 // 🏆 END: RESULT DISPLAY SECTION
@@ -129,9 +734,61 @@
 // 💰 START: BALANCE DISPLAY SECTION
 // ======================================================
 
-// refreshBalanceDisplay()
 
-// animateBalanceChange()
+
+function showBalance() {
+
+    updateBalanceUI();
+}
+
+
+
+function refreshBalanceDisplay() {
+
+    updateBalanceUI();
+}
+
+
+
+function animateBalanceUpdate() {
+
+    const balanceElement =
+        document.getElementById(
+            "balanceAmount"
+        );
+
+    if (
+        !balanceElement
+    ) {
+        return;
+    }
+
+    balanceElement.classList.add(
+        "balance-update"
+    );
+
+    setTimeout(
+        () => {
+
+            balanceElement.classList.remove(
+                "balance-update"
+            );
+
+        },
+        500
+    );
+}
+
+
+
+function onBalanceChanged() {
+
+    updateBalanceUI();
+
+    animateBalanceUpdate();
+}
+
+
 
 // ======================================================
 // 💰 END: BALANCE DISPLAY SECTION
@@ -143,13 +800,136 @@
 // 🎨 START: UI EFFECT SECTION
 // ======================================================
 
-// showToast()
 
-// showWinAnimation()
 
-// showLoseAnimation()
+function playWinEffect() {
 
-// flashElement()
+    document.body.classList.add(
+        "win-effect"
+    );
+
+    setTimeout(
+        () => {
+
+            document.body.classList.remove(
+                "win-effect"
+            );
+
+        },
+        1500
+    );
+}
+
+
+
+function playLoseEffect() {
+
+    document.body.classList.add(
+        "lose-effect"
+    );
+
+    setTimeout(
+        () => {
+
+            document.body.classList.remove(
+                "lose-effect"
+            );
+
+        },
+        1000
+    );
+}
+
+
+
+function flashSpinButton() {
+
+    const btn =
+        document.getElementById(
+            "spinBtn"
+        );
+
+    if (!btn) {
+        return;
+    }
+
+    btn.classList.add(
+        "button-flash"
+    );
+
+    setTimeout(
+        () => {
+
+            btn.classList.remove(
+                "button-flash"
+            );
+
+        },
+        500
+    );
+}
+
+
+
+function flashWinningBox(
+    result
+) {
+
+    const box =
+        document.querySelector(
+            `[data-symbol="${result}"]`
+        );
+
+    if (!box) {
+        return;
+    }
+
+    box.classList.add(
+        "winner-flash"
+    );
+
+    setTimeout(
+        () => {
+
+            box.classList.remove(
+                "winner-flash"
+            );
+
+        },
+        2000
+    );
+}
+
+
+
+function pulseResultDisplay() {
+
+    const resultElement =
+        document.getElementById(
+            "resultText"
+        );
+
+    if (!resultElement) {
+        return;
+    }
+
+    resultElement.classList.add(
+        "result-pulse"
+    );
+
+    setTimeout(
+        () => {
+
+            resultElement.classList.remove(
+                "result-pulse"
+            );
+
+        },
+        1000
+    );
+}
+
+
 
 // ======================================================
 // 🎨 END: UI EFFECT SECTION
@@ -159,13 +939,102 @@
 
 // ======================================================
 // 📱 START: MOBILE UI SECTION
+// ANDROID + CHROME MOBILE TARGET
 // ======================================================
 
-// mobileOpenMenu()
 
-// mobileCloseMenu()
 
-// mobileResizeFix()
+function initMobileUI() {
+
+    lockPageScroll();
+
+    preventZoom();
+
+    setupTouchFeedback();
+
+    console.log(
+        "📱 MOBILE UI READY"
+    );
+}
+
+
+
+function lockPageScroll() {
+
+    document.body.style.overflow =
+        "hidden";
+
+    document.documentElement.style.overflow =
+        "hidden";
+}
+
+
+
+function preventZoom() {
+
+    const viewport =
+        document.querySelector(
+            'meta[name="viewport"]'
+        );
+
+    if (!viewport) {
+        return;
+    }
+
+    viewport.setAttribute(
+        "content",
+        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    );
+}
+
+
+
+function setupTouchFeedback() {
+
+    const buttons =
+        document.querySelectorAll(
+            "button"
+        );
+
+    buttons.forEach(
+        button => {
+
+            button.addEventListener(
+                "touchstart",
+                () => {
+
+                    button.classList.add(
+                        "touch-active"
+                    );
+                }
+            );
+
+            button.addEventListener(
+                "touchend",
+                () => {
+
+                    button.classList.remove(
+                        "touch-active"
+                    );
+                }
+            );
+        }
+    );
+}
+
+
+
+function isMobileDevice() {
+
+    return (
+        /Android|iPhone|iPad|iPod/i
+        .test(
+            navigator.userAgent
+        )
+    );
+}
+
+
 
 // ======================================================
 // 📱 END: MOBILE UI SECTION
@@ -177,11 +1046,117 @@
 // 🧪 START: UI DEBUG SECTION
 // ======================================================
 
-// debugUI()
 
-// debugWheel()
 
-// debugChips()
+function debugSelectedChip() {
+
+    console.log(
+        "🪙 SELECTED CHIP:",
+        GameEngine.selectedChip
+    );
+}
+
+
+
+function debugBalanceUI() {
+
+    const el =
+        document.getElementById(
+            "balanceAmount"
+        );
+
+    console.log(
+        "💰 BALANCE UI:",
+        el
+    );
+}
+
+
+
+function debugSpinButton() {
+
+    const btn =
+        document.getElementById(
+            "spinBtn"
+        );
+
+    console.log(
+        "🎰 SPIN BUTTON:",
+        btn
+    );
+}
+
+
+
+function debugWheelUI() {
+
+    const wheel =
+        document.getElementById(
+            "wheel"
+        );
+
+    console.log(
+        "🎡 WHEEL:",
+        wheel
+    );
+}
+
+
+
+function debugPointerUI() {
+
+    const pointer =
+        document.getElementById(
+            "pointer"
+        );
+
+    console.log(
+        "📍 POINTER:",
+        pointer
+    );
+}
+
+
+
+function debugResultUI() {
+
+    const result =
+        document.getElementById(
+            "resultText"
+        );
+
+    console.log(
+        "🏆 RESULT UI:",
+        result
+    );
+}
+
+
+
+function debugGameUI() {
+
+    console.log(
+        "===================="
+    );
+
+    debugSelectedChip();
+
+    debugBalanceUI();
+
+    debugSpinButton();
+
+    debugWheelUI();
+
+    debugPointerUI();
+
+    debugResultUI();
+
+    console.log(
+        "===================="
+    );
+}
+
+
 
 // ======================================================
 // 🧪 END: UI DEBUG SECTION
