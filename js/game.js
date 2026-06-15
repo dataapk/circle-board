@@ -394,7 +394,7 @@ function spinWheel() {
 
     if (!wheel) return;
 
-    const duration = 6000;
+    const duration = 9500;
 
     const startAngle = GameEngine.currentRotation || 0;
 
