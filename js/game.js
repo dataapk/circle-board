@@ -386,21 +386,24 @@ function startNewRound() {
 // 🎡 START: WHEEL ANIMATION SECTION
 // ======================================================
 
-
-
 function spinWheel() {
 
     const wheel = document.querySelector(".wheel-img");
 
-    if (!wheel) return;
+    if (!wheel) {
+        console.log("❌ Wheel not found");
+        return;
+    }
 
     const duration = 9500;
 
     const startAngle = GameEngine.currentRotation || 0;
 
-    const extraSpins = 5 * 360;
+    const extraSpins = 6 * 360;
 
-    const targetAngle = startAngle + (extraSpins * GameEngine.spinDirection);
+    const targetAngle =
+        startAngle +
+        (extraSpins * GameEngine.spinDirection);
 
     const startTime = performance.now();
 
@@ -410,14 +413,17 @@ function spinWheel() {
 
         const progress = Math.min(elapsed / duration, 1);
 
-        // 🎯 smooth ease in-out (no sudden speed)
+        // smooth easing
         const ease = progress < 0.5
             ? 4 * progress * progress * progress
             : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
-        const angle = startAngle + (targetAngle - startAngle) * ease;
+        const angle =
+            startAngle +
+            (targetAngle - startAngle) * ease;
 
-        wheel.style.transform = `rotate(${angle}deg)`;
+        wheel.style.transform =
+            `rotate(${angle}deg)`;
 
         if (progress < 1) {
             requestAnimationFrame(animate);
@@ -425,8 +431,9 @@ function spinWheel() {
 
             GameEngine.currentRotation = targetAngle;
 
-            // 🔁 CHANGE DIRECTION NEXT SPIN
             GameEngine.spinDirection *= -1;
+
+            console.log("🎯 SPIN COMPLETE");
 
             handleWheelResult(targetAngle);
         }
@@ -434,8 +441,6 @@ function spinWheel() {
 
     requestAnimationFrame(animate);
 }
-
-
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
 // ======================================================
