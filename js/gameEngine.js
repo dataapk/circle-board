@@ -1,7 +1,31 @@
 // ======================================================
-// 🎮 GAME ENGINE
+// 🧠 START: GLOBAL GAME STATE
 // ======================================================
 
+window.GameEngine = {
+
+    balance: 1000,
+
+    selectedChip: null,
+
+    bets: {},
+
+    isSpinning: false,
+
+    lastResult: null,
+
+    currentRotation: 0,
+
+    chipSound: null,
+
+    spinSound: null,
+
+    tickSound: null
+};
+
+// ======================================================
+// 🧠 END: GLOBAL GAME STATE
+// ======================================================
 
 // ======================================================
 // 🚀 START: ENGINE BOOT SECTION
