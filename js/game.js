@@ -208,24 +208,20 @@ function onTableClick(box) {
     console.log("💰 BET:", symbol, amount);
 }
 
-
-// 🎯 VISUAL CHIP
+// ======================================================
+// FIX STEP 3: CHIP VISUAL SYSTEM
+// ======================================================
 function placeChipVisual(box, amount) {
 
     const marker = document.createElement("div");
 
     marker.className = "bet-marker";
-    marker.innerText = amount;
+
+    marker.innerText = "$" + amount;
 
     box.appendChild(marker);
-}
 
-
-// 🧹 CLEAR BOARD
-function clearBoardVisuals() {
-
-    document.querySelectorAll(".bet-marker")
-        .forEach(marker => marker.remove());
+    console.log("🧩 CHIP VISUAL ADDED:", amount);
 }
 
 // ======================================================
