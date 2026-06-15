@@ -214,11 +214,18 @@ function playSpinSound() {
 
     if (!GameEngine.spinSound) return;
 
+    // ❌ prevent auto duplicate trigger
+    if (GameEngine.isSoundPlaying) return;
+
+    GameEngine.isSoundPlaying = true;
+
     GameEngine.spinSound.currentTime = 0;
     GameEngine.spinSound.volume = 1;
     GameEngine.spinSound.loop = true;
 
-    GameEngine.spinSound.play().catch(() => {});
+    GameEngine.spinSound.play().catch(() => {
+        GameEngine.isSoundPlaying = false;
+    });
 }
 
 
