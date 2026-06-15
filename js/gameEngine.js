@@ -17,9 +17,8 @@ window.GameEngine = {
     currentRotation: 0,
 
     chipSound: null,
-
+    spinbuttonsound: null,
     spinSound: null,
-
     tickSound: null
 };
 
