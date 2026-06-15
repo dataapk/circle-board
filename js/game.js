@@ -289,51 +289,28 @@ function setupSpinButton() {
 
 function spinGame() {
 
-    // 🔊 BUTTON CLICK SOUND
     playSpinButtonSound();
 
-    console.log(
-        "🔥 SPIN START REQUEST"
-    );
+    console.log("🔥 SPIN START REQUEST");
 
-    if (
-        isWheelSpinning()
-    ) {
-
-        console.log(
-            "❌ Wheel already spinning"
-        );
-
+    if (GameEngine.isSpinning) {
+        console.log("❌ Wheel already spinning");
         return;
     }
 
-    if (
-        !hasBets()
-    ) {
-
-        console.log(
-            "❌ Place a bet first"
-        );
-
+    if (!hasBets()) {
+        console.log("❌ Place a bet first");
         return;
     }
 
-    const started =
-        startSpin();
+    GameEngine.isSpinning = true; // 🔥 SINGLE SOURCE OF TRUTH
 
-    if (!started) {
-
-        return;
-    }
-
-    // 🎡 WHEEL SPIN SOUND
     playSpinSound();
 
     lockSpinButton();
 
     spinWheel();
 }
-
 function lockSpinButton() {
 
     const btn =
