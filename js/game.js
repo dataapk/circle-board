@@ -390,81 +390,50 @@ function startNewRound() {
 
 function spinWheel() {
 
-    const wheel =
-        document.getElementById(
-            "wheel"
-        );
+    const wheel = document.querySelector(".wheel-img");
 
-    if (!wheel) {
+    if (!wheel) return;
 
-        console.log(
-            "❌ Wheel not found"
-        );
+    const duration = 6000;
 
-        stopSpin();
+    const startAngle = GameEngine.currentRotation || 0;
 
-        unlockSpinButton();
+    const extraSpins = 5 * 360;
 
-        return;
+    const targetAngle = startAngle + (extraSpins * GameEngine.spinDirection);
+
+    const startTime = performance.now();
+
+    function animate(time) {
+
+        const elapsed = time - startTime;
+
+        const progress = Math.min(elapsed / duration, 1);
+
+        // 🎯 smooth ease in-out (no sudden speed)
+        const ease = progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+        const angle = startAngle + (targetAngle - startAngle) * ease;
+
+        wheel.style.transform = `rotate(${angle}deg)`;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+
+            GameEngine.currentRotation = targetAngle;
+
+            // 🔁 CHANGE DIRECTION NEXT SPIN
+            GameEngine.spinDirection *= -1;
+
+            handleWheelResult(targetAngle);
+        }
     }
 
-    const spins = 18;
-
-    const randomAngle =
-        Math.floor(
-            Math.random() * 360
-        );
-
-    const totalRotation =
-        (spins * 360) +
-        randomAngle;
-
-    addWheelRotation(
-        totalRotation
-    );
-
-    const currentAngle =
-        getWheelRotation();
-
-    wheel.style.transition =
-        "transform 10s cubic-bezier(0.08, 0.85, 0.18, 1)";
-
-    wheel.style.transform =
-        `rotate(${currentAngle}deg)`;
-
-    console.log(
-        "🎡 SPIN START:",
-        currentAngle
-    );
-
-    setTimeout(
-        () => {
-
-            const finalAngle =
-                currentAngle % 360;
-
-            console.log(
-                "🎯 FINAL ANGLE:",
-                finalAngle
-            );
-
-            handleWheelResult(
-                finalAngle
-            );
-
-            clearBoardVisuals();
-
-            stopSpin();
-
-            unlockSpinButton();
-
-        },
-        10000
-    );
+    requestAnimationFrame(animate);
 }
-
-
-
 
 
 // ======================================================
