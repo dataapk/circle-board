@@ -161,50 +161,31 @@ function initChipSystem() {
 // ======================================================
 
 
-
 // ======================================================
-// 🎯 START: TABLE SECTION
+// 🎯 START: TABLE SECTION (FIXED)
 // ======================================================
-
-
 
 function setupBoardSystem() {
 
     const boxes =
-        document.querySelectorAll(
-            ".symbol-box"
-        );
+        document.querySelectorAll(".symbol-box");
 
-    boxes.forEach(
-        box => {
+    boxes.forEach(box => {
 
-            box.addEventListener(
-                "click",
-                () => {
+        box.addEventListener("click", () => {
+            onTableClick(box);
+        });
 
-                    onTableClick(
-                        box
-                    );
-                }
-            );
-        }
-    );
+    });
 }
 
 
+// 🧠 FIX: INLINE CHECK (NO MISSING FUNCTION)
+function onTableClick(box) {
 
-function onTableClick(
-    box
-) {
-
-    if (
-        !hasSelectedChip()
-    ) {
-
-        console.log(
-            "❌ Select chip first"
-        );
-
+    // ❌ no chip selected
+    if (!GameEngine.selectedChip) {
+        console.log("❌ Select chip first");
         return;
     }
 
@@ -212,83 +193,45 @@ function onTableClick(
         box.dataset.symbol;
 
     const chip =
-        getSelectedChip();
+        GameEngine.selectedChip;
 
     const amount =
         chip.value;
 
     const success =
-        subtractBalance(
-            amount
-        );
+        subtractBalance(amount);
 
-    if (
-        !success
-    ) {
+    if (!success) return;
 
-        return;
-    }
+    addBet(symbol, amount);
 
-    addBet(
-        symbol,
-        amount
-    );
+    placeChipVisual(box, amount);
 
-    placeChipVisual(
-        box,
-        amount
-    );
-
-    console.log(
-        "💰 BET:",
-        symbol,
-        amount
-    );
+    console.log("💰 BET:", symbol, amount);
 }
 
 
+// 🎯 VISUAL CHIP
+function placeChipVisual(box, amount) {
 
-function placeChipVisual(
-    box,
-    amount
-) {
+    const marker = document.createElement("div");
 
-    const marker =
-        document.createElement(
-            "div"
-        );
+    marker.className = "bet-marker";
+    marker.innerText = amount;
 
-    marker.className =
-        "bet-marker";
-
-    marker.innerText =
-        amount;
-
-    box.appendChild(
-        marker
-    );
+    box.appendChild(marker);
 }
 
 
-
+// 🧹 CLEAR BOARD
 function clearBoardVisuals() {
 
-    document
-        .querySelectorAll(
-            ".bet-marker"
-        )
-        .forEach(
-            marker => {
-
-                marker.remove();
-            }
-        );
+    document.querySelectorAll(".bet-marker")
+        .forEach(marker => marker.remove());
 }
 
-
-
 // ======================================================
-// 🎯 END: TABLE SECTION
+// 🎯 END: TABLE SECTION (FIXED)
 // ======================================================
 
 
