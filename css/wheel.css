@@ -514,7 +514,7 @@ html, body {
     display: flex;
     justify-content: center;
 
-    margin-top: calc(var(--space-xs) - 18px);
+    margin-top: -22px;
     margin-bottom: var(--space-xs);
 }
 /* =========================
