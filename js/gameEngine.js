@@ -38,15 +38,22 @@ document.addEventListener(
             // ==========================
             // 🔊 AUDIO SYSTEM
             // ==========================
+function initAudio() {
 
-            if (
-                typeof initAudio ===
-                "function"
-            ) {
+    GameEngine.chipSound =
+        document.getElementById("chipSound");
 
-                initAudio();
-            }
+    GameEngine.spinSound =
+        document.getElementById("spinSound");
 
+    GameEngine.spinButtonSound =
+        document.getElementById("spinButtonSound");
+
+    GameEngine.tickSound =
+        document.getElementById("tickSound");
+
+    console.log("🔊 AUDIO READY");
+}
             // ==========================
             // 💾 SAVE SYSTEM
             // ==========================
