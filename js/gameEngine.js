@@ -228,24 +228,18 @@ function stopSpinSound() {
     GameEngine.spinSound.currentTime =
         0;
 }
+function playTableSound() {
 
-
-
-function playTickSound() {
-
-    if (!GameEngine.tickSound) {
+    if (!GameEngine.tableSound) {
         return;
     }
 
-    GameEngine.tickSound.currentTime =
-        0;
+    GameEngine.tableSound.currentTime = 0;
 
-    GameEngine.tickSound
+    GameEngine.tableSound
         .play()
         .catch(() => {});
 }
-
-
 
 function stopAllSounds() {
 
