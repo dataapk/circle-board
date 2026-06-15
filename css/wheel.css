@@ -858,40 +858,544 @@ html, body {
 
 
 /* ======================================================
-   🔊 START: AUDIO VISUAL FEEDBACK LAYER (UI FEEL SYSTEM)
-   ====================================================== */
+   🔊 AUDIO VISUAL FEEDBACK LAYER (UI FEEL SYSTEM)
+====================================================== */
+
+/* =========================
+   🎰 GLOBAL UI INTERACTION FEEL
+========================= */
+
+.ui-click {
+    transform: scale(0.98);
+    transition: transform 0.08s ease;
+}
+
+/* =========================
+   🪙 CHIP CLICK FEEDBACK
+========================= */
+
+.chip-clicked {
+    animation: chipPop 0.25s ease;
+}
+
+@keyframes chipPop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 18px rgba(255,215,0,0.6);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+/* =========================
+   🎮 SPIN BUTTON CLICK FEEDBACK
+========================= */
+
+.spin-clicked {
+    animation: spinPress 0.18s ease;
+}
+
+@keyframes spinPress {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(4px) scale(0.96);
+    }
+    100% {
+        transform: translateY(0px) scale(1);
+    }
+}
+
+/* =========================
+   🎡 WHEEL SPIN AUDIO STATE HOOK
+========================= */
+
+.wheel-spinning {
+    filter: brightness(1.1) contrast(1.05);
+}
+
+/* =========================
+   💰 BALANCE CHANGE FEEDBACK
+========================= */
+
+.balance-flash {
+    animation: balanceFlash 0.5s ease;
+}
+
+/* reuse safe animation */
+@keyframes balanceFlash {
+    0% {
+        color: var(--gold);
+        transform: scale(1);
+    }
+    50% {
+        color: #fff;
+        transform: scale(1.06);
+    }
+    100% {
+        color: var(--gold);
+        transform: scale(1);
+    }
+}
+
+/* =========================
+   🔊 SAFE AUDIO STATE CLASS (JS CONTROL READY)
+========================= */
+
+.audio-on {
+    /* placeholder for future mute/unmute UI state */
+}
+
+.audio-off {
+    opacity: 0.5;
+    filter: grayscale(1);
+}
+
+/* ======================================================
+   🔊 AUDIO VISUAL FEEDBACK LAYER END
+====================================================== */
+
+
+
+
+/* ======================================================
+   ✨ ANIMATION ENGINE (CASINO FX LAYER)
+====================================================== */
+
+/* =========================
+   🌟 CORE ATMOSPHERE FX (GLOW SYSTEM)
+========================= */
+
+@keyframes goldPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255,215,0,0.2);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255,215,0,0.6);
+    }
+}
+
+/* =========================
+   🎯 WIN HIGHLIGHT FX
+========================= */
+
+@keyframes winFlash {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255,215,0,0);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(255,215,0,0.8);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255,215,0,0.3);
+    }
+}
+
+/* =========================
+   🪙 CHIP SELECTION FX
+========================= */
+
+@keyframes chipSelect {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.18);
+    }
+    100% {
+        transform: scale(1.15);
+    }
+}
+
+/* =========================
+   🎡 WHEEL SPIN BEHAVIOR
+========================= */
+
+.wheel-img.spinning {
+    transition: transform 10s cubic-bezier(0.08, 0.85, 0.18, 1) !important;
+}
+
+/* =========================
+   💰 BALANCE FEEDBACK FX
+========================= */
+
+@keyframes balanceFlash {
+    0% {
+        color: var(--gold);
+        transform: scale(1);
+    }
+    50% {
+        color: #fff;
+        transform: scale(1.05);
+    }
+    100% {
+        color: var(--gold);
+        transform: scale(1);
+    }
+}
+
+.balance-update {
+    animation: balanceFlash 0.5s ease;
+}
+
+/* =========================
+   ✨ TABLE LIGHT SWEEP FX
+========================= */
+
+@keyframes lightSweep {
+    0% {
+        transform: translateX(-120%);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+}
+
+/* =========================
+   🔥 BUTTON PRESS GLOW
+========================= */
+
+.spin-section button.glow {
+    box-shadow: 0 0 25px rgba(255,215,0,0.6);
+}
+
+/* ======================================================
+   ✨ ANIMATION ENGINE END
+====================================================== */
 
 
 
 
 
 /* ======================================================
-   ✨ START: ANIMATION ENGINE (GLOW / FLARE / MOTION)
-   ====================================================== */
+   📊 GAME STATE VISUAL FEEDBACK (WIN / LOSS FX)
+====================================================== */
+
+/* =========================
+   💰 WIN STATE FX
+========================= */
+
+.state-win {
+    animation: winPulse 0.6s ease-in-out;
+    color: var(--gold);
+}
+
+@keyframes winPulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(255,215,0,0);
+    }
+    50% {
+        transform: scale(1.1);
+        text-shadow: 0 0 20px rgba(255,215,0,0.8);
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 10px rgba(255,215,0,0.4);
+    }
+}
+
+/* =========================
+   ❌ LOSS STATE FX
+========================= */
+
+.state-loss {
+    animation: lossShake 0.4s ease;
+    color: #ff4d4d;
+}
+
+@keyframes lossShake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-3px); }
+    100% { transform: translateX(0); }
+}
+
+/* =========================
+   ⚪ NEUTRAL STATE (NO WIN)
+========================= */
+
+.state-neutral {
+    opacity: 0.85;
+    filter: grayscale(10%);
+}
+
+/* =========================
+   💥 RESULT POPUP (CASINO STYLE)
+========================= */
+
+.result-popup {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    padding: 10px 18px;
+
+    border-radius: 12px;
+
+    font-weight: bold;
+
+    background: rgba(0,0,0,0.75);
+
+    border: 1px solid var(--gold);
+
+    color: var(--gold);
+
+    box-shadow: 0 0 25px rgba(255,215,0,0.4);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all 0.3s ease;
+}
+
+.result-popup.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(10px);
+}
+
+/* =========================
+   🔥 WIN FLASH SCREEN EFFECT (OPTIONAL GLOBAL)
+========================= */
+
+.screen-win {
+    animation: screenFlashWin 0.5s ease;
+}
+
+@keyframes screenFlashWin {
+    0% {
+        background: rgba(0,0,0,0.8);
+    }
+    50% {
+        background: rgba(255,215,0,0.08);
+    }
+    100% {
+        background: rgba(0,0,0,0.8);
+    }
+}
+
+/* =========================
+   ❌ LOSS SCREEN EFFECT
+========================= */
+
+.screen-loss {
+    animation: screenFlashLoss 0.4s ease;
+}
+
+@keyframes screenFlashLoss {
+    0% {
+        background: rgba(0,0,0,0.8);
+    }
+    50% {
+        background: rgba(255,0,0,0.08);
+    }
+    100% {
+        background: rgba(0,0,0,0.8);
+    }
+}
+
+/* ======================================================
+   📊 GAME STATE VISUAL FEEDBACK END
+====================================================== */
 
 
 
 
 
 /* ======================================================
-   📊 START: GAME STATE VISUAL FEEDBACK (WIN/LOSS FX)
-   ====================================================== */
+   📱 MOBILE + PERFORMANCE OPTIMIZATION (FINAL LAYER)
+====================================================== */
+
+/* =========================
+   📱 GLOBAL MOBILE FIX
+========================= */
+
+html, body {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+}
+
+/* =========================
+   🧱 SAFE GAME SCALING (MOBILE FIT)
+========================= */
+
+.game-container {
+    width: 100%;
+    max-width: 430px;
+
+    margin: 0 auto;
+
+    overflow: hidden;
+
+    transform: translateZ(0);
+}
+
+/* =========================
+   🎮 TOUCH OPTIMIZATION
+========================= */
+
+button,
+.chip,
+.symbol-box {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* =========================
+   ⚡ PERFORMANCE BOOST (GPU FORCE)
+========================= */
+
+.wheel-img,
+.spin-section button,
+.chip {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* =========================
+   📱 SMALL SCREEN FIX (≤ 380px)
+========================= */
+
+@media (max-width: 380px) {
+
+    .wheel-wrapper {
+        width: 280px;
+    }
+
+    .spin-section button {
+        width: 85px;
+        height: 85px;
+        font-size: 14px;
+    }
+
+    .chip {
+        width: 42px;
+        height: 42px;
+    }
+
+    .symbol-box {
+        padding: 8px;
+    }
+}
+
+/* =========================
+   📱 VERY SMALL DEVICES (≤ 320px)
+========================= */
+
+@media (max-width: 320px) {
+
+    .wheel-wrapper {
+        width: 250px;
+    }
+
+    .balance-box {
+        min-width: 120px;
+        font-size: 13px;
+    }
+
+    .symbol-table {
+        gap: 5px;
+    }
+}
+
+/* =========================
+   🔋 REDUCE ANIMATION (LOW-END DEVICES)
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* =========================
+   🚀 FINAL STABILITY LAYER
+========================= */
+
+body {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
 
 
 
 
 
 /* ======================================================
-   📱 START: MOBILE CASINO OPTIMIZATION LAYER
-   ====================================================== */
+   🧨 PERFORMANCE + Z-INDEX CONTROL SYSTEM
+====================================================== */
 
+/* =========================
+   📊 Z-INDEX SCALE SYSTEM
+========================= */
 
+:root {
 
+    --z-bg: 1;
+    --z-base: 10;
+    --z-ui: 50;
+    --z-overlay: 100;
+    --z-top: 999;
+    --z-max: 9999;
+}
 
+/* =========================
+   ⚡ GPU PERFORMANCE BOOST
+========================= */
+
+.wheel-img,
+.chip,
+.spin-section button,
+.symbol-box {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* =========================
+   🧊 ANTI-FLICKER FIX
+========================= */
+
+.game-container,
+.wheel-wrapper {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+/* =========================
+   🎯 SAFE LAYER CONTROL
+========================= */
+
+.wheel-wrapper { z-index: var(--z-base); }
+.pointer-img { z-index: var(--z-top); }
+.balance-box { z-index: var(--z-overlay); }
+.spin-section { z-index: var(--z-ui); }
+.symbol-table { z-index: var(--z-base); }
 
 /* ======================================================
-   🧨 START: PERFORMANCE + Z-INDEX CONTROL SYSTEM
-   ====================================================== */
+   🧨 PERFORMANCE + Z-INDEX CONTROL END
+====================================================== */
 
 
 
