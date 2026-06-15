@@ -1,1 +1,902 @@
 
+/* ======================================================
+   🌐 DESIGN SYSTEM (GLOBAL TOKENS - iGAMING CORE)
+====================================================== */
+
+:root {
+
+    /* =========================
+       🎨 PRIMARY COLORS
+    ========================= */
+
+    --bg-dark: #0b0f16;
+    --bg-soft: #1b1f2a;
+
+    --gold: #ffd700;
+    --gold-dark: #c9a100;
+
+    --text-main: #ffffff;
+    --text-dim: rgba(255,255,255,0.7);
+
+    /* =========================
+       ✨ GLOW SYSTEM
+    ========================= */
+
+    --glow-gold-soft: rgba(255,215,0,0.25);
+    --glow-gold-mid: rgba(255,215,0,0.45);
+    --glow-gold-strong: rgba(255,215,0,0.75);
+
+    --glow-dark: rgba(0,0,0,0.6);
+
+    /* =========================
+       🧱 SHADOW SYSTEM
+    ========================= */
+
+    --shadow-soft: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-mid: 0 10px 25px rgba(0,0,0,0.6);
+    --shadow-strong: 0 0 25px rgba(255,215,0,0.25);
+
+    /* =========================
+       📏 SPACING SYSTEM
+    ========================= */
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 20px;
+    --space-xl: 32px;
+
+    /* =========================
+       🔘 BORDER RADIUS SYSTEM
+    ========================= */
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-round: 50%;
+
+    /* =========================
+       ⚡ ANIMATION SPEEDS
+    ========================= */
+
+    --fast: 0.15s;
+    --normal: 0.25s;
+    --slow: 0.6s;
+
+    /* =========================
+       🎮 Z-INDEX LAYER SYSTEM
+    ========================= */
+
+    --z-base: 1;
+    --z-ui: 10;
+    --z-overlay: 50;
+    --z-top: 100;
+}
+
+
+
+
+/* ======================================================
+   🧱 GAME SHELL / LAYOUT ENGINE (CASINO FRAME)
+====================================================== */
+
+.game-container {
+    position: relative;
+
+    width: 100%;
+    max-width: 430px;
+    height: 100dvh;
+
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    justify-content: flex-start;
+
+    padding: var(--space-md);
+
+    overflow: hidden;
+
+    background: radial-gradient(
+        circle at top,
+        var(--bg-soft),
+        var(--bg-dark)
+    );
+
+    box-sizing: border-box;
+}
+
+/* =========================
+   📐 MAIN GAME STAGE (WHEEL AREA WRAPPER)
+========================= */
+
+.game-stage {
+    width: 100%;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: var(--space-sm);
+}
+
+/* =========================
+   🎯 CENTER GAME ZONE (WHEEL + POINTER)
+========================= */
+
+.game-center {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+/* =========================
+   🎮 ACTION ZONE (TABLE + SPIN AREA)
+========================= */
+
+.game-action {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: var(--space-md);
+}
+
+/* =========================
+   📱 SAFE MOBILE LAYER (NO SCROLL CASINO LOCK)
+========================= */
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    touch-action: none;
+}
+
+/* =========================
+   🎯 OVERLAY SAFE ZONE (FOR FUTURE UI)
+========================= */
+
+.ui-overlay {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: var(--z-overlay);
+}
+
+
+
+
+/* ======================================================
+   🎯 SYMBOL TABLE ENGINE (CASINO BET GRID)
+====================================================== */
+
+.symbol-table {
+    width: 95%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-xl);
+
+    padding: var(--space-xs);
+
+    transform: translateY(-6px);
+}
+
+/* =========================
+   🎲 CASINO BET BOX CORE
+========================= */
+
+.symbol-box {
+    position: relative;
+
+    background: linear-gradient(
+        180deg,
+        rgba(45,45,45,0.95),
+        rgba(18,18,18,0.98)
+    );
+
+    border: 1px solid rgba(255,215,0,0.35);
+    border-radius: var(--radius-lg);
+
+    padding: var(--space-md);
+
+    text-align: center;
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition: all var(--normal) ease;
+
+    box-shadow:
+        var(--shadow-soft),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* =========================
+   ✨ LIGHT SWEEP EFFECT (CASINO PREMIUM FEEL)
+========================= */
+
+.symbol-box::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: -130%;
+
+    width: 60%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.18),
+        transparent
+    );
+
+    transition: all 0.6s ease;
+}
+
+.symbol-box:hover::before {
+    left: 130%;
+}
+
+/* =========================
+   🎯 SYMBOL ICON
+========================= */
+
+.symbol-box img {
+    width: 42px;
+    height: 42px;
+
+    object-fit: contain;
+
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.2));
+}
+
+/* =========================
+   🏷 TEXT LABEL
+========================= */
+
+.symbol-box span {
+    display: block;
+    margin-top: var(--space-xs);
+
+    font-size: 11px;
+    color: var(--text-main);
+}
+
+/* =========================
+   🔥 HOVER STATE (CASINO LIFT EFFECT)
+========================= */
+
+.symbol-box:hover {
+    transform: translateY(-2px) scale(1.03);
+
+    border-color: rgba(255,215,0,0.75);
+
+    box-shadow:
+        0 0 18px var(--glow-gold-mid),
+        0 0 30px var(--glow-gold-soft);
+}
+
+/* =========================
+   💎 ACTIVE BET STATE (SELECTED BOX)
+========================= */
+
+.symbol-box.active {
+    background: linear-gradient(
+        180deg,
+        rgba(255,215,0,0.18),
+        rgba(255,180,0,0.08)
+    );
+
+    border-color: var(--gold);
+
+    transform: scale(1.05);
+
+    box-shadow:
+        0 0 22px var(--glow-gold-strong),
+        0 0 40px var(--glow-gold-soft);
+}
+
+/* =========================
+   💰 BET MARKER (CHIP DISPLAY ON BOX)
+========================= */
+
+.bet-marker {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+
+    min-width: 24px;
+    height: 24px;
+
+    padding: 2px 6px;
+
+    border-radius: 50px;
+
+    background: var(--gold);
+    color: #000;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 0 10px var(--glow-gold-mid);
+
+    z-index: var(--z-ui);
+}
+
+
+
+
+/* ======================================================
+   🧱 START: APP SHELL / GAME WRAPPER LAYOUT
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   📐 START: RESPONSIVE GRID SYSTEM (GAME CANVAS)
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   🎯 START: SYMBOL TABLE / BETTING GRID ENGINE
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   🪙 CHIP SYSTEM ENGINE (CASINO SELECTOR FIXED)
+====================================================== */
+
+.chips-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: -20px;
+}
+
+/* =========================
+   🎰 CHIP CONTAINER
+========================= */
+
+.chips-container {
+    position: relative;
+
+    width: 320px;
+    height: 140px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 12px;
+
+    overflow: visible;
+}
+
+/* =========================
+   🪙 CHIP BASE STYLE
+========================= */
+
+.chip {
+    width: 48px;
+    height: 48px;
+
+    position: relative;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* =========================
+   🖼 CHIP IMAGE
+========================= */
+
+.chip img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* =========================
+   🏷 CHIP LABEL
+========================= */
+
+.chip span {
+    position: absolute;
+    left: 50%;
+    bottom: -16px;
+
+    transform: translateX(-50%);
+
+    font-size: 10px;
+    color: var(--text-main);
+
+    white-space: nowrap;
+
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* =========================
+   🔥 ACTIVE CHIP STATE
+========================= */
+
+.chip.active {
+    transform: scale(1.15);
+
+    box-shadow:
+        0 0 12px var(--glow-gold-mid),
+        0 0 22px var(--glow-gold-soft);
+
+    z-index: var(--z-top);
+}
+
+/* =========================
+   🎯 DEFAULT CHIP FIX
+========================= */
+
+.default-chip {
+    z-index: var(--z-ui);
+}
+
+/* ======================================================
+   🪙 CHIP SYSTEM END
+====================================================== */
+
+
+
+
+
+/* ======================================================
+   🎮 SPIN BUTTON ENGINE (CASINO PREMIUM FEEL)
+====================================================== */
+
+.spin-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    margin-top: var(--space-xs);
+    margin-bottom: var(--space-xs);
+}
+
+/* =========================
+   🎯 SPIN BUTTON CORE
+========================= */
+
+.spin-section button {
+    width: 95px;
+    height: 95px;
+
+    border-radius: var(--radius-round);
+
+    border: none;
+
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    color: #111;
+
+    background: linear-gradient(
+        145deg,
+        var(--gold),
+        var(--gold-dark)
+    );
+
+    position: relative;
+
+    box-shadow:
+        0 10px 0 rgba(138,107,0,1),
+        0 18px 25px var(--glow-dark),
+        inset 0 2px 3px rgba(255,255,255,0.5);
+
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+
+    animation: spinIdleFloat 2.5s ease-in-out infinite;
+}
+
+/* =========================
+   🔥 PRESS EFFECT (CASINO FEEL)
+========================= */
+
+.spin-section button:active {
+    transform: translateY(6px);
+
+    box-shadow:
+        0 4px 0 rgba(138,107,0,1),
+        0 10px 15px var(--glow-dark),
+        inset 0 2px 3px rgba(255,255,255,0.3);
+}
+
+/* =========================
+   ✨ BUTTON FLOAT ANIMATION
+========================= */
+
+@keyframes spinIdleFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+/* =========================
+   🌟 BUTTON GLOW UNDER EFFECT
+========================= */
+
+.spin-section button::after {
+    content: "";
+
+    position: absolute;
+
+    width: 70%;
+    height: 20px;
+
+    left: 50%;
+    bottom: -10px;
+
+    transform: translateX(-50%);
+
+    background: radial-gradient(
+        circle,
+        var(--glow-gold-mid),
+        transparent 70%
+    );
+
+    filter: blur(6px);
+
+    z-index: -1;
+}
+
+/* =========================
+   🚫 DISABLED STATE (FOR SPIN LOCK)
+========================= */
+
+.spin-section button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    filter: grayscale(20%);
+}
+
+/* ======================================================
+   🎮 SPIN BUTTON ENGINE END
+====================================================== */
+
+
+
+
+
+/* ======================================================
+   🎡 WHEEL ENGINE (CASINO ROTATION SYSTEM)
+====================================================== */
+
+.wheel-wrapper {
+    position: relative;
+
+    width: 320px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 0;
+}
+
+/* =========================
+   🎡 WHEEL IMAGE CORE
+========================= */
+
+.wheel-img {
+    width: 100%;
+    height: auto;
+
+    display: block;
+
+    transform-origin: center center;
+
+    will-change: transform;
+
+    backface-visibility: hidden;
+
+    transition: transform 8s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+
+/* =========================
+   🎯 CENTER HUB (CASINO CORE LOCK)
+========================= */
+
+.wheel-center-hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    background: #111827;
+
+    border: 3px solid var(--gold);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 12px;
+
+    z-index: var(--z-ui);
+
+    box-shadow: 0 0 15px var(--glow-gold-mid);
+}
+
+/* =========================
+   🎯 POINTER (CASINO INDICATOR FIXED)
+========================= */
+
+.pointer-img {
+    position: absolute;
+
+    top: -55px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 160px;
+    height: auto;
+
+    z-index: var(--z-top);
+
+    pointer-events: none;
+
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.6));
+
+    animation: pointerFloat 2.2s ease-in-out infinite;
+}
+
+/* =========================
+   🎯 POINTER FLOAT ANIMATION
+========================= */
+
+@keyframes pointerFloat {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0px);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-4px);
+    }
+}
+
+/* =========================
+   ✨ WHEEL GLOW HALO EFFECT
+========================= */
+
+.wheel-wrapper::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 140px;
+    height: 140px;
+
+    background: radial-gradient(
+        circle,
+        var(--glow-gold-mid),
+        transparent 70%
+    );
+
+    filter: blur(18px);
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+/* =========================
+   🎡 WHEEL ENGINE END
+====================================================== */
+
+
+
+
+/* ======================================================
+   💰 HUD / PLAYER STATE ENGINE (CASINO DISPLAY UI)
+====================================================== */
+
+.balance-box {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    min-width: 140px;
+    height: 42px;
+
+    padding: 0 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--radius-lg);
+
+    background: linear-gradient(
+        180deg,
+        rgba(40,40,40,0.95),
+        rgba(10,10,10,0.95)
+    );
+
+    border: 1px solid var(--gold);
+
+    color: var(--gold);
+
+    font-weight: 700;
+    font-size: 15px;
+
+    letter-spacing: 1px;
+
+    box-shadow:
+        0 0 14px var(--glow-gold-mid),
+        inset 0 2px 2px rgba(255,255,255,0.1);
+
+    z-index: var(--z-top);
+
+    backdrop-filter: blur(8px);
+}
+
+/* =========================
+   💎 WIN / LOSS FEEDBACK HUD (FUTURE READY)
+========================= */
+
+.win-popup {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    padding: 10px 18px;
+
+    border-radius: var(--radius-md);
+
+    background: rgba(0,0,0,0.7);
+
+    border: 1px solid var(--gold);
+
+    color: var(--gold);
+
+    font-weight: bold;
+
+    box-shadow: 0 0 20px var(--glow-gold-soft);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all var(--normal) ease;
+}
+
+/* ACTIVE STATE (FOR JS CONTROL) */
+.win-popup.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(10px);
+}
+
+/* =========================
+   📊 HUD OVERLAY SAFE LAYER
+========================= */
+
+.ui-overlay {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: var(--z-overlay);
+}
+
+
+
+
+
+/* ======================================================
+   🔊 START: AUDIO VISUAL FEEDBACK LAYER (UI FEEL SYSTEM)
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   ✨ START: ANIMATION ENGINE (GLOW / FLARE / MOTION)
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   📊 START: GAME STATE VISUAL FEEDBACK (WIN/LOSS FX)
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   📱 START: MOBILE CASINO OPTIMIZATION LAYER
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   🧨 START: PERFORMANCE + Z-INDEX CONTROL SYSTEM
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   🏁 END: CASINO UI ARCHITECTURE
+   ====================================================== */
