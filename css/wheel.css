@@ -509,23 +509,12 @@ html, body {
    🎮 SPIN BUTTON ENGINE (CASINO PREMIUM FEEL)
 ====================================================== */
 
-.spin-section {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-    margin-top: -22px;
-    margin-bottom: var(--space-xs);
-}
-/* =========================
-   🎯 SPIN BUTTON CORE
-========================= */
-
 .spin-section button {
+
     width: 95px;
     height: 95px;
 
-    border-radius: var(--radius-round);
+    border-radius: 18px; /* round না, slight angle feel */
 
     border: none;
 
@@ -545,27 +534,31 @@ html, body {
 
     position: relative;
 
+    /* 🎯 3D ANGLE LOOK */
+    transform: perspective(600px) rotateX(10deg);
+
     box-shadow:
-        0 10px 0 rgba(138,107,0,1),
+        0 10px 0 rgba(120,90,0,1),   /* bottom depth */
         0 18px 25px var(--glow-dark),
         inset 0 2px 3px rgba(255,255,255,0.5);
 
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
-
-    animation: spinIdleFloat 2.5s ease-in-out infinite;
+    transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease;
 }
 
 /* =========================
-   🔥 PRESS EFFECT (CASINO FEEL)
+   🔘 PRESS EFFECT (CLICK DOWN)
 ========================= */
 
 .spin-section button:active {
-    transform: translateY(6px);
+
+    transform: perspective(600px) translateY(6px) rotateX(5deg);
 
     box-shadow:
-        0 4px 0 rgba(138,107,0,1),
-        0 10px 15px var(--glow-dark),
-        inset 0 2px 3px rgba(255,255,255,0.3);
+        0 4px 0 rgba(120,90,0,1),
+        0 10px 18px var(--glow-dark),
+        inset 0 1px 2px rgba(255,255,255,0.4);
 }
 
 /* =========================
@@ -586,27 +579,28 @@ html, body {
 ========================= */
 
 .spin-section button::after {
+
     content: "";
 
     position: absolute;
-
-    width: 70%;
-    height: 20px;
-
+    bottom: -8px;
     left: 50%;
-    bottom: -10px;
-
     transform: translateX(-50%);
 
+    width: 60%;
+    height: 10px;
+
     background: radial-gradient(
-        circle,
-        var(--glow-gold-mid),
+        ellipse,
+        rgba(255,215,0,0.6),
         transparent 70%
     );
 
     filter: blur(6px);
 
-    z-index: -1;
+    opacity: 0.8;
+
+    pointer-events: none;
 }
 
 /* =========================
