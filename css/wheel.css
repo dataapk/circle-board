@@ -1019,10 +1019,6 @@ html, body {
     }
 }
 
-/* =========================
-   🎡 WHEEL SPIN BEHAVIOR
-========================= */
-
 
 /* =========================
    💰 BALANCE FEEDBACK FX
@@ -1284,13 +1280,15 @@ button,
    ⚡ PERFORMANCE BOOST (GPU FORCE)
 ========================= */
 
-.wheel-img,
+.chip,
 .spin-section button,
-.chip {
-
+.symbol-box {
     will-change: transform;
-
     transform: translateZ(0);
+}
+
+.wheel-img {
+    will-change: transform;
 }
 
 /* =========================
@@ -1402,12 +1400,15 @@ button,
    ⚡ GPU PERFORMANCE BOOST
 ========================= */
 
+/* =========================
+   ⚡ GPU PERFORMANCE BOOST
+========================= */
+
 .wheel-img,
-.chip,
 .spin-section button,
-.symbol-box {
+.chip {
+
     will-change: transform;
-    transform: translateZ(0);
 }
 
 /* =========================
