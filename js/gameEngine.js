@@ -12,10 +12,14 @@ window.GameEngine = {
     currentRotation: 0,
 
     chipSound: null,
-    spinButtonSound: null,   // ✅ FIXED
+    tableSound: null,
+    spinButtonSound: null,
     spinSound: null,
-    tickSound: null
 };
+
+// ======================================================
+// 🧠 END: GLOBAL GAME STATE
+// ======================================================
 
 // ======================================================
 // 🧠 END: GLOBAL GAME STATE
@@ -110,30 +114,6 @@ function initAudio() {
 // ======================================================
 // 🚀 END: ENGINE BOOT SECTION
 // ======================================================
-
-
-
-// ======================================================
-// 🧠 START: GLOBAL GAME STATE SECTION
-// ======================================================
-
-// window.GameEngine
-
-// balance
-// selectedChip
-// bets
-// isSpinning
-// currentRotation
-// lastResult
-
-// chipSound
-// spinSound
-// tickSound
-
-// ======================================================
-// 🧠 END: GLOBAL GAME STATE SECTION
-// ======================================================
-
 
 
 // ======================================================
