@@ -227,6 +227,23 @@ function placeChipVisual(box, amount) {
 // ======================================================
 // 🎯 END: TABLE SECTION (FIXED)
 // ======================================================
+// ======================================================
+// 🧹 CLEAR BET MARKERS
+// ======================================================
+
+function clearBoardVisuals() {
+
+    document
+        .querySelectorAll(
+            ".bet-marker"
+        )
+        .forEach(
+            marker => {
+
+                marker.remove();
+            }
+        );
+}
 
 
 
