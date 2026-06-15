@@ -348,8 +348,14 @@ function spinWheel() {
 
     const duration = 14000;
 
-    const startAngle =
-        GameEngine.currentRotation || 0;
+if (GameEngine.spinSound) {
+    setTimeout(() => {
+        fadeOutSpinSound();
+    }, Math.max(duration - 3000, 0));
+}
+
+const startAngle =
+    GameEngine.currentRotation || 0;
 
     const extraSpins =
         10 * 360;
