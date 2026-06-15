@@ -548,35 +548,6 @@ function spinWheel() {
 }
 
 
-    // ==========================
-    // 🎯 SPIN COMPLETE
-    // ==========================
-
-    setTimeout(
-        () => {
-
-            const finalAngle =
-                currentAngle % 360;
-
-            console.log(
-                "🎡 FINAL ANGLE:",
-                finalAngle
-            );
-
-            handleWheelResult(
-                finalAngle
-            );
-
-            clearBoardVisuals();
-
-            stopSpin();
-
-            unlockSpinButton();
-
-        },
-        9000
-    );
-}
 
 
 
@@ -640,7 +611,6 @@ function pointerTick() {
         100
     );
 }
-
 
 
 function resetPointer() {
