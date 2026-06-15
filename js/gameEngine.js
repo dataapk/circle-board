@@ -212,16 +212,13 @@ function playSpinButtonSound() {
 
 function playSpinSound() {
 
-    if (!GameEngine.spinSound) {
-        return;
-    }
+    if (!GameEngine.spinSound) return;
 
-    GameEngine.spinSound.currentTime =
-        0;
+    GameEngine.spinSound.currentTime = 0;
+    GameEngine.spinSound.volume = 1;
+    GameEngine.spinSound.loop = true;
 
-    GameEngine.spinSound
-        .play()
-        .catch(() => {});
+    GameEngine.spinSound.play().catch(() => {});
 }
 
 
