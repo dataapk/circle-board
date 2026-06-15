@@ -105,32 +105,59 @@ document.addEventListener(
 // ======================================================
 // 🪙 START: CHIP SECTION
 // ======================================================
-chip.addEventListener("click", (e) => {
 
-    e.stopPropagation();
+function initChipSystem() {
 
-    // ACTIVE STATE ONLY
-    chips.forEach(c => c.classList.remove("active"));
-    chip.classList.add("active");
+    const chips =
+        document.querySelectorAll(".chip");
 
-    // STORE VALUE ONLY
-    selectedChip = {
-        value: parseFloat(chip.getAttribute("data-value")),
-        element: chip
-    };
-
-    console.log("🪙 CHIP:", selectedChip.value);
-
-    // SOUND
-    if (chipSound) {
-        chipSound.currentTime = 0;
-        chipSound.play().catch(() => {});
+    if (!chips.length) {
+        console.log("❌ No chips found");
+        return;
     }
 
-});
+    chips.forEach((chip) => {
+
+        chip.addEventListener("click", (e) => {
+
+            e.stopPropagation();
+
+            // ACTIVE STATE ONLY
+            chips.forEach(c =>
+                c.classList.remove("active")
+            );
+
+            chip.classList.add("active");
+
+            // STORE VALUE ONLY
+            GameEngine.selectedChip = {
+                value: parseFloat(
+                    chip.getAttribute("data-value")
+                ),
+                element: chip
+            };
+
+            console.log(
+                "🪙 CHIP:",
+                GameEngine.selectedChip.value
+            );
+
+            // SOUND
+            if (GameEngine.chipSound) {
+
+                GameEngine.chipSound.currentTime = 0;
+
+                GameEngine.chipSound.play()
+                    .catch(() => {});
+            }
+
+        });
+
+    });
+}
 
 // ======================================================
-// 🪙 END: CHIP SECTION
+// END: CHIP SECTION
 // ======================================================
 
 
