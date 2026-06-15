@@ -1025,9 +1025,6 @@ html, body {
    🎡 WHEEL SPIN BEHAVIOR
 ========================= */
 
-.wheel-img.spinning {
-    transition: transform 10s cubic-bezier(0.08, 0.85, 0.18, 1) !important;
-}
 
 /* =========================
    💰 BALANCE FEEDBACK FX
