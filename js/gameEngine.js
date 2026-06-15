@@ -626,110 +626,96 @@ function isWinningResult(
 // ======================================================
 
 
-
 // ======================================================
-// 💸 START: PAYOUT SYSTEM SECTION
+// 🎰 START: CASINO PAYOUT ENGINE (FIXED)
 // ======================================================
 
 
+// 🧠 PAYOUT TABLE (IMPORTANT CORE)
+const PAYOUT_TABLE = {
+    spade: 2,
+    heart: 2,
+    diamond: 2,
+    club: 2,
+    crown: 3,
+    flag: 3
+};
 
-function calculateWin(
-    result
-) {
 
-    let winAmount = 0;
+// 🎯 GET WIN RESULT
+function calculateWin(resultSymbol) {
 
-    const bets =
-        GameEngine.bets;
+    const bets = GameEngine.bets || {};
 
-    for (
-        let key
-        in
-        bets
-    ) {
+    let win = 0;
 
-        if (
-            key === result
-        ) {
+    // 🔥 loop all bets (casino correct logic)
+    for (const symbol in bets) {
 
-            winAmount +=
-                bets[key] * 6;
+        const amount = bets[symbol];
+
+        if (symbol === resultSymbol) {
+
+            const multiplier =
+                PAYOUT_TABLE[symbol] || 0;
+
+            win += amount * multiplier;
         }
     }
+
+    // 💡 safe rounding
+    win = Math.round(win * 100) / 100;
+
+    return win;
+}
+
+
+// 💰 APPLY WIN TO BALANCE
+function applyWin(winAmount) {
+
+    winAmount = Number(winAmount);
+
+    if (isNaN(winAmount) || winAmount <= 0) return 0;
+
+    GameEngine.balance =
+        Math.round((GameEngine.balance + winAmount) * 100) / 100;
+
+    updateBalanceUI();
+
+    console.log("💰 WIN APPLIED:", winAmount);
 
     return winAmount;
 }
 
 
+// 🎯 MAIN RESULT HANDLER (CALL THIS AFTER SPIN)
+function handlePayout(resultSymbol) {
 
-function applyWin(
-    amount
-) {
+    console.log("🎯 RESULT:", resultSymbol);
 
-    amount =
-        Number(amount);
+    const win = calculateWin(resultSymbol);
 
-    if (
-        isNaN(amount)
-    ) {
-        return;
-    }
+    GameEngine.lastResult = resultSymbol;
 
-    addBalance(
-        amount
-    );
+    console.log("💰 WIN:", win);
+
+    applyWin(win);
+
+    return win;
 }
 
 
+// 🧹 ROUND RESET (IMPORTANT)
+function startNewRound() {
 
-function resolvePayout(
-    result
-) {
+    GameEngine.bets = {};
 
-    const winAmount =
-        calculateWin(
-            result
-        );
-
-    applyWin(
-        winAmount
-    );
-
-    console.log(
-        "💰 WIN:",
-        winAmount
-    );
-
-    console.log(
-        "💰 BALANCE:",
-        GameEngine.balance
-    );
-
-    clearBets();
-
-    GameEngine.isSpinning =
-        false;
-
-    updateBalanceUI();
+    console.log("🔄 NEW ROUND STARTED");
 }
-
-
-
-function hasWinningBet(
-    result
-) {
-
-    return (
-        getBetAmount(
-            result
-        ) > 0
-    );
-}
-
 
 
 // ======================================================
-// 💸 END: PAYOUT SYSTEM SECTION
+// 🎰 END: CASINO PAYOUT ENGINE (FIXED)
 // ======================================================
 
 
