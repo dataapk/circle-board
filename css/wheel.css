@@ -514,7 +514,7 @@ html, body {
     display: flex;
     justify-content: center;
 
-    margin-top: var(--space-xs);
+    margin-top: calc(var(--space-xs) - 10px);
     margin-bottom: var(--space-xs);
 }
 
