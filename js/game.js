@@ -105,117 +105,29 @@ document.addEventListener(
 // ======================================================
 // 🪙 START: CHIP SECTION
 // ======================================================
+chip.addEventListener("click", (e) => {
 
+    e.stopPropagation();
 
+    // ACTIVE STATE ONLY
+    chips.forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
 
-function initChipSystem() {
-
-    const chips =
-        document.querySelectorAll(
-            ".chip"
-        );
-
-    chips.forEach(
-        chip => {
-
-            chip.addEventListener(
-                "click",
-                () => {
-
-                    selectChip(
-                        chip
-                    );
-                }
-            );
-        }
-    );
-}
-
-
-
-function selectChip(
-    chip
-) {
-
-    const chips =
-        document.querySelectorAll(
-            ".chip"
-        );
-
-    chips.forEach(
-        c => {
-
-            c.classList.remove(
-                "active"
-            );
-        }
-    );
-
-    chip.classList.add(
-        "active"
-    );
-
-    GameEngine.selectedChip = {
-
-        value:
-            Number(
-                chip.dataset.value
-            ),
-
-        element:
-            chip
+    // STORE VALUE ONLY
+    selectedChip = {
+        value: parseFloat(chip.getAttribute("data-value")),
+        element: chip
     };
 
-    playChipSound();
+    console.log("🪙 CHIP:", selectedChip.value);
 
-    console.log(
-        "🪙 CHIP:",
-        GameEngine.selectedChip.value
-    );
-}
+    // SOUND
+    if (chipSound) {
+        chipSound.currentTime = 0;
+        chipSound.play().catch(() => {});
+    }
 
-
-
-function getSelectedChip() {
-
-    return (
-        GameEngine.selectedChip
-    );
-}
-
-
-
-function clearSelectedChip() {
-
-    const chips =
-        document.querySelectorAll(
-            ".chip"
-        );
-
-    chips.forEach(
-        chip => {
-
-            chip.classList.remove(
-                "active"
-            );
-        }
-    );
-
-    GameEngine.selectedChip =
-        null;
-}
-
-
-
-function hasSelectedChip() {
-
-    return (
-        GameEngine.selectedChip !==
-        null
-    );
-}
-
-
+});
 
 // ======================================================
 // 🪙 END: CHIP SECTION
