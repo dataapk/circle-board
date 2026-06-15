@@ -332,10 +332,7 @@ function startNewRound() {
 // 🎡 START: WHEEL ANIMATION SECTION
 // ======================================================
 
-console.log(
-    "🎡 SPIN START",
-    GameEngine.spinDirection
-);
+
 function spinWheel() {
 
     const wheel = document.querySelector(".wheel-img");
