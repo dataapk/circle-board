@@ -321,103 +321,85 @@ function stopAllSounds() {
 
 
 // ======================================================
-// 💰 START: BALANCE SYSTEM SECTION
+// 💰 START: BALANCE SYSTEM SECTION (UPDATED)
 // ======================================================
 
 
+// 🧠 SAFE FORMAT HELPER
+function formatBalance(value) {
+    return Math.round(value * 100) / 100;
+}
 
+
+// 💰 UI UPDATE
 function updateBalanceUI() {
 
     const balanceElement =
-        document.getElementById(
-            "balanceAmount"
-        );
+        document.getElementById("balanceAmount");
 
-    if (!balanceElement) {
-        return;
-    }
+    if (!balanceElement) return;
 
     balanceElement.innerText =
-        "$" +
-        Number(
-            GameEngine.balance
-        ).toFixed(2);
+        "$" + formatBalance(GameEngine.balance).toFixed(2);
 }
 
 
+// ➕ ADD BALANCE (SAFE)
+function addBalance(amount) {
 
-function addBalance(
-    amount
-) {
+    amount = Number(amount);
 
-    amount =
-        Number(amount);
+    if (isNaN(amount) || amount <= 0) return;
 
-    if (
-        isNaN(amount) ||
-        amount <= 0
-    ) {
-        return;
-    }
-
-    GameEngine.balance +=
-        amount;
+    GameEngine.balance =
+        formatBalance(GameEngine.balance + amount);
 
     updateBalanceUI();
+
+    console.log("💰 BALANCE ADDED:", amount);
+    console.log("💰 NEW BALANCE:", GameEngine.balance);
 }
 
 
+// ➖ SUBTRACT BALANCE (SAFE)
+function subtractBalance(amount) {
 
-function subtractBalance(
-    amount
-) {
+    amount = Number(amount);
 
-    amount =
-        Number(amount);
-
-    if (
-        isNaN(amount) ||
-        amount <= 0
-    ) {
+    if (isNaN(amount) || amount <= 0) {
         return false;
     }
 
-    if (
-        GameEngine.balance <
-        amount
-    ) {
-
-        console.log(
-            "❌ Not enough balance"
-        );
-
+    if (GameEngine.balance < amount) {
+        console.log("❌ Not enough balance");
         return false;
     }
 
-    GameEngine.balance -=
-        amount;
+    GameEngine.balance =
+        formatBalance(GameEngine.balance - amount);
 
     updateBalanceUI();
+
+    console.log("💸 BALANCE DEDUCTED:", amount);
 
     return true;
 }
 
 
-
+// 🔄 RESET BALANCE
 function resetBalance() {
 
-    GameEngine.balance =
-        1000;
+    GameEngine.balance = 1000;
 
     updateBalanceUI();
+
+    console.log("🔄 BALANCE RESET");
 }
 
 
-
 // ======================================================
-// 💰 END: BALANCE SYSTEM SECTION
+// 💰 END: BALANCE SYSTEM SECTION (UPDATED)
 // ======================================================
-
 
 
 // ======================================================
