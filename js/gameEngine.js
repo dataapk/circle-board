@@ -40,20 +40,26 @@ document.addEventListener(
             // ==========================
 function initAudio() {
 
-    GameEngine.chipSound = document.getElementById("chipSound");
-    GameEngine.spinSound = document.getElementById("spinSound");
-    GameEngine.spinbuttonsound = document.getElementById("spinButtonSound");
-    GameEngine.tickSound = document.getElementById("tickSound");
+    GameEngine.chipSound =
+        document.getElementById("chipSound");
+
+    GameEngine.spinSound =
+        document.getElementById("spinSound");
+
+    GameEngine.spinButtonSound =
+        document.getElementById("spinButtonSound");
+
+    GameEngine.tickSound =
+        document.getElementById("tickSound");
 
     console.log("🔊 AUDIO READY");
 
-    // SAFE PRELOAD TEST
-    Object.values(GameEngine).forEach(audio => {
-        if (audio && audio.play) {
-            audio.volume = 1;
-        }
-    });
+    console.log("CHIP:", GameEngine.chipSound);
+    console.log("SPIN:", GameEngine.spinSound);
+    console.log("BUTTON:", GameEngine.spinButtonSound);
+    console.log("TICK:", GameEngine.tickSound);
 }
+           
             // ==========================
             // 💰 BALANCE SYSTEM
             // ==========================
