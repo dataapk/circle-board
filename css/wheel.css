@@ -770,10 +770,10 @@ html, body {
     top: 8px;
     right: 8px;
 
-    min-width: 90px;
-    height: 28px;
+    min-width: 70px;
+    height: 220px;
 
-    padding: 0 10px;
+    padding: 0 07px;
 
     display: flex;
     align-items: center;
@@ -794,7 +794,7 @@ html, body {
     color: #ffd84d;
 
     font-weight: 700;
-    font-size: 12px;
+    font-size: 10px;
 
     letter-spacing: .5px;
 
