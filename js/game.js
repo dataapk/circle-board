@@ -423,8 +423,7 @@ function spinWheel() {
         animate
     );
 }
-🎡 SPIN START 1
-🎡 SPIN END 1
+
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
 // ======================================================
