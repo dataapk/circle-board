@@ -35,6 +35,18 @@ document.addEventListener(
 
         try {
 
+    initAudio();
+
+    if (
+        typeof loadGame ===
+        "function"
+    ) {
+
+        loadGame();
+    }
+
+    ...
+
             // ==========================
             // 🔊 AUDIO SYSTEM
             // ==========================
@@ -128,8 +140,6 @@ function initAudio() {
 // 🔊 START: AUDIO SYSTEM SECTION
 // ======================================================
 
-
-
 function initAudio() {
 
     GameEngine.chipSound =
@@ -142,6 +152,11 @@ function initAudio() {
             "spinSound"
         );
 
+    GameEngine.spinButtonSound =
+        document.getElementById(
+            "spinButtonSound"
+        );
+
     GameEngine.tickSound =
         document.getElementById(
             "tickSound"
@@ -150,19 +165,38 @@ function initAudio() {
     console.log(
         "🔊 AUDIO READY"
     );
+
+    console.log(
+        "CHIP:",
+        GameEngine.chipSound
+    );
+
+    console.log(
+        "SPIN:",
+        GameEngine.spinSound
+    );
+
+    console.log(
+        "BUTTON:",
+        GameEngine.spinButtonSound
+    );
+
+    console.log(
+        "TICK:",
+        GameEngine.tickSound
+    );
 }
 
 
 
 function playChipSound() {
 
-    if (
-        !GameEngine.chipSound
-    ) {
+    if (!GameEngine.chipSound) {
         return;
     }
 
-    GameEngine.chipSound.currentTime = 0;
+    GameEngine.chipSound.currentTime =
+        0;
 
     GameEngine.chipSound
         .play()
@@ -171,15 +205,30 @@ function playChipSound() {
 
 
 
-function playSpinSound() {
+function playSpinButtonSound() {
 
-    if (
-        !GameEngine.spinSound
-    ) {
+    if (!GameEngine.spinButtonSound) {
         return;
     }
 
-    GameEngine.spinSound.currentTime = 0;
+    GameEngine.spinButtonSound.currentTime =
+        0;
+
+    GameEngine.spinButtonSound
+        .play()
+        .catch(() => {});
+}
+
+
+
+function playSpinSound() {
+
+    if (!GameEngine.spinSound) {
+        return;
+    }
+
+    GameEngine.spinSound.currentTime =
+        0;
 
     GameEngine.spinSound
         .play()
@@ -188,95 +237,32 @@ function playSpinSound() {
 
 
 
-function fadeInSound(
-    duration = 800
-) {
+function stopSpinSound() {
 
-    if (
-        !GameEngine.spinSound
-    ) {
+    if (!GameEngine.spinSound) {
         return;
     }
 
-    const sound =
-        GameEngine.spinSound;
+    GameEngine.spinSound.pause();
 
-    sound.volume = 0;
-
-    sound.currentTime = 0;
-
-    sound.play()
-        .catch(() => {});
-
-    let volume = 0;
-
-    const step =
-        1 / (duration / 50);
-
-    const fade =
-        setInterval(() => {
-
-            volume += step;
-
-            if (volume >= 1) {
-
-                volume = 1;
-
-                clearInterval(
-                    fade
-                );
-            }
-
-            sound.volume =
-                volume;
-
-        }, 50);
+    GameEngine.spinSound.currentTime =
+        0;
 }
 
 
 
-function fadeOutSound(
-    duration = 1500
-) {
+function playTickSound() {
 
-    if (
-        !GameEngine.spinSound
-    ) {
+    if (!GameEngine.tickSound) {
         return;
     }
 
-    const sound =
-        GameEngine.spinSound;
+    GameEngine.tickSound.currentTime =
+        0;
 
-    let volume =
-        sound.volume;
-
-    const step =
-        volume /
-        (duration / 50);
-
-    const fade =
-        setInterval(() => {
-
-            volume -= step;
-
-            if (volume <= 0) {
-
-                volume = 0;
-
-                sound.pause();
-
-                sound.currentTime = 0;
-
-                clearInterval(
-                    fade
-                );
-            }
-
-            sound.volume =
-                volume;
-
-        }, 50);
+    GameEngine.tickSound
+        .play()
+        .catch(() => {});
 }
 
 
@@ -286,6 +272,8 @@ function stopAllSounds() {
     const sounds = [
 
         GameEngine.chipSound,
+
+        GameEngine.spinButtonSound,
 
         GameEngine.spinSound,
 
@@ -306,12 +294,9 @@ function stopAllSounds() {
     );
 }
 
-
-
 // ======================================================
 // 🔊 END: AUDIO SYSTEM SECTION
 // ======================================================
-
 
 
 // ======================================================
