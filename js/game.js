@@ -492,7 +492,7 @@ function spinWheel() {
         return;
     }
 
-    const spins = 15;
+    const spins = 18;
 
     const randomAngle =
         Math.floor(
@@ -511,10 +511,41 @@ function spinWheel() {
         getWheelRotation();
 
     wheel.style.transition =
-        "transform 9s ease-out";
+        "transform 10s cubic-bezier(0.08, 0.85, 0.18, 1)";
 
     wheel.style.transform =
         `rotate(${currentAngle}deg)`;
+
+    console.log(
+        "🎡 SPIN START:",
+        currentAngle
+    );
+
+    setTimeout(
+        () => {
+
+            const finalAngle =
+                currentAngle % 360;
+
+            console.log(
+                "🎯 FINAL ANGLE:",
+                finalAngle
+            );
+
+            handleWheelResult(
+                finalAngle
+            );
+
+            clearBoardVisuals();
+
+            stopSpin();
+
+            unlockSpinButton();
+
+        },
+        10000
+    );
+}
 
 
     // ==========================
