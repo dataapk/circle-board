@@ -404,6 +404,7 @@ html, body {
     gap: 12px;
 
     overflow: visible;
+   margin-top: -18px;
 }
 
 /* =========================
@@ -437,13 +438,8 @@ html, body {
 ========================= */
 
 .chip img {
-    width: 100%;
-    height: 100%;
     object-fit: contain;
-
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
 }
 
 /* =========================
