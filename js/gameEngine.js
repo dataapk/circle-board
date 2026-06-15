@@ -84,6 +84,42 @@ function initAudio() {
     console.log("BUTTON:", GameEngine.spinButtonSound);
     console.log("TABLE:", GameEngine.tableSound);
 }
+            / ==========================
+            // 🔊 fadeout SPIN AUDIO SYSTEM
+            // ==========================
+            function fadeOutSpinSound() {
+
+    const sound = GameEngine.spinSound;
+
+    if (!sound) return;
+
+    let volume = sound.volume;
+
+    const fade = setInterval(() => {
+
+        volume -= 0.05;
+
+        if (volume <= 0) {
+
+            sound.volume = 0;
+
+            sound.pause();
+            sound.currentTime = 0;
+
+            sound.volume = 1;
+
+            GameEngine.isSoundPlaying = false;
+
+            clearInterval(fade);
+
+        } else {
+
+            sound.volume = volume;
+        }
+
+    }, 100);
+}
+            
            
             // ==========================
             // 💰 BALANCE SYSTEM
