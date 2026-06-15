@@ -181,7 +181,6 @@ function setupBoardSystem() {
 // 🧠 FIX: INLINE CHECK (NO MISSING FUNCTION)
 function onTableClick(box) {
 
-    // ❌ no chip selected
     if (!GameEngine.selectedChip) {
         console.log("❌ Select chip first");
         return;
@@ -205,7 +204,14 @@ function onTableClick(box) {
 
     placeChipVisual(box, amount);
 
-    console.log("💰 BET:", symbol, amount);
+    // 🔊 TABLE SOUND
+    playTableSound();
+
+    console.log(
+        "💰 BET:",
+        symbol,
+        amount
+    );
 }
 
 // ======================================================
