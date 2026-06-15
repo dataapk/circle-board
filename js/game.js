@@ -614,67 +614,83 @@ function showResult(
 
 
 // ======================================================
-// 💰 START: BALANCE DISPLAY SECTION
+// 💰 START: BALANCE DISPLAY SECTION (UPDATED)
 // ======================================================
 
 
+// 🧠 SAFE BALANCE FORMATTER
+function formatBalance(value) {
+    return Math.round(value * 100) / 100;
+}
 
+
+// 💰 MAIN DISPLAY UPDATE
 function showBalance() {
-
     updateBalanceUI();
 }
 
 
-
+// 🔄 FORCE REFRESH
 function refreshBalanceDisplay() {
-
     updateBalanceUI();
 }
 
 
-
+// ✨ ANIMATED UPDATE (SAFE)
 function animateBalanceUpdate() {
 
     const balanceElement =
-        document.getElementById(
-            "balanceAmount"
-        );
+        document.getElementById("balanceAmount");
 
-    if (
-        !balanceElement
-    ) {
-        return;
-    }
+    if (!balanceElement) return;
 
-    balanceElement.classList.add(
-        "balance-update"
-    );
+    balanceElement.classList.add("balance-update");
 
-    setTimeout(
-        () => {
-
-            balanceElement.classList.remove(
-                "balance-update"
-            );
-
-        },
-        500
-    );
+    setTimeout(() => {
+        balanceElement.classList.remove("balance-update");
+    }, 500);
 }
 
 
-
+// 🔥 MAIN BALANCE CHANGE HANDLER (IMPORTANT)
 function onBalanceChanged() {
 
-    updateBalanceUI();
+    // 💡 FIX FLOATING ISSUE HERE
+    if (typeof GameEngine.balance === "number") {
+        GameEngine.balance =
+            formatBalance(GameEngine.balance);
+    }
 
+    updateBalanceUI();
     animateBalanceUpdate();
+
+    console.log("💰 BALANCE:", GameEngine.balance);
 }
 
+
+// 💡 OPTIONAL: SAFE DEDUCT FUNCTION (IMPORTANT FOR BUG PREVENTION)
+function deductBalance(amount) {
+
+    amount = Number(amount);
+
+    if (isNaN(amount)) return false;
+
+    if (GameEngine.balance < amount) {
+        console.log("❌ NOT ENOUGH BALANCE");
+        return false;
+    }
+
+    GameEngine.balance =
+        formatBalance(GameEngine.balance - amount);
+
+    onBalanceChanged();
+
+    return true;
+}
 
 
 // ======================================================
-// 💰 END: BALANCE DISPLAY SECTION
+// 💰 END: BALANCE DISPLAY SECTION (UPDATED)
 // ======================================================
 
 
