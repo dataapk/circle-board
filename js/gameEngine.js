@@ -752,107 +752,98 @@ function hasWinningBet(
 
 
 // ======================================================
-// 🎡 START: WHEEL STATE SECTION
+// 🎡 START: WHEEL STATE SECTION (STABLE)
 // ======================================================
-
-
 
 function startSpin() {
 
-    if (
-        GameEngine.isSpinning
-    ) {
-
+    if (GameEngine.isSpinning) {
         return false;
     }
 
-    GameEngine.isSpinning =
-        true;
+    GameEngine.isSpinning = true;
+
+    console.log("🎰 SPIN LOCKED");
 
     return true;
 }
 
 
-
+// 🛑 FULL SAFE STOP (IMPORTANT)
 function stopSpin() {
 
-    GameEngine.isSpinning =
-        false;
-}
+    GameEngine.isSpinning = false;
 
+    // 🔊 STOP SOUND SAFELY
+    if (GameEngine.spinSound) {
+        GameEngine.spinSound.pause();
+        GameEngine.spinSound.currentTime = 0;
+        GameEngine.spinSound.loop = false;
+    }
+
+    if (GameEngine.tickSound) {
+        GameEngine.tickSound.pause();
+        GameEngine.tickSound.currentTime = 0;
+    }
+
+    // 🎡 RESET TRANSITION SAFETY
+    const wheel = document.getElementById("wheel");
+    if (wheel) {
+        wheel.style.transition = "";
+    }
+
+    console.log("🛑 SPIN FULLY STOPPED");
+}
 
 
 function isWheelSpinning() {
-
-    return (
-        GameEngine.isSpinning
-    );
+    return GameEngine.isSpinning;
 }
 
 
+// 🎯 SET ROTATION
+function setWheelRotation(angle) {
 
-function setWheelRotation(
-    angle
-) {
+    angle = Number(angle);
 
-    angle =
-        Number(angle);
+    if (isNaN(angle)) return;
 
-    if (
-        isNaN(angle)
-    ) {
-
-        return;
-    }
-
-    GameEngine.currentRotation =
-        angle;
+    GameEngine.currentRotation = angle;
 }
 
 
-
+// 🎯 GET ROTATION
 function getWheelRotation() {
-
-    return (
-        GameEngine.currentRotation
-    );
+    return GameEngine.currentRotation;
 }
 
 
+// 🎯 ADD ROTATION
+function addWheelRotation(angle) {
 
-function addWheelRotation(
-    angle
-) {
+    angle = Number(angle);
 
-    angle =
-        Number(angle);
+    if (isNaN(angle)) return;
 
-    if (
-        isNaN(angle)
-    ) {
-
-        return;
-    }
-
-    GameEngine.currentRotation +=
-        angle;
+    GameEngine.currentRotation += angle;
 }
 
 
-
+// 🧹 FULL RESET (SAFE FOR NEW ROUND)
 function resetWheelState() {
 
-    GameEngine.isSpinning =
-        false;
+    GameEngine.isSpinning = false;
+    GameEngine.currentRotation = 0;
+    GameEngine.lastResult = null;
 
-    GameEngine.currentRotation =
-        0;
+    // 🔊 safety stop audio
+    if (GameEngine.spinSound) {
+        GameEngine.spinSound.pause();
+        GameEngine.spinSound.currentTime = 0;
+    }
 
-    GameEngine.lastResult =
-        null;
+    console.log("🔄 WHEEL RESET COMPLETE");
 }
-
-
 
 // ======================================================
 // 🎡 END: WHEEL STATE SECTION
