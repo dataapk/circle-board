@@ -348,21 +348,27 @@ function spinWheel() {
 
     const duration = 14000;
 
-if (GameEngine.spinSound) {
-    setTimeout(() => {
-        fadeOutSpinSound();
-    }, Math.max(duration - 3000, 0));
-}
+    // 🔊 Fade sound sync (GameEngine controlled)
+    if (GameEngine.spinSound) {
 
-const startAngle =
-    GameEngine.currentRotation || 0;
+        clearTimeout(GameEngine.fadeTimeout);
+
+        GameEngine.fadeTimeout = setTimeout(() => {
+
+            GameEngine.fadeOutSpinSound();
+
+        }, Math.max(duration - 3000, 0));
+    }
+
+    const startAngle =
+        GameEngine.currentRotation || 0;
 
     const extraSpins =
         10 * 360;
 
-    // ✅ ALWAYS CLOCKWISE
     const targetAngle =
-        startAngle + extraSpins;
+        startAngle +
+        (extraSpins * GameEngine.spinDirection);
 
     const startTime =
         performance.now();
@@ -373,13 +379,10 @@ const startAngle =
             time - startTime;
 
         const progress =
-            Math.min(
-                elapsed / duration,
-                1
-            );
+            Math.min(elapsed / duration, 1);
 
         const ease =
-    progress * progress * (3 - 2 * progress);
+            progress * progress * (3 - 2 * progress);
 
         const angle =
             startAngle +
@@ -390,32 +393,23 @@ const startAngle =
 
         if (progress < 1) {
 
-            requestAnimationFrame(
-                animate
-            );
+            requestAnimationFrame(animate);
 
         } else {
 
-            GameEngine.currentRotation =
-                targetAngle;
+            GameEngine.currentRotation = targetAngle;
 
             GameEngine.isSpinning = false;
 
             unlockSpinButton();
 
-            console.log(
-                "🎯 SPIN COMPLETE"
-            );
+            console.log("🎯 SPIN COMPLETE");
 
-            handleWheelResult(
-                targetAngle
-            );
+            handleWheelResult(targetAngle);
         }
     }
 
-    requestAnimationFrame(
-        animate
-    );
+    requestAnimationFrame(animate);
 }
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
