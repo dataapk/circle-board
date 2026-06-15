@@ -15,7 +15,7 @@ window.GameEngine = {
     currentRotation: 0,
 
     // 🔁 IMPORTANT FIX (WAS MISSING)
-    spinDirection: 1,   // 1 = clockwise, -1 = counter-clockwise
+    GameEngine.spinDirection *= -1;
 
     // =========================
     // 🔊 AUDIO SYSTEM
