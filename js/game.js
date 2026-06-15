@@ -373,10 +373,7 @@ function spinWheel() {
             );
 
         const ease =
-    1 - Math.pow(
-        1 - progress,
-        3
-    );
+    progress * progress * (3 - 2 * progress);
 
         const angle =
             startAngle +
