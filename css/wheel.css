@@ -1226,21 +1226,38 @@ html, body {
    📱 GLOBAL MOBILE FIX
 ========================= */
 
-html, body {
+html,
+body {
+
+    width: 100%;
+    min-height: 100vh;
+
+    margin: 0;
+    padding: 0;
+
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+
     overscroll-behavior: none;
+
+    overflow-x: hidden;
 }
 
 /* =========================
-   🧱 SAFE GAME SCALING (MOBILE FIT)
+   🧱 SAFE GAME SCALING (ANDROID CHROME)
 ========================= */
 
 .game-container {
+
     width: 100%;
     max-width: 430px;
 
     margin: 0 auto;
+
+    padding-left: 6px;
+    padding-right: 6px;
+
+    box-sizing: border-box;
 
     overflow: hidden;
 
@@ -1254,8 +1271,11 @@ html, body {
 button,
 .chip,
 .symbol-box {
+
     touch-action: manipulation;
+
     -webkit-tap-highlight-color: transparent;
+
     user-select: none;
 }
 
@@ -1266,52 +1286,77 @@ button,
 .wheel-img,
 .spin-section button,
 .chip {
+
     will-change: transform;
+
     transform: translateZ(0);
 }
 
 /* =========================
-   📱 SMALL SCREEN FIX (≤ 380px)
+   📱 MOBILE LAYOUT TUNING
+========================= */
+
+@media (max-width: 768px) {
+
+    .game-container {
+
+        max-width: 430px;
+
+        margin: 0 auto;
+    }
+}
+
+/* =========================
+   📱 SMALL SCREEN FIX (≤380px)
 ========================= */
 
 @media (max-width: 380px) {
 
     .wheel-wrapper {
+
         width: 280px;
     }
 
     .spin-section button {
+
         width: 85px;
         height: 85px;
+
         font-size: 14px;
     }
 
     .chip {
+
         width: 42px;
         height: 42px;
     }
 
     .symbol-box {
+
         padding: 8px;
     }
 }
 
 /* =========================
-   📱 VERY SMALL DEVICES (≤ 320px)
+   📱 VERY SMALL DEVICES (≤320px)
 ========================= */
 
 @media (max-width: 320px) {
 
     .wheel-wrapper {
+
         width: 250px;
     }
 
     .balance-box {
+
         min-width: 120px;
+
         font-size: 13px;
     }
 
     .symbol-table {
+
         gap: 5px;
     }
 }
@@ -1323,24 +1368,16 @@ button,
 @media (prefers-reduced-motion: reduce) {
 
     * {
+
         animation: none !important;
+
         transition: none !important;
     }
 }
 
-/* =========================
-   🚀 FINAL STABILITY LAYER
-========================= */
-
-body {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-}
-
-
-
-
+/* ======================================================
+   📱 MOBILE + PERFORMANCE OPTIMIZATION END
+====================================================== */
 
 /* ======================================================
    🧨 PERFORMANCE + Z-INDEX CONTROL SYSTEM
