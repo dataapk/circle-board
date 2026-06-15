@@ -289,6 +289,9 @@ function setupSpinButton() {
 
 function spinGame() {
 
+    // 🔊 BUTTON CLICK SOUND
+    playSpinButtonSound();
+
     console.log(
         "🔥 SPIN START REQUEST"
     );
@@ -323,14 +326,13 @@ function spinGame() {
         return;
     }
 
+    // 🎡 WHEEL SPIN SOUND
     playSpinSound();
 
     lockSpinButton();
 
     spinWheel();
 }
-
-
 
 function lockSpinButton() {
 
