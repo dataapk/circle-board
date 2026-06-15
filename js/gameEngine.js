@@ -5,19 +5,14 @@
 window.GameEngine = {
 
     balance: 1000,
-
     selectedChip: null,
-
     bets: {},
-
     isSpinning: false,
-
     lastResult: null,
-
     currentRotation: 0,
 
     chipSound: null,
-    spinbuttonsound: null,
+    spinButtonSound: null,   // ✅ FIXED
     spinSound: null,
     tickSound: null
 };
