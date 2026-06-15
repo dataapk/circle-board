@@ -653,8 +653,6 @@ html, body {
     will-change: transform;
 
     backface-visibility: hidden;
-
-    transition: transform 8s cubic-bezier(0.17, 0.67, 0.12, 0.99);
 }
 
 /* =========================
