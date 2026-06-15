@@ -337,32 +337,52 @@ function spinWheel() {
     const wheel = document.querySelector(".wheel-img");
 
     if (!wheel) {
+
         console.log("❌ Wheel not found");
+
+        GameEngine.isSpinning = false;
+
         return;
+    }
+
+    if (typeof GameEngine.spinDirection !== "number") {
+
+        GameEngine.spinDirection = 1;
     }
 
     const duration = 9500;
 
-    const startAngle = GameEngine.currentRotation || 0;
+    const startAngle =
+        GameEngine.currentRotation || 0;
 
-    const extraSpins = 6 * 360;
+    const extraSpins =
+        10 * 360;
 
     const targetAngle =
         startAngle +
         (extraSpins * GameEngine.spinDirection);
 
-    const startTime = performance.now();
+    const startTime =
+        performance.now();
 
     function animate(time) {
 
-        const elapsed = time - startTime;
+        const elapsed =
+            time - startTime;
 
-        const progress = Math.min(elapsed / duration, 1);
+        const progress =
+            Math.min(
+                elapsed / duration,
+                1
+            );
 
-        // smooth easing
-        const ease = progress < 0.5
-            ? 4 * progress * progress * progress
-            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        const ease =
+            progress < 0.5
+                ? 4 * progress * progress * progress
+                : 1 - Math.pow(
+                    -2 * progress + 2,
+                    3
+                ) / 2;
 
         const angle =
             startAngle +
@@ -372,20 +392,35 @@ function spinWheel() {
             `rotate(${angle}deg)`;
 
         if (progress < 1) {
-            requestAnimationFrame(animate);
+
+            requestAnimationFrame(
+                animate
+            );
+
         } else {
 
-            GameEngine.currentRotation = targetAngle;
+            GameEngine.currentRotation =
+                targetAngle;
 
             GameEngine.spinDirection *= -1;
 
-            console.log("🎯 SPIN COMPLETE");
+            GameEngine.isSpinning = false;
 
-            handleWheelResult(targetAngle);
+            unlockSpinButton();
+
+            console.log(
+                "🎯 SPIN COMPLETE"
+            );
+
+            handleWheelResult(
+                targetAngle
+            );
         }
     }
 
-    requestAnimationFrame(animate);
+    requestAnimationFrame(
+        animate
+    );
 }
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
