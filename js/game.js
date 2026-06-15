@@ -6,93 +6,62 @@
 // ======================================================
 // 🚀 START: GAME INIT SECTION
 // ======================================================
-
-
-
 function initGame() {
 
-    console.log(
-        "🧠 INIT GAME START"
-    );
+    console.log("🧠 INIT GAME START");
 
     try {
 
+        // =========================
         // 🪙 CHIP SYSTEM
-
-        if (
-            typeof initChipSystem ===
-            "function"
-        ) {
-
+        // =========================
+        if (typeof initChipSystem === "function") {
             initChipSystem();
         }
 
-        // 🎯 TABLE SYSTEM
-
-        if (
-            typeof setupBoardSystem ===
-            "function"
-        ) {
-
+        // =========================
+        // 🎯 TABLE / BOARD SYSTEM
+        // =========================
+        if (typeof setupBoardSystem === "function") {
             setupBoardSystem();
         }
 
-        // 🎰 SPIN BUTTON
-
-        if (
-            typeof setupSpinButton ===
-            "function"
-        ) {
-
+        // =========================
+        // 🎰 SPIN BUTTON SYSTEM
+        // =========================
+        if (typeof setupSpinButton === "function") {
             setupSpinButton();
         }
 
-        console.log(
-            "🎮 GAME READY"
-        );
+        // =========================
+        // 🔊 AUDIO INIT (SAFE CHECK)
+        // =========================
+        if (typeof initAudio === "function") {
+            initAudio();
+        }
+
+        console.log("🎮 GAME READY");
 
     } catch (err) {
-
-        console.log(
-            "💥 GAME INIT ERROR:",
-            err
-        );
+        console.log("💥 GAME INIT ERROR:", err);
     }
 }
-
-
-
+// ======================================================
+// 🚀START / BOOT SECTION (CLEANED)
+// ======================================================
 function startGame() {
-
     initGame();
 }
 
+document.addEventListener("DOMContentLoaded", () => {
 
+    console.log("🚀 GAME DOM READY");
 
-function connectSystems() {
+    startGame();
 
-    console.log(
-        "🔗 SYSTEMS CONNECTED"
-    );
-}
+    console.log("🔗 SYSTEMS CONNECTED");
+});
 
-
-
-// AUTO START
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        console.log(
-            "🚀 GAME DOM READY"
-        );
-
-        startGame();
-
-        connectSystems();
-    }
-);
 
 
 
