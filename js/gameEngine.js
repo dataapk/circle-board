@@ -61,15 +61,11 @@ function initAudio() {
     GameEngine.spinButtonSound =
         document.getElementById("spinButtonSound");
 
-    GameEngine.tickSound =
-        document.getElementById("tickSound");
-
     console.log("🔊 AUDIO READY");
 
     console.log("CHIP:", GameEngine.chipSound);
     console.log("SPIN:", GameEngine.spinSound);
-    console.log("BUTTON:", GameEngine.spinButtonSound);
-    console.log("TICK:", GameEngine.tickSound);
+    console.log("BUTTON:", GameEngine.spinButtonSound);   
 }
            
             // ==========================
