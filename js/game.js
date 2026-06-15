@@ -346,11 +346,6 @@ function spinWheel() {
         return;
     }
 
-    if (typeof GameEngine.spinDirection !== "number") {
-
-        GameEngine.spinDirection = 1;
-    }
-
     const duration = 9500;
 
     const startAngle =
@@ -359,9 +354,9 @@ function spinWheel() {
     const extraSpins =
         10 * 360;
 
+    // ✅ ALWAYS CLOCKWISE
     const targetAngle =
-        startAngle +
-        (extraSpins * GameEngine.spinDirection);
+        startAngle + extraSpins;
 
     const startTime =
         performance.now();
@@ -403,8 +398,6 @@ function spinWheel() {
             GameEngine.currentRotation =
                 targetAngle;
 
-            GameEngine.spinDirection *= -1;
-
             GameEngine.isSpinning = false;
 
             unlockSpinButton();
@@ -423,7 +416,6 @@ function spinWheel() {
         animate
     );
 }
-
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
 // ======================================================
