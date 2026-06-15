@@ -641,7 +641,6 @@ html, body {
 /* =========================
    🎡 WHEEL IMAGE CORE
 ========================= */
-
 .wheel-img {
     width: 100%;
     height: auto;
@@ -653,8 +652,9 @@ html, body {
     will-change: transform;
 
     backface-visibility: hidden;
-}
 
+    transition: none;
+}
 /* =========================
    🎯 CENTER HUB (CASINO CORE LOCK)
 ========================= */
