@@ -84,9 +84,10 @@ function initAudio() {
     console.log("BUTTON:", GameEngine.spinButtonSound);
     console.log("TABLE:", GameEngine.tableSound);
 }
- function fadeOutSpinSound() {
+            
+ GameEngine.fadeOutSpinSound = function () {
 
-    const sound = GameEngine.spinSound;
+    const sound = this.spinSound;
 
     if (!sound) return;
 
@@ -99,13 +100,12 @@ function initAudio() {
         if (volume <= 0) {
 
             sound.volume = 0;
-
             sound.pause();
             sound.currentTime = 0;
 
             sound.volume = 1;
 
-            GameEngine.isSoundPlaying = false;
+            this.isSoundPlaying = false;
 
             clearInterval(fade);
 
@@ -115,7 +115,7 @@ function initAudio() {
         }
 
     }, 100);
-}
+};
             
            
             // ==========================
