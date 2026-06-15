@@ -763,17 +763,17 @@ html, body {
    💰 HUD / PLAYER STATE ENGINE (CASINO DISPLAY UI)
 ====================================================== */
 
-.balance-box {
+..balance-box {
 
     position: absolute;
 
-    top: 8px;
-    right: 8px;
+    top: 6px;
+    right: 6px;
 
-    min-width: 70px;
-    height: 220px;
+    min-width: 70px;   /* আগে ~90px ছিল → ~20% কম */
+    height: 22px;      /* আগে 28px ছিল → ~20% কম */
 
-    padding: 0 07px;
+    padding: 0 8px;
 
     display: flex;
     align-items: center;
@@ -784,25 +784,24 @@ html, body {
     background:
         linear-gradient(
             135deg,
-            rgba(255,215,0,0.18),
-            rgba(255,255,255,0.08)
+            rgba(255,215,0,0.15),
+            rgba(255,255,255,0.06)
         );
 
-    border: 1px solid
-        rgba(255,215,0,0.35);
+    border: 1px solid rgba(255,215,0,0.3);
 
     color: #ffd84d;
 
     font-weight: 700;
-    font-size: 10px;
+    font-size: 10px;   /* আগে 12px → ~20% কম */
 
-    letter-spacing: .5px;
+    letter-spacing: 0.3px;
 
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
 
     box-shadow:
-        0 0 10px rgba(255,215,0,0.18),
-        inset 0 1px 1px rgba(255,255,255,0.15);
+        0 0 8px rgba(255,215,0,0.15),
+        inset 0 1px 1px rgba(255,255,255,0.12);
 
     z-index: var(--z-top);
 }
