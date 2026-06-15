@@ -1,20 +1,29 @@
-// ======================================================
-// 🧠 START: GLOBAL GAME STATE
-// ======================================================
-
 window.GameEngine = {
 
+    // =========================
+    // 💰 PLAYER STATE
+    // =========================
     balance: 1000,
     selectedChip: null,
     bets: {},
+
+    // =========================
+    // 🎰 GAME STATE
+    // =========================
     isSpinning: false,
     lastResult: null,
     currentRotation: 0,
 
+    // 🔁 IMPORTANT FIX (WAS MISSING)
+    spinDirection: 1,   // 1 = clockwise, -1 = counter-clockwise
+
+    // =========================
+    // 🔊 AUDIO SYSTEM
+    // =========================
     chipSound: null,
     tableSound: null,
     spinButtonSound: null,
-    spinSound: null,
+    spinSound: null
 };
 
 // ======================================================
