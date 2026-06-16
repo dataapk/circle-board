@@ -177,7 +177,7 @@ GameEngine.fadeOutSpinSound = function () {
                 GameEngine.balance
             );
 
-        } catch (err) {
+           catch (err) {
 
             console.log(
                 "💥 ENGINE ERROR:",
