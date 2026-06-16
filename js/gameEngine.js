@@ -746,14 +746,12 @@ function startNewRound() {
 
 
 // ======================================================
-// 🎡 START: WHEEL STATE SECTION (STABLE)
+// 🎡 WHEEL STATE SECTION (ENGINE ONLY)
 // ======================================================
 
 function startSpin() {
 
-    if (GameEngine.isSpinning) {
-        return false;
-    }
+    if (GameEngine.isSpinning) return false;
 
     GameEngine.isSpinning = true;
 
@@ -780,13 +778,10 @@ function stopSpin() {
         GameEngine.tickSound.currentTime = 0;
     }
 
-    // 🎡 RESET TRANSITION SAFETY
     const wheel = document.getElementById("wheel");
-    if (wheel) {
-        wheel.style.transition = "";
-    }
+    if (wheel) wheel.style.transition = "";
 
-    console.log("🛑 SPIN FULLY STOPPED");
+    console.log("🛑 SPIN STOPPED");
 }
 
 
