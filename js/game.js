@@ -296,7 +296,7 @@ function lockSpinButton() {
     );
 
     btn.textContent =
-        "SPIN LOCKED";
+        "LOCKED";
 }
 
 
