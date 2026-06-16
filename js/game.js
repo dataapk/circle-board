@@ -278,137 +278,153 @@ function setupSpinButton() {
 // 🚀 SPIN START
 // ==========================
 
-function spinGame() {
+// ======================================================
+// 🚀 GAME INIT
+// ======================================================
 
-    console.log("🔥 SPIN START REQUEST");
+function startGame() {
+    initGame();
+}
 
-    if (GameEngine.isSpinning === true) {
-        console.log("BLOCKED: already spinning");
-        return;
-    }
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("🚀 GAME READY");
+    startGame();
+});
 
-    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
-        console.log("BLOCKED: no bets");
-        return;
-    }
 
+// ======================================================
+// 🎯 CHIP SYSTEM
+// ======================================================
+
+function initChipSystem() {
+
+    document.querySelectorAll(".chip").forEach(chip => {
+
+        chip.addEventListener("click", (e) => {
+
+            if (GameEngine.isSpinning) return;
+
+            document.querySelectorAll(".chip")
+                .forEach(c => c.classList.remove("active"));
+
+            chip.classList.add("active");
+
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.dataset.value),
+                element: chip
+            };
+
+            console.log("🪙 CHIP:", GameEngine.selectedChip.value);
+        });
+    });
+}
+
+
+// ======================================================
+// 🎰 TABLE BET SYSTEM
+// ======================================================
+
+function setupBoardSystem() {
+
+    document.querySelectorAll(".symbol-box").forEach(box => {
+        box.addEventListener("click", () => onTableClick(box));
+    });
+}
+
+function onTableClick(box) {
+
+    if (GameEngine.isSpinning) return;
+    if (!GameEngine.selectedChip) return;
+
+    const symbol = box.dataset.symbol;
+    const amount = GameEngine.selectedChip.value;
+
+    if (!subtractBalance(amount)) return;
+
+    addBet(symbol, amount);
+    placeChipVisual(box, amount);
+
+    console.log("💰 BET:", symbol, amount);
+}
+
+function placeChipVisual(box, amount) {
+
+    const marker = document.createElement("div");
+    marker.className = "bet-marker";
+    marker.innerText = "$" + amount;
+    box.appendChild(marker);
+}
+
+
+// ======================================================
+// 🔒 UI LOCK / UNLOCK (SINGLE SOURCE OF TRUTH)
+// ======================================================
+
+function lockGameUI() {
+
+    GameEngine.state = "SPINNING";
     GameEngine.isSpinning = true;
 
-    // 🔒 LOCK EVERYTHING
     lockSpinButton();
     lockBets();
 
+    console.log("🔒 GAME LOCKED");
+}
+
+function unlockGameUI() {
+
+    GameEngine.state = "READY";
+    GameEngine.isSpinning = false;
+
+    unlockSpinButton();
+    unlockBets();
+
+    console.log("🔓 GAME UNLOCKED");
+}
+
+
+// ======================================================
+// 🎰 SPIN BUTTON
+// ======================================================
+
+function setupSpinButton() {
+
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    btn.addEventListener("click", spinGame);
+}
+
+
+// ======================================================
+// 🚀 SPIN FLOW
+// ======================================================
+
+function spinGame() {
+
+    if (GameEngine.isSpinning) return;
+    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
+        console.log("❌ NO BETS");
+        return;
+    }
+
+    lockGameUI();
     spinWheel();
 }
 
 
-// ==========================
-// 🔒 SPIN BUTTON LOCK
-// ==========================
-
-function lockSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-
-    if (!btn) return;
-
-    btn.disabled = true;
-    btn.classList.add("spinning");
-
-    btn.textContent = "LOCKED";
-}
-
-
-// ==========================
-// 🔓 SPIN BUTTON UNLOCK
-// ==========================
-
-function unlockSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-
-    if (!btn) return;
-
-    btn.disabled = false;
-    btn.classList.remove("spinning");
-
-    btn.textContent = "SPIN";
-}
-
-
-// ==========================
-// 🔒 BET LOCK
-// ==========================
-
-function lockBets() {
-
-    document.querySelectorAll(".chip").forEach(chip => {
-
-        chip.style.pointerEvents = "none";
-        chip.style.opacity = "0.5";
-
-    });
-
-    console.log("🔒 BETS LOCKED");
-}
-
-
-// ==========================
-// 🔓 BET UNLOCK
-// ==========================
-
-function unlockBets() {
-
-    document.querySelectorAll(".chip").forEach(chip => {
-
-        chip.style.pointerEvents = "auto";
-        chip.style.opacity = "1";
-
-    });
-
-    console.log("🔓 BETS UNLOCKED");
-}
-
-
-// ==========================
-// 🎯 SPIN END
-// ==========================
-
-function onSpinEnd(result) {
-
-    console.log("🏁 SPIN END TRIGGERED");
-
-    resolvePayout(result); // 💰 win apply
-
-    resetWheelState();     // 🎡 wheel reset
-
-    unlockGameUI();        // 🔓 UI unlock (IMPORTANT FIX)
-
-    startNewRound();       // 🧠 reset engine
-
-    console.log("✔ READY FOR NEXT SPIN");
-}
-
 // ======================================================
-// 🎡 START: WHEEL ANIMATION SECTION
+// 🎡 WHEEL
 // ======================================================
 
 function spinWheel() {
 
     const wheel = document.querySelector(".wheel-img");
-
-    if (!wheel) {
-        console.log("❌ Wheel not found");
-        GameEngine.isSpinning = false;
-        return;
-    }
+    if (!wheel) return;
 
     const duration = 14000;
     const startAngle = GameEngine.currentRotation || 0;
-    const extraSpins = 10 * 360;
-
-    const targetAngle =
-        startAngle + (extraSpins * GameEngine.spinDirection);
+    const targetAngle = startAngle + (10 * 360);
 
     const startTime = performance.now();
 
@@ -428,29 +444,101 @@ function spinWheel() {
 
             GameEngine.currentRotation = targetAngle;
 
-            // 🚨 ONLY TRIGGER RESULT HANDLER
             handleWheelResult(targetAngle);
         }
     }
 
     requestAnimationFrame(animate);
 }
+
+
 // ======================================================
-// 🎡 END: WHEEL ANIMATION SECTION
+// 🎯 RESULT FLOW (MAIN FIX)
 // ======================================================
+
+function onSpinEnd(result) {
+
+    console.log("🏁 SPIN END");
+
+    resolvePayout(result);
+
+    resetWheelState();
+
+    resetBoardUI();
+
+    startNewRound();
+
+    unlockGameUI();
+
+    console.log("✔ READY NEXT ROUND");
+}
+
+
+// ======================================================
+// 🧹 BOARD RESET (FIXED)
+// ======================================================
+
 function resetBoardUI() {
 
-    // remove chips
-    document.querySelectorAll(".chip")
-        .forEach(chip => chip.remove());
+    GameEngine.bets = {};
+    GameEngine.selectedChip = null;
 
-    // clear bet boxes / amounts
-    document.querySelectorAll(".bet-box")
-        .forEach(box => {
-            box.innerText = "";
-        });
+    document.querySelectorAll(".bet-marker").forEach(m => m.remove());
 
-    console.log("🧹 BOARD UI RESET");
+    console.log("🧹 BOARD RESET");
+}
+
+
+// ======================================================
+// 🧠 ROUND RESET (ENGINE SAFE)
+// ======================================================
+
+function startNewRound() {
+
+    GameEngine.bets = {};
+    GameEngine.lastResult = null;
+    GameEngine.state = "READY";
+
+    console.log("🔄 NEW ROUND READY");
+}
+
+
+// ======================================================
+// 🔒 LOCK / UNLOCK BUTTONS
+// ======================================================
+
+function lockSpinButton() {
+
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    btn.disabled = true;
+    btn.textContent = "LOCKED";
+}
+
+function unlockSpinButton() {
+
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    btn.disabled = false;
+    btn.textContent = "SPIN";
+}
+
+function lockBets() {
+
+    document.querySelectorAll(".chip").forEach(chip => {
+        chip.style.pointerEvents = "none";
+        chip.style.opacity = "0.5";
+    });
+}
+
+function unlockBets() {
+
+    document.querySelectorAll(".chip").forEach(chip => {
+        chip.style.pointerEvents = "auto";
+        chip.style.opacity = "1";
+    });
 }
 
 // ======================================================
