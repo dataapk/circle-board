@@ -439,7 +439,20 @@ function spinWheel() {
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
 // ======================================================
+function resetBoardUI() {
 
+    // remove chips
+    document.querySelectorAll(".chip")
+        .forEach(chip => chip.remove());
+
+    // clear bet boxes / amounts
+    document.querySelectorAll(".bet-box")
+        .forEach(box => {
+            box.innerText = "";
+        });
+
+    console.log("🧹 BOARD UI RESET");
+}
 
 // ======================================================
 // 📍 START: POINTER SECTION
