@@ -1,3 +1,7 @@
+// ======================================================
+// 🧠 GAME ENGINE CORE STATE
+// ======================================================
+
 window.GameEngine = {
 
     // =========================
@@ -13,82 +17,84 @@ window.GameEngine = {
     isSpinning: false,
     lastResult: null,
     currentRotation: 0,
-
-    // 🔁 IMPORTANT FIX (WAS MISSING)
-     spinDirection: 1,
+    spinDirection: 1,
 
     // =========================
-    // 🔊 AUDIO SYSTEM
+    // 🔊 AUDIO SYSTEM (DOM ELEMENTS)
     // =========================
     chipSound: null,
     tableSound: null,
     spinButtonSound: null,
-    spinSound: null
+    spinSound: null,
+    tickSound: null,
+    winSound: null,
+    loseSound: null,
+
+    // =========================
+    // 🎧 AUDIO CONTROLLER (SAFE WRAPPER)
+    // =========================
+    audio: {
+
+        play(sound) {
+            if (!sound) return;
+
+            sound.currentTime = 0;
+            sound.play().catch(() => {});
+        },
+
+        stop(sound) {
+            if (!sound) return;
+
+            sound.pause();
+            sound.currentTime = 0;
+        }
+    }
 };
 
-// ======================================================
-// 🧠 END: GLOBAL GAME STATE
-// ======================================================
 
 // ======================================================
-// 🧠 END: GLOBAL GAME STATE
+// 🚀 ENGINE BOOT SECTION
 // ======================================================
 
-// ======================================================
-// 🚀 START: ENGINE BOOT SECTION
-// ======================================================
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        console.log(
-            "🚀 ENGINE BOOT START"
-        );
-
-        try {
+    console.log("🚀 ENGINE BOOT START");
 
     initAudio();
 
-    if (
-        typeof loadGame ===
-        "function"
-    ) {
-
+    if (typeof loadGame === "function") {
         loadGame();
     }
 
- 
+    console.log("🔗 SYSTEM READY");
+});
 
-            // ==========================
-            // 🔊 AUDIO SYSTEM
-            // ==========================
+
+// ======================================================
+// 🔊 AUDIO INITIALIZATION
+// ======================================================
+
 function initAudio() {
 
-    GameEngine.chipSound =
-        document.getElementById("chipSound");
-
-    GameEngine.spinSound =
-        document.getElementById("spinSound");
-
-    GameEngine.spinButtonSound =
-        document.getElementById("spinButtonSound");
-
-    GameEngine.tableSound =
-        document.getElementById("tableSound");
+    GameEngine.chipSound = document.getElementById("chipSound");
+    GameEngine.tableSound = document.getElementById("tableSound");
+    GameEngine.spinButtonSound = document.getElementById("spinButtonSound");
+    GameEngine.spinSound = document.getElementById("spinSound");
+    GameEngine.tickSound = document.getElementById("tickSound");
+    GameEngine.winSound = document.getElementById("winSound");
+    GameEngine.loseSound = document.getElementById("loseSound");
 
     console.log("🔊 AUDIO READY");
-
-    console.log("CHIP:", GameEngine.chipSound);
-    console.log("SPIN:", GameEngine.spinSound);
-    console.log("BUTTON:", GameEngine.spinButtonSound);
-    console.log("TABLE:", GameEngine.tableSound);
 }
-            
- GameEngine.fadeOutSpinSound = function () {
+
+
+// ======================================================
+// 🎡 AUDIO FADE OUT (OPTIONAL SAFE FEATURE)
+// ======================================================
+
+GameEngine.fadeOutSpinSound = function () {
 
     const sound = this.spinSound;
-
     if (!sound) return;
 
     let volume = sound.volume;
@@ -105,12 +111,9 @@ function initAudio() {
 
             sound.volume = 1;
 
-            this.isSoundPlaying = false;
-
             clearInterval(fade);
 
         } else {
-
             sound.volume = volume;
         }
 
