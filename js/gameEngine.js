@@ -315,8 +315,25 @@ function stopAllSounds() {
 }
 
 // ======================================================
-// 🔊 END: AUDIO SYSTEM SECTION
+// 🔊 resetBets SYSTEM SECTION
 // ======================================================
+ function resetBetsUI() {
+
+    const chips =
+        document.querySelectorAll(".chip");
+
+    chips.forEach(chip => {
+
+        chip.remove();
+    });
+
+    console.log("🧹 BOARD RESET");
+}
+
+// ======================================================
+// 🔊 resetBets END
+// ======================================================
+
 
 
 // ======================================================
