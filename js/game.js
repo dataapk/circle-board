@@ -287,64 +287,19 @@ function spinGame() {
         return;
     }
 
+    // 🎯 GAME STATE START
     GameEngine.isSpinning = true;
 
-    // UI SAFE CALL (optional guard)
-    if (typeof lockSpinButton === "function") {
-        lockSpinButton();
-    }
+    // 🔒 UI LOCK
+    lockSpinButton();
+    lockBets();
 
-    if (typeof lockBets === "function") {
-        lockBets();
-    }
-
+    // 🎡 START ENGINE
     spinWheel();
 }
-function onSpinEnd(result) {
-
-    console.log("🎯 SPIN COMPLETE");
-
-    GameEngine.resolvePayout(result);
-
-    // UI reset (safe guard)
-    if (typeof resetBetsUI === "function") {
-        resetBetsUI();
-    }
-
-    if (typeof unlockSpinButton === "function") {
-        unlockSpinButton();
-    }
-
-    if (typeof unlockBets === "function") {
-        unlockBets();
-    }
-
-    GameEngine.isSpinning = false;
-}
-function resetBetsUI() {
-
-    document.querySelectorAll(".chip")
-        .forEach(chip => {
-
-            chip.classList.add("locked"); // soft lock only
-        });
-}
-
-
-
 // ======================================================
 // 🎰 END: SPIN BUTTON SECTION
 // ======================================================
-// ======================================================
-// 🔄 START: ROUND CONTROL SECTION
-// ======================================================
-
-function startNewRound() {
-
-    GameEngine.bets = {};
-
-    console.log("🔄 NEW ROUND STARTED");
-}
 
 // ======================================================
 // 🔄 END: ROUND CONTROL SECTION
@@ -356,80 +311,43 @@ function startNewRound() {
 // 🎡 START: WHEEL ANIMATION SECTION
 // ======================================================
 
-
 function spinWheel() {
 
     const wheel = document.querySelector(".wheel-img");
 
     if (!wheel) {
-
         console.log("❌ Wheel not found");
-
         GameEngine.isSpinning = false;
-
         return;
     }
 
     const duration = 14000;
-
-    // 🔊 Fade sound sync (GameEngine controlled)
-    if (GameEngine.spinSound) {
-
-        clearTimeout(GameEngine.fadeTimeout);
-
-        GameEngine.fadeTimeout = setTimeout(() => {
-
-            GameEngine.fadeOutSpinSound();
-
-        }, Math.max(duration - 3000, 0));
-    }
-
-    const startAngle =
-        GameEngine.currentRotation || 0;
-
-    const extraSpins =
-        10 * 360;
+    const startAngle = GameEngine.currentRotation || 0;
+    const extraSpins = 10 * 360;
 
     const targetAngle =
-        startAngle +
-        (extraSpins * GameEngine.spinDirection);
+        startAngle + (extraSpins * GameEngine.spinDirection);
 
-    const startTime =
-        performance.now();
+    const startTime = performance.now();
 
     function animate(time) {
 
-        const elapsed =
-            time - startTime;
-
-        const progress =
-            Math.min(elapsed / duration, 1);
-
-        const ease =
-            progress * progress * (3 - 2 * progress);
+        const progress = Math.min((time - startTime) / duration, 1);
+        const ease = progress * progress * (3 - 2 * progress);
 
         const angle =
-            startAngle +
-            (targetAngle - startAngle) * ease;
+            startAngle + (targetAngle - startAngle) * ease;
 
-        wheel.style.transform =
-            `rotate(${angle}deg)`;
+        wheel.style.transform = `rotate(${angle}deg)`;
 
         if (progress < 1) {
-
             requestAnimationFrame(animate);
-
         } else {
 
             GameEngine.currentRotation = targetAngle;
 
-            GameEngine.isSpinning = false;
-
-            unlockSpinButton();
-
-            console.log("🎯 SPIN COMPLETE");
-
-            handleWheelResult(targetAngle);
+            // 🚨 ONLY TRIGGER RESULT HANDLER
+            onSpinEnd(targetAngle);
         }
     }
 
@@ -437,6 +355,68 @@ function spinWheel() {
 }
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
+// ======================================================
+// ======================================================
+// 🎡 LAYER: RESULT HANDLER (FINAL STATE)
+// ======================================================
+  function onSpinEnd(resultAngle) {
+
+    console.log("🎯 SPIN COMPLETE");
+
+    // 🎯 calculate result
+    GameEngine.resolvePayout(resultAngle);
+
+    // 🧹 reset UI
+    resetBetsUI();
+    unlockBets();
+    unlockSpinButton();
+
+    // 🔓 GAME STATE END
+    GameEngine.isSpinning = false;
+
+    // 🎯 final result processing
+    handleWheelResult(resultAngle);
+}
+// ======================================================
+// 🎡 LAYER: RESULT HANDLER END
+// ======================================================
+// ======================================================
+// 🎡 BET UI RESET (SOFT LOCK SAFE) START
+// ======================================================
+ function resetBetsUI() {
+
+    document.querySelectorAll(".chip")
+        .forEach(chip => {
+
+            chip.classList.add("locked"); // visual fade only
+        });
+}
+
+// ======================================================
+// 🎡 BET UI RESET (SOFT LOCK SAFE) END
+// ======================================================
+
+// ======================================================
+// 🎡 LOCKSPIN BUTTON START
+// ======================================================
+function lockSpinButton() {
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    btn.disabled = true;
+    btn.textContent = "LOCKED";
+}
+
+function unlockSpinButton() {
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    btn.disabled = false;
+    btn.textContent = "SPIN";
+}
+
+// ======================================================
+// 🎡 LOCKSPIN BUTTON START END
 // ======================================================
 
 
