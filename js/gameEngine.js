@@ -207,48 +207,36 @@ GameEngine.fadeOutSpinSound = function () {
 function initAudio() {
 
     GameEngine.chipSound =
-        document.getElementById(
-            "chipSound"
-        );
+        document.getElementById("chipSound");
+
+    GameEngine.tableSound =
+        document.getElementById("tableSound");
 
     GameEngine.spinSound =
-        document.getElementById(
-            "spinSound"
-        );
+        document.getElementById("spinSound");
 
     GameEngine.spinButtonSound =
-        document.getElementById(
-            "spinButtonSound"
-        );
+        document.getElementById("spinButtonSound");
 
     GameEngine.tickSound =
-        document.getElementById(
-            "tickSound"
-        );
+        document.getElementById("tickSound");
 
-    console.log(
-        "🔊 AUDIO READY"
-    );
+    console.log("🔊 AUDIO READY");
 
-    console.log(
-        "CHIP:",
-        GameEngine.chipSound
-    );
+    console.log("CHIP:",
+        GameEngine.chipSound);
 
-    console.log(
-        "SPIN:",
-        GameEngine.spinSound
-    );
+    console.log("TABLE:",
+        GameEngine.tableSound);
 
-    console.log(
-        "BUTTON:",
-        GameEngine.spinButtonSound
-    );
+    console.log("SPIN:",
+        GameEngine.spinSound);
 
-    console.log(
-        "TICK:",
-        GameEngine.tickSound
-    );
+    console.log("BUTTON:",
+        GameEngine.spinButtonSound);
+
+    console.log("TICK:",
+        GameEngine.tickSound);
 }
 
 
