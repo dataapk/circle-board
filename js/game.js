@@ -396,19 +396,39 @@ function setupSpinButton() {
 }
 
 
-// ======================================================
-// 🚀 SPIN FLOW
-// ======================================================
+// ==========================
+// 🚀 SPIN FLOW (FULL CONTROL)
+// ==========================
 
 function spinGame() {
 
-    if (GameEngine.isSpinning) return;
-    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
-        console.log("❌ NO BETS");
+    console.log("🔥 SPIN START REQUEST");
+
+    // 🧠 1. already spinning check
+    if (GameEngine.isSpinning) {
+        console.log("❌ BLOCKED: already spinning");
         return;
     }
 
+    // 💰 2. bet validation
+    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
+        console.log("❌ NO BETS PLACED");
+        return;
+    }
+
+    // 🎰 3. SET ENGINE STATE
+    GameEngine.isSpinning = true;
+
+    // 🔘 4. BUTTON SOUND (spin click)
+    GameEngine.audio.play(GameEngine.spinButtonSound);
+
+    // 🔒 5. LOCK FULL GAME UI
     lockGameUI();
+
+    // 🔊 6. SPIN SOUND START
+    GameEngine.audio.play(GameEngine.spinSound);
+
+    // 🎡 7. START WHEEL ANIMATION
     spinWheel();
 }
 
