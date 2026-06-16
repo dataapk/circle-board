@@ -1,5 +1,19 @@
 // ======================================================
-// 🧠 GAME ENGINE CORE (CLEAN SAFE VERSION)
+// TOP GUARD SECTION (VERY IMPORTANT)
+// ======================================================
+if (window.__ENGINE_INIT__) {
+    console.log("⚠ ENGINE ALREADY INIT - SKIP");
+} else {
+    window.__ENGINE_INIT__ = true;
+}
+
+
+// ======================================================
+// TOP GUARD SECTION (VERY IMPORTANT)
+// ======================================================
+
+// ======================================================
+// 2️⃣ GAME ENGINE CORE
 // ======================================================
 
 window.GameEngine = {
@@ -26,7 +40,6 @@ window.GameEngine = {
     tableSound: null,
     spinButtonSound: null,
     spinSound: null,
-    tickSound: null,
     winSound: null,
     loseSound: null,
 
@@ -111,7 +124,6 @@ function initAudio() {
     GameEngine.tableSound = document.getElementById("tableSound");
     GameEngine.spinButtonSound = document.getElementById("spinButtonSound");
     GameEngine.spinSound = document.getElementById("spinSound");
-    GameEngine.tickSound = document.getElementById("tickSound");
     GameEngine.winSound = document.getElementById("winSound");
     GameEngine.loseSound = document.getElementById("loseSound");
 
