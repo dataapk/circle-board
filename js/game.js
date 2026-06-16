@@ -276,6 +276,10 @@ function setupSpinButton() {
 // ==========================
 // 🚀 SPIN START
 // ==========================
+// ==========================
+// 🚀 SPIN START
+// ==========================
+
 function spinGame() {
 
     console.log("🔥 SPIN START REQUEST");
@@ -292,20 +296,91 @@ function spinGame() {
 
     GameEngine.isSpinning = true;
 
+    // 🔒 LOCK EVERYTHING
     lockSpinButton();
     lockBets();
 
     spinWheel();
 }
-// ======================================================
-// 🎰 START ROUND CONTROL SECTION
-// ======================================================
+
+
+// ==========================
+// 🔒 SPIN BUTTON LOCK
+// ==========================
+
+function lockSpinButton() {
+
+    const btn = document.getElementById("spinBtn");
+
+    if (!btn) return;
+
+    btn.disabled = true;
+    btn.classList.add("spinning");
+
+    btn.textContent = "LOCKED";
+}
+
+
+// ==========================
+// 🔓 SPIN BUTTON UNLOCK
+// ==========================
+
+function unlockSpinButton() {
+
+    const btn = document.getElementById("spinBtn");
+
+    if (!btn) return;
+
+    btn.disabled = false;
+    btn.classList.remove("spinning");
+
+    btn.textContent = "SPIN";
+}
+
+
+// ==========================
+// 🔒 BET LOCK
+// ==========================
+
+function lockBets() {
+
+    document.querySelectorAll(".chip").forEach(chip => {
+
+        chip.style.pointerEvents = "none";
+        chip.style.opacity = "0.5";
+
+    });
+
+    console.log("🔒 BETS LOCKED");
+}
+
+
+// ==========================
+// 🔓 BET UNLOCK
+// ==========================
+
+function unlockBets() {
+
+    document.querySelectorAll(".chip").forEach(chip => {
+
+        chip.style.pointerEvents = "auto";
+        chip.style.opacity = "1";
+
+    });
+
+    console.log("🔓 BETS UNLOCKED");
+}
+
+
+// ==========================
+// 🎯 SPIN END
+// ==========================
 
 function onSpinEnd(result) {
 
     GameEngine.state = "RESULT";
 
-    GameEngine.resolvePayout(result);
+    resolvePayout(result);
 
     showResult(result);
 
@@ -315,35 +390,38 @@ function onSpinEnd(result) {
     startNewRound();
 }
 
-  function startNewRound() {
 
-    GameEngine.bets = {};
-    GameEngine.lastResult = null;
+// ==========================
+// 🎡 WHEEL RESULT HANDLER
+// ==========================
 
-    GameEngine.state = "READY";
+function handleWheelResult(angle) {
 
-    console.log("🔄 READY FOR NEW ROUND");
+    const normalized = angle % 360;
+
+    const symbols = [
+        "heart",
+        "diamond",
+        "club",
+        "spade",
+        "crown",
+        "flag"
+    ];
+
+    const segmentSize = 360 / symbols.length;
+
+    const index =
+        Math.floor(normalized / segmentSize);
+
+    const result =
+        symbols[index];
+
+    setLastResult(result);
+
+    console.log("🎯 RESULT:", result);
+
+    onSpinEnd(result);
 }
-// ======================================================
-// 5️⃣ LOCK SYSTEM
-// ======================================================
-function lockBets() {
-
-    document.querySelectorAll(".chip").forEach(chip => {
-        chip.style.pointerEvents = "none";
-        chip.style.opacity = "0.5";
-    });
-}
-
-function unlockBets() {
-
-    document.querySelectorAll(".chip").forEach(chip => {
-        chip.style.pointerEvents = "auto";
-        chip.style.opacity = "1";
-    });
-}
-
-
 // ======================================================
 // 🎡 START: WHEEL ANIMATION SECTION
 // ======================================================
@@ -384,7 +462,7 @@ function spinWheel() {
             GameEngine.currentRotation = targetAngle;
 
             // 🚨 ONLY TRIGGER RESULT HANDLER
-            onSpinEnd(targetAngle);
+            handleWheelResult(targetAngle);
         }
     }
 
@@ -393,24 +471,6 @@ function spinWheel() {
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
 // ======================================================
-
-
-// ======================================================
-// 🎡 BET UI RESET (SOFT LOCK SAFE) START
-// ======================================================
- function resetBetsUI() {
-
-    document.querySelectorAll(".chip")
-        .forEach(chip => {
-
-            chip.classList.add("locked"); // visual fade only
-        });
-}
-
-// ======================================================
-// 🎡 BET UI RESET (SOFT LOCK SAFE) END
-// ======================================================
-
 
 
 // ======================================================
