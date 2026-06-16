@@ -833,6 +833,14 @@ function resetWheelState() {
 
     console.log("🔄 WHEEL RESET COMPLETE");
 }
+function startNewRound() {
+
+    GameEngine.bets = {};
+    GameEngine.isSpinning = false;
+    GameEngine.lastResult = null;
+
+    console.log("🔄 NEW ROUND ACTIVE");
+}
 
 // ======================================================
 // 🎡 END: WHEEL STATE SECTION
