@@ -516,8 +516,8 @@ html, body {
     width: 155px;
     height: 42px;
 
-    border: 2px solid #ffe57a;
-    border-radius: 4px;
+    border: 6px solid #ffe57a;
+    border-radius: 16px;
 
     cursor: pointer;
 
