@@ -128,6 +128,7 @@ function initAudio() {
     GameEngine.loseSound = document.getElementById("loseSound");
 
     console.log("🔊 AUDIO READY");
+    audioInitialized = true;
 }
 
 
