@@ -1,6 +1,16 @@
 // ======================================================
-// 🎮 GAME.JS
+// 🎮 GAME LOGIC
 // ======================================================
+if (window.__GAME_INIT__) {
+    console.log("⚠ GAME ALREADY INIT - SKIP");
+} else {
+    window.__GAME_INIT__ = true;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("🚀 GAME READY");
+        startGame();
+    });
+}
 
 
 // ======================================================
