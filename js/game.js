@@ -276,7 +276,6 @@ function setupSpinButton() {
 // ==========================
 // 🚀 SPIN START
 // ==========================
-
 function spinGame() {
 
     console.log("🔥 SPIN START REQUEST");
@@ -288,127 +287,24 @@ function spinGame() {
         return;
     }
 
-    // 🔥 MASTER STATE LOCK
     GameEngine.isSpinning = true;
 
-    // 🔒 LOCK ALL UI INPUT
     lockSpinButton();
     lockBets();
 
-    playSpinButtonSound();
-    playSpinSound();
-
     spinWheel();
 }
-
-
-// ==========================
-// 🔒 SPIN BUTTON LOCK
-// ==========================
-
-function lockSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-
-    if (!btn) return;
-
-    btn.disabled = true;
-    btn.classList.add("spinning");
-
-    btn.textContent = "LOCKED";
-}
-
-
-// ==========================
-// 🔓 SPIN BUTTON UNLOCK
-// ==========================
-
-function unlockSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-
-    if (!btn) return;
-
-    btn.disabled = false;
-    btn.classList.remove("spinning");
-
-    btn.textContent = "SPIN";
-}
-
-
-// ==========================
-// 🔒 BET LOCK (CHIPS + BOARD INPUT)
-// ==========================
-
-function lockBets() {
-
-    document.querySelectorAll(".chip")
-        .forEach(chip => {
-
-            chip.classList.add("locked");
-        });
-}
-
-
-// ==========================
-// 🔓 BET UNLOCK
-// ==========================
-
-function unlockBets() {
-
-    document.querySelectorAll(".chip")
-        .forEach(chip => {
-
-            chip.classList.remove("locked");
-        });
-}
-
-
-// ==========================
-// 🧹 RESET BET VISUALS (NEXT ROUND CLEAN)
-// ==========================
-
-() {
-
-    document.querySelectorAll(".chip")
-        .forEach(chip => {
-
-            chip.classList.remove("locked");
-        });
-}
-
-
-// ==========================
-// 🎯 SPIN END HANDLER
-// ==========================
-
+// 2️⃣ END (SEPARATE)
 function onSpinEnd(result) {
 
-    console.log("🎯 SPIN COMPLETE");
+    GameEngine.resolvePayout(result);
 
-    // 💰 ENGINE PAYOUT
-    const win = GameEngine.resolvePayout(result);
-
-    // 🎮 UI UPDATE
-    updateBalanceUI();
-
-    // 🧹 CLEAN OLD ROUND VISUALS
     resetBetsUI();
-
-    // 🔓 ENABLE ALL INPUT
     unlockBets();
     unlockSpinButton();
 
-    // 🔥 MASTER STATE RESET
     GameEngine.isSpinning = false;
-
-    return win;
 }
-
-
-// ======================================================
-// 🎰 END SECTION
-// ======================================================
 
 // ======================================================
 // 🎰 END: SPIN BUTTON SECTION
