@@ -301,14 +301,17 @@ function spinGame() {
 // 🎰 END: SPIN BUTTON SECTION
 // ======================================================
 function lockBets() {
-
-    document.querySelectorAll(".chip").forEach(chip => {
-        chip.classList.add("locked");
-        chip.style.pointerEvents = "none";
-        chip.style.opacity = "0.6";
+    document.querySelectorAll(".chip").forEach(c => {
+        c.style.pointerEvents = "none";
+        c.style.opacity = "0.6";
     });
+}
 
-    console.log("🔒 BETS LOCKED");
+function unlockBets() {
+    document.querySelectorAll(".chip").forEach(c => {
+        c.style.pointerEvents = "auto";
+        c.style.opacity = "1";
+    });
 }
 
 // ======================================================
