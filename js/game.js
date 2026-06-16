@@ -300,6 +300,16 @@ function spinGame() {
 // ======================================================
 // 🎰 END: SPIN BUTTON SECTION
 // ======================================================
+function lockBets() {
+
+    document.querySelectorAll(".chip").forEach(chip => {
+        chip.classList.add("locked");
+        chip.style.pointerEvents = "none";
+        chip.style.opacity = "0.6";
+    });
+
+    console.log("🔒 BETS LOCKED");
+}
 
 // ======================================================
 // 🔄 END: ROUND CONTROL SECTION
