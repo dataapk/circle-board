@@ -1,5 +1,5 @@
 // ======================================================
-// 🧠 GAME ENGINE CORE STATE
+// 🧠 GAME ENGINE CORE (CLEAN SAFE VERSION)
 // ======================================================
 
 window.GameEngine = {
@@ -20,7 +20,7 @@ window.GameEngine = {
     spinDirection: 1,
 
     // =========================
-    // 🔊 AUDIO SYSTEM (DOM ELEMENTS)
+    // 🔊 AUDIO REFERENCES
     // =========================
     chipSound: null,
     tableSound: null,
@@ -31,7 +31,7 @@ window.GameEngine = {
     loseSound: null,
 
     // =========================
-    // 🎧 AUDIO CONTROLLER (SAFE WRAPPER)
+    // 🎧 AUDIO CONTROLLER
     // =========================
     audio: {
 
@@ -48,12 +48,43 @@ window.GameEngine = {
             sound.pause();
             sound.currentTime = 0;
         }
+    },
+
+    // =========================
+    // 🔥 OPTIONAL FADE SYSTEM
+    // =========================
+    fadeOutSpinSound() {
+
+        const sound = this.spinSound;
+        if (!sound) return;
+
+        let volume = sound.volume;
+
+        const fade = setInterval(() => {
+
+            volume -= 0.05;
+
+            if (volume <= 0) {
+
+                sound.volume = 0;
+                sound.pause();
+                sound.currentTime = 0;
+
+                sound.volume = 1;
+
+                clearInterval(fade);
+
+            } else {
+                sound.volume = volume;
+            }
+
+        }, 100);
     }
 };
 
 
 // ======================================================
-// 🚀 ENGINE BOOT SECTION
+// 🚀 ENGINE BOOT (SAFE LOAD)
 // ======================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -71,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // ======================================================
-// 🔊 AUDIO INITIALIZATION
+// 🔊 AUDIO INIT (MUST BE OUTSIDE TRY BLOCK)
 // ======================================================
 
 function initAudio() {
