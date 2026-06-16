@@ -75,8 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initChipSystem() {
 
-    const chips =
-        document.querySelectorAll(".chip");
+    const chips = document.querySelectorAll(".chip");
 
     if (!chips.length) {
         console.log("❌ No chips found");
@@ -89,18 +88,19 @@ function initChipSystem() {
 
             e.stopPropagation();
 
-            // ACTIVE STATE ONLY
+            // 🔊 CHIP SOUND (ONLY ONCE - FIXED)
+            GameEngine.audio.play(GameEngine.chipSound);
+
+            // 🧠 ACTIVE STATE ONLY
             chips.forEach(c =>
                 c.classList.remove("active")
             );
 
             chip.classList.add("active");
 
-            // STORE VALUE ONLY
+            // 💰 STORE VALUE ONLY
             GameEngine.selectedChip = {
-                value: parseFloat(
-                    chip.getAttribute("data-value")
-                ),
+                value: parseFloat(chip.getAttribute("data-value")),
                 element: chip
             };
 
@@ -108,21 +108,10 @@ function initChipSystem() {
                 "🪙 CHIP:",
                 GameEngine.selectedChip.value
             );
-
-            // SOUND
-            if (GameEngine.chipSound) {
-
-                GameEngine.chipSound.currentTime = 0;
-
-                GameEngine.chipSound.play()
-                    .catch(() => {});
-            }
-
         });
 
     });
 }
-
 // ======================================================
 // END: CHIP SECTION
 // ======================================================
@@ -150,39 +139,41 @@ function setupBoardSystem() {
 // 🧠 FIX: INLINE CHECK (NO MISSING FUNCTION)
 function onTableClick(box) {
 
+    // ❌ 1. no chip selected check
     if (!GameEngine.selectedChip) {
         console.log("❌ Select chip first");
         return;
     }
 
-    const symbol =
-        box.dataset.symbol;
+    // 🔊 2. TABLE SOUND (IMPORTANT)
+    GameEngine.audio.play(GameEngine.tableSound);
 
-    const chip =
-        GameEngine.selectedChip;
+    const symbol = box.dataset.symbol;
+    const amount = GameEngine.selectedChip.value;
 
-    const amount =
-        chip.value;
+    // 💰 3. balance check / deduct
+    const success = subtractBalance(amount);
 
-    const success =
-        subtractBalance(amount);
+    if (!success) {
+        console.log("❌ NOT ENOUGH BALANCE");
+        return;
+    }
 
-    if (!success) return;
-
+    // 🧠 4. store bet in engine
     addBet(symbol, amount);
 
+    // 🧩 5. visual chip on board
     placeChipVisual(box, amount);
 
-    // 🔊 TABLE SOUND
-    playTableSound();
+    // 🔊 6. optional chip drop sound (extra feel)
+    GameEngine.audio.play(GameEngine.chipSound);
 
     console.log(
-        "💰 BET:",
+        "💰 BET PLACED:",
         symbol,
         amount
     );
 }
-
 // ======================================================
 // FIX STEP 3: CHIP VISUAL SYSTEM
 // ======================================================
