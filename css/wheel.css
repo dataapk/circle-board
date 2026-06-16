@@ -508,99 +508,126 @@ html, body {
 /* ======================================================
    🎮 SPIN BUTTON ENGINE (CASINO PREMIUM FEEL)
 ====================================================== */
-
-.spin-section button {
-
-    width: 160px;      /* লম্বা shape */
-    height: 48px;      /* কম height = flat casino button */
-
-    border: none;
-
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: 1px;
-
-    cursor: pointer;
-
-    color: #111;
-
-    /* 🎯 golden 2-tone casino style */
-    background: linear-gradient(
-        180deg,
-        #ffd84d,
-        #b8860b
-    );
+   
+#spinBtn {
 
     position: relative;
 
-    border-radius: 6px; /* না square, না round → casino edge */
+    width: 220px;
+    height: 60px;
 
-    /* 🎯 3D depth */
-    transform: perspective(500px) translateY(0);
+    border: none;
+    border-radius: 18px;
+
+    cursor: pointer;
+
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 2px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            180deg,
+            #3ecbff 0%,
+            #009dff 50%,
+            #0066ff 100%
+        );
 
     box-shadow:
-        0 6px 0 #8a6b00,
-        0 14px 18px rgba(0,0,0,0.35),
-        inset 0 2px 2px rgba(255,255,255,0.5);
+        0 0 10px rgba(0,180,255,.5),
+        0 0 25px rgba(0,180,255,.4),
+        inset 0 2px 4px rgba(255,255,255,.4);
 
-    transition: all 0.12s ease;
+    transition:
+        transform .08s ease,
+        box-shadow .25s ease;
 
-    text-transform: uppercase;
+    overflow: hidden;
 }
 
-/* =========================
-   🔘 PRESS EFFECT (CLICK DOWN)
-========================= */
-.spin-section button:active {
 
-    transform: perspective(500px) translateY(4px);
+/* WATER GLOW */
 
-    box-shadow:
-        0 2px 0 #8a6b00,
-        0 8px 14px rgba(0,0,0,0.3),
-        inset 0 1px 2px rgba(255,255,255,0.4);
-}
-
-/* =========================
-   ✨ BUTTON FLOAT ANIMATION
-========================= */
-
-@keyframes spinIdleFloat {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-2px);
-    }
-}
-
-/* =========================
-   🌟 BUTTON GLOW UNDER EFFECT
-========================= */
-
-.spin-section button::after {
+#spinBtn::before {
 
     content: "";
 
     position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
 
-    width: 60%;
-    height: 10px;
+    top: -50%;
+    left: -30%;
 
-    background: radial-gradient(
-        ellipse,
-        rgba(255,215,0,0.6),
-        transparent 70%
-    );
+    width: 50%;
+    height: 200%;
 
-    filter: blur(6px);
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.45),
+            transparent
+        );
 
-    opacity: 0.8;
+    transform: rotate(25deg);
 
-    pointer-events: none;
+    animation:
+        waterGlow 4s linear infinite;
+}
+
+
+/* OUTER LIGHT */
+
+#spinBtn::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: -4px;
+
+    border-radius: 22px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,200,255,.6),
+            transparent 70%
+        );
+
+    z-index: -1;
+
+    filter: blur(12px);
+}
+
+
+/* PRESS EFFECT */
+
+#spinBtn:active {
+
+    transform:
+        translateY(4px);
+
+    box-shadow:
+        0 0 8px rgba(0,180,255,.4),
+        inset 0 2px 4px rgba(0,0,0,.3);
+}
+
+
+/* WATER MOVE */
+
+@keyframes waterGlow {
+
+    from {
+
+        left: -40%;
+    }
+
+    to {
+
+        left: 130%;
+    }
 }
 
 /* =========================
