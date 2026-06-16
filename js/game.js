@@ -305,6 +305,9 @@ function initChipSystem() {
 
             if (GameEngine.isSpinning) return;
 
+            // 🔊 CHIP SOUND (HERE IS PERFECT PLACE)
+            GameEngine.audio.play(GameEngine.chipSound);
+
             document.querySelectorAll(".chip")
                 .forEach(c => c.classList.remove("active"));
 
@@ -341,6 +344,9 @@ function onTableClick(box) {
     const amount = GameEngine.selectedChip.value;
 
     if (!subtractBalance(amount)) return;
+
+    // 🔊 TABLE SOUND (ADD HERE)
+    GameEngine.audio.play(GameEngine.tableSound);
 
     addBet(symbol, amount);
     placeChipVisual(box, amount);
