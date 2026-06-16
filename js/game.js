@@ -278,9 +278,19 @@ function setupSpinButton() {
 // ==========================
 function spinGame() {
 
-    if (GameEngine.state !== "READY") return;
+    console.log("🔥 SPIN START REQUEST");
 
-    GameEngine.state = "SPINNING";
+    if (GameEngine.isSpinning === true) {
+        console.log("BLOCKED: already spinning");
+        return;
+    }
+
+    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
+        console.log("BLOCKED: no bets");
+        return;
+    }
+
+    GameEngine.isSpinning = true;
 
     lockSpinButton();
     lockBets();
