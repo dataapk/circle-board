@@ -705,29 +705,24 @@ function applyWin(winAmount) {
 
 
 // 🎯 MAIN RESULT HANDLER (CALL THIS AFTER SPIN)
+// 🎯 MAIN RESULT HANDLER (LOGIC ONLY)
 function handlePayout(resultSymbol) {
-
-    console.log("🎯 RESULT:", resultSymbol);
 
     const win = calculateWin(resultSymbol);
 
     GameEngine.lastResult = resultSymbol;
 
-    console.log("💰 WIN:", win);
-
     applyWin(win);
 
     return win;
 }
+// 🎯 FLOW CONTROLLER (NO LOGIC, ONLY SEQUENCE)
 function resolvePayout(result) {
 
     const winAmount = handlePayout(result);
 
-    startNewRound();
-
     return winAmount;
 }
-
 
 
 // 🧹 ROUND RESET (IMPORTANT)
