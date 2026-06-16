@@ -390,38 +390,6 @@ function onSpinEnd(result) {
     startNewRound();
 }
 
-
-// ==========================
-// 🎡 WHEEL RESULT HANDLER
-// ==========================
-
-function handleWheelResult(angle) {
-
-    const normalized = angle % 360;
-
-    const symbols = [
-        "heart",
-        "diamond",
-        "club",
-        "spade",
-        "crown",
-        "flag"
-    ];
-
-    const segmentSize = 360 / symbols.length;
-
-    const index =
-        Math.floor(normalized / segmentSize);
-
-    const result =
-        symbols[index];
-
-    setLastResult(result);
-
-    console.log("🎯 RESULT:", result);
-
-    onSpinEnd(result);
-}
 // ======================================================
 // 🎡 START: WHEEL ANIMATION SECTION
 // ======================================================
