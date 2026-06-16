@@ -319,24 +319,6 @@ function unlockSpinButton() {
     btn.textContent =
         "SPIN";
 }
-function resolvePayout(result) {
-
-    const winAmount = handlePayout(result);
-
-    updateBalanceUI();
-
-    setTimeout(() => {
-
-        startNewRound();
-
-        resetBetsUI();       // 🔥 THIS IS MISSING
-
-        unlockSpinButton();
-
-    }, 300);
-
-    return winAmount;
-}
 
 // ======================================================
 // 🎰 END: SPIN BUTTON SECTION
