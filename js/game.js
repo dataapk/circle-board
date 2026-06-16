@@ -256,68 +256,114 @@ function setupSpinButton() {
 
 
 
-function spinGame() {
+// ======================================================
+// 🎰 SPIN GAME FLOW (UI CONTROL SECTION)
+// ======================================================
 
-    playSpinButtonSound();
+function setupSpinButton() {
+
+    const btn = document.getElementById("spinBtn");
+
+    if (!btn) return;
+
+    btn.addEventListener("click", spinGame);
+
+    console.log("🎰 SPIN BUTTON READY");
+}
+
+
+// ==========================
+// 🚀 SPIN START
+// ==========================
+
+function spinGame() {
 
     console.log("🔥 SPIN START REQUEST");
 
-    if (GameEngine.isSpinning) {
-        console.log("❌ Wheel already spinning");
-        return;
-    }
+    if (GameEngine.isSpinning) return;
 
     if (!hasBets()) {
         console.log("❌ Place a bet first");
         return;
     }
 
-    GameEngine.isSpinning = true; // 🔥 SINGLE SOURCE OF TRUTH
-
-    playSpinSound();
+    GameEngine.isSpinning = true;
 
     lockSpinButton();
 
+    playSpinButtonSound();
+    playSpinSound();
+
     spinWheel();
 }
+
+
+// ==========================
+// 🔒 LOCK BUTTON
+// ==========================
+
 function lockSpinButton() {
 
-    const btn =
-        document.getElementById(
-            "spinBtn"
-        );
+    const btn = document.getElementById("spinBtn");
 
     if (!btn) return;
 
     btn.disabled = true;
+    btn.classList.add("spinning");
 
-    btn.classList.add(
-        "spinning"
-    );
-
-    btn.textContent =
-        "LOCKED";
+    btn.textContent = "LOCKED";
 }
 
 
+// ==========================
+// 🔓 UNLOCK BUTTON
+// ==========================
 
 function unlockSpinButton() {
 
-    const btn =
-        document.getElementById(
-            "spinBtn"
-        );
+    const btn = document.getElementById("spinBtn");
 
     if (!btn) return;
 
     btn.disabled = false;
+    btn.classList.remove("spinning");
 
-    btn.classList.remove(
-        "spinning"
-    );
+    btn.textContent = "SPIN";
+}
 
-    btn.textContent =
-        "SPIN";
+
+// ==========================
+// 🎯 SPIN END HANDLER (CALL FROM WHEEL STOP)
+// ==========================
+
+function onSpinEnd(result) {
+
+    console.log("🎯 SPIN COMPLETE");
+
+    const win = GameEngine.resolvePayout(result);
+
+    updateBalanceUI();
+
+    resetBetsUI();        // chips dim/reset visual
+    unlockSpinButton();   // enable button
+
+    GameEngine.isSpinning = false;
+
+    return win;
+}
+
+
+// ==========================
+// 🧹 RESET BETS UI
+// ==========================
+
+function resetBetsUI() {
+
+    document.querySelectorAll(".chip")
+        .forEach(chip => {
+
+            chip.classList.add("locked");
+        });
 }
 
 // ======================================================
