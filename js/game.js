@@ -298,20 +298,42 @@ function spinGame() {
     spinWheel();
 }
 // ======================================================
-// 🎰 END: SPIN BUTTON SECTION
+// 🎰 START ROUND CONTROL SECTION
 // ======================================================
 function lockBets() {
-    document.querySelectorAll(".chip").forEach(c => {
-        c.style.pointerEvents = "none";
-        c.style.opacity = "0.6";
+
+    document.querySelectorAll(".chip").forEach(chip => {
+        chip.classList.add("locked");
+        chip.style.pointerEvents = "none";
+        chip.style.opacity = "0.6";
     });
+
+    console.log("🔒 BETS LOCKED");
 }
 
 function unlockBets() {
-    document.querySelectorAll(".chip").forEach(c => {
-        c.style.pointerEvents = "auto";
-        c.style.opacity = "1";
+
+    document.querySelectorAll(".chip").forEach(chip => {
+        chip.classList.remove("locked");
+        chip.style.pointerEvents = "auto";
+        chip.style.opacity = "1";
     });
+
+    console.log("🔓 BETS UNLOCKED");
+}
+function onSpinEnd(result) {
+
+    console.log("🎯 SPIN COMPLETE");
+
+    GameEngine.resolvePayout(result);
+
+    resetBetsUI();     // clean old chips (optional)
+    unlockBets();      // 🔓 MAIN FIX (this was missing)
+    unlockSpinButton();
+
+    GameEngine.isSpinning = false;
+
+    startNewRound();   // reset state
 }
 
 // ======================================================
@@ -369,27 +391,7 @@ function spinWheel() {
 // ======================================================
 // 🎡 END: WHEEL ANIMATION SECTION
 // ======================================================
-// ======================================================
-// 🎡 LAYER: RESULT HANDLER (FINAL STATE)
-// ======================================================
-  function onSpinEnd(resultAngle) {
 
-    console.log("🎯 SPIN COMPLETE");
-
-    // 🎯 calculate result
-    GameEngine.resolvePayout(resultAngle);
-
-    // 🧹 reset UI
-    resetBetsUI();
-    unlockBets();
-    unlockSpinButton();
-
-    // 🔓 GAME STATE END
-    GameEngine.isSpinning = false;
-
-    // 🎯 final result processing
-    handleWheelResult(resultAngle);
-}
 // ======================================================
 // 🎡 LAYER: RESULT HANDLER END
 // ======================================================
