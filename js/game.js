@@ -289,8 +289,7 @@ function spinGame() {
 
     GameEngine.isSpinning = true;
 
-    lockSpinButton();
-    lockBets();
+    
 
     spinWheel();
 }
