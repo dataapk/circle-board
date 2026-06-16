@@ -149,26 +149,24 @@ function setupBoardSystem() {
 // 🧠 FIX: INLINE CHECK (NO MISSING FUNCTION)
 function onTableClick(box) {
 
-    // ❌ 1. no chip selected check
     if (!GameEngine.selectedChip) {
         console.log("❌ Select chip first");
         return;
     }
 
-        // 🔊 2. TABLE SOUND (FIXED SAFE PLAY)
+    // 🔊 TABLE SOUND
     if (GameEngine.tableSound) {
-        GameEngine.tableSound.pause();
+
         GameEngine.tableSound.currentTime = 0;
 
         GameEngine.tableSound.play().catch(err => {
-            console.log("TABLE SOUND BLOCKED:", err);
+            console.log("TABLE SOUND ERROR:", err);
         });
     }
 
     const symbol = box.dataset.symbol;
     const amount = GameEngine.selectedChip.value;
 
-    // 💰 3. balance check / deduct
     const success = subtractBalance(amount);
 
     if (!success) {
@@ -176,20 +174,10 @@ function onTableClick(box) {
         return;
     }
 
-    // 🧠 4. store bet in engine
     addBet(symbol, amount);
-
-    // 🧩 5. visual chip on board
     placeChipVisual(box, amount);
 
-    // 🔊 6. optional chip drop sound (extra feel)
-    GameEngine.audio.play(GameEngine.chipSound);
-
-    console.log(
-        "💰 BET PLACED:",
-        symbol,
-        amount
-    );
+    console.log("💰 BET PLACED:", symbol, amount);
 }
 // ======================================================
 // FIX STEP 3: CHIP VISUAL SYSTEM
