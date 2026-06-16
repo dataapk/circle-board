@@ -515,6 +515,7 @@ html, body {
 
     width: 155px;
     height: 42px;
+   margin-top: -10px;
 
     border: 6px solid #ffe57a;
     border-radius: 16px;
