@@ -719,6 +719,15 @@ function handlePayout(resultSymbol) {
 
     return win;
 }
+function resolvePayout(result) {
+
+    const winAmount = handlePayout(result);
+
+    startNewRound();
+
+    return winAmount;
+}
+
 
 
 // 🧹 ROUND RESET (IMPORTANT)
