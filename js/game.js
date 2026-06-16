@@ -278,75 +278,60 @@ function setupSpinButton() {
 // ==========================
 function spinGame() {
 
-    console.log("🔥 SPIN START REQUEST");
+    if (GameEngine.state !== "READY") return;
 
-    if (GameEngine.isSpinning) return;
+    GameEngine.state = "SPINNING";
 
-    if (!hasBets()) {
-        console.log("❌ Place a bet first");
-        return;
-    }
-
-    // 🎯 GAME STATE START
-    GameEngine.isSpinning = true;
-
-    // 🔒 UI LOCK
     lockSpinButton();
     lockBets();
 
-    // 🎡 START ENGINE
     spinWheel();
 }
 // ======================================================
 // 🎰 START ROUND CONTROL SECTION
 // ======================================================
+
+function onSpinEnd(result) {
+
+    GameEngine.state = "RESULT";
+
+    GameEngine.resolvePayout(result);
+
+    showResult(result);
+
+    unlockSpinButton();
+    unlockBets();
+
+    startNewRound();
+}
+
+  function startNewRound() {
+
+    GameEngine.bets = {};
+    GameEngine.lastResult = null;
+
+    GameEngine.state = "READY";
+
+    console.log("🔄 READY FOR NEW ROUND");
+}
+// ======================================================
+// 5️⃣ LOCK SYSTEM
+// ======================================================
 function lockBets() {
 
     document.querySelectorAll(".chip").forEach(chip => {
-        chip.classList.add("locked");
         chip.style.pointerEvents = "none";
-        chip.style.opacity = "0.6";
+        chip.style.opacity = "0.5";
     });
-
-    console.log("🔒 BETS LOCKED");
 }
 
 function unlockBets() {
 
     document.querySelectorAll(".chip").forEach(chip => {
-        chip.classList.remove("locked");
         chip.style.pointerEvents = "auto";
         chip.style.opacity = "1";
     });
-
-    console.log("🔓 BETS UNLOCKED");
 }
-function onSpinEnd(result) {
-
-    console.log("🎯 SPIN COMPLETE");
-
-    GameEngine.resolvePayout(result);
-
-    resetBetsUI();     // clean old chips (optional)
-    unlockBets();      // 🔓 MAIN FIX (this was missing)
-    unlockSpinButton();
-
-    GameEngine.isSpinning = false;
-
-    startNewRound();   // reset state
-}
-function startNewRound() {
-
-    GameEngine.bets = {};
-    GameEngine.lastResult = null;
-
-    console.log("🔄 NEW ROUND STARTED");
-}
-
-// ======================================================
-// 🔄 END: ROUND CONTROL SECTION
-// ======================================================
-
 
 
 // ======================================================
@@ -399,9 +384,7 @@ function spinWheel() {
 // 🎡 END: WHEEL ANIMATION SECTION
 // ======================================================
 
-// ======================================================
-// 🎡 LAYER: RESULT HANDLER END
-// ======================================================
+
 // ======================================================
 // 🎡 BET UI RESET (SOFT LOCK SAFE) START
 // ======================================================
