@@ -294,6 +294,9 @@ function lockSpinButton() {
     btn.classList.add(
         "spinning"
     );
+
+    btn.textContent =
+        "SPIN LOCKED";
 }
 
 
@@ -312,6 +315,9 @@ function unlockSpinButton() {
     btn.classList.remove(
         "spinning"
     );
+
+    btn.textContent =
+        "SPIN";
 }
 
 // ======================================================
