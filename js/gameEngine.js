@@ -733,31 +733,6 @@ function startNewRound() {
     return;
 }
 // 🧹 ROUND RESET END
-function resolvePayout(
-    result
-) {
-
-    const winAmount =
-        handlePayout(
-            result
-        );
-
-    console.log(
-        "💰 BALANCE:",
-        GameEngine.balance
-    );
-
-    startNewRound();
-
-    GameEngine.isSpinning =
-        false;
-
-    updateBalanceUI();
-
-    return winAmount;
-}
-
-
 
 
 // ======================================================
