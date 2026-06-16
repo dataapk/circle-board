@@ -550,96 +550,45 @@ function hasBets() {
 
 
 // ======================================================
-// 🎲 START: RESULT SYSTEM SECTION
+// 🎲 RESULT SYSTEM (CLEAN FINAL VERSION)
 // ======================================================
 
-
-
-function setLastResult(
-    result
-) {
-
-    GameEngine.lastResult =
-        result;
+function setLastResult(result) {
+    GameEngine.lastResult = result;
 }
-
-
 
 function getLastResult() {
-
-    return (
-        GameEngine.lastResult
-    );
+    return GameEngine.lastResult;
 }
 
 
+// 🎯 MAIN RESULT HANDLER
+function handleWheelResult(angle) {
 
-function handleWheelResult(
-    angle
-) {
-
-    const normalized =
-        angle % 360;
+    const normalized = angle % 360;
 
     const symbols = [
-
         "heart",
-
         "diamond",
-
         "club",
-
         "spade",
-
         "crown",
-
         "flag"
     ];
 
-    const segmentSize =
-        360 /
-        symbols.length;
+    const segmentSize = 360 / symbols.length;
 
-    const index =
-        Math.floor(
-            normalized /
-            segmentSize
-        );
+    const index = Math.floor(normalized / segmentSize);
 
-    const result =
-        symbols[index];
+    const result = symbols[index];
 
-    setLastResult(
-        result
-    );
+    setLastResult(result);
 
-    console.log(
-        "🎯 RESULT:",
-        result
-    );
+    console.log("🎯 RESULT:", result);
 
-    resolvePayout(
-        result
-    );
+    // 👉 IMPORTANT: ONLY CALL FLOW CONTROLLER HERE
+    onSpinEnd(result);
 }
-
-
-
-function isWinningResult(
-    result
-) {
-
-    return (
-        getLastResult() ===
-        result
-    );
-}
-
-
-
-// ======================================================
-// 🎲 END: RESULT SYSTEM SECTION
-// ======================================================
 
 
 // ======================================================
