@@ -289,21 +289,48 @@ function spinGame() {
 
     GameEngine.isSpinning = true;
 
-    
+    // UI SAFE CALL (optional guard)
+    if (typeof lockSpinButton === "function") {
+        lockSpinButton();
+    }
+
+    if (typeof lockBets === "function") {
+        lockBets();
+    }
 
     spinWheel();
 }
-// 2️⃣ END (SEPARATE)
 function onSpinEnd(result) {
+
+    console.log("🎯 SPIN COMPLETE");
 
     GameEngine.resolvePayout(result);
 
-    resetBetsUI();
-    unlockBets();
-    unlockSpinButton();
+    // UI reset (safe guard)
+    if (typeof resetBetsUI === "function") {
+        resetBetsUI();
+    }
+
+    if (typeof unlockSpinButton === "function") {
+        unlockSpinButton();
+    }
+
+    if (typeof unlockBets === "function") {
+        unlockBets();
+    }
 
     GameEngine.isSpinning = false;
 }
+function resetBetsUI() {
+
+    document.querySelectorAll(".chip")
+        .forEach(chip => {
+
+            chip.classList.add("locked"); // soft lock only
+        });
+}
+
+
 
 // ======================================================
 // 🎰 END: SPIN BUTTON SECTION
