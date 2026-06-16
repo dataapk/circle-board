@@ -151,39 +151,37 @@ GameEngine.fadeOutSpinSound = function () {
     }, 100);
 };
             
-           
-            // ==========================
-            // 💰 BALANCE SYSTEM
-            // ==========================
+           function engineDebug() {
 
-            if (
-                typeof updateBalanceUI ===
-                "function"
-            ) {
+    // ==========================
+    // 💰 BALANCE SYSTEM
+    // ==========================
 
-                updateBalanceUI();
-            }
+    if (typeof updateBalanceUI === "function") {
+        updateBalanceUI();
+    }
 
-            // ==========================
-            // 🧠 DEBUG
-            // ==========================
-try {
+    // ==========================
+    // 🧠 DEBUG
+    // ==========================
 
-    console.log("🎮 ENGINE READY");
+    try {
 
-    console.log(
-        "💰 BALANCE:",
-        GameEngine.balance
-    );
+        console.log("🎮 ENGINE READY");
 
-} catch (err) {
+        console.log(
+            "💰 BALANCE:",
+            GameEngine.balance
+        );
 
-    console.log(
-        "💥 ENGINE ERROR:",
-        err
-    );
+    } catch (err) {
+
+        console.log(
+            "💥 ENGINE ERROR:",
+            err
+        );
+    }
 }
-
 // ======================================================
 // 🚀 END: ENGINE BOOT SECTION
 // ======================================================
