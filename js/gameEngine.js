@@ -167,25 +167,22 @@ GameEngine.fadeOutSpinSound = function () {
             // ==========================
             // 🧠 DEBUG
             // ==========================
+try {
 
-            console.log(
-                "🎮 ENGINE READY"
-            );
+    console.log("🎮 ENGINE READY");
 
-            console.log(
-                "💰 BALANCE:",
-                GameEngine.balance
-            );
+    console.log(
+        "💰 BALANCE:",
+        GameEngine.balance
+    );
 
-           catch (err) {
+} catch (err) {
 
-            console.log(
-                "💥 ENGINE ERROR:",
-                err
-            );
-        }
-    }
-);
+    console.log(
+        "💥 ENGINE ERROR:",
+        err
+    );
+}
 
 // ======================================================
 // 🚀 END: ENGINE BOOT SECTION
