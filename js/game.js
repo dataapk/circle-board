@@ -335,6 +335,13 @@ function onSpinEnd(result) {
 
     startNewRound();   // reset state
 }
+function startNewRound() {
+
+    GameEngine.bets = {};
+    GameEngine.lastResult = null;
+
+    console.log("🔄 NEW ROUND STARTED");
+}
 
 // ======================================================
 // 🔄 END: ROUND CONTROL SECTION
@@ -411,28 +418,6 @@ function spinWheel() {
 // 🎡 BET UI RESET (SOFT LOCK SAFE) END
 // ======================================================
 
-// ======================================================
-// 🎡 LOCKSPIN BUTTON START
-// ======================================================
-function lockSpinButton() {
-    const btn = document.getElementById("spinBtn");
-    if (!btn) return;
-
-    btn.disabled = true;
-    btn.textContent = "LOCKED";
-}
-
-function unlockSpinButton() {
-    const btn = document.getElementById("spinBtn");
-    if (!btn) return;
-
-    btn.disabled = false;
-    btn.textContent = "SPIN";
-}
-
-// ======================================================
-// 🎡 LOCKSPIN BUTTON START END
-// ======================================================
 
 
 // ======================================================
