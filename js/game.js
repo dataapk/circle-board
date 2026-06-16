@@ -378,16 +378,17 @@ function unlockBets() {
 
 function onSpinEnd(result) {
 
-    GameEngine.state = "RESULT";
+    console.log("🏁 SPIN END TRIGGERED");
 
-    resolvePayout(result);
+    resolvePayout(result); // 💰 win apply
 
-    showResult(result);
+    resetWheelState();     // 🎡 wheel reset
 
-    unlockSpinButton();
-    unlockBets();
+    unlockGameUI();        // 🔓 UI unlock (IMPORTANT FIX)
 
-    startNewRound();
+    startNewRound();       // 🧠 reset engine
+
+    console.log("✔ READY FOR NEXT SPIN");
 }
 
 // ======================================================
