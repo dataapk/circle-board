@@ -155,8 +155,15 @@ function onTableClick(box) {
         return;
     }
 
-    // 🔊 2. TABLE SOUND (IMPORTANT)
-    GameEngine.audio.play(GameEngine.tableSound);
+        // 🔊 2. TABLE SOUND (FIXED SAFE PLAY)
+    if (GameEngine.tableSound) {
+        GameEngine.tableSound.pause();
+        GameEngine.tableSound.currentTime = 0;
+
+        GameEngine.tableSound.play().catch(err => {
+            console.log("TABLE SOUND BLOCKED:", err);
+        });
+    }
 
     const symbol = box.dataset.symbol;
     const amount = GameEngine.selectedChip.value;
