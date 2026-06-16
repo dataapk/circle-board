@@ -722,11 +722,15 @@ function handlePayout(resultSymbol) {
 
 
 // 🧹 ROUND RESET (IMPORTANT)
+// 🧹 ROUND RESET
 function startNewRound() {
 
     GameEngine.bets = {};
+    GameEngine.isSpinning = false;
 
     console.log("🔄 NEW ROUND STARTED");
+
+    return;
 }
 // 🧹 ROUND RESET END
 function resolvePayout(
