@@ -290,6 +290,10 @@ function lockSpinButton() {
     if (!btn) return;
 
     btn.disabled = true;
+
+    btn.classList.add(
+        "spinning"
+    );
 }
 
 
@@ -304,9 +308,11 @@ function unlockSpinButton() {
     if (!btn) return;
 
     btn.disabled = false;
+
+    btn.classList.remove(
+        "spinning"
+    );
 }
-
-
 
 // ======================================================
 // 🎰 END: SPIN BUTTON SECTION
