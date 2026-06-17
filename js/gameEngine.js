@@ -205,21 +205,35 @@ function lockGameUI() {
 
     console.log("🔴 LOCK TRIGGERED");
 
+    if (GameEngine.isSpinning) {
+        console.log("⚠️ Already locked");
+        return;
+    }
+
+    GameEngine.state = "SPINNING";
     GameEngine.isSpinning = true;
 
-    lockSpinButton();   // 🔥 UI
-    lockBets();         // 🔥 logic
+    lockSpinButton();   // 🔥 UI LOCK
+    lockBets();         // 🔥 BET LOCK
 
+    console.log("🔒 GAME LOCKED");
 }
 function unlockGameUI() {
 
     console.log("🟢 UNLOCK TRIGGERED");
 
+    if (!GameEngine.isSpinning) {
+        console.log("⚠️ Already unlocked");
+        return;
+    }
+
+    GameEngine.state = "READY";
     GameEngine.isSpinning = false;
 
-    unlockSpinButton(); // 🔥 UI
-    unlockBets();       // 🔥 logic
+    unlockSpinButton(); // 🔥 UI UNLOCK
+    unlockBets();       // 🔥 BET UNLOCK
 
+    console.log("🔓 GAME UNLOCKED");
 }
 function lockSpinButton() {
 
@@ -231,9 +245,8 @@ function lockSpinButton() {
 
     btn.querySelector(".btn-text").innerText = "LOCKED";
 
-    btn.querySelector(".btn-icon").src = "assets/lock.png";
-
-    console.log("🔴 BUTTON LOCKED");
+    console.log("🔴 SPIN LOCKED");
+}
 }
 function unlockSpinButton() {
 
@@ -245,9 +258,7 @@ function unlockSpinButton() {
 
     btn.querySelector(".btn-text").innerText = "SPIN";
 
-    btn.querySelector(".btn-icon").src = "assets/wheel.png";
-
-    console.log("🟢 BUTTON UNLOCKED");
+    console.log("🟢 SPIN READY");
 }
 // ======================================================
 // 🔊 START: BUTTON LOCK UNLOCK SECTION END
