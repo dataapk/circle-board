@@ -132,10 +132,6 @@ function unlockGameUI() {
 // 🚀 END: GAME INIT SECTION
 // ======================================================
 
-// ======================================================
-// 🪙 START: CHIP SYSTEM (FINAL CLEAN VERSION)
-// ======================================================
-
 let chipMenuExpanded = false;
 
 function initChipSystem() {
@@ -147,7 +143,7 @@ function initChipSystem() {
     if (!chips.length || !container) return;
 
     // ======================================================
-    // 🟢 DEFAULT CHIP SET
+    // 🟢 SET DEFAULT CHIP (ONLY VISUAL + STATE)
     // ======================================================
     function setDefaultChip() {
 
@@ -160,13 +156,15 @@ function initChipSystem() {
                 value: parseFloat(defaultChip.dataset.value),
                 element: defaultChip
             };
+
+            console.log("DEFAULT CHIP:", GameEngine.selectedChip.value);
         }
     }
 
     setDefaultChip();
 
     // ======================================================
-    // 🟡 MAIN CLICK LOGIC (EXPAND → SELECT)
+    // 🟡 CLICK = ONLY EXPAND FIRST, THEN SELECT
     // ======================================================
     chips.forEach((chip) => {
 
@@ -177,7 +175,7 @@ function initChipSystem() {
             if (GameEngine.isSpinning) return;
 
             // ==================================================
-            // 🔥 STEP 1: IF NOT EXPANDED → ONLY EXPAND
+            // 🔥 FIRST CLICK → EXPAND ONLY
             // ==================================================
             if (!chipMenuExpanded) {
 
@@ -186,14 +184,14 @@ function initChipSystem() {
 
                 chipMenuExpanded = true;
 
-                console.log("📦 MENU EXPANDED");
-
-                return; // 🚨 STOP HERE
+                console.log("📦 EXPANDED ONLY");
+                return;
             }
 
             // ==================================================
-            // 🪙 STEP 2: SELECT CHIP
+            // 🪙 SECOND STEP → SELECT CHIP
             // ==================================================
+
             GameEngine.audio.play(GameEngine.chipSound);
 
             chips.forEach(c => c.classList.remove("active"));
@@ -215,6 +213,9 @@ function initChipSystem() {
                 container.classList.add("collapsed");
 
                 chipMenuExpanded = false;
+
+                // reset to default visually optional
+                // setDefaultChip();
 
             }, 120);
         });
