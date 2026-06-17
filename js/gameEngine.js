@@ -233,6 +233,26 @@ GameEngine.fadeOutSpinSound = function () {
 // ======================================================
 // 🎡 ALWAYS CONTROL ICON STATE END
 // ======================================================
+// ======================================================
+// CHIP SYSTEM LOGIC
+// ======================================================
+ const GameEngine = {
+
+    state: "READY", // READY | SPINNING
+
+    isSpinning: false,
+
+    selectedChip: null,
+
+    chipMenuOpen: false,
+
+    audio: {
+        play: (sound) => sound?.play?.()
+    }
+};
+// ======================================================
+// CHIP SYSTEM LOGIC END
+// ======================================================
 
 // ======================================================
 // 🔊 START: AUDIO SYSTEM SECTION
