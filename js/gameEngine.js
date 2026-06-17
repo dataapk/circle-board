@@ -198,6 +198,19 @@ GameEngine.fadeOutSpinSound = function () {
 // ======================================================
 // 🚀 END: ENGINE BOOT SECTION
 // ======================================================
+function setState(state) {
+
+    currentState = state;
+
+    container.classList.remove("collapsed", "expanded");
+
+    container.classList.add(state);
+
+    // 🎯 FORCE REFLOW (smooth animation fix)
+    container.offsetHeight;
+
+    console.log("🎯 STATE:", state);
+}
 // ======================================================
 // 🎡 ALWAYS CONTROL ICON STATE
 // ======================================================
