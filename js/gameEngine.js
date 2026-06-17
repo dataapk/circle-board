@@ -203,37 +203,36 @@ GameEngine.fadeOutSpinSound = function () {
 // ======================================================
 function lockGameUI() {
 
-    console.count("🔴 LOCK CALL COUNT"); // 👈 এখানে
+    console.count("🔴 LOCK CALL COUNT");
 
     console.log("🔴 LOCK TRIGGERED");
 
-    if (GameEngine.isSpinning) {
+    if (GameEngine.isSpinning === true) {
         console.log("⚠️ Already locked");
         return;
     }
 
-    GameEngine.state = "SPINNING";
     GameEngine.isSpinning = true;
+    GameEngine.state = "SPINNING";
 
     lockSpinButton();
     lockBets();
+
+    console.log("🔒 GAME LOCKED");
 }
 function unlockGameUI() {
 
-    console.count("🟢 UNLOCK CALL COUNT"); // 👈 এখানে
+    console.count("🟢 UNLOCK CALL COUNT");
 
     console.log("🟢 UNLOCK TRIGGERED");
 
-    if (!GameEngine.isSpinning) {
-        console.log("⚠️ Already unlocked");
-        return;
-    }
-
-    GameEngine.state = "READY";
     GameEngine.isSpinning = false;
+    GameEngine.state = "READY";
 
     unlockSpinButton();
     unlockBets();
+
+    console.log("🔓 GAME UNLOCKED");
 }
 function unlockSpinButton() {
 
