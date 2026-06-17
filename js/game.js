@@ -131,33 +131,10 @@ function unlockGameUI() {
 // ======================================================
 // 🚀 END: GAME INIT SECTION
 // ======================================================
+
 // ======================================================
-// 🪙 SIMPLE CHIP function initChipSystem (FINAL)
+// 🪙 START: CHIP SECTION
 // ======================================================
-function initChipSystem() {
-
-    const container = document.querySelector(".chips-container");
-    const chips = document.querySelectorAll(".chip");
-    const defaultChip = document.querySelector(".default-chip");
-
-    if (!container || !chips.length) return;
-
-    function toggleMenu(forceOpen = null) {
-
-        const isExpanded = container.classList.contains("expanded");
-
-        if (forceOpen === true || !isExpanded) {
-            container.classList.add("expanded");
-            container.classList.remove("collapsed");
-        } else {
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-        }
-    }
-
-    // ======================================================
-    // DEFAULT CHIP → EXPAND ONLY
-    // ======================================================
 
 function initChipSystem() {
 
@@ -198,6 +175,115 @@ function initChipSystem() {
 
     });
 }
+// ======================================================
+// END: CHIP SECTION
+// ======================================================
+
+
+// ======================================================
+// 🎯 BOARD SYSTEM (FINAL FIX - NO DUPLICATE LISTENER)
+// ======================================================
+let boardInitialized = false;
+function setupBoardSystem() {
+
+    if (boardInitialized) {
+        console.log("⚠ BOARD ALREADY INIT");
+        return;
+    }
+
+    boardInitialized = true;
+
+    console.trace("🎯 BOARD INIT TRACE");
+    console.log("🎯 BOARD SYSTEM INIT");
+
+    const boxes =
+        document.querySelectorAll(".symbol-box");
+
+    boxes.forEach(box => {
+
+        box.onclick = null;
+
+        box.onclick = () => {
+            onTableClick(box);
+        };
+
+    });
+
+    console.log("✅ BOARD READY");
+}
+
+// 🧠 FIX: INLINE CHECK (NO MISSING FUNCTION)
+function onTableClick(box) {
+
+    if (!GameEngine.selectedChip) {
+        console.log("❌ Select chip first");
+        return;
+    }
+
+    // 🔊 TABLE SOUND
+    if (GameEngine.tableSound) {
+
+        GameEngine.tableSound.currentTime = 0;
+
+        GameEngine.tableSound.play().catch(err => {
+            console.log("TABLE SOUND ERROR:", err);
+        });
+    }
+
+    const symbol = box.dataset.symbol;
+    const amount = GameEngine.selectedChip.value;
+
+    const success = subtractBalance(amount);
+
+    if (!success) {
+        console.log("❌ NOT ENOUGH BALANCE");
+        return;
+    }
+
+    addBet(symbol, amount);
+    placeChipVisual(box, amount);
+
+    console.log("💰 BET PLACED:", symbol, amount);
+}
+// ======================================================
+// FIX STEP 3: CHIP VISUAL SYSTEM
+// ======================================================
+function placeChipVisual(box, amount) {
+
+    const marker = document.createElement("div");
+
+    marker.className = "bet-marker";
+
+    marker.innerText = "$" + amount;
+
+    box.appendChild(marker);
+
+    console.log("🧩 CHIP VISUAL ADDED:", amount);
+}
+
+// ======================================================
+// 🎯 END: TABLE SECTION (FIXED)
+// ======================================================
+// ======================================================
+// 🧹 CLEAR BET MARKERS
+// ======================================================
+
+function clearBoardVisuals() {
+
+    document
+        .querySelectorAll(
+            ".bet-marker"
+        )
+        .forEach(
+            marker => {
+
+                marker.remove();
+            }
+        );
+}
+
+
+
 // ======================================================
 // 🎰 START: SPIN BUTTON SECTION
 // ======================================================
@@ -1097,6 +1183,8 @@ function debugGameUI() {
         "===================="
     );
 }
+
+
 
 // ======================================================
 // 🧪 END: UI DEBUG SECTION
