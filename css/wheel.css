@@ -511,45 +511,20 @@ html, body {
 
 #spinBtn {
 
-    position: relative;
+    width: 85%;   /* 🔥 আগে 70% ছিল, এখন বেশি full casino feel */
 
-    width: 70%;          /* ✔ wide button */
-    height: 40px;        /* ✔ low height */
+    height: 40px;
 
     display: flex;
     align-items: center;
 
-    justify-content: flex-start; /* ✔ LEFT alignment */
+    justify-content: flex-start;
 
-    gap: 10px;
+    padding: 0 10px;
 
-    padding: 0 12px;
+    gap: 6px;   /* 🔥 কম gap = tighter feel */
 
-    border: 4px solid #ffe57a;
-
-    border-radius: 10px; /* ✔ slight rounded only */
-
-    cursor: pointer;
-
-    font-size: 16px;
-    font-weight: 900;
-
-    color: #fff;
-
-    text-transform: uppercase;
-
-    background: linear-gradient(
-        180deg,
-        #7dffb3 0%,
-        #18d96e 50%,
-        #0ca84f 100%
-    );
-
-    box-shadow:
-        inset 0 0 5px rgba(255,255,255,.3),
-        0 0 6px rgba(255,215,0,.25);
-
-    overflow: hidden;
+    border-radius: 10px;
 }
 .wheel-icon {
 
@@ -557,6 +532,8 @@ html, body {
     height: 20px;
 
     flex-shrink: 0;
+
+    margin-left: -2px;  /* 🔥 একটু বাম দিকে চাপ */
 
     border-radius: 50%;
 
