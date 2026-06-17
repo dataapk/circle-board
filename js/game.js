@@ -160,16 +160,13 @@ function initChipSystem() {
 
         if (GameEngine.isSpinning) return;
 
-        // sound
         GameEngine.audio.play(GameEngine.chipSound);
 
-        // active state
         container.querySelectorAll(".chip")
             .forEach(c => c.classList.remove("active"));
 
         chip.classList.add("active");
 
-        // store value
         GameEngine.selectedChip = {
             value: parseFloat(chip.dataset.value),
             element: chip
@@ -177,7 +174,6 @@ function initChipSystem() {
 
         console.log("🪙 CHIP:", GameEngine.selectedChip.value);
 
-        // auto close menu after selection
         closeChipMenu();
     });
 }
