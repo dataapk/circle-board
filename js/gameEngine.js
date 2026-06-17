@@ -199,40 +199,64 @@ GameEngine.fadeOutSpinSound = function () {
 // 🚀 END: ENGINE BOOT SECTION
 // ======================================================
 // ======================================================
+// 🎡 ALWAYS CONTROL ICON STATE
+// ======================================================
+ function setSpinButtonState(isLocked) {
+
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    const icon = btn.querySelector(".wheel-icon");
+    const text = btn.querySelector(".btn-text");
+
+    if (isLocked) {
+
+        btn.classList.add("locked");
+
+        if (text) text.innerText = "LOCKED";
+
+        if (icon) {
+            icon.style.animation = "none";
+        }
+
+    } else {
+
+        btn.classList.remove("locked");
+
+        if (text) text.innerText = "SPIN";
+
+        if (icon) {
+            icon.style.animation = "wheelSpin 1.2s linear infinite";
+        }
+    }
+}
+// ======================================================
+// 🎡 ALWAYS CONTROL ICON STATE END
+// ======================================================
+
+// ======================================================
 // 🔊 START: BUTTON LOCK UNLOCK SECTION
 // ======================================================
 function lockGameUI() {
 
-    console.count("🔴 LOCK CALL COUNT");
-
-    console.log("🔴 LOCK TRIGGERED");
-
-    if (GameEngine.isSpinning === true) {
+    if (GameEngine.isSpinning) {
         console.log("⚠️ Already locked");
         return;
     }
 
     GameEngine.isSpinning = true;
-    GameEngine.state = "SPINNING";
 
-    lockSpinButton();
+    setSpinButtonState(true); // 🔥 UI CONTROL
+
     lockBets();
-
-    console.log("🔒 GAME LOCKED");
 }
 function unlockGameUI() {
 
-    console.count("🟢 UNLOCK CALL COUNT");
-
-    console.log("🟢 UNLOCK TRIGGERED");
-
     GameEngine.isSpinning = false;
-    GameEngine.state = "READY";
 
-    unlockSpinButton();
+    setSpinButtonState(false); // 🔥 UI RESTORE
+
     unlockBets();
-
-    console.log("🔓 GAME UNLOCKED");
 }
 function unlockSpinButton() {
 
