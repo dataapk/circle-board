@@ -506,13 +506,15 @@ html, body {
 
 
 /* ======================================================
-   🎮 CASINO SPIN BUTTON (FULL PREMIUM VERSION)
+   🎮 FINAL CASINO SPIN BUTTON (STABLE VERSION)
 ====================================================== */
 
 #spinBtn {
 
     width: 92%;
-    height: 40px;   /* 🔥 আগের চেয়ে কম height */
+    height: 36px;
+
+    box-sizing: border-box;
 
     display: flex;
     align-items: center;
@@ -521,17 +523,14 @@ html, body {
     gap: 8px;
     padding: 0 12px;
 
-    box-sizing: border-box;
-
     position: relative;
     overflow: hidden;
 
     border-radius: 10px;
 
-    /* 🟡 GOLD OUTER FRAME */
     border: 2px solid #ffd700;
 
-    /* 🟢 DEFAULT GREEN BACKGROUND */
+    /* 🟢 DEFAULT GREEN STATE */
     background: linear-gradient(
         180deg,
         #7dffb3 0%,
@@ -547,17 +546,57 @@ html, body {
 
     cursor: pointer;
 
-    /* ✨ DEPTH SHADOW */
-    box-shadow:
-        0 0 8px rgba(0,255,120,.4),
-        0 0 18px rgba(255,215,0,.25),
-        inset 0 0 6px rgba(255,255,255,.2);
+    /* FIX: prevent size change */
+    min-height: 36px;
+    max-height: 36px;
+    line-height: 36px;
 
     transition: all .25s ease;
+
+    /* premium glow */
+    box-shadow:
+        0 0 10px rgba(0,255,120,.35),
+        0 0 18px rgba(255,215,0,.25),
+        inset 0 0 6px rgba(255,255,255,.15);
 }
 
 /* ======================================================
-   ✨ GOLD ELECTRIC SHINE (TOP LAYER)
+   🎡 WHEEL ICON (ALWAYS VISIBLE + ALWAYS SPINNING)
+====================================================== */
+
+.wheel-icon {
+
+    width: 25px;
+    height: 25px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: conic-gradient(
+        #ffd700,
+        #18d96e,
+        #ff4040,
+        #ffd700
+    );
+
+    border: 2px solid rgba(255,255,255,.6);
+
+    animation: wheelSpin 1.2s linear infinite;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes wheelSpin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ======================================================
+   ✨ GOLD SHINE EFFECT
 ====================================================== */
 
 #spinBtn::before {
@@ -565,6 +604,7 @@ html, body {
     content: "";
 
     position: absolute;
+
     top: -50%;
     left: -40%;
 
@@ -574,8 +614,8 @@ html, body {
     background: linear-gradient(
         90deg,
         transparent,
-        rgba(255,255,255,.2),
         rgba(255,215,0,.35),
+        rgba(255,255,255,.2),
         transparent
     );
 
@@ -584,42 +624,13 @@ html, body {
     animation: goldShine 3s linear infinite;
 }
 
-/* ======================================================
-   🌈 COLOR WAVE (BOTTOM MULTI COLOR FLOW)
-====================================================== */
-
-#spinBtn::after {
-
-    content: "";
-
-    position: absolute;
-    bottom: -30%;
-    left: 0;
-
-    width: 100%;
-    height: 40%;
-
-    background: linear-gradient(
-        90deg,
-        red,
-        blue,
-        purple,
-        yellow,
-        cyan,
-        red
-    );
-
-    opacity: 0.6;
-
-    filter: blur(8px);
-
-    animation: colorFlow 4s linear infinite;
-
-    z-index: 0;
+@keyframes goldShine {
+    from { left: -40%; }
+    to { left: 130%; }
 }
 
 /* ======================================================
-   🔴 LOCKED STATE
+   🔴 LOCKED STATE (ONLY COLOR CHANGE)
 ====================================================== */
 
 #spinBtn.locked {
@@ -634,13 +645,12 @@ html, body {
     cursor: not-allowed;
 
     box-shadow:
-        0 0 10px rgba(255,0,0,.5),
-        0 0 25px rgba(255,0,0,.3),
-        inset 0 0 6px rgba(255,255,255,.15);
+        0 0 12px rgba(255,0,0,.4),
+        0 0 20px rgba(255,0,0,.25),
+        inset 0 0 6px rgba(255,255,255,.1);
 }
-
 /* ======================================================
-   ✨ ANIMATIONS
+   ✨ SPIN BUTTON END
 ====================================================== */
 
 @keyframes goldShine {
