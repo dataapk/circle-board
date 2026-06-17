@@ -128,7 +128,7 @@ function initChipSystem() {
 
 
 // ======================================================
-// 🎯 BOARD SYSTEM (FIXED SAFE VERSION)
+// 🎯 BOARD SYSTEM (FINAL FIX - NO DUPLICATE LISTENER)
 // ======================================================
 
 function setupBoardSystem() {
@@ -138,30 +138,21 @@ function setupBoardSystem() {
     const boxes =
         document.querySelectorAll(".symbol-box");
 
-    if (!boxes.length) {
-        console.log("❌ No symbol boxes found");
-        return;
-    }
+    if (!boxes.length) return;
 
     boxes.forEach(box => {
 
-        // 🧹 REMOVE OLD LISTENER SAFELY (IMPORTANT FIX)
-        const newBox = box.cloneNode(true);
-        box.parentNode.replaceChild(newBox, box);
-    });
+        // 🧠 SAFE SINGLE LISTENER GUARANTEE
+        box.onclick = null;
 
-    // 🎯 RESELECT CLEAN BOXES
-    document.querySelectorAll(".symbol-box").forEach(box => {
-
-        box.addEventListener("click", () => {
+        box.onclick = () => {
             onTableClick(box);
-        });
+        };
 
     });
 
-    console.log("✅ BOARD SYSTEM READY");
+    console.log("✅ BOARD SYSTEM READY (CLEAN)");
 }
-
 
 // 🧠 FIX: INLINE CHECK (NO MISSING FUNCTION)
 function onTableClick(box) {
