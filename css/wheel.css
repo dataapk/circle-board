@@ -373,16 +373,14 @@ html, body {
 .chips-container {
     position: relative;
 
-    width: 340px;
+    width: 320px;
     height: 140px;
 
     margin: 0 auto;
 
     overflow: visible;
 
-    display: block;   /* ❌ flex removed */
-
-    transition: all 0.35s ease;
+    display: block;
 }
 
 /* =========================
@@ -393,7 +391,7 @@ html, body {
     width: 48px;
     height: 48px;
 
-    position: absolute;   /* 🔥 IMPORTANT FIX */
+    position: absolute;
 
     top: 50%;
     left: 50%;
@@ -402,20 +400,9 @@ html, body {
 
     border-radius: 50%;
 
+    transition: transform 0.35s ease, opacity 0.3s ease;
+
     cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    transition: transform 0.35s ease, box-shadow 0.25s ease, opacity 0.25s ease;
-
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
 }
 /* =========================
    🖼 CHIP IMAGE
@@ -455,11 +442,11 @@ html, body {
     text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 .chips-container.expanded .chip:nth-child(1) {
-    transform: translate(-120px, -40px);
+    transform: translate(-140px, -40px);
 }
 
 .chips-container.expanded .chip:nth-child(2) {
-    transform: translate(-60px, 0px);
+    transform: translate(-70px, 20px);
 }
 
 .chips-container.expanded .chip:nth-child(3) {
@@ -467,14 +454,12 @@ html, body {
 }
 
 .chips-container.expanded .chip:nth-child(4) {
-    transform: translate(60px, 0px);
+    transform: translate(70px, 20px);
 }
 
 .chips-container.expanded .chip:nth-child(5) {
-    transform: translate(120px, -40px);
+    transform: translate(140px, -40px);
 }
-
-
 
 /* ======================================================
    🎮 FINAL CASINO SPIN BUTTON (STABLE VERSION)
