@@ -140,70 +140,71 @@ function initChipSystem() {
 
     const container = document.querySelector(".chips-container");
     const chips = document.querySelectorAll(".chip");
+    const defaultChip = document.querySelector(".default-chip");
 
     if (!container || !chips.length) {
         console.log("❌ CHIP SYSTEM NOT FOUND");
         return;
     }
 
-    console.log("🟢 CHIP SYSTEM INIT OK");
+    console.log("🟢 CHIP SYSTEM READY");
 
     // ======================================================
-    // 🧠 INITIAL STATE (IMPORTANT FIX)
+    // 🧠 INIT STATE
     // ======================================================
 
-    container.classList.add("collapsed");
     container.classList.remove("expanded");
+    container.classList.add("collapsed");
 
     // ======================================================
-    // 🟡 DEFAULT CHIP SET (FORCE FIX)
+    // 🟡 DEFAULT CHIP SET (0.10 FORCE)
     // ======================================================
 
-    const defaultChip =
-        document.querySelector(".default-chip") ||
+    const activeDefault =
+        defaultChip ||
         document.querySelector(".chip[data-value='0.10']") ||
         chips[0];
 
-    if (defaultChip) {
+    chips.forEach(c => c.classList.remove("active"));
 
-        chips.forEach(c => c.classList.remove("active"));
-        defaultChip.classList.add("active");
+    if (activeDefault) {
+
+        activeDefault.classList.add("active");
 
         GameEngine.selectedChip = {
-            value: parseFloat(defaultChip.dataset.value),
-            element: defaultChip
+            value: parseFloat(activeDefault.dataset.value),
+            element: activeDefault
         };
 
-        console.log("🟢 DEFAULT CHIP:", GameEngine.selectedChip.value);
+        console.log("🟢 DEFAULT CHIP SET:", GameEngine.selectedChip.value);
     }
 
     // ======================================================
-    // 🔁 TOGGLE MENU (EXPAND / COLLAPSE)
+    // 🔁 MENU TOGGLE (ONLY ONE SOURCE OF TRUTH)
     // ======================================================
 
-    function toggleMenu() {
+    function toggleMenu(forceOpen = null) {
 
-        if (container.classList.contains("expanded")) {
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-        } else {
+        const isExpanded = container.classList.contains("expanded");
+
+        if (forceOpen === true || (!isExpanded && forceOpen !== false)) {
             container.classList.add("expanded");
             container.classList.remove("collapsed");
+        } else {
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
         }
 
         console.log("🔁 MENU STATE:", container.className);
     }
 
     // ======================================================
-    // 🟢 DEFAULT CHIP CLICK → TOGGLE
+    // 🟡 DEFAULT CHIP → TOGGLE
     // ======================================================
 
-    const defaultClickTarget =
-        document.querySelector(".default-chip");
+    if (defaultChip) {
 
-    if (defaultClickTarget) {
-
-        defaultClickTarget.addEventListener("click", (e) => {
+        defaultChip.addEventListener("click", (e) => {
 
             e.stopPropagation();
 
@@ -214,139 +215,44 @@ function initChipSystem() {
     }
 
     // ======================================================
-    // 🪙 CHIP CLICK → SELECT + CLOSE
+    // 🪙 CHIP SELECT LOGIC
     // ======================================================
 
-    chips.forEach(chip => {
+    chips.forEach((chip) => {
 
-    chip.addEventListener("click", (e) => {
+        chip.addEventListener("click", (e) => {
 
-        e.stopPropagation();
+            e.stopPropagation();
 
-        if (GameEngine.isSpinning) return;
+            if (GameEngine.isSpinning) return;
 
-        // ALWAYS TOGGLE ON ANY CHIP CLICK (TEST FIX)
-        container.classList.add("expanded");
-        container.classList.remove("collapsed");
-
-        console.log("🔁 EXPAND FORCE TRIGGERED");
-    });
-});
-            // ======================================================
-            // 🔽 AUTO COLLAPSE
-            // ======================================================
-
-             setTimeout(() => {
-
-    container.classList.remove("expanded");
-    container.classList.add("collapsed");
-
-}, 120);
-
-};
-// ======================================================
-// 🎯 BOARD SYSTEM (FINAL FIX - NO DUPLICATE LISTENER)
-// ======================================================
-let boardInitialized = false;
-function setupBoardSystem() {
-
-    if (boardInitialized) {
-        console.log("⚠ BOARD ALREADY INIT");
-        return;
-    }
-
-    boardInitialized = true;
-
-    console.trace("🎯 BOARD INIT TRACE");
-    console.log("🎯 BOARD SYSTEM INIT");
-
-    const boxes =
-        document.querySelectorAll(".symbol-box");
-
-    boxes.forEach(box => {
-
-        box.onclick = null;
-
-        box.onclick = () => {
-            onTableClick(box);
-        };
-
-    });
-
-    console.log("✅ BOARD READY");
-}
-
-// 🧠 FIX: INLINE CHECK (NO MISSING FUNCTION)
-function onTableClick(box) {
-
-    if (!GameEngine.selectedChip) {
-        console.log("❌ Select chip first");
-        return;
-    }
-
-    // 🔊 TABLE SOUND
-    if (GameEngine.tableSound) {
-
-        GameEngine.tableSound.currentTime = 0;
-
-        GameEngine.tableSound.play().catch(err => {
-            console.log("TABLE SOUND ERROR:", err);
-        });
-    }
-
-    const symbol = box.dataset.symbol;
-    const amount = GameEngine.selectedChip.value;
-
-    const success = subtractBalance(amount);
-
-    if (!success) {
-        console.log("❌ NOT ENOUGH BALANCE");
-        return;
-    }
-
-    addBet(symbol, amount);
-    placeChipVisual(box, amount);
-
-    console.log("💰 BET PLACED:", symbol, amount);
-}
-// ======================================================
-// FIX STEP 3: CHIP VISUAL SYSTEM
-// ======================================================
-function placeChipVisual(box, amount) {
-
-    const marker = document.createElement("div");
-
-    marker.className = "bet-marker";
-
-    marker.innerText = "$" + amount;
-
-    box.appendChild(marker);
-
-    console.log("🧩 CHIP VISUAL ADDED:", amount);
-}
-
-// ======================================================
-// 🎯 END: TABLE SECTION (FIXED)
-// ======================================================
-// ======================================================
-// 🧹 CLEAR BET MARKERS
-// ======================================================
-
-function clearBoardVisuals() {
-
-    document
-        .querySelectorAll(
-            ".bet-marker"
-        )
-        .forEach(
-            marker => {
-
-                marker.remove();
+            // 🔊 SOUND
+            if (GameEngine.audio?.chipSound) {
+                GameEngine.audio.play(GameEngine.chipSound);
             }
-        );
+
+            // 🟢 ACTIVE STATE
+            chips.forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
+
+            // 💰 STORE VALUE
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.dataset.value),
+                element: chip
+            };
+
+            console.log("🪙 SELECTED:", GameEngine.selectedChip.value);
+
+            // ======================================================
+            // 🔽 AUTO COLLAPSE AFTER SELECT
+            // ======================================================
+
+            setTimeout(() => {
+                toggleMenu(false);
+            }, 120);
+        });
+    });
 }
-
-
 
 // ======================================================
 // 🎰 START: SPIN BUTTON SECTION
