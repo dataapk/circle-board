@@ -135,81 +135,46 @@ function unlockGameUI() {
 // ======================================================
 // 🪙 START: CHIP SECTION
 // ======================================================
+
 function initChipSystem() {
 
-    const container =
-        document.querySelector(".chips-container");
+    const chips = document.querySelectorAll(".chip");
 
-    const defaultChip =
-        document.querySelector(".default-chip");
+    if (!chips.length) {
+        console.log("❌ No chips found");
+        return;
+    }
 
-    if (!container || !defaultChip) return;
+    chips.forEach((chip) => {
 
-    defaultChip.addEventListener("click", () => {
+        chip.addEventListener("click", (e) => {
 
-        if (GameEngine.isSpinning) return;
+            e.stopPropagation();
 
-        openChipMenu();
-    });
+            // 🔊 CHIP SOUND (ONLY ONCE - FIXED)
+            GameEngine.audio.play(GameEngine.chipSound);
 
-    container.addEventListener("click", (e) => {
+            // 🧠 ACTIVE STATE ONLY
+            chips.forEach(c =>
+                c.classList.remove("active")
+            );
 
-        const chip = e.target.closest(".chip");
+            chip.classList.add("active");
 
-        if (!chip) return;
+            // 💰 STORE VALUE ONLY
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.getAttribute("data-value")),
+                element: chip
+            };
 
-        if (GameEngine.isSpinning) return;
+            console.log(
+                "🪙 CHIP:",
+                GameEngine.selectedChip.value
+            );
+        });
 
-        GameEngine.audio.play(GameEngine.chipSound);
-
-        container.querySelectorAll(".chip")
-            .forEach(c => c.classList.remove("active"));
-
-        chip.classList.add("active");
-
-        GameEngine.selectedChip = {
-            value: parseFloat(chip.dataset.value),
-            element: chip
-        };
-
-        console.log("🪙 CHIP:", GameEngine.selectedChip.value);
-
-        closeChipMenu();
     });
 }
-// ======================================================
-// STEP 2: CHIP UI CONTROL SYSTEM
-// ======================================================
-   function openChipMenu() {
-
-    const container =
-        document.querySelector(".chips-container");
-
-    if (!container) return;
-
-    container.classList.remove("collapsed");
-    container.classList.add("expanded");
-
-    GameEngine.chipMenuOpen = true;
-
-    console.log("🟢 CHIP MENU OPEN");
-}
-
-function closeChipMenu() {
-
-    const container =
-        document.querySelector(".chips-container");
-
-    if (!container) return;
-
-    container.classList.remove("expanded");
-    container.classList.add("collapsed");
-
-    GameEngine.chipMenuOpen = false;
-
-    console.log("🔴 CHIP MENU CLOSED");
-}
-
 // ======================================================
 // END: CHIP SECTION
 // ======================================================
