@@ -132,41 +132,40 @@ function unlockGameUI() {
 // 🚀 END: GAME INIT SECTION
 // ======================================================
 // ======================================================
-// 🪙 CHIP SYSTEM (FINAL CLEAN ENGINE)
+// 🪙 SIMPLE CHIP TOGGLE SYSTEM (FINAL)
 // ======================================================
 
 function initChipSystem() {
 
-    const chips = document.querySelectorAll(".chip");
     const container = document.querySelector(".chips-container");
+    const chips = document.querySelectorAll(".chip");
     const defaultChip = document.querySelector(".default-chip");
 
-    if (!chips.length || !container) {
-        console.log("❌ CHIP SYSTEM NOT FOUND");
-        return;
+    if (!container || !chips.length) return;
+
+    // ======================================================
+    // 🟢 OPEN / CLOSE MENU
+    // ======================================================
+
+    function toggleMenu() {
+        container.classList.toggle("expanded");
+        container.classList.toggle("collapsed");
     }
 
     // ======================================================
-    // 🟢 OPEN / CLOSE TOGGLE
+    // 🟢 DEFAULT CHIP = TOGGLE EXPAND
     // ======================================================
 
     if (defaultChip) {
-
         defaultChip.addEventListener("click", (e) => {
-
             e.stopPropagation();
-
             if (GameEngine.isSpinning) return;
-
-            container.classList.toggle("expanded");
-            container.classList.toggle("collapsed");
-
-            console.log("🟢 CHIP MENU TOGGLED");
+            toggleMenu();
         });
     }
 
     // ======================================================
-    // 🪙 CHIP CLICK HANDLER
+    // 🪙 CHIP SELECT = SELECT + COLLAPSE
     // ======================================================
 
     chips.forEach((chip) => {
@@ -174,20 +173,15 @@ function initChipSystem() {
         chip.addEventListener("click", (e) => {
 
             e.stopPropagation();
-
             if (GameEngine.isSpinning) return;
 
-            // 🔊 SOUND
             GameEngine.audio.play(GameEngine.chipSound);
 
-            // 🧠 ACTIVE STATE
-            chips.forEach(c =>
-                c.classList.remove("active")
-            );
-
+            // active state
+            chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
-            // 💰 STORE CHIP VALUE (ENGINE STATE ONLY)
+            // store value
             GameEngine.selectedChip = {
                 value: parseFloat(chip.dataset.value),
                 element: chip
@@ -195,21 +189,12 @@ function initChipSystem() {
 
             console.log("🪙 CHIP:", GameEngine.selectedChip.value);
 
-            // ======================================================
-            // 🔻 AUTO COLLAPSE AFTER SELECT (UI ONLY)
-            // ======================================================
-
-            setTimeout(() => {
-
-                container.classList.remove("expanded");
-                container.classList.add("collapsed");
-
-            }, 120);
+            // auto collapse
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
         });
     });
 }
-
-
 
 // ======================================================
 // 🎯 BOARD SYSTEM (FINAL FIX - NO DUPLICATE LISTENER)
