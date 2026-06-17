@@ -173,25 +173,36 @@ function initChipSystem() {
     // CHIP CLICK → ONLY EXPAND (NO SELECT)
     // ======================================================
 
-    chips.forEach((chip) => {
+   chips.forEach((chip) => {
 
-        chip.addEventListener("click", (e) => {
+    chip.addEventListener("click", (e) => {
 
-            e.stopPropagation();
+        e.stopPropagation();
 
-            if (GameEngine.isSpinning) return;
+        if (GameEngine.isSpinning) return;
 
-            // ONLY EXPAND LOGIC
-            if (!container.classList.contains("expanded")) {
-                toggleMenu(true);
-                return;
-            }
+        // ======================================================
+        // 🟡 STEP 1: IF NOT EXPANDED → EXPAND ONLY
+        // ======================================================
 
-            console.log("🟡 CHIP CLICKED");
-        });
+        if (!container.classList.contains("expanded")) {
+            toggleMenu(true);
+            return;
+        }
 
+        // ======================================================
+        // 🟢 STEP 2: IF EXPANDED → NOW CHIP IS VALID FOR ACTION
+        // ======================================================
+
+        GameEngine.selectedChip = {
+            value: parseFloat(chip.dataset.value),
+            element: chip
+        };
+
+        console.log("🪙 SELECTED CHIP:", GameEngine.selectedChip.value);
     });
-}
+
+});
 // ======================================================
 // 🎰 START: SPIN BUTTON SECTION
 // ======================================================
