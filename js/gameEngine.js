@@ -235,18 +235,6 @@ function unlockGameUI() {
 
     console.log("🔓 GAME UNLOCKED");
 }
-function lockSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-
-    if (!btn) return;
-
-    btn.classList.add("locked");
-
-    btn.querySelector(".btn-text").innerText = "LOCKED";
-
-    console.log("🔴 SPIN LOCKED");
-}
 function unlockSpinButton() {
 
     const btn = document.getElementById("spinBtn");
@@ -258,6 +246,18 @@ function unlockSpinButton() {
     btn.querySelector(".btn-text").innerText = "SPIN";
 
     console.log("🟢 SPIN READY");
+}
+function lockSpinButton() {
+
+    const btn = document.getElementById("spinBtn");
+
+    if (!btn) return;
+
+    btn.classList.add("locked");
+
+    btn.querySelector(".btn-text").innerText = "LOCKED";
+
+    console.log("🔴 SPIN LOCKED");
 }
 // ======================================================
 // 🔊 START: BUTTON LOCK UNLOCK SECTION END
