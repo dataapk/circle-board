@@ -511,79 +511,77 @@ html, body {
 
 #spinBtn {
 
+    position: relative;
+
+    width: 70%;          /* ✔ wide button */
+    height: 40px;        /* ✔ low height */
+
     display: flex;
     align-items: center;
-    justify-content: center;
+
+    justify-content: flex-start; /* ✔ LEFT alignment */
 
     gap: 10px;
+
+    padding: 0 12px;
+
+    border: 4px solid #ffe57a;
+
+    border-radius: 10px; /* ✔ slight rounded only */
+
+    cursor: pointer;
+
+    font-size: 16px;
+    font-weight: 900;
+
+    color: #fff;
+
+    text-transform: uppercase;
+
+    background: linear-gradient(
+        180deg,
+        #7dffb3 0%,
+        #18d96e 50%,
+        #0ca84f 100%
+    );
+
+    box-shadow:
+        inset 0 0 5px rgba(255,255,255,.3),
+        0 0 6px rgba(255,215,0,.25);
+
+    overflow: hidden;
 }
+.wheel-icon {
 
-/* 🎡 MINI CASINO WHEEL */
-.wheel-loader {
+    width: 20px;
+    height: 20px;
 
-    width: 22px;
-    height: 22px;
+    flex-shrink: 0;
 
     border-radius: 50%;
 
-    border: 3px solid #ffe57a;
+    background: conic-gradient(
+        #ffe57a,
+        #18d96e,
+        #ff4040,
+        #ffe57a
+    );
 
-    border-top: 3px solid #18d96e;
-    border-right: 3px solid #ff4040;
-    border-bottom: 3px solid #ffd700;
-    border-left: 3px solid #ffffff;
+    border: 2px solid rgba(255,255,255,.6);
 
-    animation: wheelSpin 0.8s linear infinite;
+    animation: wheelSpin 1.2s linear infinite;
 }
-
-/* 🔄 SPIN ANIMATION */
 @keyframes wheelSpin {
 
     100% {
         transform: rotate(360deg);
     }
 }
-#spinBtn.locked .wheel-loader {
+.btn-text {
 
-    animation: none;
+    margin-left: 4px;
 
-    border: 3px solid #ff4040;
-
-    opacity: 0.6;
-}
-
-    border: 6px solid #ffe57a;
-    border-radius: 16px;
-
-    cursor: pointer;
-
-    font-size: 18px;
-    font-weight: 900;
     letter-spacing: 2px;
-
-    color: #ffffff;
-
-    text-transform: uppercase;
-
-    background:
-        linear-gradient(
-            180deg,
-            #7dffb3 0%,
-            #18d96e 50%,
-            #0ca84f 100%
-        );
-
-    box-shadow:
-        inset 0 0 5px rgba(255,255,255,.4),
-    0 0 4px rgba(255,215,0,.3);
-
-    text-shadow:
-        0 0 5px rgba(255,255,255,.8);
-
-    transition:
-        all .25s ease;
-
-    overflow: hidden;
 }
 
 
@@ -674,22 +672,23 @@ html, body {
    🔴 SPINNING / LOCKED
 ========================= */
 
-#spinBtn.spinning {
+#spinBtn.locked {
 
-    background:
-        linear-gradient(
-            180deg,
-            #ff8b8b 0%,
-            #ff4040 50%,
-            #c60000 100%
-        );
-
-    box-shadow:
-        0 0 10px rgba(255,80,80,.5),
-        0 0 20px rgba(255,80,80,.4),
-        inset 0 2px 4px rgba(255,255,255,.2);
+    background: linear-gradient(
+        180deg,
+        #ff8b8b 0%,
+        #ff4040 50%,
+        #c60000 100%
+    );
 
     cursor: not-allowed;
+}
+
+#spinBtn.locked .wheel-icon {
+
+    animation: none;
+    background: #ff4040;
+    opacity: 0.7;
 }
 
 
@@ -705,6 +704,7 @@ html, body {
 
     cursor: not-allowed;
 }
+
 
 /* ======================================================
    🎮 SPIN BUTTON ENGINE END
