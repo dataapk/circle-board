@@ -510,10 +510,11 @@ html, body {
 ====================================================== */
 
 #spinBtn {
-
-    width: 92%;
-    height: 36px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
     margin-top: -10px;
+}
 
     box-sizing: border-box;
 
