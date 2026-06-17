@@ -142,19 +142,21 @@ function initChipSystem() {
 
     if (!container || !chips.length) return;
 
-    console.log("🟢 CHIP SYSTEM READY");
+    function toggleMenu(forceOpen = null) {
 
-    // ======================================================
-    // 🔁 ONLY EXPAND / COLLAPSE
-    // ======================================================
+        const isExpanded = container.classList.contains("expanded");
 
-    function toggleMenu() {
-        container.classList.toggle("expanded");
-        container.classList.toggle("collapsed");
+        if (forceOpen === true || !isExpanded) {
+            container.classList.add("expanded");
+            container.classList.remove("collapsed");
+        } else {
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
+        }
     }
 
     // ======================================================
-    // 🟡 DEFAULT CHIP → ONLY EXPAND
+    // DEFAULT CHIP → EXPAND ONLY
     // ======================================================
 
     if (defaultChip) {
@@ -168,7 +170,7 @@ function initChipSystem() {
     }
 
     // ======================================================
-    // 🪙 ALL CHIPS → ONLY EXPAND (NO SELECT HERE)
+    // CHIP CLICK → ONLY EXPAND (NO SELECT)
     // ======================================================
 
     chips.forEach((chip) => {
@@ -179,19 +181,17 @@ function initChipSystem() {
 
             if (GameEngine.isSpinning) return;
 
-            // ❌ NO SELECT HERE
-            // ✔ ONLY EXPAND
-
+            // ONLY EXPAND LOGIC
             if (!container.classList.contains("expanded")) {
-                toggleMenu();
+                toggleMenu(true);
                 return;
             }
 
-            console.log("🟡 CHIP CLICKED (NO SELECT YET)");
+            console.log("🟡 CHIP CLICKED");
         });
-        }
 
-
+    });
+}
 // ======================================================
 // 🎰 START: SPIN BUTTON SECTION
 // ======================================================
