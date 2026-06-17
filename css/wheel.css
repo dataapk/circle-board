@@ -321,7 +321,41 @@ html, body {
    🪙 BET MARKER (CASINO FINAL FIX)
 ====================================================== */
 
-/* CHIP BOX */
+
+/* ======================================================
+   🪙 CHIP WRAPPER (ISOLATED ONLY CHIP SYSTEM)
+====================================================== */
+
+.chips-wrapper {
+    position: relative;
+
+    width: 320px;
+    height: 140px;
+
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ======================================================
+   🪙 CHIP CONTAINER
+====================================================== */
+
+.chips-container {
+    position: relative;
+
+    width: 320px;
+    height: 140px;
+
+    overflow: visible;
+}
+
+/* ======================================================
+   🪙 CHIP BASE (CENTER ANCHOR SYSTEM)
+====================================================== */
+
 .chip {
     width: 44px;
     height: 44px;
@@ -335,17 +369,23 @@ html, body {
 
     border-radius: 50%;
 
+    cursor: pointer;
+
     display: flex;
     align-items: center;
     justify-content: center;
 
-    cursor: pointer;
+    transition: transform 0.35s ease, opacity 0.25s ease;
 
-    transition: transform 0.35s ease;
-    box-sizing: border-box;
+    user-select: none;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* CHIP IMAGE (IMPORTANT) */
+/* ======================================================
+   🖼 CHIP IMAGE ONLY (FIXED SIZE)
+====================================================== */
+
 .chip img {
     width: 100%;
     height: 100%;
@@ -353,6 +393,52 @@ html, body {
     object-fit: contain;
 
     display: block;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* ======================================================
+   🟡 COLLAPSED STATE (ONLY CENTER CHIP SHOW)
+====================================================== */
+
+.chips-container.collapsed .chip {
+    transform: translate(-50%, -50%);
+    opacity: 0.95;
+}
+
+/* ======================================================
+   🟢 EXPANDED STATE (RADIAL SPREAD)
+====================================================== */
+
+.chips-container.expanded .chip:nth-child(1) {
+    transform: translate(-140px, -40px);
+}
+
+.chips-container.expanded .chip:nth-child(2) {
+    transform: translate(-70px, 30px);
+}
+
+.chips-container.expanded .chip:nth-child(3) {
+    transform: translate(0px, -60px);
+}
+
+.chips-container.expanded .chip:nth-child(4) {
+    transform: translate(70px, 30px);
+}
+
+.chips-container.expanded .chip:nth-child(5) {
+    transform: translate(140px, -40px);
+}
+
+/* ======================================================
+   🔥 ACTIVE CHIP STATE
+====================================================== */
+
+.chip.active {
+    transform: translate(-50%, -50%) scale(1.15);
+    z-index: 10;
 }
 
 /* ACTIVE STATE */
