@@ -235,60 +235,6 @@ GameEngine.fadeOutSpinSound = function () {
 // ======================================================
 
 // ======================================================
-// 🔊 START: BUTTON LOCK UNLOCK SECTION
-// ======================================================
-function lockGameUI() {
-
-    if (GameEngine.isSpinning) {
-        console.log("⚠️ Already locked");
-        return;
-    }
-
-    GameEngine.isSpinning = true;
-
-    setSpinButtonState(true); // 🔥 UI CONTROL
-
-    lockBets();
-}
-function unlockGameUI() {
-
-    GameEngine.isSpinning = false;
-
-    setSpinButtonState(false); // 🔥 UI RESTORE
-
-    unlockBets();
-}
-function unlockSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-
-    if (!btn) return;
-
-    btn.classList.remove("locked");
-
-    btn.querySelector(".btn-text").innerText = "SPIN";
-
-    console.log("🟢 SPIN READY");
-}
-function lockSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-
-    if (!btn) return;
-
-    btn.classList.add("locked");
-
-    btn.querySelector(".btn-text").innerText = "LOCKED";
-
-    console.log("🔴 SPIN LOCKED");
-}
-// ======================================================
-// 🔊 START: BUTTON LOCK UNLOCK SECTION END
-// ======================================================
-
-
-
-// ======================================================
 // 🔊 START: AUDIO SYSTEM SECTION
 // ======================================================
 
