@@ -159,53 +159,45 @@ function initChipSystem() {
     // DEFAULT CHIP → EXPAND ONLY
     // ======================================================
 
-    
-chip.addEventListener("click", (e) => {
+function initChipSystem() {
 
-    e.stopPropagation();
+    const chips = document.querySelectorAll(".chip");
 
-    if (GameEngine.isSpinning) return;
+    if (!chips.length) {
+        console.log("❌ No chips found");
+        return;
+    }
 
-    // 👉 ALWAYS EXPAND FIRST
-    container.classList.add("expanded");
-    container.classList.remove("collapsed");
+    chips.forEach((chip) => {
 
-});
+        chip.addEventListener("click", (e) => {
 
-    // ======================================================
-    // CHIP CLICK → ONLY EXPAND (NO SELECT)
-    // ======================================================
+            e.stopPropagation();
 
-   chips.forEach((chip) => {
+            // 🔊 CHIP SOUND (ONLY ONCE - FIXED)
+            GameEngine.audio.play(GameEngine.chipSound);
 
-    chip.addEventListener("click", (e) => {
+            // 🧠 ACTIVE STATE ONLY
+            chips.forEach(c =>
+                c.classList.remove("active")
+            );
 
-        e.stopPropagation();
+            chip.classList.add("active");
 
-        if (GameEngine.isSpinning) return;
+            // 💰 STORE VALUE ONLY
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.getAttribute("data-value")),
+                element: chip
+            };
 
-        // ======================================================
-        // 🟡 STEP 1: IF NOT EXPANDED → EXPAND ONLY
-        // ======================================================
+            console.log(
+                "🪙 CHIP:",
+                GameEngine.selectedChip.value
+            );
+        });
 
-        if (!container.classList.contains("expanded")) {
-            toggleMenu(true);
-            return;
-        }
-
-        // ======================================================
-        // 🟢 STEP 2: IF EXPANDED → NOW CHIP IS VALID FOR ACTION
-        // ======================================================
-
-        GameEngine.selectedChip = {
-            value: parseFloat(chip.dataset.value),
-            element: chip
-        };
-
-        console.log("🪙 SELECTED CHIP:", GameEngine.selectedChip.value);
     });
-
-});
+}
 // ======================================================
 // 🎰 START: SPIN BUTTON SECTION
 // ======================================================
