@@ -247,7 +247,6 @@ function lockSpinButton() {
 
     console.log("🔴 SPIN LOCKED");
 }
-}
 function unlockSpinButton() {
 
     const btn = document.getElementById("spinBtn");
