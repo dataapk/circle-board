@@ -375,37 +375,26 @@ html, body {
 }
 
 .chips-container.expanded .chip {
-    transition: transform 0.35s ease;
+    transform: none;
 }
-
 /* ======================================================
    🪙 CHIP BASE (CENTER ANCHOR SYSTEM)
 ====================================================== */
 
 .chip {
-    width: 44px;
-    height: 44px;
-
     position: absolute;
 
     top: 50%;
     left: 50%;
 
-    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
 
     border-radius: 50%;
 
-    cursor: pointer;
+    transform: translate(-50%, -50%);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    transition: transform 0.35s ease, opacity 0.25s ease;
-
-    user-select: none;
-
-    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.35s ease;
 }
 
 /* ======================================================
