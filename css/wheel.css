@@ -543,6 +543,14 @@ html, body {
         transform: rotate(360deg);
     }
 }
+#spinBtn.locked .wheel-loader {
+
+    animation: none;
+
+    border: 3px solid #ff4040;
+
+    opacity: 0.6;
+}
 
     border: 6px solid #ffe57a;
     border-radius: 16px;
