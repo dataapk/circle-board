@@ -366,9 +366,9 @@ html, body {
     margin-top: -20px;
 }
 
-/* =========================
-   🎰 CHIP CONTAINER
-========================= */
+/* ======================================================
+   🪙 CHIP CONTAINER
+====================================================== */
 
 .chips-container {
     position: relative;
@@ -378,14 +378,14 @@ html, body {
 
     margin: 0 auto;
 
-    overflow: visible;
-
     display: block;
+
+    overflow: visible;
 }
 
-/* =========================
-   🪙 CHIP BASE STYLE
-========================= */
+/* ======================================================
+   🪙 CHIP BASE (NO TEXT VERSION)
+====================================================== */
 
 .chip {
     width: 48px;
@@ -400,53 +400,56 @@ html, body {
 
     border-radius: 50%;
 
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     transition: transform 0.35s ease, opacity 0.3s ease;
 
-    cursor: pointer;
+    user-select: none;
+
+    -webkit-tap-highlight-color: transparent;
 }
-/* =========================
-   🖼 CHIP IMAGE
-========================= */
+
+/* ======================================================
+   🖼 CHIP IMAGE ONLY
+====================================================== */
 
 .chip img {
-    width: 88%;
-    height: 88%;
+    width: 100%;
+    height: 100%;
 
     object-fit: contain;
 
-    display: block;
-
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
-
     pointer-events: none;
+
     user-select: none;
     -webkit-user-drag: none;
+
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
 }
 
-/* =========================
-   🏷 CHIP LABEL
-========================= */
+/* ======================================================
+   🟡 COLLAPSED STATE
+====================================================== */
 
-.chip span {
-    position: absolute;
-    left: 50%;
-    bottom: -16px;
-
-    transform: translateX(-50%);
-
-    font-size: 10px;
-    color: var(--text-main);
-
-    white-space: nowrap;
-
-    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+.chips-container.collapsed .chip {
+    transform: translate(-50%, -50%);
+    opacity: 0.95;
 }
+
+/* ======================================================
+   🟢 EXPANDED STATE
+====================================================== */
+
 .chips-container.expanded .chip:nth-child(1) {
     transform: translate(-140px, -40px);
 }
 
 .chips-container.expanded .chip:nth-child(2) {
-    transform: translate(-70px, 20px);
+    transform: translate(-70px, 30px);
 }
 
 .chips-container.expanded .chip:nth-child(3) {
@@ -454,13 +457,21 @@ html, body {
 }
 
 .chips-container.expanded .chip:nth-child(4) {
-    transform: translate(70px, 20px);
+    transform: translate(70px, 30px);
 }
 
 .chips-container.expanded .chip:nth-child(5) {
     transform: translate(140px, -40px);
 }
 
+/* ======================================================
+   🔥 ACTIVE CHIP
+====================================================== */
+
+.chip.active {
+    transform: scale(1.2);
+    z-index: 10;
+}
 /* ======================================================
    🎮 FINAL CASINO SPIN BUTTON (STABLE VERSION)
 ====================================================== */
