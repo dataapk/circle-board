@@ -426,59 +426,61 @@ html, body {
 
     transform:
         translate(-50%, -50%)
-        scale(.6);
+        scale(.5);
 
-    opacity: .05;
+    opacity: 0;
 
     pointer-events: none;
 }
 
+/* TOP */
+
 .chips-container.expanded .chip:nth-child(2) {
 
-    left: 18%;
-    top: 62%;
-
-    transform: scale(1);
-
-    opacity: 1;
-}
-
-.chips-container.expanded .chip:nth-child(3) {
-
-    left: 30%;
-    top: 18%;
-
-    transform: scale(1);
-
-    opacity: 1;
-}
-
-.chips-container.expanded .chip:nth-child(4) {
-
     left: 50%;
-    top: 0%;
+    top: 5%;
 
     transform: translateX(-50%);
 
     opacity: 1;
 }
 
-.chips-container.expanded .chip:nth-child(5) {
+/* TOP LEFT */
 
-    right: 30%;
-    top: 18%;
+.chips-container.expanded .chip:nth-child(3) {
 
-    transform: scale(1);
+    left: 20%;
+    top: 25%;
 
     opacity: 1;
 }
 
+/* TOP RIGHT */
+
+.chips-container.expanded .chip:nth-child(4) {
+
+    right: 20%;
+    top: 25%;
+
+    opacity: 1;
+}
+
+/* BOTTOM LEFT */
+
+.chips-container.expanded .chip:nth-child(5) {
+
+    left: 8%;
+    top: 65%;
+
+    opacity: 1;
+}
+
+/* BOTTOM RIGHT */
+
 .chips-container.expanded .chip:nth-child(6) {
 
-    right: 18%;
-    top: 62%;
-
-    transform: scale(1);
+    right: 8%;
+    top: 65%;
 
     opacity: 1;
 }
