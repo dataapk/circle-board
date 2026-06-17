@@ -511,16 +511,37 @@ html, body {
 
 #spinBtn {
 
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    width: 155px;
-    height: 42px;
-   margin-top: -16px;
-   #spinBtn img {
-    width: 20px;
-    height: 20px;
-    object-fit: contain;
-    vertical-align: middle;
+    gap: 10px;
+}
+
+/* 🎡 MINI CASINO WHEEL */
+.wheel-loader {
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    border: 3px solid #ffe57a;
+
+    border-top: 3px solid #18d96e;
+    border-right: 3px solid #ff4040;
+    border-bottom: 3px solid #ffd700;
+    border-left: 3px solid #ffffff;
+
+    animation: wheelSpin 0.8s linear infinite;
+}
+
+/* 🔄 SPIN ANIMATION */
+@keyframes wheelSpin {
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
     border: 6px solid #ffe57a;
