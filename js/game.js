@@ -159,15 +159,18 @@ function initChipSystem() {
     // DEFAULT CHIP → EXPAND ONLY
     // ======================================================
 
-    if (defaultChip) {
-        defaultChip.addEventListener("click", (e) => {
-            e.stopPropagation();
+    
+chip.addEventListener("click", (e) => {
 
-            if (GameEngine.isSpinning) return;
+    e.stopPropagation();
 
-            toggleMenu();
-        });
-    }
+    if (GameEngine.isSpinning) return;
+
+    // 👉 ALWAYS EXPAND FIRST
+    container.classList.add("expanded");
+    container.classList.remove("collapsed");
+
+});
 
     // ======================================================
     // CHIP CLICK → ONLY EXPAND (NO SELECT)
