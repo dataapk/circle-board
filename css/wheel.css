@@ -323,76 +323,40 @@ html, body {
 
 
 
-/* ======================================================
-   🪙 CHIP SYSTEM (MASTER CLEAN VERSION)
-====================================================== */
-
-
-/* =========================
-   🧱 WRAPPER
-========================= */
-
 .chips-wrapper {
+    position: relative;
+    width: 100%;
+    height: 160px;
+
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
 
+    overflow: visible;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.chips-container {
+    position: relative;
     width: 100%;
 }
 
-
 /* =========================
-   🪙 CHIP CONTAINER BASE
+   COLLAPSED STATE (ROW)
 ========================= */
 
-.chips-container.collapsed .chip {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-/* =========================
-   🟣 DEFAULT CHIP PRIORITY FIX
-========================= */
-
-.default-chip {
-    z-index: 999 !important;
-    position: absolute;
+.chips-container.collapsed {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 10px;
 }
 
-
 /* =========================
-   🟡 COLLAPSED STATE
-========================= */
-
-.chips-container.collapsed .chip {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.95;
-
-    transition: all 0.35s ease;
-}
-
-
-/* =========================
-   🟢 EXPANDED STATE BASE
-========================= */
-
-.chips-container.expanded .chip {
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    transition: transform 0.45s cubic-bezier(.2,.8,.2,1);
-}
-
-
-/* =========================
-   🪙 CHIP BASE STYLE
+   CHIP BASE (NO DRIFT FIX)
 ========================= */
 
 .chip {
@@ -400,12 +364,6 @@ html, body {
     height: 44px;
 
     border-radius: 50%;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
 
     cursor: pointer;
 
@@ -416,79 +374,74 @@ html, body {
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    position: relative;   /* 🔥 IMPORTANT FIX */
+    transform: none;
 
-    will-change: transform;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-
 /* =========================
-   🖼 CHIP IMAGE
+   CHIP IMAGE
 ========================= */
 
 .chip img {
     width: 100%;
     height: 100%;
-
     object-fit: contain;
 
-    display: block;
-
     pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
 }
-
 
 /* =========================
-   🟡 RADIAL EXPANSION LAYOUT
+   EXPANDED STATE (RADIAL)
 ========================= */
 
-.chips-container.expanded .default-chip {
-    transform: translate(0, 0) scale(1.05);
-    z-index: 5;
+.chips-container.expanded {
+    position: relative;
 }
 
-/* LEFT SIDE */
+.chips-container.expanded .chip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+/* spread layout */
 .chips-container.expanded .chip:nth-child(2) {
-    transform: translate(-90px, 20px) rotate(-8deg);
+    transform: translate(-90px, 20px);
 }
 
 .chips-container.expanded .chip:nth-child(3) {
-    transform: translate(-60px, -40px) rotate(-5deg);
+    transform: translate(-60px, -40px);
 }
 
-/* RIGHT SIDE */
 .chips-container.expanded .chip:nth-child(4) {
-    transform: translate(60px, -40px) rotate(5deg);
+    transform: translate(60px, -40px);
 }
 
 .chips-container.expanded .chip:nth-child(5) {
-    transform: translate(90px, 20px) rotate(8deg);
+    transform: translate(90px, 20px);
 }
 
 .chips-container.expanded .chip:nth-child(6) {
-    transform: translate(0, 70px) scale(1.05);
+    transform: translate(0px, 70px);
 }
 
-
 /* =========================
-   🔥 ACTIVE CHIP STATE
+   ACTIVE CHIP
 ========================= */
 
 .chip.active {
-    transform: translate(-50%, -50%) scale(1.2);
+    transform: scale(1.15);
+    z-index: 10;
 
     box-shadow:
         0 0 10px rgba(255, 215, 0, 0.7),
         0 0 20px rgba(255, 215, 0, 0.3);
-
-    z-index: 10;
 }
 
-
 /* =========================
-   🧠 BET MARKER
+   BET MARKER
 ========================= */
 
 .bet-marker {
@@ -498,8 +451,6 @@ html, body {
 
     min-width: 24px;
     height: 24px;
-
-    padding: 2px 6px;
 
     border-radius: 50px;
 
@@ -513,17 +464,10 @@ html, body {
     justify-content: center;
     align-items: center;
 
-    box-shadow:
-        0 0 8px rgba(255, 215, 0, 0.8),
-        0 0 16px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
 
     z-index: 999;
 }
-
-
-/* ======================================================
-   🪙 END CHIP SYSTEM
-====================================================== */
 /* ======================================================
    🎮 FINAL CASINO SPIN BUTTON (STABLE VERSION)
 ====================================================== */
