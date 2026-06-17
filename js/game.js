@@ -132,7 +132,7 @@ function unlockGameUI() {
 // 🚀 END: GAME INIT SECTION
 // ======================================================
 // ======================================================
-// 🪙 SIMPLE CHIP TOGGLE SYSTEM (FINAL)
+// 🪙 SIMPLE CHIP function initChipSystem (FINAL)
 // ======================================================
 
 
@@ -140,14 +140,42 @@ function initChipSystem() {
 
     const container = document.querySelector(".chips-container");
     const chips = document.querySelectorAll(".chip");
-    const defaultChip = document.querySelector(".default-chip");
 
     if (!container || !chips.length) {
-        console.log("❌ CHIP SYSTEM INIT FAILED");
+        console.log("❌ CHIP SYSTEM NOT FOUND");
         return;
     }
 
-    console.log("🟢 CHIP SYSTEM READY");
+    console.log("🟢 CHIP SYSTEM INIT OK");
+
+    // ======================================================
+    // 🧠 INITIAL STATE (IMPORTANT FIX)
+    // ======================================================
+
+    container.classList.add("collapsed");
+    container.classList.remove("expanded");
+
+    // ======================================================
+    // 🟡 DEFAULT CHIP SET (FORCE FIX)
+    // ======================================================
+
+    const defaultChip =
+        document.querySelector(".default-chip") ||
+        document.querySelector(".chip[data-value='0.10']") ||
+        chips[0];
+
+    if (defaultChip) {
+
+        chips.forEach(c => c.classList.remove("active"));
+        defaultChip.classList.add("active");
+
+        GameEngine.selectedChip = {
+            value: parseFloat(defaultChip.dataset.value),
+            element: defaultChip
+        };
+
+        console.log("🟢 DEFAULT CHIP:", GameEngine.selectedChip.value);
+    }
 
     // ======================================================
     // 🔁 TOGGLE MENU (EXPAND / COLLAPSE)
@@ -155,9 +183,7 @@ function initChipSystem() {
 
     function toggleMenu() {
 
-        const isExpanded = container.classList.contains("expanded");
-
-        if (isExpanded) {
+        if (container.classList.contains("expanded")) {
             container.classList.remove("expanded");
             container.classList.add("collapsed");
         } else {
@@ -165,16 +191,19 @@ function initChipSystem() {
             container.classList.remove("collapsed");
         }
 
-        console.log("🔁 CHIP MENU:", container.className);
+        console.log("🔁 MENU STATE:", container.className);
     }
 
     // ======================================================
-    // 🟡 DEFAULT CHIP CLICK → TOGGLE MENU
+    // 🟢 DEFAULT CHIP CLICK → TOGGLE
     // ======================================================
 
-    if (defaultChip) {
+    const defaultClickTarget =
+        document.querySelector(".default-chip");
 
-        defaultChip.addEventListener("click", (e) => {
+    if (defaultClickTarget) {
+
+        defaultClickTarget.addEventListener("click", (e) => {
 
             e.stopPropagation();
 
@@ -185,7 +214,7 @@ function initChipSystem() {
     }
 
     // ======================================================
-    // 🪙 CHIP SELECTION LOGIC
+    // 🪙 CHIP CLICK → SELECT + CLOSE
     // ======================================================
 
     chips.forEach((chip) => {
@@ -211,10 +240,10 @@ function initChipSystem() {
                 element: chip
             };
 
-            console.log("🪙 CHIP SELECTED:", GameEngine.selectedChip.value);
+            console.log("🪙 SELECTED:", GameEngine.selectedChip.value);
 
             // ======================================================
-            // 🔽 AUTO COLLAPSE AFTER SELECT
+            // 🔽 AUTO COLLAPSE
             // ======================================================
 
             setTimeout(() => {
