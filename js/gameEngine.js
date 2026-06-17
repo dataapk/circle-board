@@ -216,7 +216,8 @@ function lockGameUI() {
     lockSpinButton();   // 🔥 UI LOCK
     lockBets();         // 🔥 BET LOCK
 
-    console.log("🔒 GAME LOCKED");
+    console.log("CALL TEST");
+lockGameUI();
 }
 function unlockGameUI() {
 
