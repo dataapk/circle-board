@@ -511,29 +511,40 @@ html, body {
 
 #spinBtn {
 
-    width: 92%;   /* 🔥 আগে 85% ছিল */
-
+    width: 92%;
     height: 40px;
 
     display: flex;
     align-items: center;
-
     justify-content: flex-start;
 
     gap: 6px;
-
     padding: 0 12px;
 
+    box-sizing: border-box;
+
     border-radius: 10px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    /* 🟡 GOLD FRAME */
+    border: 2px solid #ffd700;
+
+    box-shadow:
+        0 0 6px rgba(255,215,0,.6),
+        0 0 15px rgba(255,215,0,.3),
+        inset 0 0 8px rgba(255,255,255,.1);
 }
 .wheel-icon {
 
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
 
     flex-shrink: 0;
 
-    margin-left: -2px;  /* 🔥 একটু বাম দিকে চাপ */
+    margin-left: -4px;  /* 🔥 একটু বাম দিকে চাপ */
 
     border-radius: 50%;
 
