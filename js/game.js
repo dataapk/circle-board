@@ -238,13 +238,12 @@ function initChipSystem() {
 
             setTimeout(() => {
 
-                container.classList.remove("expanded");
-                container.classList.add("collapsed");
+    container.classList.remove("expanded");
+    container.classList.add("collapsed");
 
-            }, 120);
-        });
-    });
-}
+}, 120);
+
+});
 // ======================================================
 // 🎯 BOARD SYSTEM (FINAL FIX - NO DUPLICATE LISTENER)
 // ======================================================
