@@ -189,6 +189,7 @@ function initChipSystem() {
 
             console.log("🟡 CHIP CLICKED (NO SELECT YET)");
         });
+        }
 
 
 // ======================================================
@@ -1090,8 +1091,6 @@ function debugGameUI() {
         "===================="
     );
 }
-
-
 
 // ======================================================
 // 🧪 END: UI DEBUG SECTION
