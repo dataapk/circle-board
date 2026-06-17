@@ -511,7 +511,7 @@ html, body {
 
 #spinBtn {
 
-    width: 85%;   /* 🔥 আগে 70% ছিল, এখন বেশি full casino feel */
+    width: 92%;   /* 🔥 আগে 85% ছিল */
 
     height: 40px;
 
@@ -520,9 +520,9 @@ html, body {
 
     justify-content: flex-start;
 
-    padding: 0 10px;
+    gap: 6px;
 
-    gap: 6px;   /* 🔥 কম gap = tighter feel */
+    padding: 0 12px;
 
     border-radius: 10px;
 }
