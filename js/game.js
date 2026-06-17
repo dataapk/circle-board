@@ -128,21 +128,38 @@ function initChipSystem() {
 
 
 // ======================================================
-// 🎯 START: TABLE SECTION (FIXED)
+// 🎯 BOARD SYSTEM (FIXED SAFE VERSION)
 // ======================================================
 
 function setupBoardSystem() {
 
+    console.log("🎯 BOARD SYSTEM INIT");
+
     const boxes =
         document.querySelectorAll(".symbol-box");
 
+    if (!boxes.length) {
+        console.log("❌ No symbol boxes found");
+        return;
+    }
+
     boxes.forEach(box => {
+
+        // 🧹 REMOVE OLD LISTENER SAFELY (IMPORTANT FIX)
+        const newBox = box.cloneNode(true);
+        box.parentNode.replaceChild(newBox, box);
+    });
+
+    // 🎯 RESELECT CLEAN BOXES
+    document.querySelectorAll(".symbol-box").forEach(box => {
 
         box.addEventListener("click", () => {
             onTableClick(box);
         });
 
     });
+
+    console.log("✅ BOARD SYSTEM READY");
 }
 
 
