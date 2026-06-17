@@ -273,26 +273,6 @@ function setupSpinButton() {
     );
 }
 
-
-
-// ======================================================
-// 🎰 SPIN GAME FLOW (UI CONTROL SECTION)
-// ======================================================
-
-function setupSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-
-    if (!btn) return;
-
-    btn.addEventListener("click", spinGame);
-
-    console.log("🎰 SPIN BUTTON READY");
-}
-
-
-
-
 // ==========================
 // 🚀 SPIN START
 // ==========================
