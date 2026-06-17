@@ -362,6 +362,14 @@ html, body {
 
     transition: all 0.45s cubic-bezier(.2,.8,.2,1);
 }
+/* =========================
+   🟣 DEFAULT CHIP PRIORITY FIX
+========================= */
+
+.default-chip {
+    z-index: 999 !important;
+    position: absolute;
+}
 
 
 /* =========================
