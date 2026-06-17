@@ -132,7 +132,7 @@ function initChipSystem() {
 // ======================================================
 
 function setupBoardSystem() {
-
+console.trace("🎯 BOARD INIT TRACE");
     console.log("🎯 BOARD SYSTEM INIT");
 
     const boxes =
