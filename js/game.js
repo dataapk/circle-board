@@ -366,34 +366,6 @@ function placeChipVisual(box, amount) {
     box.appendChild(marker);
 }
 
-
-// ======================================================
-// 🔒 UI LOCK / UNLOCK (SINGLE SOURCE OF TRUTH)
-// ======================================================
-
-function lockGameUI() {
-
-    GameEngine.state = "SPINNING";
-    GameEngine.isSpinning = true;
-
-    lockSpinButton();
-    lockBets();
-
-    console.log("🔒 GAME LOCKED");
-}
-
-function unlockGameUI() {
-
-    GameEngine.state = "READY";
-    GameEngine.isSpinning = false;
-
-    unlockSpinButton();
-    unlockBets();
-
-    console.log("🔓 GAME UNLOCKED");
-}
-
-
 // ======================================================
 // 🎰 SPIN BUTTON
 // ======================================================
