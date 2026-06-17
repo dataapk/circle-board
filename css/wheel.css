@@ -373,18 +373,14 @@ html, body {
 .chips-container {
     position: relative;
 
-    width: 340px;   /* 🔥 slightly increased for centering fix */
+    width: 340px;
     height: 140px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 12px;
+    margin: 0 auto;
 
     overflow: visible;
 
-    margin-top: -18px;
+    display: block;   /* ❌ flex removed */
 
     transition: all 0.35s ease;
 }
