@@ -190,7 +190,7 @@ function initChipSystem() {
             console.log("🟡 CHIP CLICKED (NO SELECT YET)");
         });
     });
-}
+
 
 
 // ======================================================
