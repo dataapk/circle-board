@@ -198,35 +198,51 @@ GameEngine.fadeOutSpinSound = function () {
 // ======================================================
 // 🚀 END: ENGINE BOOT SECTION
 // ======================================================
+// ======================================================
+// 🔊 START: BUTTON LOCK UNLOCK SECTION
+// ======================================================
 function lockGameUI() {
-
-    const spinBtn = document.getElementById("spinBtn");
 
     console.log("🔴 LOCK TRIGGERED");
 
-    if (spinBtn) {
-        spinBtn.classList.add("spinning");
-
-        console.log("✔ CLASS ADDED:", spinBtn.className);
-    }
-
     GameEngine.isSpinning = true;
+
+    lockSpinButton();   // 🔥 UI
+    lockBets();         // 🔥 logic
+
 }
-
 function unlockGameUI() {
-
-    const spinBtn = document.getElementById("spinBtn");
 
     console.log("🟢 UNLOCK TRIGGERED");
 
-    if (spinBtn) {
-        spinBtn.classList.remove("spinning");
-
-        console.log("✔ CLASS REMOVED:", spinBtn.className);
-    }
-
     GameEngine.isSpinning = false;
+
+    unlockSpinButton(); // 🔥 UI
+    unlockBets();       // 🔥 logic
+
 }
+function lockSpinButton() {
+
+    const spinBtn = document.getElementById("spinBtn");
+
+    if (!spinBtn) return;
+
+    spinBtn.classList.add("spinning");
+    spinBtn.innerText = "LOCKD";
+}
+function unlockSpinButton() {
+
+    const spinBtn = document.getElementById("spinBtn");
+
+    if (!spinBtn) return;
+
+    spinBtn.classList.remove("spinning");
+    spinBtn.innerText = "SPIN";
+}
+// ======================================================
+// 🔊 START: BUTTON LOCK UNLOCK SECTION END
+// ======================================================
+
 
 
 // ======================================================
