@@ -132,17 +132,22 @@ function initChipSystem() {
 // ======================================================
 
 function setupBoardSystem() {
-console.trace("🎯 BOARD INIT TRACE");
+
+    if (boardInitialized) {
+        console.log("⚠ BOARD ALREADY INIT");
+        return;
+    }
+
+    boardInitialized = true;
+
+    console.trace("🎯 BOARD INIT TRACE");
     console.log("🎯 BOARD SYSTEM INIT");
 
     const boxes =
         document.querySelectorAll(".symbol-box");
 
-    if (!boxes.length) return;
-
     boxes.forEach(box => {
 
-        // 🧠 SAFE SINGLE LISTENER GUARANTEE
         box.onclick = null;
 
         box.onclick = () => {
@@ -151,7 +156,7 @@ console.trace("🎯 BOARD INIT TRACE");
 
     });
 
-    console.log("✅ BOARD SYSTEM READY (CLEAN)");
+    console.log("✅ BOARD READY");
 }
 
 // 🧠 FIX: INLINE CHECK (NO MISSING FUNCTION)
