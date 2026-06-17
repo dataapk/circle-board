@@ -198,6 +198,35 @@ GameEngine.fadeOutSpinSound = function () {
 // ======================================================
 // 🚀 END: ENGINE BOOT SECTION
 // ======================================================
+function lockGameUI() {
+
+    const spinBtn = document.getElementById("spinBtn");
+
+    console.log("🔴 LOCK TRIGGERED");
+
+    if (spinBtn) {
+        spinBtn.classList.add("spinning");
+
+        console.log("✔ CLASS ADDED:", spinBtn.className);
+    }
+
+    GameEngine.isSpinning = true;
+}
+
+function unlockGameUI() {
+
+    const spinBtn = document.getElementById("spinBtn");
+
+    console.log("🟢 UNLOCK TRIGGERED");
+
+    if (spinBtn) {
+        spinBtn.classList.remove("spinning");
+
+        console.log("✔ CLASS REMOVED:", spinBtn.className);
+    }
+
+    GameEngine.isSpinning = false;
+}
 
 
 // ======================================================
