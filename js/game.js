@@ -81,6 +81,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("🔗 SYSTEMS CONNECTED");
 });
+// ======================================================
+// 🔴 LOCK GAME UI)
+// ======================================================
+   function lockGameUI() {
+
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    GameEngine.state = "SPINNING";
+    GameEngine.isSpinning = true;
+
+    btn.classList.add("locked");
+
+    const text = btn.querySelector(".btn-text");
+    const icon = btn.querySelector(".wheel-icon");
+
+    if (text) text.innerText = "LOCKED";
+    if (icon) icon.style.animation = "none";
+
+    console.log("🔒 GAME UI LOCKED");
+}
+function unlockGameUI() {
+
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    GameEngine.state = "READY";
+    GameEngine.isSpinning = false;
+
+    btn.classList.remove("locked");
+
+    const text = btn.querySelector(".btn-text");
+    const icon = btn.querySelector(".wheel-icon");
+
+    if (text) text.innerText = "SPIN";
+    if (icon) icon.style.animation = "wheelSpin 1.2s linear infinite";
+
+    console.log("🔓 GAME UI UNLOCKED");
+}
+
+// ======================================================
+// 🔴 LOCK UI
+// ======================================================
 
 
 
