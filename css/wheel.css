@@ -393,19 +393,22 @@ html, body {
     width: 48px;
     height: 48px;
 
-    position: relative;
+    position: absolute;   /* 🔥 IMPORTANT FIX */
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
 
     border-radius: 50%;
 
     cursor: pointer;
 
-    flex-shrink: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
 
-    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+    transition: transform 0.35s ease, box-shadow 0.25s ease, opacity 0.25s ease;
 
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -414,7 +417,6 @@ html, body {
     visibility: visible;
     pointer-events: auto;
 }
-
 /* =========================
    🖼 CHIP IMAGE
 ========================= */
