@@ -236,7 +236,7 @@ function initChipSystem() {
             // 🔽 AUTO COLLAPSE
             // ======================================================
 
-            setTimeout(() => {
+             setTimeout(() => {
 
     container.classList.remove("expanded");
     container.classList.add("collapsed");
