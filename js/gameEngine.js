@@ -223,21 +223,31 @@ function unlockGameUI() {
 }
 function lockSpinButton() {
 
-    const spinBtn = document.getElementById("spinBtn");
+    const btn = document.getElementById("spinBtn");
 
-    if (!spinBtn) return;
+    if (!btn) return;
 
-    spinBtn.classList.add("spinning");
-    spinBtn.innerText = "LOCKD";
+    btn.classList.add("locked");
+
+    btn.querySelector(".btn-text").innerText = "LOCKED";
+
+    btn.querySelector(".btn-icon").src = "assets/lock.png";
+
+    console.log("🔴 BUTTON LOCKED");
 }
 function unlockSpinButton() {
 
-    const spinBtn = document.getElementById("spinBtn");
+    const btn = document.getElementById("spinBtn");
 
-    if (!spinBtn) return;
+    if (!btn) return;
 
-    spinBtn.classList.remove("spinning");
-    spinBtn.innerText = "SPIN";
+    btn.classList.remove("locked");
+
+    btn.querySelector(".btn-text").innerText = "SPIN";
+
+    btn.querySelector(".btn-icon").src = "assets/wheel.png";
+
+    console.log("🟢 BUTTON UNLOCKED");
 }
 // ======================================================
 // 🔊 START: BUTTON LOCK UNLOCK SECTION END
