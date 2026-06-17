@@ -510,13 +510,9 @@ html, body {
 ====================================================== */
 
 #spinBtn {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: -16px;
-   margin-bottom: 8px;
 
-}
+    width: 92%;
+    height: 36px;
 
     box-sizing: border-box;
 
@@ -570,8 +566,8 @@ html, body {
 
 .wheel-icon {
 
-    width: 25px;
-    height: 25px;
+    width: 18px;
+    height: 18px;
 
     flex-shrink: 0;
 
@@ -652,21 +648,6 @@ html, body {
         0 0 12px rgba(255,0,0,.4),
         0 0 20px rgba(255,0,0,.25),
         inset 0 0 6px rgba(255,255,255,.1);
-}
-/* ======================================================
-   ✨ SPIN BUTTON END
-====================================================== */
-
-@keyframes goldShine {
-
-    from { left: -40%; }
-    to { left: 130%; }
-}
-
-@keyframes colorFlow {
-
-    from { transform: translateX(-20%); }
-    to { transform: translateX(20%); }
 }
 
 
