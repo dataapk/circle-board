@@ -217,31 +217,21 @@ function initChipSystem() {
     // 🪙 CHIP CLICK → SELECT + CLOSE
     // ======================================================
 
-    chips.forEach((chip) => {
+    chips.forEach(chip => {
 
-        chip.addEventListener("click", (e) => {
+    chip.addEventListener("click", (e) => {
 
-            e.stopPropagation();
+        e.stopPropagation();
 
-            if (GameEngine.isSpinning) return;
+        if (GameEngine.isSpinning) return;
 
-            // 🔊 SOUND
-            if (GameEngine.audio && GameEngine.chipSound) {
-                GameEngine.audio.play(GameEngine.chipSound);
-            }
+        // ALWAYS TOGGLE ON ANY CHIP CLICK (TEST FIX)
+        container.classList.add("expanded");
+        container.classList.remove("collapsed");
 
-            // 🟢 ACTIVE STATE
-            chips.forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
-
-            // 💰 STORE VALUE
-            GameEngine.selectedChip = {
-                value: parseFloat(chip.dataset.value),
-                element: chip
-            };
-
-            console.log("🪙 SELECTED:", GameEngine.selectedChip.value);
-
+        console.log("🔁 EXPAND FORCE TRIGGERED");
+    });
+});
             // ======================================================
             // 🔽 AUTO COLLAPSE
             // ======================================================
