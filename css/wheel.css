@@ -333,16 +333,11 @@ html, body {
 ========================= */
 
 .chips-wrapper {
-    position: relative;
-
-    width: 320px;
-    height: 140px;
-
-    margin: 0 auto;
-
     display: flex;
     justify-content: center;
     align-items: center;
+
+    width: 100%;
 }
 
 
