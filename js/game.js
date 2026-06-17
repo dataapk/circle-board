@@ -134,78 +134,31 @@ function unlockGameUI() {
 // ======================================================
 // 🪙 SIMPLE CHIP function initChipSystem (FINAL)
 // ======================================================
-
-
 function initChipSystem() {
 
     const container = document.querySelector(".chips-container");
     const chips = document.querySelectorAll(".chip");
     const defaultChip = document.querySelector(".default-chip");
 
-    if (!container || !chips.length) {
-        console.log("❌ CHIP SYSTEM NOT FOUND");
-        return;
-    }
+    if (!container || !chips.length) return;
 
     console.log("🟢 CHIP SYSTEM READY");
 
     // ======================================================
-    // 🧠 INIT STATE
+    // 🔁 ONLY EXPAND / COLLAPSE
     // ======================================================
 
-    container.classList.remove("expanded");
-    container.classList.add("collapsed");
-
-    // ======================================================
-    // 🟡 DEFAULT CHIP SET (0.10 FORCE)
-    // ======================================================
-
-    const activeDefault =
-        defaultChip ||
-        document.querySelector(".chip[data-value='0.10']") ||
-        chips[0];
-
-    chips.forEach(c => c.classList.remove("active"));
-
-    if (activeDefault) {
-
-        activeDefault.classList.add("active");
-
-        GameEngine.selectedChip = {
-            value: parseFloat(activeDefault.dataset.value),
-            element: activeDefault
-        };
-
-        console.log("🟢 DEFAULT CHIP SET:", GameEngine.selectedChip.value);
+    function toggleMenu() {
+        container.classList.toggle("expanded");
+        container.classList.toggle("collapsed");
     }
 
     // ======================================================
-    // 🔁 MENU TOGGLE (ONLY ONE SOURCE OF TRUTH)
-    // ======================================================
-
-    function toggleMenu(forceOpen = null) {
-
-        const isExpanded = container.classList.contains("expanded");
-
-        if (forceOpen === true || (!isExpanded && forceOpen !== false)) {
-            container.classList.add("expanded");
-            container.classList.remove("collapsed");
-        } else {
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-        }
-
-        console.log("🔁 MENU STATE:", container.className);
-    }
-
-    // ======================================================
-    // 🟡 DEFAULT CHIP → TOGGLE
+    // 🟡 DEFAULT CHIP → ONLY EXPAND
     // ======================================================
 
     if (defaultChip) {
-
         defaultChip.addEventListener("click", (e) => {
-
             e.stopPropagation();
 
             if (GameEngine.isSpinning) return;
@@ -215,7 +168,7 @@ function initChipSystem() {
     }
 
     // ======================================================
-    // 🪙 CHIP SELECT LOGIC
+    // 🪙 ALL CHIPS → ONLY EXPAND (NO SELECT HERE)
     // ======================================================
 
     chips.forEach((chip) => {
@@ -226,22 +179,18 @@ function initChipSystem() {
 
             if (GameEngine.isSpinning) return;
 
-            // 🔊 SOUND
-            if (GameEngine.audio?.chipSound) {
-                GameEngine.audio.play(GameEngine.chipSound);
+            // ❌ NO SELECT HERE
+            // ✔ ONLY EXPAND
+
+            if (!container.classList.contains("expanded")) {
+                toggleMenu();
+                return;
             }
 
-            // 🟢 ACTIVE STATE
-            chips.forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
-
-            // 💰 STORE VALUE
-            GameEngine.selectedChip = {
-                value: parseFloat(chip.dataset.value),
-                element: chip
-            };
-
-            console.log("🪙 SELECTED:", GameEngine.selectedChip.value);
+            console.log("🟡 CHIP CLICKED (NO SELECT YET)");
+        });
+    });
+}
 
             // ======================================================
             // 🔽 AUTO COLLAPSE AFTER SELECT
