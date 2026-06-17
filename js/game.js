@@ -16,7 +16,17 @@ if (window.__GAME_INIT__) {
 // ======================================================
 // 🚀 START: GAME INIT SECTION
 // ======================================================
+let gameInitialized = false;
+
 function initGame() {
+
+    // 🛑 BLOCK DUPLICATE INIT (IMPORTANT FIX)
+    if (gameInitialized) {
+        console.log("⚠ GAME ALREADY INITIALIZED - SKIP");
+        return;
+    }
+
+    gameInitialized = true;
 
     console.log("🧠 INIT GAME START");
 
@@ -130,7 +140,7 @@ function initChipSystem() {
 // ======================================================
 // 🎯 BOARD SYSTEM (FINAL FIX - NO DUPLICATE LISTENER)
 // ======================================================
-
+let boardInitialized = false;
 function setupBoardSystem() {
 
     if (boardInitialized) {
