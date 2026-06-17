@@ -320,202 +320,183 @@ html, body {
    💰 BET MARKER (CHIP DISPLAY ON BOX)
 ========================= */
 
-.chips-wrapper {
+.bet-marker {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
 
-    position: relative;
+    min-width: 24px;
+    height: 24px;
 
-    width: 180px;
-    height: 140px;
+    padding: 2px 6px;
 
-    margin: 0 auto;
+    border-radius: 50px;
+
+    background: var(--gold);
+    color: #000;
+
+    font-size: 11px;
+    font-weight: bold;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    box-shadow: 0 0 10px var(--glow-gold-mid);
+
+    z-index: var(--z-ui);
 }
+
+
+
+
+/* ======================================================
+   🧱 START: APP SHELL / GAME WRAPPER LAYOUT
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   📐 START: RESPONSIVE GRID SYSTEM (GAME CANVAS)
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   🎯 START: SYMBOL TABLE / BETTING GRID ENGINE
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   🪙 CHIP SYSTEM ENGINE (CASINO SELECTOR FIXED)
+====================================================== */
+
+.chips-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: -20px;
+}
+
+/* =========================
+   🎰 CHIP CONTAINER
+========================= */
 
 .chips-container {
-
     position: relative;
 
-    width: 180px;
+    width: 320px;
     height: 140px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 12px;
+
+    overflow: visible;
+   margin-top: -18px;
 }
 
+/* =========================
+   🪙 CHIP BASE STYLE
+========================= */
+
 .chip {
+    width: 46px;
+    height: 46px;
 
-    position: absolute;
-
-    width: 48px;
-    height: 48px;
-
-    cursor: pointer;
+    position: relative;
 
     border-radius: 50%;
 
-    transition:
-        transform .35s ease,
-        opacity .35s ease,
-        box-shadow .35s ease;
+    cursor: pointer;
 
-    user-select: none;
+    flex-shrink: 0;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
-    z-index: 1;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
-.chip img {
+/* =========================
+   🖼 CHIP IMAGE
+========================= */
 
-    width: 100%;
-    height: 100%;
+.chip img {
+    width: 85%;
+    height: 85%;
 
     object-fit: contain;
 
+    display: block;
+
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+
     pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
+/* =========================
+   🏷 CHIP LABEL
+========================= */
+
 .chip span {
-
     position: absolute;
-
     left: 50%;
+    bottom: -16px;
+
     transform: translateX(-50%);
 
-    bottom: -14px;
-
     font-size: 10px;
-    font-weight: 600;
-
-    color: #fff;
+    color: var(--text-main);
 
     white-space: nowrap;
 
-    text-shadow:
-        0 1px 2px rgba(0,0,0,.6);
-
-    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
-.default-chip {
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    z-index: 20;
-}
+/* =========================
+   🔥 ACTIVE CHIP STATE
+========================= */
 
 .chip.active {
-
-    box-shadow:
-        0 0 12px rgba(255,215,0,.8),
-        0 0 24px rgba(255,215,0,.35);
-
-    z-index: 30;
-}
-
-.chips-container.collapsed .chip:not(.default-chip) {
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%, -50%)
-        scale(.5);
-
-    opacity: 0;
-
-    pointer-events: none;
-}
-
-/* TOP */
-
-.chips-container.expanded .chip:nth-child(2) {
-
-    left: 50%;
-    top: 5%;
-
-    transform: translateX(-50%);
-
-    opacity: 1;
-}
-
-/* TOP LEFT */
-
-.chips-container.expanded .chip:nth-child(3) {
-
-    left: 20%;
-    top: 25%;
-
-    opacity: 1;
-}
-
-/* TOP RIGHT */
-
-.chips-container.expanded .chip:nth-child(4) {
-
-    right: 20%;
-    top: 25%;
-
-    opacity: 1;
-}
-
-/* BOTTOM LEFT */
-
-.chips-container.expanded .chip:nth-child(5) {
-
-    left: 8%;
-    top: 65%;
-
-    opacity: 1;
-}
-
-/* BOTTOM RIGHT */
-
-.chips-container.expanded .chip:nth-child(6) {
-
-    right: 8%;
-    top: 65%;
-
-    opacity: 1;
-}
-
-.chips-container.expanded .chip:hover {
-
     transform: scale(1.15);
 
     box-shadow:
-        0 0 10px rgba(255,215,0,.7),
-        0 0 20px rgba(255,215,0,.25);
+        0 0 12px var(--glow-gold-mid),
+        0 0 22px var(--glow-gold-soft);
+
+    z-index: var(--z-top);
 }
 
-.chips-container.expanded .chip {
+/* =========================
+   🎯 DEFAULT CHIP FIX
+========================= */
 
-    animation:
-        chipPop .25s ease;
+.default-chip {
+    z-index: var(--z-ui);
 }
 
-@keyframes chipPop {
-
-    from {
-
-        opacity: 0;
-
-        transform: scale(.5);
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform: scale(1);
-    }
-}
 /* ======================================================
    🪙 CHIP SYSTEM END
 ====================================================== */
