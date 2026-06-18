@@ -670,6 +670,29 @@ function handleWheelResult(angle) {
     // 👉 IMPORTANT: ONLY CALL FLOW CONTROLLER HERE
     onSpinEnd(result);
 }
+// ======================================================
+// 🎰 START: CASINO PAYOUT ENGINE (FIXED)
+// ======================================================
+  function onSpinEnd(result) {
+
+    console.log("🏁 SPIN END");
+
+    resolvePayout(result);
+
+    resetWheelState();
+    resetBoardUI();
+
+    startNewRound();
+
+    // 🔓 UI UNLOCK FIX
+    unlockGameUI();
+    unlockBets();   // ⭐ THIS IS MISSING FIX
+
+    console.log("✔ READY NEXT ROUND");
+}
+// ======================================================
+// 🎰 START: CASINO PAYOUT ENGINE (FIXED)
+// ======================================================
 
 
 // ======================================================
