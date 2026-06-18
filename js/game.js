@@ -86,38 +86,21 @@ function initChipSystem() {
     // CHIP SELECT
 chips.forEach(chip => {
 
-    chip.addEventListener("click", (e) => {
+    defaultChip.addEventListener("click", (e) => {
+    e.stopPropagation();
 
-        // 🔒 SPINNING = CHIP SELECT LOCK
-        if (GameEngine.isSpinning) {
-            console.log("🔒 CHIP SELECT LOCKED");
-            return;
-        }
+    expanded ? closeMenu() : openMenu();
 
-        e.stopPropagation();
+    console.log("CHIP STATE:", container.className);
+});
 
-        chips.forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
 
-        GameEngine.selectedChip = {
-            value: parseFloat(chip.dataset.value),
-            element: chip
-        };
-
-        if (GameEngine?.audio && GameEngine?.chipSound) {
-            GameEngine.audio.play(GameEngine.chipSound);
-        }
-
-        console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
-
-    });
-
-}); // ← এইটা গুরুত্বপূর্
     ণ
     // OUTSIDE CLICK CLOSE
 document.addEventListener("click", () => {
     closeMenu();
 });
+}
 
 // ======================================================
 // 🎯 BOARD SYSTEM (SAFE)
