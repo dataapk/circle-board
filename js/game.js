@@ -110,7 +110,7 @@ function initChipSystem() {
         container.classList.add("collapsed");
         expanded = false;
 
-    });
+    );
 });
     // =========================
     // OUTSIDE CLICK (SAFE GUARD ONLY)
