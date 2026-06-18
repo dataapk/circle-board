@@ -108,7 +108,8 @@ function initChipSystem() {
     container.classList.remove("expanded");
     container.classList.add("collapsed");
     expanded = false;
-});
+ });
+        });
 
     // =========================
     // OUTSIDE CLICK (SAFE GUARD ONLY)
