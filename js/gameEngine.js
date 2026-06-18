@@ -1,6 +1,10 @@
-// ======================================================
-// 🧠 GAME ENGINE (STATE ONLY - NO UI)
-// ======================================================
+/* ======================================================
+   🧠 GAMEENGINE.JS (STATE ONLY - NO UI / NO EVENTS)
+   ====================================================== */
+
+/* =========================
+   START: GAME ENGINE CORE
+========================= */
 
 window.GameEngine = {
 
@@ -17,7 +21,7 @@ window.GameEngine = {
     currentRotation: 0,
     spinDirection: 1,
 
-    // 🔊 AUDIO REFERENCES
+    // 🔊 AUDIO REFERENCES ONLY
     chipSound: null,
     tableSound: null,
     spinSound: null,
@@ -25,3 +29,7 @@ window.GameEngine = {
     loseSound: null,
     spinButtonSound: null
 };
+
+/* =========================
+   END: GAME ENGINE CORE
+========================= */
