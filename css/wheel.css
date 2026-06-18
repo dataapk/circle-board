@@ -318,57 +318,53 @@ html, body {
 
 
 /* =========================
-   🪙 iGaming FAN CHIP MENU
+   🪙 iGaming FAN CHIP MENU STARTR
+========================= */
+/* =========================
+   🪙 CHIP SYSTEM (STABLE FIX)
 ========================= */
 
-.chips-wrapper{
+.chips-wrapper {
     position: relative;
     width: 100%;
-    height: 110px;
+    height: 140px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    overflow: visible;
 }
 
-.chips-container{
+/* CONTAINER */
+.chips-container {
     position: relative;
     width: 260px;
-    height: 90px;
+    height: 100px;
 }
 
-.chips-container .chip{
-    position:absolute;
+/* CHIP BASE */
+.chip {
+    position: absolute;
 
-    left:50%;
-    top:50%;
+    width: 38px;
+    height: 38px;
 
-    transform:
-        translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
 
-    transition:
-        all .35s ease;
+    transform: translate(-50%, -50%);
 
-    z-index:1;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+
+    cursor: pointer;
+}
+.chip.active {
+    z-index: 30;
+    filter: drop-shadow(0 0 6px gold);
 }
 
-/* DEFAULT CHIP */
-
-.default-chip{
-    z-index:20 !important;
-}
-
-/* COLLAPSED */
-
-.chips-container.collapsed .chip:not(.default-chip){
-
-    opacity:0;
-    pointer-events:none;
-
-    transform:
-        translate(-50%, -50%)
-        scale(.5);
-}
+/* IMAGE */
 .chip img {
     width: 100%;
     height: 100%;
@@ -377,53 +373,110 @@ html, body {
     pointer-events: none;
 }
 
-/* =========================
-   EXPANDED STATE (RADIAL)
-========================= */
-
-.chips-container.expanded {
-    position: relative;
+/* DEFAULT CHIP (always visible) */
+.default-chip {
+    z-index: 20;
 }
 
-.chips-container.expanded .chip {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+/* COLLAPSED STATE */
+.chips-container.collapsed .chip:not(.default-chip) {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.5);
 }
 
-/* spread layout */
+/* EXPANDED STATE (FAN LAYOUT) */
 .chips-container.expanded .chip:nth-child(2){
-    transform: translate(-95px,-45px);
+    transform: translate(-95px, -40px);
 }
 
 .chips-container.expanded .chip:nth-child(3){
-    transform: translate(-55px,-75px);
+    transform: translate(-55px, -75px);
 }
 
 .chips-container.expanded .chip:nth-child(4){
-    transform: translate(-5px,-88px);
+    transform: translate(-5px, -90px);
 }
 
 .chips-container.expanded .chip:nth-child(5){
-    transform: translate(45px,-75px);
+    transform: translate(45px, -75px);
 }
 
 .chips-container.expanded .chip:nth-child(6){
-    transform: translate(85px,-45px);
+    transform: translate(85px, -40px);
 }
-.chips-container.expanded .chip:not(.default-chip){
 
-    opacity:1;
-    pointer-events:auto;
-}
-/* =========================
-   ACTIVE CHIP
-========================= */
+/* =================================
+   ✨ GOLD CHIP GLOW EFFECT ANIMATRION
+====================================== */
 
-.chip.active {
-    transform: translate(-50%, -50%) scale(1.15);
-    z-index: 10;
+.chip {
+    position: absolute;
 }
+
+/* OUTER GOLD GLOW */
+.chip::after {
+    content: "";
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 120%;
+    height: 120%;
+
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(255, 215, 0, 0.55) 0%,
+        rgba(255, 215, 0, 0.25) 40%,
+        transparent 70%
+    );
+
+    opacity: 0;
+    transition: opacity 0.25s ease;
+
+    z-index: -1;
+
+    filter: blur(6px);
+}
+/* ACTIVE GOLD PULSE */
+.chip.active::after {
+    opacity: 1;
+    animation: goldPulse 1.2s infinite ease-in-out;
+}
+@keyframes goldPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+}@keyframes goldPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.15);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+}
+/* ===============================
+   🪙 iGaming FAN CHIP MENU END
+================================== */
 
 /* =========================
    BET MARKER
