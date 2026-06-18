@@ -470,6 +470,16 @@ function resolvePayout(result) {
 
     updateBalanceUI();
 }
+/* =========================
+   🏆 UPDATE BALANCE
+========================= */
+function updateBalanceUI() {
+
+    const el = document.getElementById("balanceAmount");
+    if (!el) return;
+
+    el.innerText = "$" + GameEngine.balance.toFixed(2);
+}
 
 /* =========================
    🔄 ROUND RESET (CLEAN)
