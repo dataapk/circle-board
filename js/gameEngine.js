@@ -104,11 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("🚀 ENGINE BOOT START");
 
-    initAudio();
-
-    // 🪙 CHIP SYSTEM
-    if (typeof initChipSystem === "function") {
-        initChipSystem();
+    // 🔊 AUDIO INIT
+    if (typeof initAudio === "function") {
+        initAudio();
     }
 
     // 🎰 GAME LOAD
