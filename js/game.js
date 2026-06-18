@@ -307,38 +307,128 @@ function startNewRound() {
 
 /* =========================
    END: RESET SYSTEM
-========================= */
+====================================================== */
+/* =========================
+   START: 🔊 FULL AUDIO SYSTEM (PRO FINAL VERSION)
+==================================================== */
 /* =========================
    START: AUDIO SYSTEM
 ========================= */
+ /* =========================
+   🔊 AUDIO ENGINE CORE
+   ========================= */
+
+/* =========================
+   🔊 AUDIO ENGINE CORE (UPDATED)
+========================= */
+
+const AudioSystem = {
+
+    enabled: true,
+
+    chip: null,
+    spin: null,
+    wheel: null,
+    table: null,   // 🔥 TABLE ADDED
+    win: null,
+    lose: null,
+    bg: null
+};
+/* =========================
+   🎧 INIT AUDIO SYSTEM
+   ========================= */
 
 function initAudio() {
 
-    GameEngine.chipSound = document.getElementById("chipSound");
-    GameEngine.tableSound = document.getElementById("tableSound");
-    GameEngine.spinSound = document.getElementById("spinSound");
-    GameEngine.winSound = document.getElementById("winSound");
-    GameEngine.loseSound = document.getElementById("loseSound");
+    AudioSystem.chip  = document.getElementById("chipSound");
+    AudioSystem.spin  = document.getElementById("spinSound");
+    AudioSystem.wheel = document.getElementById("wheelSound");
+    AudioSystem.table = document.getElementById("tableSound"); // 🔥 ADDED
+    AudioSystem.win   = document.getElementById("winSound");
+    AudioSystem.lose  = document.getElementById("loseSound");
+    AudioSystem.bg    = document.getElementById("bgMusic");
 
-    console.log("🔊 AUDIO READY");
+    console.log("🔊 AUDIO SYSTEM READY");
 }
+/* =========================
+   🔊 MASTER PLAY SYSTEM
+========================= */
 
-function playSound(sound) {
+function playSound(sound, options = {}) {
+
+    if (!AudioSystem.enabled) return;
     if (!sound) return;
 
-    sound.currentTime = 0;
-    sound.play().catch(() => {});
+    try {
+
+        if (options.reset !== false) {
+            sound.currentTime = 0;
+        }
+
+        if (options.loop) {
+            sound.loop = true;
+        }
+
+        sound.volume = options.volume ?? 1;
+
+        sound.play().catch(() => {});
+
+    } catch (e) {
+        console.log("AUDIO ERROR:", e);
+    }
 }
+/* =========================
+   🛑 STOP SYSTEM
+========================= */
 
 function stopSound(sound) {
+
     if (!sound) return;
 
     sound.pause();
     sound.currentTime = 0;
+    sound.loop = false;
+}
+function playChipSound() {
+    playSound(AudioSystem.chip);
+}
+function playSpinClickSound() {
+    playSound(AudioSystem.spin);
+}
+function startWheelSound() {
+    playSound(AudioSystem.wheel, {
+        loop: true,
+        volume: 1
+    });
+}
+
+function stopWheelSound() {
+    stopSound(AudioSystem.wheel);
+}
+function playWinSound() {
+    playSound(AudioSystem.win);
+}
+
+function playLoseSound() {
+    playSound(AudioSystem.lose);
+}
+function startBackgroundMusic() {
+    playSound(AudioSystem.bg, {
+        loop: true,
+        volume: 0.4
+    });
+}
+/* =========================
+   🌐 BACKEND CONTROL READY
+========================= */
+
+function setAudioEnabled(state) {
+    AudioSystem.enabled = state;
+    console.log("🔊 AUDIO STATE:", state);
 }
 
 /* =========================
-   END: AUDIO SYSTEM
+   END:🔊 FULL AUDIO SYSTEM (PRO FINAL VERSION)
 ========================= */
 /* =========================
    START: ADVANCED AUDIO CONTROL
