@@ -355,6 +355,29 @@ html, body {
 .default-chip{
     z-index:20 !important;
 }
+.chip img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+.chip {
+    position: absolute;
+
+    width: 36px !important;
+    height: 36px !important;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform 0.35s ease, opacity 0.35s ease;
+}
 
 /* COLLAPSED */
 
@@ -408,24 +431,6 @@ html, body {
 /* =================================
    ✨ GOLD CHIP GLOW EFFECT ANIMATRION
 ====================================== */
-
-.chip {
-    position: absolute;
-
-    width: 38px;
-    height: 38px;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    transition: transform 0.35s ease, opacity 0.35s ease;
-
-    cursor: pointer;
-
-    z-index: 1;
-}
 
 /* OUTER GOLD GLOW */
 .chip::after {
