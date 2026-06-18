@@ -954,19 +954,7 @@ function safeTableClick(betKey) {
     placeBetOnTable(betKey);
 }
 
-// =========================
-// 🎰 SPIN SAFE WRAPPER
-// =========================
 
-function safeSpinClick() {
-
-    if (!canSpin()) {
-        console.log("⛔ CANNOT SPIN");
-        return;
-    }
-
-    onSpinClick();
-}
 
 // =========================
 // 🧹 EMERGENCY RESET (BUG FIX)
@@ -1094,57 +1082,7 @@ function initSocket() {
 /* =========================
    🧩 STEP 9 END
 ========================= */
-/* =========================
-   🏗️ STEP 10 — FINAL ARCHITECTURE WRAP
-   (START — PRO STRUCTURE CLEANUP)
-========================= */
 
-// ======================================================
-// 🎯 MASTER FLOW CONTROLLER (ONE ENTRY POINT)
-// ======================================================
-
-function GameFlow(action, payload) {
-
-    switch (action) {
-
-        case "CHIP_CLICK":
-            safeChipClick(payload);
-            break;
-
-        case "TABLE_CLICK":
-            safeTableClick(payload);
-            break;
-
-        case "SPIN_CLICK":
-            safeSpinClick();
-            break;
-
-        case "WHEEL_END":
-            onWheelStop(payload);
-            break;
-
-        default:
-            console.log("⚠ UNKNOWN ACTION:", action);
-    }
-}
-
-// ======================================================
-// 🎮 GLOBAL GAME INIT (SAFE START)
-// ======================================================
-
-function initGame() {
-
-    console.log("🚀 GAME INIT START");
-
-    loadGame();
-    updateBalanceUI();
-
-    attachWheelListener();
-
-    setSpinButtonState(false);
-
-    console.log("✔ GAME READY");
-}
 
 // ======================================================
 // 🧹 FULL SYSTEM RESET (EMERGENCY + NEW GAME)
