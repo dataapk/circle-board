@@ -375,32 +375,26 @@ html, body {
     z-index: 20;
 }
 
-/* COLLAPSED STATE */
-.chips-container.collapsed .chip:not(.default-chip) {
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(0.5);
-}
+/* EXPANDED FAN */
 
-/* EXPANDED STATE (FAN LAYOUT) */
 .chips-container.expanded .chip:nth-child(2){
-    transform: translate(-95px, -40px);
+    transform: translate(calc(-50% - 70px), calc(-50% - 35px));
 }
 
 .chips-container.expanded .chip:nth-child(3){
-    transform: translate(-55px, -75px);
+    transform: translate(calc(-50% - 40px), calc(-50% - 65px));
 }
 
 .chips-container.expanded .chip:nth-child(4){
-    transform: translate(-5px, -90px);
+    transform: translate(-50%, calc(-50% - 85px));
 }
 
 .chips-container.expanded .chip:nth-child(5){
-    transform: translate(45px, -75px);
+    transform: translate(calc(-50% + 40px), calc(-50% - 65px));
 }
 
 .chips-container.expanded .chip:nth-child(6){
-    transform: translate(85px, -40px);
+    transform: translate(calc(-50% + 70px), calc(-50% - 35px));
 }
 
 /* =================================
