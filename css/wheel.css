@@ -347,17 +347,14 @@ html, body {
 .chip {
     position: absolute;
 
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
 
     left: 50%;
     top: 50%;
 
     transform: translate(-50%, -50%);
-
-    transition: transform 0.35s ease, opacity 0.35s ease;
-
-    cursor: pointer;
+}
 }
 .chip.active {
     z-index: 30;
