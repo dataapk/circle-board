@@ -79,13 +79,16 @@ function initChipSystem() {
     // =========================
     // DEFAULT CHIP CLICK
     // =========================
-   defaultChip.addEventListener("click", (e) => {
+  function openMenu() {
+
+    console.log("OPEN MENU FIRED");
+
     if (GameEngine.isSpinning) return;
 
-    e.stopPropagation();
-
-    openMenu(); // শুধু open
-});
+    container.classList.add("expanded");
+    container.classList.remove("collapsed");
+    expanded = true;
+}
 
     // =========================
     // CHIP SELECT
