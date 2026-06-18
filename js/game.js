@@ -29,6 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
     initChipSystem();
     initTableSystem();
     initAudio();
+
+    initGame(); // 🔥 ADD THIS
+
+    console.log("✔ SYSTEM INITIALIZED");
 });
 
 /* =========================
