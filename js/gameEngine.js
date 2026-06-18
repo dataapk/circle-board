@@ -21,26 +21,22 @@ window.GameEngine = {
     balance: 1000,
     selectedChip: null,
     bets: {},
-    isSpinning: false
 
-};
-    // =========================
     // 🎰 GAME STATE
-    // =========================
     isSpinning: false,
     lastResult: null,
     currentRotation: 0,
     spinDirection: 1,
 
-    // =========================
     // 🔊 AUDIO REFERENCES
-    // =========================
     chipSound: null,
     tableSound: null,
     spinButtonSound: null,
     spinSound: null,
     winSound: null,
-    loseSound: null,
+    loseSound: null
+
+};
 
     // =========================
     // 🎧 AUDIO CONTROLLER
