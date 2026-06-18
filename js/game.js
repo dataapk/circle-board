@@ -67,58 +67,44 @@ function initChipSystem() {
         expanded = false;
     }
 
-    // DEFAULT CHIP TOGGLE
     defaultChip.addEventListener("click", (e) => {
 
-    // 🔒 SPINNING = CHIP MENU LOCK
-    if (GameEngine.isSpinning) {
-        console.log("🔒 CHIP MENU LOCKED");
-        return;
-    }
-
-    e.stopPropagation();
-
-    expanded ? closeMenu() : openMenu();
-
-    console.log("CHIP STATE:", container.className);
-});
-
-    // CHIP SELECT
-chips.forEach(function (chip) {
-
-    chip.addEventListener("click", function (e) {
+        if (GameEngine.isSpinning) return;
 
         e.stopPropagation();
 
-        // 1. remove active
-        chips.forEach(function (c) {
-            c.classList.remove("active");
-        });
+        expanded ? closeMenu() : openMenu();
 
-        chip.classList.add("active");
-
-        // 2. set selected chip
-        GameEngine.selectedChip = {
-            value: parseFloat(chip.dataset.value),
-            element: chip
-        };
-
-        console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
-
-        // 3. update default display
-        if (defaultChip) {
-            const span = defaultChip.querySelector("span");
-            if (span) {
-                span.innerText = "$" + GameEngine.selectedChip.value;
-            }
-        }
-
-        // 4. close menu safely
-        closeMenu();
-
+        console.log("CHIP STATE:", container.className);
     });
 
-});
+    chips.forEach(function (chip) {
+
+        chip.addEventListener("click", function (e) {
+
+            e.stopPropagation();
+
+            chips.forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
+
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.dataset.value),
+                element: chip
+            };
+
+            console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
+
+            if (defaultChip) {
+                const span = defaultChip.querySelector("span");
+                if (span) {
+                    span.innerText = "$" + GameEngine.selectedChip.value;
+                }
+            }
+
+            closeMenu();
+        });
+    });
+}
 
 // ======================================================
 // 🎯 BOARD SYSTEM (SAFE)
