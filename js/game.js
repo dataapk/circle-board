@@ -69,35 +69,47 @@ function initChipSystem() {
 
     // DEFAULT CHIP TOGGLE
     defaultChip.addEventListener("click", (e) => {
-        e.stopPropagation();
 
-        expanded ? closeMenu() : openMenu();
+    // 🔒 SPINNING = CHIP MENU LOCK
+    if (GameEngine.isSpinning) {
+        console.log("🔒 CHIP MENU LOCKED");
+        return;
+    }
 
-        console.log("CHIP STATE:", container.className);
-    });
+    e.stopPropagation();
+
+    expanded ? closeMenu() : openMenu();
+
+    console.log("CHIP STATE:", container.className);
+});
 
     // CHIP SELECT
    // CHIP SELECT
 chips.forEach(chip => {
 
     chip.addEventListener("click", (e) => {
-        e.stopPropagation();
 
-        chips.forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
+    // 🔒 SPINNING = CHIP SELECT LOCK
+    if (GameEngine.isSpinning) {
+        console.log("🔒 CHIP SELECT LOCKED");
+        return;
+    }
 
-        GameEngine.selectedChip = {
-            value: parseFloat(chip.dataset.value),
-            element: chip
-        };
+    e.stopPropagation();
 
-        // 🔊 CHIP SOUND (MISSING PART - FIXED)
-        if (GameEngine?.audio && GameEngine?.chipSound) {
-            GameEngine.audio.play(GameEngine.chipSound);
-        }
+    chips.forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
 
-        console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
-    });
+    GameEngine.selectedChip = {
+        value: parseFloat(chip.dataset.value),
+        element: chip
+    };
+
+    if (GameEngine?.audio && GameEngine?.chipSound) {
+        GameEngine.audio.play(GameEngine.chipSound);
+    }
+
+    console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
 });
 
     // OUTSIDE CLICK CLOSE
