@@ -134,97 +134,61 @@ function unlockGameUI() {
 
 function initChipSystem() {
 
-    const container =
-    document.querySelector(".chips-container");
+    const container = document.querySelector(".chips-container");
+    const chips = document.querySelectorAll(".chip");
+    const defaultChip = document.querySelector(".default-chip");
 
-    const chips =
-    document.querySelectorAll(".chip");
+    if (!container || !defaultChip) return;
 
-    const defaultChip =
-    document.querySelector(".default-chip");
-
-    if (!container) return;
-
-    // DEFAULT CHIP OPEN/CLOSE
-
-    defaultChip.addEventListener(
-    "click",
-    (e) => {
+    // =========================
+    // DEFAULT TOGGLE ONLY
+    // =========================
+    defaultChip.addEventListener("click", (e) => {
 
         e.stopPropagation();
 
-        container.classList.toggle("expanded");
-        container.classList.toggle(
-                "collapsed"
-            );
+        const isExpanded = container.classList.contains("expanded");
 
+        if (isExpanded) {
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
+        } else {
+            container.classList.add("expanded");
+            container.classList.remove("collapsed");
         }
-    );
-
-    // CHIP SELECT
-
-    chips.forEach(chip => {
-
-    chip.addEventListener("click", (e) => {
-
-        e.stopPropagation();
-
-        // =========================
-        // ACTIVE STATE
-        // =========================
-        chips.forEach(c => c.classList.remove("active"));
-
-        chip.classList.add("active");
-
-        selectedChip = chip.getAttribute("data-value");
-
-        // =========================
-        // SOUND
-        // =========================
-        if (chipSound) {
-            chipSound.currentTime = 0;
-            chipSound.play().catch(() => {});
-        }
-
-                // AUTO CLOSE
-
-                if (
-                    !chip.classList.contains(
-                        "default-chip"
-                    )
-                ){
-
-                    container.classList.remove(
-                        "expanded"
-                    );
-
-                    container.classList.add(
-                        "collapsed"
-                    );
-                }
-
-            }
-        );
-
     });
 
-    // OUTSIDE CLICK CLOSE
+    // =========================
+    // CHIP SELECT ONLY (NO COLLAPSE HERE)
+    // =========================
+    chips.forEach(chip => {
 
-    document.addEventListener(
-        "click",
-        () => {
+        chip.addEventListener("click", (e) => {
 
-            container.classList.remove(
-                "expanded"
-            );
+            e.stopPropagation();
 
-            container.classList.add(
-                "collapsed"
-            );
+            chips.forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
 
-        }
-    );
+            selectedChip = chip.getAttribute("data-value");
 
+            if (chipSound) {
+                chipSound.currentTime = 0;
+                chipSound.play().catch(() => {});
+            }
+
+            // ❌ IMPORTANT: DO NOT TOUCH expanded/collapsed HERE
+        });
+    });
+
+    // =========================
+    // OUTSIDE CLICK (OPTIONAL - CAN RE-ENABLE LATER)
+    // =========================
+    document.addEventListener("click", () => {
+
+        container.classList.remove("expanded");
+        container.classList.add("collapsed");
+    });
 }
 // ======================================================
 // END: CHIP SYSTEM
