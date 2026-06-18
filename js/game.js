@@ -1,3 +1,31 @@
+/* =========================
+   START: ENGINE SAFETY LAYER
+========================= */
+
+window.__ENGINE_LOCK__ = true;
+
+function safeGetEngine() {
+    return window.GameEngine;
+}
+
+function resetEngineState() {
+
+    const engine = safeGetEngine();
+
+    engine.isSpinning = false;
+    engine.lastResult = null;
+    engine.currentRotation = 0;
+
+    console.log("🔒 ENGINE STATE SAFE RESET");
+}
+
+/* =========================
+   END: ENGINE SAFETY LAYER
+========================= */
+/* =========================
+   START: GAME BOOT
+========================= */
+
 document.addEventListener("DOMContentLoaded", () => {
 
     console.log("🚀 GAME READY");
@@ -6,11 +34,16 @@ document.addEventListener("DOMContentLoaded", () => {
     initTableSystem();
     initAudio();
 
-    loadGame?.();
-
     console.log("✔ SYSTEM INITIALIZED");
 });
-//CHIP SYSTEM (EXPAND + SELECT)
+
+/* =========================
+   END: GAME BOOT
+========================= */
+/* =========================
+   START: CHIP SYSTEM
+========================= */
+
 function initChipSystem() {
 
     const container = document.querySelector(".chips-container");
@@ -33,13 +66,11 @@ function initChipSystem() {
         expanded = false;
     }
 
-    // toggle
     defaultChip.addEventListener("click", (e) => {
         e.stopPropagation();
         expanded ? closeMenu() : openMenu();
     });
 
-    // chip select
     chips.forEach(chip => {
 
         chip.addEventListener("click", (e) => {
@@ -59,20 +90,47 @@ function initChipSystem() {
                 span.innerText = "$" + GameEngine.selectedChip.value;
             }
 
-            GameEngine.audio.play(GameEngine.chipSound);
-
+            playSound(GameEngine.chipSound);
             closeMenu();
         });
     });
 
-    // outside click
     document.addEventListener("click", (e) => {
         if (!e.target.closest(".chips-container")) {
             closeMenu();
         }
     });
 }
-// TableSystem
+
+/* =========================
+   END: CHIP SYSTEM
+========================= */
+/* =========================
+   START: UI STATE CONTROLLER
+========================= */
+
+function setChipState(state) {
+
+    const container = document.querySelector(".chips-container");
+
+    if (!container) return;
+
+    container.classList.remove("expanded", "collapsed");
+    container.classList.add(state);
+
+    // force reflow (smooth animation fix)
+    container.offsetHeight;
+
+    console.log("🎯 CHIP STATE:", state);
+}
+
+/* =========================
+   END: UI STATE CONTROLLER
+========================= */
+/* =========================
+   START: TABLE BET SYSTEM
+========================= */
+
 function initTableSystem() {
 
     const boxes = document.querySelectorAll(".symbol-box");
@@ -89,7 +147,7 @@ function initTableSystem() {
 
             if (!subtractBalance(amount)) return;
 
-            GameEngine.audio.play(GameEngine.tableSound);
+            playSound(GameEngine.tableSound);
 
             if (!GameEngine.bets[symbol]) {
                 GameEngine.bets[symbol] = 0;
@@ -107,7 +165,14 @@ function initTableSystem() {
         });
     });
 }
-// 🎰 SPIN CONTROL
+
+/* =========================
+   END: TABLE BET SYSTEM
+========================= */
+/* =========================
+   START: SPIN SYSTEM
+========================= */
+
 function startSpin() {
 
     if (GameEngine.isSpinning) return false;
@@ -119,13 +184,44 @@ function startSpin() {
 
     GameEngine.isSpinning = true;
 
-    GameEngine.audio.play(GameEngine.spinSound);
+    playSound(GameEngine.spinSound);
 
     console.log("🎰 SPIN STARTED");
 
     return true;
 }
-// 🎯 RESULT FLOW
+
+/* =========================
+   END: SPIN SYSTEM
+========================= */
+/* =========================
+   START: SPIN STABILITY FIX
+========================= */
+
+function safeStartSpin() {
+
+    if (GameEngine.isSpinning) return false;
+
+    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
+        console.log("❌ NO BETS");
+        return false;
+    }
+
+    lockGame();
+
+    console.log("🎰 SPIN SAFE START");
+
+    return true;
+}
+
+/* =========================
+   END: SPIN STABILITY FIX
+========================= */
+
+/* =========================
+   START: RESULT SYSTEM
+========================= */
+
 function handleWheelResult(angle) {
 
     const symbols = ["heart","diamond","club","spade","crown","flag"];
@@ -140,7 +236,14 @@ function handleWheelResult(angle) {
 
     onSpinEnd(result);
 }
-// 🏁 END FLOW
+
+/* =========================
+   END: RESULT SYSTEM
+========================= */
+/* =========================
+   START: END FLOW
+========================= */
+
 function onSpinEnd(result) {
 
     console.log("🏁 SPIN END");
@@ -150,33 +253,116 @@ function onSpinEnd(result) {
     resetWheelState();
     startNewRound();
 
-    unlockBets?.();
-    unlockGameUI?.();
-
     console.log("✔ READY NEXT ROUND");
 }
-// 🔄 RESET SYSTEM
+
+/* =========================
+   END: END FLOW
+========================= */
+/* =========================
+   START: GAME FLOW CONTROLLER
+========================= */
+
+function lockGame() {
+    GameEngine.isSpinning = true;
+}
+
+function unlockGame() {
+    GameEngine.isSpinning = false;
+}
+
+function processRound(result) {
+
+    console.log("🏁 ROUND PROCESS START");
+
+    resolvePayout(result);
+
+    resetEngineState();
+    startNewRound();
+
+    unlockGame();
+
+    console.log("✔ ROUND COMPLETE");
+}
+
+/* =========================
+   END: GAME FLOW CONTROLLER
+========================= */
+/* =========================
+   START: RESET SYSTEM
+========================= */
+
 function resetWheelState() {
 
     GameEngine.isSpinning = false;
     GameEngine.lastResult = null;
     GameEngine.currentRotation = 0;
-
-    if (GameEngine.spinSound) {
-        GameEngine.spinSound.pause();
-        GameEngine.spinSound.currentTime = 0;
-    }
 }
 
 function startNewRound() {
 
     GameEngine.bets = {};
     GameEngine.isSpinning = false;
-
-    console.log("🔄 NEW ROUND ACTIVE");
 }
 
+/* =========================
+   END: RESET SYSTEM
+========================= */
+/* =========================
+   START: AUDIO SYSTEM
+========================= */
 
+function initAudio() {
+
+    GameEngine.chipSound = document.getElementById("chipSound");
+    GameEngine.tableSound = document.getElementById("tableSound");
+    GameEngine.spinSound = document.getElementById("spinSound");
+    GameEngine.winSound = document.getElementById("winSound");
+    GameEngine.loseSound = document.getElementById("loseSound");
+
+    console.log("🔊 AUDIO READY");
+}
+
+function playSound(sound) {
+    if (!sound) return;
+
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+}
+
+function stopSound(sound) {
+    if (!sound) return;
+
+    sound.pause();
+    sound.currentTime = 0;
+}
+
+/* =========================
+   END: AUDIO SYSTEM
+========================= */
+/* =========================
+   START: ADVANCED AUDIO CONTROL
+========================= */
+
+let audioLock = false;
+
+function playSafeSound(sound) {
+
+    if (!sound || audioLock) return;
+
+    audioLock = true;
+
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+
+    setTimeout(() => {
+        audioLock = false;
+    }, 100);
+}
+
+/* =========================
+   END: ADVANCED AUDIO CONTROL
+========================= */
 
 
 
