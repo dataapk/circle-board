@@ -140,7 +140,7 @@ function initChipSystem() {
     if (!e.target.closest(".chips-container")) {
         closeMenu();
 
-        });
+        };
     };
 
 
