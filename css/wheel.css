@@ -318,13 +318,6 @@ html, body {
 
 
 /* =========================
-   🪙 iGaming FAN CHIP MENU STARTR
-========================= */
-/* =========================
-   🪙 CHIP SYSTEM (STABLE FIX)
-========================= */
-
-/* =========================
    🪙 iGaming FAN CHIP MENU
 ========================= */
 
@@ -418,6 +411,20 @@ html, body {
 
 .chip {
     position: absolute;
+
+    width: 38px;
+    height: 38px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    transition: transform 0.35s ease, opacity 0.35s ease;
+
+    cursor: pointer;
+
+    z-index: 1;
 }
 
 /* OUTER GOLD GLOW */
