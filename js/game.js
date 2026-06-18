@@ -1,61 +1,105 @@
-/* =========================
-   ENGINE SAFETY LAYER
-========================= */
-
-function safeGetEngine() {
-    return window.GameEngine;
-}
-
-function resetEngineState() {
-
-    const engine = safeGetEngine();
-    if (!engine) return;
-
-    engine.isSpinning = false;
-    engine.lastResult = null;
-    engine.currentRotation = 0;
-
-    console.log("🔒 ENGINE RESET DONE");
-}
+/* ======================================================
+   🎰 CLEAN FINAL GAME ENGINE (PRODUCTION BASE)
+====================================================== */
 
 /* =========================
-   GAME BOOT
+   CORE ENGINE STATE
 ========================= */
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    console.log("🚀 GAME READY");
-
-    initChipSystem();
-    initTableSystem();
-    initAudio();
-
-    initGame(); // 🔥 ADD THIS
-
-    console.log("✔ SYSTEM INITIALIZED");
-});
+window.GameEngine = {
+    balance: 1000,
+    selectedChip: null,
+    bets: {},
+    isSpinning: false,
+    lastResult: null,
+    currentRotation: 0
+};
 
 /* =========================
-   initGame SYSTEM
+   AUDIO SYSTEM (SINGLE INSTANCE)
 ========================= */
-let gameInitialized = false;
 
-function initGame() {
+const AudioSystem = {
+    enabled: true,
+    chip: null,
+    spin: null,
+    wheel: null,
+    table: null,
+    win: null,
+    lose: null
+};
 
-    if (gameInitialized) return; // 🔥 PREVENT DOUBLE INIT
-    gameInitialized = true;
-
-    console.log("🚀 GAME INIT START");
-
-    
-    updateBalanceUI();       // UI sync
-    setSpinButtonState(false);
-
-    console.log("✔ GAME READY");
+function initAudio() {
+    AudioSystem.chip = document.getElementById("chipSound");
+    AudioSystem.spin = document.getElementById("spinSound");
+    AudioSystem.wheel = document.getElementById("wheelSound");
+    AudioSystem.table = document.getElementById("tableSound");
+    AudioSystem.win = document.getElementById("winSound");
+    AudioSystem.lose = document.getElementById("loseSound");
 }
 
 /* =========================
-   CHIP SYSTEM (PRO CLEAN)
+   AUDIO HELPERS
+========================= */
+
+function playSound(sound) {
+    if (!AudioSystem.enabled || !sound) return;
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+}
+
+function playChipSound() { playSound(AudioSystem.chip); }
+function playTableSound() { playSound(AudioSystem.table); }
+function playSpinSound() { playSound(AudioSystem.spin); }
+function playWinSound() { playSound(AudioSystem.win); }
+function playLoseSound() { playSound(AudioSystem.lose); }
+
+function startWheelSound() {
+    if (!AudioSystem.wheel) return;
+    AudioSystem.wheel.loop = true;
+    AudioSystem.wheel.currentTime = 0;
+    AudioSystem.wheel.play().catch(() => {});
+}
+
+function stopWheelSound() {
+    if (!AudioSystem.wheel) return;
+    AudioSystem.wheel.pause();
+    AudioSystem.wheel.currentTime = 0;
+    AudioSystem.wheel.loop = false;
+}
+
+/* =========================
+   UI HELPERS
+========================= */
+
+function updateBalanceUI() {
+    const el = document.getElementById("balanceAmount");
+    if (!el) return;
+    el.innerText = "$" + GameEngine.balance.toFixed(2);
+}
+
+function setSpinButtonState(locked) {
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    btn.disabled = locked;
+    btn.innerText = locked ? "LOCKED" : "SPIN";
+}
+
+/* =========================
+   BALANCE SYSTEM
+========================= */
+
+function subtractBalance(amount) {
+    if (GameEngine.balance < amount) return false;
+
+    GameEngine.balance -= amount;
+    updateBalanceUI();
+    return true;
+}
+
+/* =========================
+   CHIP SYSTEM
 ========================= */
 
 function initChipSystem() {
@@ -66,136 +110,50 @@ function initChipSystem() {
 
     let expanded = false;
 
-    // =========================
-    // TOGGLE MENU
-    // =========================
-    function toggleMenu() {
-
-        if (GameEngine.isSpinning) return;
-
-        expanded = !expanded;
-
-        container.classList.toggle("expanded", expanded);
-        container.classList.toggle("collapsed", !expanded);
-    }
-
-    // =========================
-    // OPEN / CLOSE HELPERS
-    // =========================
     function closeMenu() {
         expanded = false;
         container.classList.remove("expanded");
         container.classList.add("collapsed");
     }
 
-    function openMenu() {
-        if (GameEngine.isSpinning) return;
-
-        expanded = true;
-        container.classList.add("expanded");
-        container.classList.remove("collapsed");
-    }
-
-    // =========================
-    // DEFAULT CHIP CLICK
-    // =========================
     defaultChip.addEventListener("click", (e) => {
         e.stopPropagation();
-        toggleMenu();
+
+        if (GameEngine.isSpinning) return;
+
+        expanded = !expanded;
+        container.classList.toggle("expanded", expanded);
+        container.classList.toggle("collapsed", !expanded);
     });
 
-    // =========================
-    // CHIP SELECTION
-    // =========================
     chips.forEach(chip => {
-
         chip.addEventListener("click", (e) => {
-
             e.stopPropagation();
 
             if (GameEngine.isSpinning) return;
 
-            // 🎯 active state
             chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
-            // 💰 set selected chip
-            const value = parseFloat(chip.dataset.value);
-
             GameEngine.selectedChip = {
-                value,
+                value: parseFloat(chip.dataset.value),
                 element: chip
             };
 
-            // 🔁 update default chip display (THIS IS YOUR MAIN FIX)
-            const span = defaultChip.querySelector("span");
-            if (span) {
-                span.innerText = "$" + value;
-            }
+            defaultChip.querySelector("span").innerText =
+                "$" + GameEngine.selectedChip.value;
 
-            // 🔊 sound
             playChipSound();
-
-            // 📦 collapse after selection
             closeMenu();
-
-            console.log("🎯 CHIP SELECTED:", value);
         });
     });
 
-    // =========================
-    // OUTSIDE CLICK CLOSE
-    // =========================
-    document.addEventListener("click", (e) => {
-
-        if (!e.target.closest(".chips-container")) {
-            closeMenu();
-        }
-    });
+    document.addEventListener("click", closeMenu);
 }
-    // =========================
-    // SPIN  BUTTON SYSTEM
-    // =========================
-function setSpinButtonState(state) {
 
-    const btn = document.getElementById("spinBtn");
-    if (!btn) return;
-
-    const text = btn.querySelector(".btn-text");
-
-    if (state) {
-        // 🔒 LOCKED STATE
-        btn.disabled = true;
-        btn.style.opacity = "0.6";
-        btn.style.cursor = "not-allowed";
-
-        if (text) text.innerText = "LOCKED";
-    } else {
-        // 🎰 READY STATE
-        btn.disabled = false;
-        btn.style.opacity = "1";
-        btn.style.cursor = "pointer";
-
-        if (text) text.innerText = "SPIN";
-    }
-}
-  
-// =========================
-   // BALANCE DEDUCTE SYSTEM
-   // =========================
-   function subtractBalance(amount) {
-
-    if (GameEngine.balance < amount) {
-        console.log("❌ NOT ENOUGH BALANCE");
-        return false;
-    }
-
-    GameEngine.balance -= amount;
-
-    updateBalanceUI();
-
-    return true;
-}
+/* =========================
+   TABLE SYSTEM
+========================= */
 
 function initTableSystem() {
 
@@ -211,33 +169,16 @@ function initTableSystem() {
 
             if (!subtractBalance(amount)) return;
 
-            // =========================
-            // 💰 UPDATE BET STATE
-            // =========================
-            GameEngine.bets[symbol] = (GameEngine.bets[symbol] || 0) + amount;
+            GameEngine.bets[symbol] =
+                (GameEngine.bets[symbol] || 0) + amount;
 
-            // =========================
-            // 🎯 CLEAN UI MARKER (FIX)
-            // =========================
-            let marker = box.querySelector(".bet-marker");
+            const marker = document.createElement("div");
+            marker.className = "bet-marker";
+            marker.innerText = "$" + amount;
 
-            if (!marker) {
-                marker = document.createElement("div");
-                marker.className = "bet-marker";
-                box.appendChild(marker);
-            }
+            box.appendChild(marker);
 
-            marker.innerText = "$" + GameEngine.bets[symbol];
-
-            // =========================
-            // 🔊 SOUND
-            // =========================
             playTableSound();
-
-            // =========================
-            // 💰 UI SYNC
-            // =========================
-            updateBalanceUI();
 
             console.log("BET:", GameEngine.bets);
         });
@@ -245,178 +186,34 @@ function initTableSystem() {
 }
 
 /* =========================
-   AUDIO SYSTEM (UNCHANGED CORE)
-========================= */
-
-const AudioSystem = {
-    enabled: true,
-    chip: null,
-    spin: null,
-    wheel: null,
-    table: null,
-    win: null,
-    lose: null,
-    bg: null
-};
-
-function initAudio() {
-
-    AudioSystem.chip = document.getElementById("chipSound");
-    AudioSystem.spin = document.getElementById("spinSound");
-    AudioSystem.wheel = document.getElementById("wheelSound");
-    AudioSystem.table = document.getElementById("tableSound");
-    AudioSystem.win = document.getElementById("winSound");
-    AudioSystem.lose = document.getElementById("loseSound");
-    AudioSystem.bg = document.getElementById("bgMusic");
-}
-
-
-
-/* =========================
-   SAFE PLAY (MASTER)
-========================= */
-
-function playSound(sound, options = {}) {
-
-    if (!AudioSystem.enabled || !sound) return;
-
-    try {
-        sound.currentTime = options.reset === false ? sound.currentTime : 0;
-
-        sound.loop = !!options.loop;
-
-        sound.volume = options.volume ?? 1;
-
-        sound.play().catch(() => {});
-    } catch (e) {
-        console.log("AUDIO ERROR:", e);
-    }
-}
-
-/* =========================
-   SHORTCUT SOUNDS
-========================= */
-
-function playChipSound() {
-    playSound(AudioSystem.chip);
-}
-
-function playTableSound() {
-    playSound(AudioSystem.table);
-}
-
-function playSpinClickSound() {
-    playSound(AudioSystem.spin);
-}
-
-function playWinSound() {
-    playSound(AudioSystem.win);
-}
-
-function playLoseSound() {
-    playSound(AudioSystem.lose);
-}
-
-/* =========================
-   WHEEL SOUND CONTROL (FIXED)
-========================= */
-
-function startWheelSound() {
-
-    const sound = AudioSystem.wheel;
-    if (!sound) return;
-
-    sound.currentTime = 0;
-    sound.loop = true;
-
-    sound.play().catch(() => {});
-}
-
-function stopWheelSound() {
-
-    const sound = AudioSystem.wheel;
-    if (!sound) return;
-
-    sound.pause();
-    sound.currentTime = 0;
-    sound.loop = false;
-}
-
-/* =========================
-   GLOBAL AUDIO CONTROL
-========================= */
-
-function setAudioEnabled(state) {
-    AudioSystem.enabled = state;
-}
-
-/* =========================
-   LOCK SYSTEM (ONLY ONE VERSION)
-========================= */
-
-const GameLock = {
-    locked: false
-};
-
-function lockBoard() {
-
-    GameLock.locked = true;
-    GameEngine.isSpinning = true;
-
-    document.querySelectorAll(".chip").forEach(c => {
-        c.style.pointerEvents = "none";
-        c.style.opacity = "0.6";
-    });
-}
-
-function unlockBoard() {
-
-    GameLock.locked = false;
-    GameEngine.isSpinning = false;
-
-    document.querySelectorAll(".chip").forEach(c => {
-        c.style.pointerEvents = "auto";
-        c.style.opacity = "1";
-    });
-}
-
-/* =========================
    SPIN SYSTEM
 ========================= */
 
-const SpinEngine = {
-    duration: 5000,
-    minRotation: 1800,
-    maxRotation: 3600
-};
-
 function onSpinClick() {
 
-    // 🔒 BLOCK IF SPINNING
     if (GameEngine.isSpinning) return;
+    if (Object.keys(GameEngine.bets).length === 0) return;
 
-    // ❌ NO BETS CHECK
-    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) return;
-
-    // =========================
-    // 🔒 LOCK GAME STATE
-    // =========================
     GameEngine.isSpinning = true;
+
+    playSpinSound();
+    setSpinButtonState(true);
 
     lockBoard();
 
-    playSpinClickSound();
     startWheelSound();
-
-    // =========================
-    // 🎡 START WHEEL
-    // =========================
     startWheelRotation();
 }
 
 /* =========================
-   🎡 WHEEL ENGINE (FINAL CLEAN)
+   WHEEL ENGINE
 ========================= */
+
+const SpinEngine = {
+    minRotation: 1800,
+    maxRotation: 3600,
+    duration: 5000
+};
 
 function startWheelRotation() {
 
@@ -435,13 +232,8 @@ function startWheelRotation() {
     wheel.style.transform =
         `rotate(${GameEngine.currentRotation}deg)`;
 
-    // 🎯 AUTO END HOOK
     wheel.addEventListener("transitionend", endWheelRotation, { once: true });
 }
-
-/* =========================
-   🛑 END WHEEL
-========================= */
 
 function endWheelRotation() {
 
@@ -456,63 +248,40 @@ function endWheelRotation() {
 
     GameEngine.lastResult = result;
 
-    // =========================
-    // 💰 SETTLEMENT
-    // =========================
     resolvePayout(result);
 
-    // =========================
-    // 🔄 RESET ROUND
-    // =========================
-    startNewRound();
-
-    // =========================
-    // 🔓 UNLOCK GAME
-    // =========================
     unlockBoard();
 
-    GameEngine.isSpinning = false;
+    startNewRound();
 
-    console.log("✔ ROUND COMPLETE:", result);
+    setSpinButtonState(false);
 }
 
-
 /* =========================
-   💰 PAYOUT TABLE
+   PAYOUT ENGINE
 ========================= */
 
-const PAYOUT_TABLE = {
-    spade: 2,
+const PAYOUT = {
     heart: 2,
     diamond: 2,
     club: 2,
+    spade: 2,
     crown: 3,
     flag: 3
 };
-
-
-/* =========================
-   💰 CALCULATE WIN
-========================= */
 
 function calculateWin(result) {
 
     let win = 0;
 
-    for (const key in GameEngine.bets) {
-
+    for (let key in GameEngine.bets) {
         if (key === result) {
-            win += GameEngine.bets[key] * (PAYOUT_TABLE[key] || 0);
+            win += GameEngine.bets[key] * (PAYOUT[key] || 0);
         }
     }
 
     return win;
 }
-
-
-/* =========================
-   🏆 RESOLVE PAYOUT
-========================= */
 
 function resolvePayout(result) {
 
@@ -527,41 +296,52 @@ function resolvePayout(result) {
 
     updateBalanceUI();
 }
-/* =========================
-   🏆 UPDATE BALANCE
-========================= */
-function updateBalanceUI() {
-
-    const el = document.getElementById("balanceAmount");
-    if (!el) return;
-
-    el.innerText = "$" + GameEngine.balance.toFixed(2);
-}
 
 /* =========================
-   🔄 ROUND RESET (CLEAN)
+   ROUND RESET
 ========================= */
 
 function startNewRound() {
-
     GameEngine.bets = {};
     GameEngine.selectedChip = null;
-
-    console.log("🔄 NEW ROUND READY");
 }
-
 
 /* =========================
-   🚨 EMERGENCY RESET (SAFE)
+   BOARD LOCK SYSTEM
 ========================= */
 
-function emergencyReset() {
+function lockBoard() {
+    GameEngine.isSpinning = true;
 
-    GameEngine.isSpinning = false;
-    GameEngine.bets = {};
-    GameEngine.selectedChip = null;
-    GameEngine.lastResult = null;
-
-    unlockBoard();
-    stopWheelSound();
+    document.querySelectorAll(".chip").forEach(c => {
+        c.style.pointerEvents = "none";
+        c.style.opacity = "0.5";
+    });
 }
+
+function unlockBoard() {
+    GameEngine.isSpinning = false;
+
+    document.querySelectorAll(".chip").forEach(c => {
+        c.style.pointerEvents = "auto";
+        c.style.opacity = "1";
+    });
+}
+
+/* =========================
+   INIT GAME
+========================= */
+
+function initGame() {
+
+    initAudio();
+    initChipSystem();
+    initTableSystem();
+
+    updateBalanceUI();
+    setSpinButtonState(false);
+
+    console.log("🚀 GAME READY");
+}
+
+document.addEventListener("DOMContentLoaded", initGame);
