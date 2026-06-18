@@ -18,13 +18,11 @@ if (window.__ENGINE_INIT__) {
 
 window.GameEngine = {
 
-    // =========================
-    // 💰 PLAYER STATE
-    // =========================
-   balance: 1000,
+    balance: 1000,
     selectedChip: null,
     bets: {},
     isSpinning: false
+
 };
     // =========================
     // 🎰 GAME STATE
