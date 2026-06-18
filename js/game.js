@@ -1,5 +1,5 @@
 // ======================================================
-// 🎮 GAME LOGIC
+// 🚀 GAME INIT CONTROL
 // ======================================================
 if (window.__GAME_INIT__) {
     console.log("⚠ GAME ALREADY INIT - SKIP");
@@ -12,126 +12,39 @@ if (window.__GAME_INIT__) {
     });
 }
 
+let gameInitialized = false;
 
 // ======================================================
-// 🚀 START: GAME INIT SECTION
+// 🚀 START GAME
 // ======================================================
-let gameInitialized = false;
+function startGame() {
+    initGame();
+}
 
 function initGame() {
 
-    // 🛑 BLOCK DUPLICATE INIT (IMPORTANT FIX)
-    if (gameInitialized) {
-        console.log("⚠ GAME ALREADY INITIALIZED - SKIP");
-        return;
-    }
-
+    if (gameInitialized) return;
     gameInitialized = true;
 
     console.log("🧠 INIT GAME START");
 
     try {
 
-        // =========================
-        // 🪙 CHIP SYSTEM
-        // =========================
-        if (typeof initChipSystem === "function") {
-            initChipSystem();
-        }
-
-        // =========================
-        // 🎯 TABLE / BOARD SYSTEM
-        // =========================
-        if (typeof setupBoardSystem === "function") {
-            setupBoardSystem();
-        }
-
-        // =========================
-        // 🎰 SPIN BUTTON SYSTEM
-        // =========================
-        if (typeof setupSpinButton === "function") {
-            setupSpinButton();
-        }
-
-        // =========================
-        // 🔊 AUDIO INIT (SAFE CHECK)
-        // =========================
-        if (typeof initAudio === "function") {
-            initAudio();
-        }
+        if (typeof initAudio === "function") initAudio();
+        if (typeof setupBoardSystem === "function") setupBoardSystem();
+        if (typeof setupSpinButton === "function") setupSpinButton();
+        if (typeof initChipSystem === "function") initChipSystem();
 
         console.log("🎮 GAME READY");
 
     } catch (err) {
-        console.log("💥 GAME INIT ERROR:", err);
+        console.log("💥 INIT ERROR:", err);
     }
 }
-// ======================================================
-// 🚀START / BOOT SECTION (CLEANED)
-// ======================================================
-function startGame() {
-    initGame();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    console.log("🚀 GAME DOM READY");
-
-    startGame();
-
-    console.log("🔗 SYSTEMS CONNECTED");
-});
-// ======================================================
-// 🔴 LOCK GAME UI)
-// ======================================================
-   function lockGameUI() {
-
-    const btn = document.getElementById("spinBtn");
-    if (!btn) return;
-
-    GameEngine.state = "SPINNING";
-    GameEngine.isSpinning = true;
-
-    btn.classList.add("locked");
-
-    const text = btn.querySelector(".btn-text");
-    const icon = btn.querySelector(".wheel-icon");
-
-    if (text) text.innerText = "LOCKED";
-    if (icon) icon.style.animation = "none";
-
-    console.log("🔒 GAME UI LOCKED");
-}
-function unlockGameUI() {
-
-    const btn = document.getElementById("spinBtn");
-    if (!btn) return;
-
-    GameEngine.state = "READY";
-    GameEngine.isSpinning = false;
-
-    btn.classList.remove("locked");
-
-    const text = btn.querySelector(".btn-text");
-    const icon = btn.querySelector(".wheel-icon");
-
-    if (text) text.innerText = "SPIN";
-    if (icon) icon.style.animation = "wheelSpin 1.2s linear infinite";
-
-    console.log("🔓 GAME UI UNLOCKED");
-}
 
 // ======================================================
-// 🔴 LOCK UI
+// 🪙 CHIP SYSTEM (FIXED + STABLE)
 // ======================================================
-
-
-
-
-// ======================================================
-// 🚀 END: GAME INIT SECTION
-// ======================================================
-
 function initChipSystem() {
 
     const container = document.querySelector(".chips-container");
@@ -140,219 +53,36 @@ function initChipSystem() {
 
     if (!container || !defaultChip) return;
 
-    // =========================
-    // DEFAULT TOGGLE ONLY
-    // =========================
+    let expanded = false;
+
+    function openMenu() {
+        container.classList.add("expanded");
+        container.classList.remove("collapsed");
+        expanded = true;
+    }
+
+    function closeMenu() {
+        container.classList.remove("expanded");
+        container.classList.add("collapsed");
+        expanded = false;
+    }
+
+    // DEFAULT CHIP TOGGLE
     defaultChip.addEventListener("click", (e) => {
+        e.stopPropagation();
 
-    e.stopPropagation();
+        expanded ? closeMenu() : openMenu();
 
-    console.log("1 BEFORE:", container.className);
+        console.log("CHIP STATE:", container.className);
+    });
 
-    container.classList.add("expanded");
-    container.classList.remove("collapsed");
-
-    console.log("2 AFTER:", container.className);
-
-    setTimeout(() => {
-        console.log("3 AFTER 200ms:", container.className);
-    }, 200);
-});
-
-    // =========================
-    // CHIP SELECT ONLY (NO COLLAPSE HERE)
-    // =========================
+    // CHIP SELECT
     chips.forEach(chip => {
 
         chip.addEventListener("click", (e) => {
-
             e.stopPropagation();
 
             chips.forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
-
-            selectedChip = chip.getAttribute("data-value");
-
-            if (chipSound) {
-                chipSound.currentTime = 0;
-                chipSound.play().catch(() => {});
-            }
-
-            // ❌ IMPORTANT: DO NOT TOUCH expanded/collapsed HERE
-        });
-    });
-
-    // =========================
-    // OUTSIDE CLICK (OPTIONAL - CAN RE-ENABLE LATER)
-    // =========================
-    document.addEventListener("click", () => {
-
-        container.classList.remove("expanded");
-        container.classList.add("collapsed");
-    });
-}
-// ======================================================
-// END: CHIP SYSTEM
-// ======================================================
-
-// ======================================================
-// 🎯 BOARD SYSTEM (FINAL FIX - NO DUPLICATE LISTENER)
-// ======================================================
-let boardInitialized = false;
-function setupBoardSystem() {
-
-    if (boardInitialized) {
-        console.log("⚠ BOARD ALREADY INIT");
-        return;
-    }
-
-    boardInitialized = true;
-
-    console.trace("🎯 BOARD INIT TRACE");
-    console.log("🎯 BOARD SYSTEM INIT");
-
-    const boxes =
-        document.querySelectorAll(".symbol-box");
-
-    boxes.forEach(box => {
-
-        box.onclick = null;
-
-        box.onclick = () => {
-            onTableClick(box);
-        };
-
-    });
-
-    console.log("✅ BOARD READY");
-}
-
-// 🧠 FIX: INLINE CHECK (NO MISSING FUNCTION)
-function onTableClick(box) {
-
-    if (!GameEngine.selectedChip) {
-        console.log("❌ Select chip first");
-        return;
-    }
-
-    // 🔊 TABLE SOUND
-    if (GameEngine.tableSound) {
-
-        GameEngine.tableSound.currentTime = 0;
-
-        GameEngine.tableSound.play().catch(err => {
-            console.log("TABLE SOUND ERROR:", err);
-        });
-    }
-
-    const symbol = box.dataset.symbol;
-    const amount = GameEngine.selectedChip.value;
-
-    const success = subtractBalance(amount);
-
-    if (!success) {
-        console.log("❌ NOT ENOUGH BALANCE");
-        return;
-    }
-
-    addBet(symbol, amount);
-    placeChipVisual(box, amount);
-
-    console.log("💰 BET PLACED:", symbol, amount);
-}
-// ======================================================
-// FIX STEP 3: CHIP VISUAL SYSTEM
-// ======================================================
-function placeChipVisual(box, amount) {
-
-    const marker = document.createElement("div");
-
-    marker.className = "bet-marker";
-
-    marker.innerText = "$" + amount;
-
-    box.appendChild(marker);
-
-    console.log("🧩 CHIP VISUAL ADDED:", amount);
-}
-
-// ======================================================
-// 🎯 END: TABLE SECTION (FIXED)
-// ======================================================
-// ======================================================
-// 🧹 CLEAR BET MARKERS
-// ======================================================
-
-function clearBoardVisuals() {
-
-    document
-        .querySelectorAll(
-            ".bet-marker"
-        )
-        .forEach(
-            marker => {
-
-                marker.remove();
-            }
-        );
-}
-
-
-
-// ======================================================
-// 🎰 START: SPIN BUTTON SECTION
-// ======================================================
-
-
-
-function setupSpinButton() {
-
-    const btn =
-        document.getElementById(
-            "spinBtn"
-        );
-
-    if (!btn) {
-
-        console.log(
-            "❌ spinBtn not found"
-        );
-
-        return;
-    }
-
-    btn.addEventListener(
-        "click",
-        spinGame
-    );
-
-    console.log(
-        "🎰 SPIN BUTTON READY"
-    );
-}
-
-// ==========================
-// 🚀 SPIN START
-// ==========================
-
-// ======================================================
-// 🎯 CHIP SYSTEM
-// ======================================================
-
-function initChipSystem() {
-
-    document.querySelectorAll(".chip").forEach(chip => {
-
-        chip.addEventListener("click", (e) => {
-
-            if (GameEngine.isSpinning) return;
-
-            // 🔊 CHIP SOUND (HERE IS PERFECT PLACE)
-            GameEngine.audio.play(GameEngine.chipSound);
-
-            document.querySelectorAll(".chip")
-                .forEach(c => c.classList.remove("active"));
-
             chip.classList.add("active");
 
             GameEngine.selectedChip = {
@@ -360,16 +90,19 @@ function initChipSystem() {
                 element: chip
             };
 
-            console.log("🪙 CHIP:", GameEngine.selectedChip.value);
+            console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
         });
+    });
+
+    // OUTSIDE CLICK CLOSE
+    document.addEventListener("click", () => {
+        closeMenu();
     });
 }
 
-
 // ======================================================
-// 🎰 TABLE BET SYSTEM
+// 🎯 BOARD SYSTEM (SAFE)
 // ======================================================
-
 function setupBoardSystem() {
 
     document.querySelectorAll(".symbol-box").forEach(box => {
@@ -377,25 +110,30 @@ function setupBoardSystem() {
     });
 }
 
+// ======================================================
+// 🎰 TABLE CLICK
+// ======================================================
 function onTableClick(box) {
 
-    if (GameEngine.isSpinning) return;
     if (!GameEngine.selectedChip) return;
+    if (GameEngine.isSpinning) return;
 
     const symbol = box.dataset.symbol;
     const amount = GameEngine.selectedChip.value;
 
     if (!subtractBalance(amount)) return;
 
-    // 🔊 TABLE SOUND (ADD HERE)
     GameEngine.audio.play(GameEngine.tableSound);
 
     addBet(symbol, amount);
     placeChipVisual(box, amount);
 
-    console.log("💰 BET:", symbol, amount);
+    console.log("BET:", symbol, amount);
 }
 
+// ======================================================
+// 🧩 CHIP VISUAL
+// ======================================================
 function placeChipVisual(box, amount) {
 
     const marker = document.createElement("div");
@@ -407,7 +145,6 @@ function placeChipVisual(box, amount) {
 // ======================================================
 // 🎰 SPIN BUTTON
 // ======================================================
-
 function setupSpinButton() {
 
     const btn = document.getElementById("spinBtn");
@@ -416,791 +153,58 @@ function setupSpinButton() {
     btn.addEventListener("click", spinGame);
 }
 
-
-// ==========================
-// 🚀 SPIN FLOW (FULL CONTROL)
-// ==========================
-
+// ======================================================
+// 🚀 SPIN
+// ======================================================
 function spinGame() {
 
-    console.log("🔥 SPIN START REQUEST");
+    if (GameEngine.isSpinning) return;
+    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) return;
 
-    // 🧠 1. already spinning check
-    if (GameEngine.isSpinning) {
-        console.log("❌ BLOCKED: already spinning");
-        return;
-    }
-
-    // 💰 2. bet validation
-    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
-        console.log("❌ NO BETS PLACED");
-        return;
-    }
-
-    // 🎰 3. SET ENGINE STATE
     GameEngine.isSpinning = true;
 
-    // 🔘 4. BUTTON SOUND (spin click)
     GameEngine.audio.play(GameEngine.spinButtonSound);
-
-    // 🔒 5. LOCK FULL GAME UI
-    lockGameUI();
-
-    // 🔊 6. SPIN SOUND START
     GameEngine.audio.play(GameEngine.spinSound);
 
-    // 🎡 7. START WHEEL ANIMATION
+    lockGameUI();
     spinWheel();
 }
 
-
 // ======================================================
-// 🎡 WHEEL
+// 🔒 UI LOCK
 // ======================================================
+function lockGameUI() {
 
-function spinWheel() {
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
 
-    const wheel = document.querySelector(".wheel-img");
-    if (!wheel) return;
+    GameEngine.state = "SPINNING";
+    GameEngine.isSpinning = true;
 
-    const duration = 14000;
-    const startAngle = GameEngine.currentRotation || 0;
-    const targetAngle = startAngle + (10 * 360);
-
-    const startTime = performance.now();
-
-    function animate(time) {
-
-        const progress = Math.min((time - startTime) / duration, 1);
-        const ease = progress * progress * (3 - 2 * progress);
-
-        const angle =
-            startAngle + (targetAngle - startAngle) * ease;
-
-        wheel.style.transform = `rotate(${angle}deg)`;
-
-        if (progress < 1) {
-            requestAnimationFrame(animate);
-        } else {
-
-            GameEngine.currentRotation = targetAngle;
-
-            handleWheelResult(targetAngle);
-        }
-    }
-
-    requestAnimationFrame(animate);
+    btn.classList.add("locked");
 }
 
-
 // ======================================================
-// 🎯 RESULT FLOW (MAIN FIX)
+// 🔓 UI UNLOCK
 // ======================================================
+function unlockGameUI() {
 
-function onSpinEnd(result) {
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
 
-    console.log("🏁 SPIN END");
+    GameEngine.state = "READY";
+    GameEngine.isSpinning = false;
 
-    resolvePayout(result);
-
-    resetWheelState();
-
-    resetBoardUI();
-
-    startNewRound();
-
-    unlockGameUI();
-
-    console.log("✔ READY NEXT ROUND");
+    btn.classList.remove("locked");
 }
 
-
 // ======================================================
-// 🧹 BOARD RESET (FIXED)
+// 🧹 RESET
 // ======================================================
-
 function resetBoardUI() {
 
     GameEngine.bets = {};
     GameEngine.selectedChip = null;
 
     document.querySelectorAll(".bet-marker").forEach(m => m.remove());
-
-    console.log("🧹 BOARD RESET");
 }
-
-
-// ======================================================
-// 🧠 ROUND RESET (ENGINE SAFE)
-// ======================================================
-
-function startNewRound() {
-
-    GameEngine.bets = {};
-    GameEngine.lastResult = null;
-    GameEngine.state = "READY";
-
-    console.log("🔄 NEW ROUND READY");
-}
-
-
-// ======================================================
-// 🔒 LOCK / UNLOCK BUTTONS
-// ======================================================
-
-function lockSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-    if (!btn) return;
-
-    btn.disabled = true;
-    btn.textContent = "LOCKED";
-}
-
-function unlockSpinButton() {
-
-    const btn = document.getElementById("spinBtn");
-    if (!btn) return;
-
-    btn.disabled = false;
-    btn.textContent = "SPIN";
-}
-
-function lockBets() {
-
-    document.querySelectorAll(".chip").forEach(chip => {
-        chip.style.pointerEvents = "none";
-        chip.style.opacity = "0.5";
-    });
-}
-
-function unlockBets() {
-
-    document.querySelectorAll(".chip").forEach(chip => {
-        chip.style.pointerEvents = "auto";
-        chip.style.opacity = "1";
-    });
-}
-
-// ======================================================
-// 📍 START: POINTER SECTION
-// ======================================================
-
-
-
-function initPointer() {
-
-    const pointer =
-        document.getElementById(
-            "pointer"
-        );
-
-    if (!pointer) {
-
-        console.log(
-            "❌ Pointer not found"
-        );
-
-        return;
-    }
-
-    console.log(
-        "📍 POINTER READY"
-    );
-}
-
-
-
-function pointerTick() {
-
-    const pointer =
-        document.getElementById(
-            "pointer"
-        );
-
-    if (!pointer) {
-        return;
-    }
-
-    pointer.classList.add(
-        "tick"
-    );
-
-    setTimeout(
-        () => {
-
-            pointer.classList.remove(
-                "tick"
-            );
-
-        },
-        100
-    );
-}
-
-
-function resetPointer() {
-
-    const pointer =
-        document.getElementById(
-            "pointer"
-        );
-
-    if (!pointer) {
-        return;
-    }
-
-    pointer.classList.remove(
-        "tick"
-    );
-}
-
-
-
-// ======================================================
-// 📍 END: POINTER SECTION
-// ======================================================
-
-
-// ======================================================
-// 🏆 START: RESULT DISPLAY SECTION
-// ======================================================
-
-
-
-function updateResultDisplay(
-    result
-) {
-
-    const resultElement =
-        document.getElementById(
-            "resultText"
-        );
-
-    if (
-        !resultElement
-    ) {
-        return;
-    }
-
-    resultElement.innerText =
-        result.toUpperCase();
-}
-
-
-
-function highlightWinningBox(
-    result
-) {
-
-    clearWinningHighlight();
-
-    const winningBox =
-        document.querySelector(
-            `[data-symbol="${result}"]`
-        );
-
-    if (
-        !winningBox
-    ) {
-        return;
-    }
-
-    winningBox.classList.add(
-        "winner"
-    );
-}
-
-
-
-function clearWinningHighlight() {
-
-    document
-        .querySelectorAll(
-            ".symbol-box"
-        )
-        .forEach(
-            box => {
-
-                box.classList.remove(
-                    "winner"
-                );
-            }
-        );
-}
-
-
-
-function showResult(
-    result
-) {
-
-    updateResultDisplay(
-        result
-    );
-
-    highlightWinningBox(
-        result
-    );
-
-    console.log(
-        "🏆 RESULT UI:",
-        result
-    );
-}
-
-
-
-// ======================================================
-// 🏆 END: RESULT DISPLAY SECTION
-// ======================================================
-
-
-
-// ======================================================
-// 💰 START: BALANCE DISPLAY SECTION (UPDATED)
-// ======================================================
-
-
-// 🧠 SAFE BALANCE FORMATTER
-function formatBalance(value) {
-    return Math.round(value * 100) / 100;
-}
-
-
-// 💰 MAIN DISPLAY UPDATE
-function showBalance() {
-    updateBalanceUI();
-}
-
-
-// 🔄 FORCE REFRESH
-function refreshBalanceDisplay() {
-    updateBalanceUI();
-}
-
-
-// ✨ ANIMATED UPDATE (SAFE)
-function animateBalanceUpdate() {
-
-    const balanceElement =
-        document.getElementById("balanceAmount");
-
-    if (!balanceElement) return;
-
-    balanceElement.classList.add("balance-update");
-
-    setTimeout(() => {
-        balanceElement.classList.remove("balance-update");
-    }, 500);
-}
-
-
-// 🔥 MAIN BALANCE CHANGE HANDLER (IMPORTANT)
-function onBalanceChanged() {
-
-    // 💡 FIX FLOATING ISSUE HERE
-    if (typeof GameEngine.balance === "number") {
-        GameEngine.balance =
-            formatBalance(GameEngine.balance);
-    }
-
-    updateBalanceUI();
-    animateBalanceUpdate();
-
-    console.log("💰 BALANCE:", GameEngine.balance);
-}
-
-
-// 💡 OPTIONAL: SAFE DEDUCT FUNCTION (IMPORTANT FOR BUG PREVENTION)
-function deductBalance(amount) {
-
-    amount = Number(amount);
-
-    if (isNaN(amount)) return false;
-
-    if (GameEngine.balance < amount) {
-        console.log("❌ NOT ENOUGH BALANCE");
-        return false;
-    }
-
-    GameEngine.balance =
-        formatBalance(GameEngine.balance - amount);
-
-    onBalanceChanged();
-
-    return true;
-}
-
-
-// ======================================================
-// 💰 END: BALANCE DISPLAY SECTION (UPDATED)
-// ======================================================
-
-
-
-// ======================================================
-// 🎨 START: UI EFFECT SECTION
-// ======================================================
-
-
-
-function playWinEffect() {
-
-    document.body.classList.add(
-        "win-effect"
-    );
-
-    setTimeout(
-        () => {
-
-            document.body.classList.remove(
-                "win-effect"
-            );
-
-        },
-        1500
-    );
-}
-
-
-
-function playLoseEffect() {
-
-    document.body.classList.add(
-        "lose-effect"
-    );
-
-    setTimeout(
-        () => {
-
-            document.body.classList.remove(
-                "lose-effect"
-            );
-
-        },
-        1000
-    );
-}
-
-
-
-function flashSpinButton() {
-
-    const btn =
-        document.getElementById(
-            "spinBtn"
-        );
-
-    if (!btn) {
-        return;
-    }
-
-    btn.classList.add(
-        "button-flash"
-    );
-
-    setTimeout(
-        () => {
-
-            btn.classList.remove(
-                "button-flash"
-            );
-
-        },
-        500
-    );
-}
-
-
-
-function flashWinningBox(
-    result
-) {
-
-    const box =
-        document.querySelector(
-            `[data-symbol="${result}"]`
-        );
-
-    if (!box) {
-        return;
-    }
-
-    box.classList.add(
-        "winner-flash"
-    );
-
-    setTimeout(
-        () => {
-
-            box.classList.remove(
-                "winner-flash"
-            );
-
-        },
-        2000
-    );
-}
-
-
-
-function pulseResultDisplay() {
-
-    const resultElement =
-        document.getElementById(
-            "resultText"
-        );
-
-    if (!resultElement) {
-        return;
-    }
-
-    resultElement.classList.add(
-        "result-pulse"
-    );
-
-    setTimeout(
-        () => {
-
-            resultElement.classList.remove(
-                "result-pulse"
-            );
-
-        },
-        1000
-    );
-}
-
-
-
-// ======================================================
-// 🎨 END: UI EFFECT SECTION
-// ======================================================
-
-
-
-// ======================================================
-// 📱 START: MOBILE UI SECTION
-// ANDROID + CHROME MOBILE TARGET
-// ======================================================
-
-
-
-function initMobileUI() {
-
-    lockPageScroll();
-
-    preventZoom();
-
-    setupTouchFeedback();
-
-    console.log(
-        "📱 MOBILE UI READY"
-    );
-}
-
-
-
-function lockPageScroll() {
-
-    document.body.style.overflow =
-        "hidden";
-
-    document.documentElement.style.overflow =
-        "hidden";
-}
-
-
-
-function preventZoom() {
-
-    const viewport =
-        document.querySelector(
-            'meta[name="viewport"]'
-        );
-
-    if (!viewport) {
-        return;
-    }
-
-    viewport.setAttribute(
-        "content",
-        "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    );
-}
-
-
-
-function setupTouchFeedback() {
-
-    const buttons =
-        document.querySelectorAll(
-            "button"
-        );
-
-    buttons.forEach(
-        button => {
-
-            button.addEventListener(
-                "touchstart",
-                () => {
-
-                    button.classList.add(
-                        "touch-active"
-                    );
-                }
-            );
-
-            button.addEventListener(
-                "touchend",
-                () => {
-
-                    button.classList.remove(
-                        "touch-active"
-                    );
-                }
-            );
-        }
-    );
-}
-
-
-
-function isMobileDevice() {
-
-    return (
-        /Android|iPhone|iPad|iPod/i
-        .test(
-            navigator.userAgent
-        )
-    );
-}
-
-
-
-// ======================================================
-// 📱 END: MOBILE UI SECTION
-// ======================================================
-
-
-
-// ======================================================
-// 🧪 START: UI DEBUG SECTION
-// ======================================================
-
-
-
-function debugSelectedChip() {
-
-    console.log(
-        "🪙 SELECTED CHIP:",
-        GameEngine.selectedChip
-    );
-}
-
-
-
-function debugBalanceUI() {
-
-    const el =
-        document.getElementById(
-            "balanceAmount"
-        );
-
-    console.log(
-        "💰 BALANCE UI:",
-        el
-    );
-}
-
-
-
-function debugSpinButton() {
-
-    const btn =
-        document.getElementById(
-            "spinBtn"
-        );
-
-    console.log(
-        "🎰 SPIN BUTTON:",
-        btn
-    );
-}
-
-
-
-function debugWheelUI() {
-
-    const wheel =
-        document.getElementById(
-            "wheel"
-        );
-
-    console.log(
-        "🎡 WHEEL:",
-        wheel
-    );
-}
-
-
-
-function debugPointerUI() {
-
-    const pointer =
-        document.getElementById(
-            "pointer"
-        );
-
-    console.log(
-        "📍 POINTER:",
-        pointer
-    );
-}
-
-
-
-function debugResultUI() {
-
-    const result =
-        document.getElementById(
-            "resultText"
-        );
-
-    console.log(
-        "🏆 RESULT UI:",
-        result
-    );
-}
-
-
-
-function debugGameUI() {
-
-    console.log(
-        "===================="
-    );
-
-    debugSelectedChip();
-
-    debugBalanceUI();
-
-    debugSpinButton();
-
-    debugWheelUI();
-
-    debugPointerUI();
-
-    debugResultUI();
-
-    console.log(
-        "===================="
-    );
-}
-
-
-
-// ======================================================
-// 🧪 END: UI DEBUG SECTION
-// ======================================================
