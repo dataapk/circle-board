@@ -142,46 +142,46 @@ function initChipSystem() {
 
     if (!chips.length || !container || !defaultChip) return;
 
-    // DEFAULT CHIP
-    chips.forEach(c => c.classList.remove("active"));
-    defaultChip.classList.add("active");
+    // =========================
+    // INITIAL STATE
+    // =========================
+    function setDefault() {
 
-    selectedChip = defaultChip.dataset.value;
+        chips.forEach(c => c.classList.remove("active"));
 
-    // ===================================
-    // DEFAULT CHIP TOGGLE
-    // ===================================
+        defaultChip.classList.add("active");
 
+        GameEngine.selectedChip = {
+            value: parseFloat(defaultChip.dataset.value),
+            element: defaultChip
+        };
+    }
+
+    setDefault();
+
+    // =========================
+    // TOGGLE EXPAND (ONLY DEFAULT)
+    // =========================
     defaultChip.addEventListener("click", (e) => {
 
         e.stopPropagation();
 
+        if (GameEngine.isSpinning) return;
+
+        chipMenuExpanded = !chipMenuExpanded;
+
         if (chipMenuExpanded) {
-
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-
-            chipMenuExpanded = false;
-
-        } else {
-
             container.classList.add("expanded");
             container.classList.remove("collapsed");
-
-            chipMenuExpanded = true;
-        }
-
-        if (chipSound) {
-
-            chipSound.currentTime = 0;
-            chipSound.play().catch(() => {});
+        } else {
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
         }
     });
 
-    // ===================================
+    // =========================
     // CHIP SELECT
-    // ===================================
-
+    // =========================
     chips.forEach(chip => {
 
         if (chip.classList.contains("default-chip")) return;
@@ -190,75 +190,42 @@ function initChipSystem() {
 
             e.stopPropagation();
 
-            chips.forEach(c =>
-                c.classList.remove("active")
-            );
-
+            // ACTIVE
+            chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
-            selectedChip =
-                chip.getAttribute("data-value");
+            // UPDATE DEFAULT CHIP
+            const defaultImg = defaultChip.querySelector("img");
+            const defaultText = defaultChip.querySelector("span");
 
-            if (chipSound) {
+            const selectedImg = chip.querySelector("img");
+            const selectedText = chip.querySelector("span");
 
-                chipSound.currentTime = 0;
+            defaultImg.src = selectedImg.src;
+            defaultText.textContent = selectedText.textContent;
 
-                chipSound.play()
-                .catch(() => {});
-            }
+            defaultChip.dataset.value = chip.dataset.value;
 
-            // UPDATE MAIN CHIP
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.dataset.value),
+                element: chip
+            };
 
-            const defaultImg =
-                defaultChip.querySelector("img");
-
-            const defaultText =
-                defaultChip.querySelector("span");
-
-            const selectedImg =
-                chip.querySelector("img");
-
-            const selectedText =
-                chip.querySelector("span");
-
-            defaultImg.src =
-                selectedImg.src;
-
-            defaultText.textContent =
-                selectedText.textContent;
-
-            defaultChip.setAttribute(
-                "data-value",
-                selectedChip
-            );
-
-            // COLLAPSE
-
-            container.classList.remove(
-                "expanded"
-            );
-
-            container.classList.add(
-                "collapsed"
-            );
+            // COLLAPSE AFTER SELECT
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
 
             chipMenuExpanded = false;
         });
     });
 
-    // ===================================
-    // OUTSIDE CLICK
-    // ===================================
-
+    // =========================
+    // OUTSIDE CLICK CLOSE
+    // =========================
     document.addEventListener("click", () => {
 
-        container.classList.remove(
-            "expanded"
-        );
-
-        container.classList.add(
-            "collapsed"
-        );
+        container.classList.remove("expanded");
+        container.classList.add("collapsed");
 
         chipMenuExpanded = false;
     });
