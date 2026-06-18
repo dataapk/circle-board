@@ -197,10 +197,6 @@ function setSpinButtonState(state) {
     return true;
 }
 
-/* =========================
-   TABLE SYSTEM
-========================= */
-
 function initTableSystem() {
 
     document.querySelectorAll(".symbol-box").forEach(box => {
@@ -215,17 +211,35 @@ function initTableSystem() {
 
             if (!subtractBalance(amount)) return;
 
+            // =========================
+            // 💰 UPDATE BET STATE
+            // =========================
             GameEngine.bets[symbol] = (GameEngine.bets[symbol] || 0) + amount;
 
-            const marker = document.createElement("div");
-            marker.className = "bet-marker";
-            marker.innerText = "$" + amount;
+            // =========================
+            // 🎯 CLEAN UI MARKER (FIX)
+            // =========================
+            let marker = box.querySelector(".bet-marker");
 
-            box.appendChild(marker);
+            if (!marker) {
+                marker = document.createElement("div");
+                marker.className = "bet-marker";
+                box.appendChild(marker);
+            }
 
+            marker.innerText = "$" + GameEngine.bets[symbol];
+
+            // =========================
+            // 🔊 SOUND
+            // =========================
             playTableSound();
 
+            // =========================
+            // 💰 UI SYNC
+            // =========================
             updateBalanceUI();
+
+            console.log("BET:", GameEngine.bets);
         });
     });
 }
