@@ -153,13 +153,13 @@ function initChipSystem() {
 
         e.stopPropagation();
 
-        console.log("DEFAULT CHIP CLICK");
-
         container.classList.toggle("expanded");
-        container.classList.toggle("collapsed");
+        container.classList.toggle(
+                "collapsed"
+            );
 
-    }
-);
+        }
+    );
 
     // CHIP SELECT
 
