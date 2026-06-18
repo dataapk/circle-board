@@ -36,7 +36,26 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================
-   CHIP SYSTEM
+   initGame SYSTEM
+========================= */
+let gameInitialized = false;
+
+function initGame() {
+
+    if (gameInitialized) return; // 🔥 PREVENT DOUBLE INIT
+    gameInitialized = true;
+
+    console.log("🚀 GAME INIT START");
+
+    attachWheelListener();   // wheel event
+    updateBalanceUI();       // UI sync
+    setSpinButtonState(false);
+
+    console.log("✔ GAME READY");
+}
+
+/* =========================
+   CHIP SYSTEM (PRO CLEAN)
 ========================= */
 
 function initChipSystem() {
@@ -47,6 +66,9 @@ function initChipSystem() {
 
     let expanded = false;
 
+    // =========================
+    // TOGGLE MENU
+    // =========================
     function toggleMenu() {
 
         if (GameEngine.isSpinning) return;
@@ -57,11 +79,34 @@ function initChipSystem() {
         container.classList.toggle("collapsed", !expanded);
     }
 
+    // =========================
+    // OPEN / CLOSE HELPERS
+    // =========================
+    function closeMenu() {
+        expanded = false;
+        container.classList.remove("expanded");
+        container.classList.add("collapsed");
+    }
+
+    function openMenu() {
+        if (GameEngine.isSpinning) return;
+
+        expanded = true;
+        container.classList.add("expanded");
+        container.classList.remove("collapsed");
+    }
+
+    // =========================
+    // DEFAULT CHIP CLICK
+    // =========================
     defaultChip.addEventListener("click", (e) => {
         e.stopPropagation();
         toggleMenu();
     });
 
+    // =========================
+    // CHIP SELECTION
+    // =========================
     chips.forEach(chip => {
 
         chip.addEventListener("click", (e) => {
@@ -70,29 +115,42 @@ function initChipSystem() {
 
             if (GameEngine.isSpinning) return;
 
+            // 🎯 active state
             chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
+            // 💰 set selected chip
+            const value = parseFloat(chip.dataset.value);
+
             GameEngine.selectedChip = {
-                value: parseFloat(chip.dataset.value),
+                value,
                 element: chip
             };
 
+            // 🔁 update default chip display (THIS IS YOUR MAIN FIX)
             const span = defaultChip.querySelector("span");
-            if (span) span.innerText = "$" + GameEngine.selectedChip.value;
+            if (span) {
+                span.innerText = "$" + value;
+            }
 
+            // 🔊 sound
             playChipSound();
 
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-            expanded = false;
+            // 📦 collapse after selection
+            closeMenu();
+
+            console.log("🎯 CHIP SELECTED:", value);
         });
     });
 
-    document.addEventListener("click", () => {
-        container.classList.remove("expanded");
-        container.classList.add("collapsed");
-        expanded = false;
+    // =========================
+    // OUTSIDE CLICK CLOSE
+    // =========================
+    document.addEventListener("click", (e) => {
+
+        if (!e.target.closest(".chips-container")) {
+            closeMenu();
+        }
     });
 }
 
@@ -226,21 +284,30 @@ const SpinEngine = {
 
 function onSpinClick() {
 
+    // 🔒 BLOCK IF SPINNING
     if (GameEngine.isSpinning) return;
+
+    // ❌ NO BETS CHECK
     if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) return;
 
+    // =========================
+    // 🔒 LOCK GAME STATE
+    // =========================
     GameEngine.isSpinning = true;
 
-    playSpinClickSound();
-
     lockBoard();
+
+    playSpinClickSound();
     startWheelSound();
 
+    // =========================
+    // 🎡 START WHEEL
+    // =========================
     startWheelRotation();
 }
 
 /* =========================
-   WHEEL ENGINE
+   🎡 WHEEL ENGINE (FINAL CLEAN)
 ========================= */
 
 function startWheelRotation() {
@@ -254,11 +321,19 @@ function startWheelRotation() {
 
     GameEngine.currentRotation += rotation;
 
-    wheel.style.transition = "transform 5s cubic-bezier(0.17,0.67,0.12,0.99)";
-    wheel.style.transform = `rotate(${GameEngine.currentRotation}deg)`;
+    wheel.style.transition =
+        `transform ${SpinEngine.duration}ms cubic-bezier(0.17,0.67,0.12,0.99)`;
 
+    wheel.style.transform =
+        `rotate(${GameEngine.currentRotation}deg)`;
+
+    // 🎯 AUTO END HOOK
     wheel.addEventListener("transitionend", endWheelRotation, { once: true });
 }
+
+/* =========================
+   🛑 END WHEEL
+========================= */
 
 function endWheelRotation() {
 
@@ -266,21 +341,36 @@ function endWheelRotation() {
 
     const symbols = ["heart","diamond","club","spade","crown","flag"];
 
-    const index = Math.floor((GameEngine.currentRotation % 360) / (360 / symbols.length));
+    const index =
+        Math.floor((GameEngine.currentRotation % 360) / (360 / symbols.length));
 
     const result = symbols[index];
 
     GameEngine.lastResult = result;
 
+    // =========================
+    // 💰 SETTLEMENT
+    // =========================
     resolvePayout(result);
 
+    // =========================
+    // 🔄 RESET ROUND
+    // =========================
+    startNewRound();
+
+    // =========================
+    // 🔓 UNLOCK GAME
+    // =========================
     unlockBoard();
 
-    startNewRound();
+    GameEngine.isSpinning = false;
+
+    console.log("✔ ROUND COMPLETE:", result);
 }
 
+
 /* =========================
-   PAYOUT ENGINE
+   💰 PAYOUT TABLE
 ========================= */
 
 const PAYOUT_TABLE = {
@@ -291,6 +381,11 @@ const PAYOUT_TABLE = {
     crown: 3,
     flag: 3
 };
+
+
+/* =========================
+   💰 CALCULATE WIN
+========================= */
 
 function calculateWin(result) {
 
@@ -306,32 +401,40 @@ function calculateWin(result) {
     return win;
 }
 
+
+/* =========================
+   🏆 RESOLVE PAYOUT
+========================= */
+
 function resolvePayout(result) {
 
     const win = calculateWin(result);
 
     if (win > 0) {
         GameEngine.balance += win;
-        playSound(AudioSystem.win);
+        playWinSound();
     } else {
-        playSound(AudioSystem.lose);
+        playLoseSound();
     }
 
     updateBalanceUI();
 }
 
 /* =========================
-   ROUND RESET (ONLY ONE)
+   🔄 ROUND RESET (CLEAN)
 ========================= */
 
 function startNewRound() {
 
     GameEngine.bets = {};
     GameEngine.selectedChip = null;
+
+    console.log("🔄 NEW ROUND READY");
 }
 
+
 /* =========================
-   SAFE RESET
+   🚨 EMERGENCY RESET (SAFE)
 ========================= */
 
 function emergencyReset() {
@@ -339,6 +442,8 @@ function emergencyReset() {
     GameEngine.isSpinning = false;
     GameEngine.bets = {};
     GameEngine.selectedChip = null;
+    GameEngine.lastResult = null;
 
     unlockBoard();
+    stopWheelSound();
 }
