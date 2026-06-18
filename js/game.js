@@ -54,74 +54,103 @@ function initChipSystem() {
     if (!container || !defaultChip) return;
 
     let expanded = false;
+    let isClosing = false;
 
+    // =========================
+    // OPEN MENU
+    // =========================
     function openMenu() {
+        if (GameEngine.isSpinning) return;
+
         container.classList.add("expanded");
         container.classList.remove("collapsed");
         expanded = true;
     }
 
+    // =========================
+    // CLOSE MENU (SAFE)
+    // =========================
     function closeMenu() {
+
+        if (isClosing) return;
+        isClosing = true;
+
         container.classList.remove("expanded");
         container.classList.add("collapsed");
         expanded = false;
+
+        setTimeout(() => {
+            isClosing = false;
+        }, 50);
     }
 
-    // DEFAULT CHIP TOGGLE
+    // =========================
+    // DEFAULT CHIP CLICK
+    // =========================
     defaultChip.addEventListener("click", (e) => {
+
         e.stopPropagation();
+
+        if (GameEngine.isSpinning) return;
 
         expanded ? closeMenu() : openMenu();
 
         console.log("CHIP STATE:", container.className);
     });
 
+    // =========================
     // CHIP SELECT
+    // =========================
     chips.forEach(chip => {
 
-       chip.addEventListener("click", (e) => {
+        chip.addEventListener("click", (e) => {
 
-    e.stopPropagation();
+            e.stopPropagation();
 
-    chips.forEach(c => c.classList.remove("active"));
-    chip.classList.add("active");
+            if (GameEngine.isSpinning) return;
 
-    GameEngine.selectedChip = {
-        value: parseFloat(chip.dataset.value),
-        element: chip
-    };
+            // active UI
+            chips.forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
 
-    console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
+            // set chip
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.dataset.value),
+                element: chip
+            };
 
-    // 🔊 CHIP SOUND (THIS WAS MISSING)
-    if (GameEngine?.audio && GameEngine?.chipSound) {
-        GameEngine.audio.play(GameEngine.chipSound);
-    }
+            console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
 
-    if (defaultChip) {
-        const span = defaultChip.querySelector("span");
-        if (span) {
-            span.innerText = "$" + GameEngine.selectedChip.value;
-        }
-    }
+            // update default UI
+            const span = defaultChip.querySelector("span");
+            if (span) {
+                span.innerText = "$" + GameEngine.selectedChip.value;
+            }
 
-    container.classList.remove("expanded");
-    container.classList.add("collapsed");
-    expanded = false;
- });
+            // sound
+            if (GameEngine?.audio && GameEngine?.chipSound) {
+                GameEngine.audio.play(GameEngine.chipSound);
+            }
+
+            // auto close
+            closeMenu();
         });
+    });
 
     // =========================
-    // OUTSIDE CLICK (SAFE GUARD ONLY)
+    // OUTSIDE CLICK (NO FLICKER FIX)
     // =========================
     document.addEventListener("click", (e) => {
 
         if (!e.target.closest(".chips-container")) {
-            closeMenu();
+
+            if (expanded) {
+                closeMenu();
+            }
+
         }
     });
 }
-   
 
 // ======================================================
 // 🎯 BOARD SYSTEM (SAFE)
