@@ -213,11 +213,61 @@ function initAudio() {
     AudioSystem.bg = document.getElementById("bgMusic");
 }
 
-function playSound(sound) {
-    if (!AudioSystem.enabled || !sound) return;
-    sound.currentTime = 0;
-    sound.play().catch(() => {});
+/* =========================
+   AUDIO CORE (SINGLE CONTROL)
+========================= */
+
+const AudioSystem = {
+    enabled: true,
+
+    chip: null,
+    spin: null,
+    wheel: null,
+    table: null,
+    win: null,
+    lose: null,
+    bg: null
+};
+
+/* =========================
+   INIT AUDIO
+========================= */
+
+function initAudio() {
+
+    AudioSystem.chip  = document.getElementById("chipSound");
+    AudioSystem.spin  = document.getElementById("spinSound");
+    AudioSystem.wheel = document.getElementById("wheelSound");
+    AudioSystem.table = document.getElementById("tableSound");
+    AudioSystem.win   = document.getElementById("winSound");
+    AudioSystem.lose  = document.getElementById("loseSound");
+    AudioSystem.bg    = document.getElementById("bgMusic");
 }
+
+/* =========================
+   SAFE PLAY (MASTER)
+========================= */
+
+function playSound(sound, options = {}) {
+
+    if (!AudioSystem.enabled || !sound) return;
+
+    try {
+        sound.currentTime = options.reset === false ? sound.currentTime : 0;
+
+        sound.loop = !!options.loop;
+
+        sound.volume = options.volume ?? 1;
+
+        sound.play().catch(() => {});
+    } catch (e) {
+        console.log("AUDIO ERROR:", e);
+    }
+}
+
+/* =========================
+   SHORTCUT SOUNDS
+========================= */
 
 function playChipSound() {
     playSound(AudioSystem.chip);
@@ -231,15 +281,45 @@ function playSpinClickSound() {
     playSound(AudioSystem.spin);
 }
 
+function playWinSound() {
+    playSound(AudioSystem.win);
+}
+
+function playLoseSound() {
+    playSound(AudioSystem.lose);
+}
+
+/* =========================
+   WHEEL SOUND CONTROL (FIXED)
+========================= */
+
 function startWheelSound() {
-    playSound(AudioSystem.wheel);
-    AudioSystem.wheel.loop = true;
+
+    const sound = AudioSystem.wheel;
+    if (!sound) return;
+
+    sound.currentTime = 0;
+    sound.loop = true;
+
+    sound.play().catch(() => {});
 }
 
 function stopWheelSound() {
-    AudioSystem.wheel.pause();
-    AudioSystem.wheel.currentTime = 0;
-    AudioSystem.wheel.loop = false;
+
+    const sound = AudioSystem.wheel;
+    if (!sound) return;
+
+    sound.pause();
+    sound.currentTime = 0;
+    sound.loop = false;
+}
+
+/* =========================
+   GLOBAL AUDIO CONTROL
+========================= */
+
+function setAudioEnabled(state) {
+    AudioSystem.enabled = state;
 }
 
 /* =========================
