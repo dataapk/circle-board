@@ -53,28 +53,22 @@ function initChipSystem() {
 
     if (!container || !defaultChip) return;
 
-    let expanded = false;
+    function isExpanded() {
+        return container.classList.contains("expanded");
+    }
 
-    // =========================
-    // OPEN MENU
-    // =========================
     function openMenu() {
         container.classList.add("expanded");
         container.classList.remove("collapsed");
-        expanded = true;
     }
 
-    // =========================
-    // CLOSE MENU (GLOBAL SAFE)
-    // =========================
     function closeMenu() {
         container.classList.remove("expanded");
         container.classList.add("collapsed");
-        expanded = false;
     }
 
     // =========================
-    // DEFAULT CHIP TOGGLE
+    // DEFAULT CHIP CLICK
     // =========================
     defaultChip.addEventListener("click", (e) => {
 
@@ -82,13 +76,13 @@ function initChipSystem() {
 
         e.stopPropagation();
 
-        if (expanded) {
+        if (isExpanded()) {
             closeMenu();
         } else {
             openMenu();
         }
 
-        console.log("CHIP STATE:", container.className);
+        console.log("STATE:", container.className);
     });
 
     // =========================
@@ -110,12 +104,7 @@ function initChipSystem() {
                 element: chip
             };
 
-            console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
-
-            // 🔊 CHIP SOUND
-            if (GameEngine?.audio && GameEngine?.chipSound) {
-                GameEngine.audio.play(GameEngine.chipSound);
-            }
+            console.log("SELECTED:", GameEngine.selectedChip.value);
 
             // update default text
             const span = defaultChip.querySelector("span");
@@ -123,17 +112,16 @@ function initChipSystem() {
                 span.innerText = "$" + GameEngine.selectedChip.value;
             }
 
-            // 🔽 AUTO CLOSE AFTER SELECT
+            // always collapse after select
             closeMenu();
         });
     });
 
     // =========================
-    // OUTSIDE CLICK HANDLER (FIXED + MATCHED WITH closeMenu)
+    // OUTSIDE CLICK FIX (IMPORTANT)
     // =========================
     document.addEventListener("click", (e) => {
 
-        // যদি chip system এর বাইরে click হয়
         if (!e.target.closest(".chips-container")) {
             closeMenu();
         }
