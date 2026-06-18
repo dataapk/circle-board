@@ -146,8 +146,10 @@ function initChipSystem() {
     // 👉 ONLY close when clicking OUTSIDE chip system
     if (!e.target.closest(".chips-container")) {
         closeMenu();
-    }
-});
+
+        });
+    };
+
 
 // ======================================================
 // 🎯 BOARD SYSTEM (SAFE)
