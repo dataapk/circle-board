@@ -77,42 +77,55 @@ function initChipSystem() {
     });
 
     // CHIP SELECT
-   chips.forEach(chip => {
+    chips.forEach(chip => {
 
-    chip.addEventListener("click", (e) => {
-        e.stopPropagation();
+        chip.addEventListener("click", (e) => {
+            e.stopPropagation();
 
-        chips.forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
+            chips.forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
 
-        // set selected chip
-        GameEngine.selectedChip = {
-            value: parseFloat(chip.dataset.value),
-            element: chip
-        };
+            // set selected chip
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.dataset.value),
+                element: chip
+            };
 
-        console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
+            console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
 
-        // =========================
-        // 🔥 UPDATE DEFAULT CHIP UI
-        // =========================
-        if (defaultChip) {
-            const span = defaultChip.querySelector("span");
-            if (span) {
-                span.innerText = "$" + GameEngine.selectedChip.value;
+            // =========================
+            // 🔥 UPDATE DEFAULT CHIP UI
+            // =========================
+            if (defaultChip) {
+                const span = defaultChip.querySelector("span");
+                if (span) {
+                    span.innerText = "$" + GameEngine.selectedChip.value;
+                }
             }
-        }
 
-        // =========================
-        // 🔥 AUTO COLLAPSE AFTER SELECT
-        // =========================
-        container.classList.remove("expanded");
-        container.classList.add("collapsed");
-        expanded = false;
+            // =========================
+            // 🔥 AUTO COLLAPSE AFTER SELECT
+            // =========================
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
+            expanded = false;
 
-    );
-});
+        });
+
+    });
+
     // =========================
+    // OUTSIDE CLICK (SAFE GUARD ONLY)
+    // =========================
+    document.addEventListener("click", (e) => {
+
+        if (!e.target.closest(".chips-container")) {
+            closeMenu();
+        }
+    });
+}
+   
+// =========================
     // OUTSIDE CLICK (SAFE GUARD ONLY)
     // =========================
     document.addEventListener("click", (e) => {
