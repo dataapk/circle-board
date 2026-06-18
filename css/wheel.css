@@ -324,79 +324,94 @@ html, body {
    🪙 CHIP SYSTEM (STABLE FIX)
 ========================= */
 
-.chips-wrapper {
+/* =========================
+   🪙 iGaming FAN CHIP MENU
+========================= */
+
+.chips-wrapper{
     position: relative;
     width: 100%;
-    height: 140px;
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-
-    overflow: visible;
+    height: 110px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* CONTAINER */
-.chips-container {
+.chips-container{
     position: relative;
     width: 260px;
-    height: 100px;
+    height: 90px;
 }
 
-/* CHIP BASE */
-.chip {
-    position: absolute;
+.chips-container .chip{
+    position:absolute;
+    left:50%;
+    top:50%;
 
-    width: 44px;
-    height: 44px;
+    transform:
+        translate(-50%, -50%);
 
-    left: 50%;
-    top: 50%;
+    transition:
+        all .35s ease;
 
-    transform: translate(-50%, -50%);
-}
-}
-.chip.active {
-    z-index: 30;
-    filter: drop-shadow(0 0 6px gold);
+    z-index:1;
 }
 
-/* IMAGE */
-.chip img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+/* DEFAULT CHIP */
 
-    pointer-events: none;
+.default-chip{
+    z-index:20 !important;
 }
 
-/* DEFAULT CHIP (always visible) */
-.default-chip {
-    z-index: 20;
+/* COLLAPSED */
+
+.chips-container.collapsed .chip:not(.default-chip){
+
+    opacity:0;
+    pointer-events:none;
+
+    transform:
+        translate(-50%, -50%)
+        scale(.5);
 }
 
 /* EXPANDED FAN */
 
 .chips-container.expanded .chip:nth-child(2){
-    transform: translate(calc(-50% - 70px), calc(-50% - 35px));
+
+    transform:
+        translate(-120px,-55px);
 }
 
 .chips-container.expanded .chip:nth-child(3){
-    transform: translate(calc(-50% - 40px), calc(-50% - 65px));
+
+    transform:
+        translate(-70px,-90px);
 }
 
 .chips-container.expanded .chip:nth-child(4){
-    transform: translate(-50%, calc(-50% - 85px));
+
+    transform:
+        translate(-10px,-105px);
 }
 
 .chips-container.expanded .chip:nth-child(5){
-    transform: translate(calc(-50% + 40px), calc(-50% - 65px));
+
+    transform:
+        translate(50px,-90px);
 }
 
 .chips-container.expanded .chip:nth-child(6){
-    transform: translate(calc(-50% + 70px), calc(-50% - 35px));
+
+    transform:
+        translate(100px,-55px);
 }
 
+.chips-container.expanded .chip:not(.default-chip){
+
+    opacity:1;
+    pointer-events:auto;
+}
 /* =================================
    ✨ GOLD CHIP GLOW EFFECT ANIMATRION
 ====================================== */
