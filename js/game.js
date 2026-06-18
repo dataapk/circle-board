@@ -134,103 +134,108 @@ function unlockGameUI() {
 
 function initChipSystem() {
 
-    const container = document.querySelector(".chips-container");
-    const chips = document.querySelectorAll(".chip");
-    const defaultChip = document.querySelector(".default-chip");
+    const container =
+    document.querySelector(".chips-container");
 
-    if (!container || !chips.length) return;
+    const chips =
+    document.querySelectorAll(".chip");
 
-    // =========================
-    // DEFAULT STATE
-    // =========================
-    function setDefault() {
+    const defaultChip =
+    document.querySelector(".default-chip");
 
-        chips.forEach(c => c.classList.remove("active"));
+    if (!container) return;
 
-        if (defaultChip) {
-            defaultChip.classList.add("active");
+    // DEFAULT CHIP OPEN/CLOSE
 
-            selectedChip = defaultChip.dataset.value;
-        }
-    }
-
-    setDefault();
-
-    // =========================
-    // DEFAULT CHIP TOGGLE (IMPORTANT)
-    // =========================
-   defaultChip.addEventListener("click", (e) => {
-
-    e.stopPropagation();
-
-    console.log("DEFAULT CHIP CLICK");
-
-    // ALWAYS TOGGLE CLEANLY (NO CONFLICT)
-    const isExpanded = container.classList.contains("expanded");
-
-    if (isExpanded) {
-
-        container.classList.remove("expanded");
-        container.classList.add("collapsed");
-
-    } else {
-
-        container.classList.add("expanded");
-        container.classList.remove("collapsed");
-    }
-
-    console.log(container.className);
-});
-
-    // =========================
-    // CHIP SELECT
-    // =========================
-    chips.forEach(chip => {
-
-        chip.addEventListener("click", (e) => {
+    defaultChip.addEventListener(
+        "click",
+        (e) => {
 
             e.stopPropagation();
 
-            chips.forEach(c => c.classList.remove("active"));
+            container.classList.toggle(
+                "expanded"
+            );
 
-            chip.classList.add("active");
+            container.classList.toggle(
+                "collapsed"
+            );
 
-            selectedChip = chip.getAttribute("data-value");
+        }
+    );
 
-            if (chipSound) {
-                chipSound.currentTime = 0;
-                chipSound.play().catch(() => {});
+    // CHIP SELECT
+
+    chips.forEach(chip => {
+
+        chip.addEventListener(
+            "click",
+            (e) => {
+
+                e.stopPropagation();
+
+                chips.forEach(c =>
+                    c.classList.remove(
+                        "active"
+                    )
+                );
+
+                chip.classList.add(
+                    "active"
+                );
+
+                selectedChip =
+                chip.getAttribute(
+                    "data-value"
+                );
+
+                if (chipSound) {
+
+                    chipSound.currentTime = 0;
+
+                    chipSound.play()
+                    .catch(() => {});
+                }
+
+                // AUTO CLOSE
+
+                if (
+                    !chip.classList.contains(
+                        "default-chip"
+                    )
+                ){
+
+                    container.classList.remove(
+                        "expanded"
+                    );
+
+                    container.classList.add(
+                        "collapsed"
+                    );
+                }
+
             }
+        );
 
-            // UPDATE DEFAULT CHIP
-            if (!chip.classList.contains("default-chip")) {
-
-                const defaultImg = defaultChip.querySelector("img");
-                const defaultText = defaultChip.querySelector("span");
-
-                const selectedImg = chip.querySelector("img");
-                const selectedText = chip.querySelector("span");
-
-                defaultImg.src = selectedImg.src;
-                defaultText.textContent = selectedText.textContent;
-
-                defaultChip.setAttribute("data-value", selectedChip);
-            }
-
-            // AUTO CLOSE
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-        });
     });
 
-    // =========================
-    // OUTSIDE CLICK
-    // =========================
-    document.addEventListener("click", () => {
+    // OUTSIDE CLICK CLOSE
 
-        container.classList.remove("expanded");
-        container.classList.add("collapsed");
-    });
+    document.addEventListener(
+        "click",
+        () => {
+
+            container.classList.remove(
+                "expanded"
+            );
+
+            container.classList.add(
+                "collapsed"
+            );
+
+        }
+    );
+
 }
 // ======================================================
 // END: CHIP SYSTEM
