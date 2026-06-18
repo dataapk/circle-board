@@ -154,7 +154,7 @@ function initChipSystem() {
     });
 }
     // =========================
-    // SPINB UTTON SYSTEM
+    // SPIN  BUTTON SYSTEM
     // =========================
 function setSpinButtonState(state) {
 
@@ -178,6 +178,23 @@ function setSpinButtonState(state) {
 
         if (text) text.innerText = "SPIN";
     }
+}
+  
+// =========================
+   // BALANCE DEDUCTE SYSTEM
+   // =========================
+   function subtractBalance(amount) {
+
+    if (GameEngine.balance < amount) {
+        console.log("❌ NOT ENOUGH BALANCE");
+        return false;
+    }
+
+    GameEngine.balance -= amount;
+
+    updateBalanceUI();
+
+    return true;
 }
 
 /* =========================
