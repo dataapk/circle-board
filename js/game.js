@@ -79,40 +79,36 @@ function initChipSystem() {
     // CHIP SELECT
     chips.forEach(chip => {
 
-        chip.addEventListener("click", (e) => {
-            e.stopPropagation();
+       chip.addEventListener("click", (e) => {
 
-            chips.forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
+    e.stopPropagation();
 
-            // set selected chip
-            GameEngine.selectedChip = {
-                value: parseFloat(chip.dataset.value),
-                element: chip
-            };
+    chips.forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
 
-            console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
+    GameEngine.selectedChip = {
+        value: parseFloat(chip.dataset.value),
+        element: chip
+    };
 
-            // =========================
-            // 🔥 UPDATE DEFAULT CHIP UI
-            // =========================
-            if (defaultChip) {
-                const span = defaultChip.querySelector("span");
-                if (span) {
-                    span.innerText = "$" + GameEngine.selectedChip.value;
-                }
-            }
+    console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
 
-            // =========================
-            // 🔥 AUTO COLLAPSE AFTER SELECT
-            // =========================
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-            expanded = false;
+    // 🔊 CHIP SOUND (THIS WAS MISSING)
+    if (GameEngine?.audio && GameEngine?.chipSound) {
+        GameEngine.audio.play(GameEngine.chipSound);
+    }
 
-        });
+    if (defaultChip) {
+        const span = defaultChip.querySelector("span");
+        if (span) {
+            span.innerText = "$" + GameEngine.selectedChip.value;
+        }
+    }
 
-    });
+    container.classList.remove("expanded");
+    container.classList.add("collapsed");
+    expanded = false;
+});
 
     // =========================
     // OUTSIDE CLICK (SAFE GUARD ONLY)
