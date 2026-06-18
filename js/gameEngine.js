@@ -106,6 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initAudio();
 
+    // 🪙 CHIP SYSTEM
+    if (typeof initChipSystem === "function") {
+        initChipSystem();
+    }
+
+    // 🎰 GAME LOAD
     if (typeof loadGame === "function") {
         loadGame();
     }
