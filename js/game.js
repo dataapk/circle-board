@@ -213,36 +213,7 @@ function initAudio() {
     AudioSystem.bg = document.getElementById("bgMusic");
 }
 
-/* =========================
-   AUDIO CORE (SINGLE CONTROL)
-========================= */
 
-const AudioSystem = {
-    enabled: true,
-
-    chip: null,
-    spin: null,
-    wheel: null,
-    table: null,
-    win: null,
-    lose: null,
-    bg: null
-};
-
-/* =========================
-   INIT AUDIO
-========================= */
-
-function initAudio() {
-
-    AudioSystem.chip  = document.getElementById("chipSound");
-    AudioSystem.spin  = document.getElementById("spinSound");
-    AudioSystem.wheel = document.getElementById("wheelSound");
-    AudioSystem.table = document.getElementById("tableSound");
-    AudioSystem.win   = document.getElementById("winSound");
-    AudioSystem.lose  = document.getElementById("loseSound");
-    AudioSystem.bg    = document.getElementById("bgMusic");
-}
 
 /* =========================
    SAFE PLAY (MASTER)
