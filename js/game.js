@@ -173,6 +173,8 @@ function spinGame() {
     GameEngine.audio.play(GameEngine.spinSound);
 
     lockGameUI();
+    lockBets();
+
     spinWheel();
 }
 // ======================================================
