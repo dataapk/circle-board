@@ -112,7 +112,7 @@ chips.forEach(chip => {
 document.addEventListener("click", () => {
     closeMenu();
 });
-    });
+    };
 
 
 // ======================================================
