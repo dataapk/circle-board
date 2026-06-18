@@ -336,20 +336,6 @@ html, body {
     height: 90px;
 }
 
-.chips-container .chip{
-    position:absolute;
-    left:50%;
-    top:50%;
-
-    transform:
-        translate(-50%, -50%);
-
-    transition:
-        all .35s ease;
-
-    z-index:1;
-}
-
 /* DEFAULT CHIP */
 
 .default-chip{
@@ -363,20 +349,20 @@ html, body {
 }
 .chip {
     position: absolute;
-
-    width: 45px !important;
-    height: 45px !important;
+    width: 45px;
+    height: 45px;
 
     left: 50%;
     top: 50%;
 
     transform: translate(-50%, -50%);
+    transition: transform 0.35s ease, opacity 0.35s ease;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    transition: transform 0.35s ease, opacity 0.35s ease;
+    z-index: 1;
 }
 
 /* COLLAPSED */
@@ -394,39 +380,32 @@ html, body {
 /* EXPANDED FAN */
 
 .chips-container.expanded .chip:nth-child(2){
-
-    transform:
-        translate(-120px,-55px);
+    transform: translate(-120px,-55px);
 }
 
 .chips-container.expanded .chip:nth-child(3){
-
-    transform:
-        translate(-70px,-90px);
+    transform: translate(-70px,-90px);
 }
 
 .chips-container.expanded .chip:nth-child(4){
-
-    transform:
-        translate(-10px,-105px);
+    transform: translate(-10px,-105px);
 }
 
 .chips-container.expanded .chip:nth-child(5){
-
-    transform:
-        translate(50px,-90px);
+    transform: translate(50px,-90px);
 }
 
 .chips-container.expanded .chip:nth-child(6){
-
-    transform:
-        translate(100px,-55px);
+    transform: translate(100px,-55px);
 }
+   /* =================================
+   STEP 4 — COLLAPSED SAFE
+   ====================================== */
 
-.chips-container.expanded .chip:not(.default-chip){
-
-    opacity:1;
-    pointer-events:auto;
+.chips-container.collapsed .chip:not(.default-chip){
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(.5);
 }
 /* =================================
    ✨ GOLD CHIP GLOW EFFECT ANIMATRION
