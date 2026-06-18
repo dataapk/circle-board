@@ -140,88 +140,129 @@ function initChipSystem() {
     const container = document.querySelector(".chips-container");
     const defaultChip = document.querySelector(".default-chip");
 
-    if (!chips.length || !container) return;
+    if (!chips.length || !container || !defaultChip) return;
 
-    // ======================================================
-    // 🟢 SET DEFAULT CHIP (ONLY VISUAL + STATE)
-    // ======================================================
-    function setDefaultChip() {
+    // DEFAULT CHIP
+    chips.forEach(c => c.classList.remove("active"));
+    defaultChip.classList.add("active");
 
-        chips.forEach(c => c.classList.remove("active"));
+    selectedChip = defaultChip.dataset.value;
 
-        if (defaultChip) {
-            defaultChip.classList.add("active");
+    // ===================================
+    // DEFAULT CHIP TOGGLE
+    // ===================================
 
-            GameEngine.selectedChip = {
-                value: parseFloat(defaultChip.dataset.value),
-                element: defaultChip
-            };
+    defaultChip.addEventListener("click", (e) => {
 
-            console.log("DEFAULT CHIP:", GameEngine.selectedChip.value);
+        e.stopPropagation();
+
+        if (chipMenuExpanded) {
+
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
+
+            chipMenuExpanded = false;
+
+        } else {
+
+            container.classList.add("expanded");
+            container.classList.remove("collapsed");
+
+            chipMenuExpanded = true;
         }
-    }
 
-    setDefaultChip();
+        if (chipSound) {
 
-    // ======================================================
-    // 🟡 CLICK = ONLY EXPAND FIRST, THEN SELECT
-    // ======================================================
-    chips.forEach((chip) => {
+            chipSound.currentTime = 0;
+            chipSound.play().catch(() => {});
+        }
+    });
+
+    // ===================================
+    // CHIP SELECT
+    // ===================================
+
+    chips.forEach(chip => {
+
+        if (chip.classList.contains("default-chip")) return;
 
         chip.addEventListener("click", (e) => {
 
             e.stopPropagation();
 
-            if (GameEngine.isSpinning) return;
+            chips.forEach(c =>
+                c.classList.remove("active")
+            );
 
-            // ==================================================
-            // 🔥 FIRST CLICK → EXPAND ONLY
-            // ==================================================
-            if (!chipMenuExpanded) {
-
-                container.classList.add("expanded");
-                container.classList.remove("collapsed");
-
-                chipMenuExpanded = true;
-
-                console.log("📦 EXPANDED ONLY");
-                return;
-            }
-
-            // ==================================================
-            // 🪙 SECOND STEP → SELECT CHIP
-            // ==================================================
-
-            GameEngine.audio.play(GameEngine.chipSound);
-
-            chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
-            GameEngine.selectedChip = {
-                value: parseFloat(chip.dataset.value),
-                element: chip
-            };
+            selectedChip =
+                chip.getAttribute("data-value");
 
-            console.log("🪙 SELECTED:", GameEngine.selectedChip.value);
+            if (chipSound) {
 
-            // ==================================================
-            // 🔽 AUTO COLLAPSE
-            // ==================================================
-            setTimeout(() => {
+                chipSound.currentTime = 0;
 
-                container.classList.remove("expanded");
-                container.classList.add("collapsed");
+                chipSound.play()
+                .catch(() => {});
+            }
 
-                chipMenuExpanded = false;
+            // UPDATE MAIN CHIP
 
-                // reset to default visually optional
-                // setDefaultChip();
+            const defaultImg =
+                defaultChip.querySelector("img");
 
-            }, 120);
+            const defaultText =
+                defaultChip.querySelector("span");
+
+            const selectedImg =
+                chip.querySelector("img");
+
+            const selectedText =
+                chip.querySelector("span");
+
+            defaultImg.src =
+                selectedImg.src;
+
+            defaultText.textContent =
+                selectedText.textContent;
+
+            defaultChip.setAttribute(
+                "data-value",
+                selectedChip
+            );
+
+            // COLLAPSE
+
+            container.classList.remove(
+                "expanded"
+            );
+
+            container.classList.add(
+                "collapsed"
+            );
+
+            chipMenuExpanded = false;
         });
     });
-}
 
+    // ===================================
+    // OUTSIDE CLICK
+    // ===================================
+
+    document.addEventListener("click", () => {
+
+        container.classList.remove(
+            "expanded"
+        );
+
+        container.classList.add(
+            "collapsed"
+        );
+
+        chipMenuExpanded = false;
+    });
+}
 // ======================================================
 // END: CHIP SYSTEM
 // ======================================================
