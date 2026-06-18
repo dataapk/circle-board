@@ -125,15 +125,7 @@ function initChipSystem() {
     });
 }
    
-// =========================
-    // OUTSIDE CLICK (SAFE GUARD ONLY)
-    // =========================
-    document.addEventListener("click", (e) => {
 
-        if (!e.target.closest(".chips-container")) {
-            closeMenu();
-        }
-    });
 // ======================================================
 // 🎯 BOARD SYSTEM (SAFE)
 // ======================================================
