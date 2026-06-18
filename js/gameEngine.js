@@ -21,10 +21,11 @@ window.GameEngine = {
     // =========================
     // 💰 PLAYER STATE
     // =========================
-    balance: 1000,
+   balance: 1000,
     selectedChip: null,
     bets: {},
-
+    isSpinning: false
+};
     // =========================
     // 🎰 GAME STATE
     // =========================
@@ -400,17 +401,15 @@ function stopAllSounds() {
 // ======================================================
  function resetBetsUI() {
 
-    const chips =
-        document.querySelectorAll(".chip");
-
-    chips.forEach(chip => {
-
+    document.querySelectorAll(".chip").forEach(chip => {
         chip.remove();
     });
 
+    GameEngine.selectedChip = null;
+    GameEngine.bets = {};
+
     console.log("🧹 BOARD RESET");
 }
-
 // ======================================================
 // 🔊 resetBets END
 // ======================================================
