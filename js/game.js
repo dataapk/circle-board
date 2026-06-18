@@ -363,6 +363,87 @@ function playSafeSound(sound) {
 /* =========================
    END: ADVANCED AUDIO CONTROL
 ========================= */
+/* ============================================
+   🎰 TABLE LOCK SYSTEM START (FINAL PRO LEVEL)
+============================================== */
+
+/* =========================
+   🎰 GAME LOCK STATE (UPDATED)
+========================= */
+
+const GameLock = {
+
+    betLocked: false,
+    chipLocked: false,
+    uiLocked: false,
+    spinLocked: false,
+
+    tableLocked: false   // 🔥 TABLE LOCK ADDED
+
+};
+/* =========================
+   START: TABLE LOCK CONTROLLER
+========================= */
+
+function lockTable() {
+
+    GameLock.tableLocked = true;
+
+    console.log("🔒 TABLE LOCKED");
+}
+
+function unlockTable() {
+
+    GameLock.tableLocked = false;
+
+    console.log("🔓 TABLE UNLOCKED");
+}
+
+/* =========================
+   END: TABLE LOCK CONTROLLER
+========================= */
+/* =========================
+   START: FULL BOARD LOCK
+========================= */
+
+function lockBoard() {
+
+    GameLock.betLocked = true;
+    GameLock.chipLocked = true;
+    GameLock.uiLocked = true;
+    GameLock.spinLocked = true;
+    GameLock.tableLocked = true; // 🔥 INCLUDED
+
+    GameEngine.isSpinning = true;
+
+    console.log("🔒 FULL BOARD LOCKED");
+}
+
+function unlockBoard() {
+
+    GameLock.betLocked = false;
+    GameLock.chipLocked = false;
+    GameLock.uiLocked = false;
+    GameLock.spinLocked = false;
+    GameLock.tableLocked = false; // 🔥 INCLUDED
+
+    GameEngine.isSpinning = false;
+
+    console.log("🔓 FULL BOARD UNLOCKED");
+}
+
+/* =========================
+   END: FULL BOARD LOCK
+========================= */
+/* ============================================
+   🎰 TABLE LOCK SYSTEM END (FINAL PRO LEVEL)
+============================================== */
+
+
+
+
+
+
 
 
 
