@@ -169,6 +169,44 @@ function spinGame() {
     lockGameUI();
     spinWheel();
 }
+// ======================================================
+// 🎡 WHEEL
+// ======================================================
+
+function spinWheel() {
+
+    const wheel = document.querySelector(".wheel-img");
+    if (!wheel) return;
+
+    const duration = 14000;
+    const startAngle = GameEngine.currentRotation || 0;
+    const targetAngle = startAngle + (10 * 360);
+
+    const startTime = performance.now();
+
+    function animate(time) {
+
+        const progress = Math.min((time - startTime) / duration, 1);
+        const ease = progress * progress * (3 - 2 * progress);
+
+        const angle =
+            startAngle + (targetAngle - startAngle) * ease;
+
+        wheel.style.transform = `rotate(${angle}deg)`;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+
+            GameEngine.currentRotation = targetAngle;
+
+            handleWheelResult(targetAngle);
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
 
 // ======================================================
 // 🔒 UI LOCK
