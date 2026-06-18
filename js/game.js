@@ -84,14 +84,17 @@ function initChipSystem() {
 });
 
     // CHIP SELECT
-chips.forEach(chip => {
+chips.forEach(function (chip) {
 
-    chip.addEventListener("click", (e) => {
+    chip.addEventListener("click", function (e) {
 
         e.stopPropagation();
 
-        // 1. active state
-        chips.forEach(c => c.classList.remove("active"));
+        // 1. remove active
+        chips.forEach(function (c) {
+            c.classList.remove("active");
+        });
+
         chip.classList.add("active");
 
         // 2. set selected chip
@@ -102,16 +105,19 @@ chips.forEach(chip => {
 
         console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
 
-        // 3. MAKE IT NEW DEFAULT CHIP (IMPORTANT)
+        // 3. update default display
         if (defaultChip) {
-            defaultChip.querySelector("span").innerText =
-                "$" + GameEngine.selectedChip.value;
+            const span = defaultChip.querySelector("span");
+            if (span) {
+                span.innerText = "$" + GameEngine.selectedChip.value;
+            }
         }
 
-        // 4. CLOSE MENU (AUTO COLLAPSE)
+        // 4. close menu safely
         closeMenu();
 
     });
+
 });
 
 // ======================================================
