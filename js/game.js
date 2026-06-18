@@ -165,34 +165,26 @@ function initChipSystem() {
 
     chips.forEach(chip => {
 
-        chip.addEventListener(
-            "click",
-            (e) => {
+    chip.addEventListener("click", (e) => {
 
-                e.stopPropagation();
+        e.stopPropagation();
 
-                chips.forEach(c =>
-                    c.classList.remove(
-                        "active"
-                    )
-                );
+        // =========================
+        // ACTIVE STATE
+        // =========================
+        chips.forEach(c => c.classList.remove("active"));
 
-                chip.classList.add(
-                    "active"
-                );
+        chip.classList.add("active");
 
-                selectedChip =
-                chip.getAttribute(
-                    "data-value"
-                );
+        selectedChip = chip.getAttribute("data-value");
 
-                if (chipSound) {
-
-                    chipSound.currentTime = 0;
-
-                    chipSound.play()
-                    .catch(() => {});
-                }
+        // =========================
+        // SOUND
+        // =========================
+        if (chipSound) {
+            chipSound.currentTime = 0;
+            chipSound.play().catch(() => {});
+        }
 
                 // AUTO CLOSE
 
