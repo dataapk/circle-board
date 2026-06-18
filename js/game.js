@@ -67,6 +67,9 @@ function initChipSystem() {
         expanded = false;
     }
 
+    // =========================
+    // DEFAULT CHIP TOGGLE
+    // =========================
     defaultChip.addEventListener("click", (e) => {
 
         if (GameEngine.isSpinning) return;
@@ -78,15 +81,27 @@ function initChipSystem() {
         console.log("CHIP STATE:", container.className);
     });
 
+    // =========================
+    // CHIP SELECT
+    // =========================
     chips.forEach(function (chip) {
 
         chip.addEventListener("click", function (e) {
 
             e.stopPropagation();
 
+            // ❌ ignore during spin
+            if (GameEngine.isSpinning) return;
+
+            // =========================
+            // ACTIVE STATE
+            // =========================
             chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
+            // =========================
+            // SET SELECTED CHIP
+            // =========================
             GameEngine.selectedChip = {
                 value: parseFloat(chip.dataset.value),
                 element: chip
@@ -94,6 +109,16 @@ function initChipSystem() {
 
             console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
 
+            // =========================
+            // 🔊 CHIP SOUND (RESTORED SAFELY)
+            // =========================
+            if (GameEngine?.audio && GameEngine?.chipSound) {
+                GameEngine.audio.play(GameEngine.chipSound);
+            }
+
+            // =========================
+            // DEFAULT CHIP UPDATE
+            // =========================
             if (defaultChip) {
                 const span = defaultChip.querySelector("span");
                 if (span) {
@@ -101,8 +126,19 @@ function initChipSystem() {
                 }
             }
 
+            // =========================
+            // 🔽 AUTO COLLAPSE AFTER SELECT (IMPORTANT FIX)
+            // =========================
             closeMenu();
+
         });
+    });
+
+    // =========================
+    // OUTSIDE CLICK CLOSE
+    // =========================
+    document.addEventListener("click", () => {
+        closeMenu();
     });
 }
 
