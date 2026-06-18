@@ -53,46 +53,34 @@ function initChipSystem() {
 
     if (!container || !defaultChip) return;
 
-    function isOpen() {
-        return container.classList.contains("expanded");
-    }
+    let expanded = false;
 
     function openMenu() {
         container.classList.add("expanded");
         container.classList.remove("collapsed");
+        expanded = true;
     }
 
     function closeMenu() {
         container.classList.remove("expanded");
         container.classList.add("collapsed");
+        expanded = false;
     }
 
-    // =========================
-    // DEFAULT TOGGLE ONLY
-    // =========================
+    // DEFAULT CHIP TOGGLE
     defaultChip.addEventListener("click", (e) => {
-
-        if (GameEngine.isSpinning) return;
-
         e.stopPropagation();
 
-        if (isOpen()) {
-            closeMenu();
-        } else {
-            openMenu();
-        }
+        expanded ? closeMenu() : openMenu();
+
+        console.log("CHIP STATE:", container.className);
     });
 
-    // =========================
-    // CHIP SELECT (ONLY CONTROL CLOSE HERE)
-    // =========================
-    chips.forEach((chip) => {
+    // CHIP SELECT
+    chips.forEach(chip => {
 
         chip.addEventListener("click", (e) => {
-
             e.stopPropagation();
-
-            if (GameEngine.isSpinning) return;
 
             chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
@@ -102,21 +90,15 @@ function initChipSystem() {
                 element: chip
             };
 
-            // sound
-            if (GameEngine?.audio && GameEngine?.chipSound) {
-                GameEngine.audio.play(GameEngine.chipSound);
-            }
-
-            // update default text
-            const span = defaultChip.querySelector("span");
-            if (span) {
-                span.innerText = "$" + GameEngine.selectedChip.value;
-            }
-
-            // ONLY HERE CLOSE MENU (single source)
-            closeMenu();
+            console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
         });
     });
+
+    // OUTSIDE CLICK CLOSE
+    document.addEventListener("click", () => {
+        closeMenu();
+    });
+}
 
     // =========================
     // OUTSIDE CLICK (SAFE GUARD ONLY)
