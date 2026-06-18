@@ -159,17 +159,28 @@ function initChipSystem() {
     // =========================
     // DEFAULT CHIP TOGGLE (IMPORTANT)
     // =========================
-    defaultChip.addEventListener("click", (e) => {
+   defaultChip.addEventListener("click", (e) => {
 
-        e.stopPropagation();
+    e.stopPropagation();
 
-        console.log("DEFAULT CHIP CLICK");
+    console.log("DEFAULT CHIP CLICK");
 
-        container.classList.toggle("expanded");
-        container.classList.toggle("collapsed");
+    // ALWAYS TOGGLE CLEANLY (NO CONFLICT)
+    const isExpanded = container.classList.contains("expanded");
 
-        console.log(container.className);
-    });
+    if (isExpanded) {
+
+        container.classList.remove("expanded");
+        container.classList.add("collapsed");
+
+    } else {
+
+        container.classList.add("expanded");
+        container.classList.remove("collapsed");
+    }
+
+    console.log(container.className);
+});
 
     // =========================
     // CHIP SELECT
