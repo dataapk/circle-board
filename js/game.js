@@ -47,7 +47,7 @@ function initGame() {
 
     console.log("🚀 GAME INIT START");
 
-    attachWheelListener();   // wheel event
+    
     updateBalanceUI();       // UI sync
     setSpinButtonState(false);
 
