@@ -100,7 +100,7 @@ chips.forEach(chip => {
 document.addEventListener("click", () => {
     closeMenu();
 });
-}
+
 
 // ======================================================
 // 🎯 BOARD SYSTEM (SAFE)
