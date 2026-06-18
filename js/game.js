@@ -126,13 +126,6 @@ function initChipSystem() {
                 }
             }
 
-            // =========================
-            // 🔽 AUTO COLLAPSE AFTER SELECT (IMPORTANT FIX)
-            // =========================
-            closeMenu();
-
-        });
-    });
 
     // =========================
     // OUTSIDE CLICK CLOSE
