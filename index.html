@@ -1,145 +1,248 @@
-<!DOCTYPE html>
-<html lang="en">
+window.GameEngine = {
+    balance: 1000,
+    selectedChip: null,
+    bets: {},
+    isSpinning: false,
+    lastResult: null,
+    currentRotation: 0
+};
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* =========================
+   AUDIO SYSTEM
+========================= */
 
-    <title>Safiki Wheel</title>
+const AudioSystem = {
+    enabled: true,
+    chip: null,
+    spin: null,
+    table: null
+};
 
-    <link rel="stylesheet" href="css/wheel.css">
-</head>
+function initAudio() {
+    AudioSystem.chip = document.getElementById("chipSound");
+    AudioSystem.spin = document.getElementById("spinSound");
+    AudioSystem.table = document.getElementById("tableSound");
+}
 
-<body>
+function playSound(s) {
+    if (!AudioSystem.enabled || !s) return;
+    s.currentTime = 0;
+    s.play().catch(() => {});
+}
 
-<div class="game-container">
+function playChipSound() { playSound(AudioSystem.chip); }
+function playSpinSound() { playSound(AudioSystem.spin); }
+function playTableSound() { playSound(AudioSystem.table); }
 
-    <!-- =========================
-         💰 BALANCE SECTION
-    ========================== -->
-    <div class="balance-box">
-        <span>Balance</span>
-        <h2 id="balanceAmount">$1000.00</h2>
-    </div>
+/* =========================
+   UI
+========================= */
 
-    <!-- =========================
-         🎰 WHEEL SECTION
-    ========================== -->
-    <div class="wheel-wrapper">
+function updateBalanceUI() {
+    document.getElementById("balanceAmount").innerText =
+        "$" + GameEngine.balance.toFixed(2);
+}
 
-        <img id="pointer" class="pointer-img" src="assets/pointer.png" alt="Pointer">
+function setSpinButtonState(lock) {
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
 
-        <img id="wheel" class="wheel-img" src="assets/wheel.png" alt="Wheel">
+    btn.disabled = lock;
+    btn.style.opacity = lock ? "0.5" : "1";
+}
 
-        <div class="wheel-center-hub">
-            SAFIKI
-        </div>
-    </div>
-     
+/* =========================
+   BALANCE
+========================= */
 
-<!-- =========================
-     🎯 SYMBOL BET TABLE
-========================= -->
-<div class="symbol-table">
+function subtractBalance(amount) {
+    if (GameEngine.balance < amount) return false;
+    GameEngine.balance -= amount;
+    updateBalanceUI();
+    return true;
+}
 
-    <div class="symbol-box" data-symbol="heart">
-        <img src="assets/heart.png" alt="">
-        <span>Heart</span>
-    </div>
+/* =========================
+   CHIP SYSTEM
+========================= */
 
-    <div class="symbol-box" data-symbol="diamond">
-        <img src="assets/diamond.png" alt="">
-        <span>Diamond</span>
-    </div>
+function initChipSystem() {
 
-    <div class="symbol-box" data-symbol="club">
-        <img src="assets/club.png" alt="">
-        <span>Club</span>
-    </div>
+    const chips = document.querySelectorAll(".chip");
+    const defaultChip = document.querySelector(".default-chip");
+    const container = document.querySelector(".chips-container");
 
-    <div class="symbol-box" data-symbol="spade">
-        <img src="assets/spade.png" alt="">
-        <span>Spade</span>
-    </div>
+    let open = false;
 
-    <div class="symbol-box" data-symbol="crown">
-        <img src="assets/crown.png" alt="">
-        <span>Crown</span>
-    </div>
+    defaultChip.addEventListener("click", () => {
+        if (GameEngine.isSpinning) return;
 
-    <div class="symbol-box" data-symbol="flag">
-        <img src="assets/flag.png" alt="">
-        <span>Flag</span>
-    </div>
+        open = !open;
+        container.classList.toggle("expanded", open);
+        container.classList.toggle("collapsed", !open);
+    });
 
-</div>
+    chips.forEach(chip => {
+        chip.addEventListener("click", () => {
 
-<!-- =========================
-     🎮 SPIN BUTTON
-========================= -->
-<div class="spin-section">
-    <button id="spinBtn">
+            if (GameEngine.isSpinning) return;
 
-    <div class="wheel-icon"></div>
+            GameEngine.selectedChip = {
+                value: parseFloat(chip.dataset.value)
+            };
 
-    <span class="btn-text">SPIN</span>
+            defaultChip.querySelector("span").innerText =
+                "$" + GameEngine.selectedChip.value;
 
-</button>
-</div>
+            playChipSound();
 
-<!-- =========================
-     🪙 CHIPS SECTION (PRO iGaming)
-========================= -->
+            container.classList.add("collapsed");
+            container.classList.remove("expanded");
+            open = false;
+        });
+    });
+}
 
-<div class="chips-wrapper">
+/* =========================
+   TABLE SYSTEM
+========================= */
 
-    <div class="chips-container collapsed">
+function initTableSystem() {
 
-        <!-- DEFAULT CHIP (always visible trigger) -->
-        <div class="chip default-chip" data-value="0.10">
-            <img src="assets/chip_0.10c.png" alt="">
-            <span>$0.10</span>
-        </div>
+    document.querySelectorAll(".symbol-box").forEach(box => {
 
-        <div class="chip" data-value="0.20">
-            <img src="assets/chip_20c.png" alt="">
-            <span>$0.20</span>
-        </div>
+        box.addEventListener("click", () => {
 
-        <div class="chip" data-value="0.50">
-            <img src="assets/chip_50c.png" alt="">
-            <span>$0.50</span>
-        </div>
+            if (GameEngine.isSpinning) return;
+            if (!GameEngine.selectedChip) return;
 
-        <div class="chip" data-value="1">
-            <img src="assets/chip_1.png" alt="">
-            <span>$1</span>
-        </div>
+            const symbol = box.dataset.symbol;
+            const amount = GameEngine.selectedChip.value;
 
-        <div class="chip" data-value="2">
-            <img src="assets/chip_2.png" alt="">
-            <span>$2</span>
-        </div>
+            if (!subtractBalance(amount)) return;
 
-        <div class="chip" data-value="5">
-            <img src="assets/chip_5.png" alt="">
-            <span>$5</span>
-        </div>
+            GameEngine.bets[symbol] =
+                (GameEngine.bets[symbol] || 0) + amount;
 
-    </div>
+            const marker = document.createElement("div");
+            marker.className = "bet-marker";
+            marker.innerText = "$" + amount;
 
-</div> <!-- game-container -->
-    
-<!-- =========================
-     📜 SCRIPTS
-========================== -->
+            box.appendChild(marker);
 
-<audio id="chipSound" src="assets/chip.mp3"></audio>
-<audio id="spinSound" src="assets/spin.mp3"></audio>
-<audio id="tableSound" src="assets/table.mp3"></audio>
-<audio id="spinButtonSound" src="assets/spinbutton.mp3"></audio>
-<script src="js/gameEngine.js"></script>
-<script src="js/game.js"></script>
+            playTableSound();
 
-</body>
-</html>
+            console.log("BET:", GameEngine.bets);
+        });
+    });
+}
+
+/* =========================
+   SPIN SYSTEM
+========================= */
+
+function onSpinClick() {
+
+    if (GameEngine.isSpinning) return;
+    if (Object.keys(GameEngine.bets).length === 0) return;
+
+    GameEngine.isSpinning = true;
+
+    setSpinButtonState(true);
+    playSpinSound();
+
+    startWheelRotation();
+}
+
+/* =========================
+   WHEEL ENGINE
+========================= */
+
+function startWheelRotation() {
+
+    const wheel = document.getElementById("wheel");
+
+    if (!wheel) return;
+
+    const rotation = 1800 + Math.floor(Math.random() * 2000);
+
+    GameEngine.currentRotation += rotation;
+
+    wheel.style.transition = "transform 5s ease-out";
+    wheel.style.transform = `rotate(${GameEngine.currentRotation}deg)`;
+
+    wheel.addEventListener("transitionend", endWheel, { once: true });
+}
+
+function endWheel() {
+
+    const symbols = ["heart","diamond","club","spade","crown","flag"];
+
+    const index =
+        Math.floor((GameEngine.currentRotation % 360) / (360 / symbols.length));
+
+    const result = symbols[index];
+
+    GameEngine.lastResult = result;
+
+    resolvePayout(result);
+
+    GameEngine.isSpinning = false;
+
+    GameEngine.bets = {};
+
+    setSpinButtonState(false);
+
+    console.log("RESULT:", result);
+}
+
+/* =========================
+   PAYOUT
+========================= */
+
+const PAYOUT = {
+    heart: 2,
+    diamond: 2,
+    club: 2,
+    spade: 2,
+    crown: 3,
+    flag: 3
+};
+
+function resolvePayout(result) {
+
+    let win = 0;
+
+    for (let k in GameEngine.bets) {
+        if (k === result) {
+            win += GameEngine.bets[k] * (PAYOUT[k] || 0);
+        }
+    }
+
+    if (win > 0) {
+        GameEngine.balance += win;
+    }
+
+    updateBalanceUI();
+}
+
+/* =========================
+   INIT
+========================= */
+
+function initGame() {
+
+    initAudio();
+    initChipSystem();
+    initTableSystem();
+
+    updateBalanceUI();
+    setSpinButtonState(false);
+
+    document.getElementById("spinBtn")
+        .addEventListener("click", onSpinClick);
+
+    console.log("🚀 GAME READY");
+}
+
+document.addEventListener("DOMContentLoaded", initGame);
