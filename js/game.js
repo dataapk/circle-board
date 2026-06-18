@@ -153,6 +153,32 @@ function initChipSystem() {
         }
     });
 }
+    // =========================
+    // SPINB UTTON SYSTEM
+    // =========================
+function setSpinButtonState(state) {
+
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    const text = btn.querySelector(".btn-text");
+
+    if (state) {
+        // 🔒 LOCKED STATE
+        btn.disabled = true;
+        btn.style.opacity = "0.6";
+        btn.style.cursor = "not-allowed";
+
+        if (text) text.innerText = "LOCKED";
+    } else {
+        // 🎰 READY STATE
+        btn.disabled = false;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+
+        if (text) text.innerText = "SPIN";
+    }
+}
 
 /* =========================
    TABLE SYSTEM
