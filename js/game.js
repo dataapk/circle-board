@@ -87,27 +87,23 @@ function initChipSystem() {
 chips.forEach(chip => {
 
     chip.addEventListener("click", (e) => {
-        e.stopPropagation();
 
-        chips.forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
+    e.stopPropagation();
 
-        GameEngine.selectedChip = {
-            value: parseFloat(chip.dataset.value),
-            element: chip
-        };
+    chips.forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
 
-        // 🔊 CHIP SOUND (MISSING PART - FIXED)
-        if (GameEngine?.audio && GameEngine?.chipSound) {
-            GameEngine.audio.play(GameEngine.chipSound);
-        }
+    GameEngine.selectedChip = {
+        value: parseFloat(chip.dataset.value),
+        element: chip
+    };
 
-        console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
-    });
+    console.log("SELECTED CHIP:", GameEngine.selectedChip.value);
+
+    // 🔥 AUTO COLLAPSE AFTER SELECTION
+    closeMenu();
 });
-
-
-    ণ
+  
     // OUTSIDE CLICK CLOSE
 document.addEventListener("click", () => {
     closeMenu();
