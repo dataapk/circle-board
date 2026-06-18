@@ -145,18 +145,15 @@ function initChipSystem() {
     // =========================
     defaultChip.addEventListener("click", (e) => {
 
-        e.stopPropagation();
+    e.stopPropagation();
 
-        const isExpanded = container.classList.contains("expanded");
+    console.log("BEFORE TOGGLE:", container.className);
 
-        if (isExpanded) {
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-        } else {
-            container.classList.add("expanded");
-            container.classList.remove("collapsed");
-        }
-    });
+    container.classList.toggle("expanded");
+    container.classList.toggle("collapsed");
+
+    console.log("AFTER TOGGLE:", container.className);
+});
 
     // =========================
     // CHIP SELECT ONLY (NO COLLAPSE HERE)
