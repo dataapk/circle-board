@@ -252,6 +252,49 @@ function unlockGameUI() {
 
     btn.classList.remove("locked");
 }
+// ======================================================
+// 🔒 UI LOCK BETS
+// ======================================================
+  // 🔒 LOCK BET SYSTEM (chips + board click disable)
+function lockBets() {
+
+    console.log("🔒 BETS LOCKED");
+
+    // disable chip click
+    document.querySelectorAll(".chip").forEach(chip => {
+        chip.style.pointerEvents = "none";
+        chip.style.opacity = "0.5";
+    });
+
+    // optional: disable board click
+    document.querySelectorAll(".symbol-box").forEach(box => {
+        box.style.pointerEvents = "none";
+    });
+
+    // update engine state (optional but useful)
+    GameEngine.betsLocked = true;
+}
+
+
+// 🔓 UNLOCK BET SYSTEM
+function unlockBets() {
+
+    console.log("🔓 BETS UNLOCKED");
+
+    document.querySelectorAll(".chip").forEach(chip => {
+        chip.style.pointerEvents = "auto";
+        chip.style.opacity = "1";
+    });
+
+    document.querySelectorAll(".symbol-box").forEach(box => {
+        box.style.pointerEvents = "auto";
+    });
+
+    GameEngine.betsLocked = false;
+}
+// ======================================================
+// 🔒 UI LOCK
+// ======================================================
 
 // ======================================================
 // 🧹 RESET
