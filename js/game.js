@@ -431,30 +431,759 @@ function setAudioEnabled(state) {
    END:🔊 FULL AUDIO SYSTEM (PRO FINAL VERSION)
 ========================= */
 /* =========================
-   START: ADVANCED AUDIO CONTROL
+   🟢 STEP 1 — CHIP CLICK SYSTEM
+   (START)
 ========================= */
 
-let audioLock = false;
+function onChipClick(chip) {
 
-function playSafeSound(sound) {
+    // 🔒 BLOCK: prevent during spin
+    if (GameEngine.isSpinning) return;
 
-    if (!sound || audioLock) return;
+    // =========================
+    // 🎯 CHIP SELECT LOGIC
+    // =========================
 
-    audioLock = true;
+    GameEngine.selectedChip = {
+        value: parseFloat(chip.dataset.value),
+        element: chip
+    };
 
-    sound.currentTime = 0;
-    sound.play().catch(() => {});
+    // =========================
+    // 🔊 SOUND
+    // =========================
 
-    setTimeout(() => {
-        audioLock = false;
-    }, 100);
+    playChipSound(); // chip.mp3
+
+    // =========================
+    // 🎮 UI STATE
+    // =========================
+
+    document.querySelectorAll(".chip")
+        .forEach(c => c.classList.remove("active"));
+
+    chip.classList.add("active");
+
+    // =========================
+    // 🧠 DEBUG
+    // =========================
+
+    console.log(
+        "🎯 SELECTED CHIP:",
+        GameEngine.selectedChip.value
+    );
 }
 
 /* =========================
-   END: ADVANCED AUDIO CONTROL
+   🟢 STEP 1 END
 ========================= */
+/* =========================
+   🟡 STEP 2 — TABLE BET SYSTEM
+   (START)
+========================= */
+
+function placeBetOnTable(betKey) {
+
+    // 🔒 BLOCK: prevent during spin
+    if (GameEngine.isSpinning) return;
+
+    // =========================
+    // 🧠 REQUIRE CHECK
+    // =========================
+
+    if (!GameEngine.selectedChip) {
+        console.log("❌ NO CHIP SELECTED");
+        return;
+    }
+
+    const amount = GameEngine.selectedChip.value;
+
+    // =========================
+    // 💰 BALANCE CHECK + DEDUCT
+    // =========================
+
+    if (GameEngine.balance < amount) {
+        console.log("❌ NOT ENOUGH BALANCE");
+        return;
+    }
+
+    GameEngine.balance -= amount;
+
+    // =========================
+    // 🎯 STORE BET
+    // =========================
+
+    if (!GameEngine.bets[betKey]) {
+        GameEngine.bets[betKey] = 0;
+    }
+
+    GameEngine.bets[betKey] += amount;
+
+    // =========================
+    // 🔊 SOUNDS
+    // =========================
+
+    playChipSound();   // chip drop feel
+    playTableSound();  // table.mp3
+
+    // =========================
+    // 🎮 UI UPDATE
+    // =========================
+
+    updateBalanceUI();
+
+    // =========================
+    // 🧠 DEBUG
+    // =========================
+
+    console.log("💸 BET PLACED:", betKey, amount);
+    console.log("💰 BALANCE:", GameEngine.balance);
+}
+
+/* =========================
+   🟡 STEP 2 END
+========================= */
+/* =========================
+   🔴 STEP 3 — SPIN SYSTEM
+   (START)
+========================= */
+
+function onSpinClick() {
+
+    // 🔒 BLOCK: already spinning
+    if (GameEngine.isSpinning) return;
+
+    // =========================
+    // 🎯 REQUIREMENT CHECK
+    // =========================
+
+    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
+        console.log("❌ NO BETS PLACED");
+        return;
+    }
+
+    // =========================
+    // 🔒 LOCK GAME STATE
+    // =========================
+
+    GameEngine.isSpinning = true;
+
+    // =========================
+    // 🔊 SOUND — SPIN CLICK
+    // =========================
+
+    playSpinClickSound(); // spin.mp3
+
+    // =========================
+    // 🔒 LOCK UI / TABLE
+    // =========================
+
+    lockBoard(); 
+    setSpinButtonState(true);
+
+    // =========================
+    // 🎡 START WHEEL SOUND
+    // =========================
+
+    startWheelSound(); // wheel.mp3 loop
+
+    // =========================
+    // 🎡 START WHEEL LOGIC (ANIMATION HOOK)
+    // =========================
+
+    console.log("🎰 WHEEL STARTED");
+
+    startWheelRotation(); // ← animation function (UI side)
+}
+
+/* =========================
+   🔴 STEP 3 END
+========================= */
+/* =========================
+   🟣 STEP 4 — WHEEL STOP SYSTEM
+   (START)
+========================= */
+
+function onWheelStop(finalAngle) {
+
+    // =========================
+    // 🎡 CALCULATE RESULT
+    // =========================
+
+    const symbols = [
+        "heart",
+        "diamond",
+        "club",
+        "spade",
+        "crown",
+        "flag"
+    ];
+
+    const segmentSize = 360 / symbols.length;
+
+    const index = Math.floor((finalAngle % 360) / segmentSize);
+
+    const result = symbols[index];
+
+    GameEngine.lastResult = result;
+
+    console.log("🏁 RESULT:", result);
+
+    // =========================
+    // 🔊 STOP WHEEL SOUND
+    // =========================
+
+    stopWheelSound(); // wheel.mp3 stop
+
+    // =========================
+    // 💰 PAYOUT SYSTEM CALL
+    // =========================
+
+    resolvePayout(result);
+
+    // =========================
+    // 🔓 UNLOCK GAME STATE
+    // =========================
+
+    GameEngine.isSpinning = false;
+
+    unlockBoard();
+    setSpinButtonState(false);
+
+    // =========================
+    // 🧹 START NEW ROUND
+    // =========================
+
+    startNewRound();
+
+    console.log("✔ ROUND COMPLETED");
+}
+
+/* =========================
+   🟣 STEP 4 END
+========================= */
+/* =========================
+   🟢 STEP 5 — PAYOUT ENGINE
+   (START)
+========================= */
+
+const PAYOUT_TABLE = {
+    spade: 2,
+    heart: 2,
+    diamond: 2,
+    club: 2,
+    crown: 3,
+    flag: 3
+};
+
+// =========================
+// 💰 CALCULATE WIN
+// =========================
+
+function calculateWin(resultSymbol) {
+
+    let totalWin = 0;
+
+    for (const betKey in GameEngine.bets) {
+
+        const betAmount = GameEngine.bets[betKey];
+
+        if (betKey === resultSymbol) {
+
+            const multiplier = PAYOUT_TABLE[betKey] || 0;
+
+            totalWin += betAmount * multiplier;
+        }
+    }
+
+    return Math.round(totalWin * 100) / 100;
+}
+
+// =========================
+// 💰 APPLY WIN / LOSS
+// =========================
+
+function applyPayout(resultSymbol) {
+
+    const winAmount = calculateWin(resultSymbol);
+
+    if (winAmount > 0) {
+
+        GameEngine.balance += winAmount;
+
+        playWinSound(); // win.mp3
+
+        console.log("🏆 WIN:", winAmount);
+
+    } else {
+
+        playLoseSound(); // lose.mp3
+
+        console.log("❌ LOSS");
+    }
+
+    updateBalanceUI();
+
+    return winAmount;
+}
+
+// =========================
+// 🔄 RESET ROUND DATA
+// =========================
+
+function startNewRound() {
+
+    GameEngine.bets = {};
+    GameEngine.selectedChip = null;
+
+    console.log("🔄 NEW ROUND READY");
+}
+
+// =========================
+// 🎯 MAIN PAYOUT FLOW
+// =========================
+
+function resolvePayout(resultSymbol) {
+
+    const win = applyPayout(resultSymbol);
+
+    return win;
+}
+
+/* =========================
+   🟢 STEP 5 END
+========================= */
+/* =========================
+   🔒 STEP 6 — TABLE LOCK SYSTEM
+   (START)
+========================= */
+
+const GameLock = {
+
+    tableLocked: false,
+    chipLocked: false,
+    spinLocked: false
+};
+
+// =========================
+// 🔒 LOCK ALL INPUT
+// =========================
+
+function lockBoard() {
+
+    GameLock.tableLocked = true;
+    GameLock.chipLocked = true;
+
+    document.querySelectorAll(".chip").forEach(c => {
+        c.style.pointerEvents = "none";
+        c.style.opacity = "0.6";
+    });
+
+    console.log("🔒 BOARD LOCKED");
+}
+
+// =========================
+// 🔓 UNLOCK ALL INPUT
+// =========================
+
+function unlockBoard() {
+
+    GameLock.tableLocked = false;
+    GameLock.chipLocked = false;
+
+    document.querySelectorAll(".chip").forEach(c => {
+        c.style.pointerEvents = "auto";
+        c.style.opacity = "1";
+    });
+
+    console.log("🔓 BOARD UNLOCKED");
+}
+
+// =========================
+// 🎰 SPIN LOCK CHECK
+// =========================
+
+function canSpin() {
+
+    return (
+        !GameEngine.isSpinning &&
+        Object.keys(GameEngine.bets).length > 0
+    );
+}
+
+// =========================
+// 🧠 SAFE CLICK GUARD
+// =========================
+
+function safeClickGuard(callback) {
+
+    if (GameEngine.isSpinning) {
+        console.log("⛔ GAME LOCKED");
+        return;
+    }
+
+    if (typeof callback === "function") {
+        callback();
+    }
+}
+
+/* =========================
+   🔒 STEP 6 END
+========================= */
+/* =========================
+   🎡 STEP 7 — REAL SPIN ENGINE
+   (START)
+========================= */
+
+// =========================
+// 🎯 SPIN CONFIG
+// =========================
+
+const SpinEngine = {
+
+    duration: 5000, // total spin time
+    minRotation: 1800,
+    maxRotation: 3600,
+    easing: true
+};
+
+// =========================
+// 🎰 START SPIN ANIMATION
+// =========================
+
+function startWheelRotation() {
+
+    const wheel = document.getElementById("wheel");
+    if (!wheel) return;
+
+    const randomRotation =
+        SpinEngine.minRotation +
+        Math.floor(Math.random() * (SpinEngine.maxRotation));
+
+    const finalRotation =
+        GameEngine.currentRotation + randomRotation;
+
+    GameEngine.currentRotation = finalRotation;
+
+    wheel.style.transition =
+        `transform ${SpinEngine.duration}ms cubic-bezier(0.17, 0.67, 0.12, 0.99)`;
+
+    wheel.style.transform =
+        `rotate(${finalRotation}deg)`;
+
+    console.log("🎡 SPINNING...");
+}
+
+// =========================
+// 🛑 END SPIN EVENT
+// =========================
+
+function endWheelRotation() {
+
+    const normalized =
+        GameEngine.currentRotation % 360;
+
+    stopWheelSound();
+
+    // 🎯 trigger result
+    onWheelStop(GameEngine.currentRotation);
+
+    console.log("🏁 WHEEL STOPPED AT:", normalized);
+}
+
+// =========================
+// 🎯 AUTO DETECT END
+// =========================
+
+function attachWheelListener() {
+
+    const wheel = document.getElementById("wheel");
+
+    if (!wheel) return;
+
+    wheel.addEventListener("transitionend", () => {
+
+        endWheelRotation();
+    });
+}
+
+/* =========================
+   🎡 STEP 7 END
+========================= */
+/* =========================
+   🧠 STEP 8 — CONTROL LAYER
+   (START)
+========================= */
+
+// =========================
+// 🔒 GLOBAL SAFETY CHECK
+// =========================
+
+function canInteract() {
+
+    if (GameEngine.isSpinning) return false;
+
+    return true;
+}
+
+// =========================
+// 🎯 CHIP CLICK SAFE WRAPPER
+// =========================
+
+function safeChipClick(chip) {
+
+    if (!canInteract()) {
+        console.log("⛔ LOCKED");
+        return;
+    }
+
+    onChipClick(chip);
+}
+
+// =========================
+// 🎯 TABLE CLICK SAFE WRAPPER
+// =========================
+
+function safeTableClick(betKey) {
+
+    if (!canInteract()) {
+        console.log("⛔ LOCKED");
+        return;
+    }
+
+    placeBetOnTable(betKey);
+}
+
+// =========================
+// 🎰 SPIN SAFE WRAPPER
+// =========================
+
+function safeSpinClick() {
+
+    if (!canSpin()) {
+        console.log("⛔ CANNOT SPIN");
+        return;
+    }
+
+    onSpinClick();
+}
+
+// =========================
+// 🧹 EMERGENCY RESET (BUG FIX)
+// =========================
+
+function emergencyReset() {
+
+    GameEngine.isSpinning = false;
+    GameEngine.bets = {};
+    GameEngine.selectedChip = null;
+
+    unlockBoard();
+    setSpinButtonState(false);
+
+    stopWheelSound();
+
+    console.log("🚨 EMERGENCY RESET DONE");
+}
+
+// =========================
+// 🧠 STATE DEBUG CHECKER
+// =========================
+
+function debugGameState() {
+
+    console.log("========== GAME STATE ==========");
+
+    console.log("SPINNING:", GameEngine.isSpinning);
+    console.log("BALANCE:", GameEngine.balance);
+    console.log("BET:", GameEngine.bets);
+    console.log("CHIP:", GameEngine.selectedChip);
+
+    console.log("================================");
+}
+
+/* =========================
+   🧠 STEP 8 END
+========================= */
+/* =========================
+   🧩 STEP 9 — BACKEND HOOK LAYER
+   (START — OFF MODE READY)
+========================= */
+
+// =========================
+// 🌐 BACKEND CONFIG (DISABLED)
+// =========================
+
+const Backend = {
+
+    enabled: false, // 🔴 future use only
+
+    socket: null,
+    userId: null,
+
+    endpoints: {
+
+        bet: "/api/bet",
+        spin: "/api/spin",
+        result: "/api/result"
+    }
+};
+
+// =========================
+// 📡 SAFE EMIT FUNCTION
+// =========================
+
+function emitToServer(event, data) {
+
+    if (!Backend.enabled) {
+        console.log("📴 BACKEND OFF:", event);
+        return;
+    }
+
+    if (Backend.socket) {
+        Backend.socket.emit(event, data);
+    }
+}
+
+// =========================
+// 🎯 BET SYNC HOOK
+// =========================
+
+function syncBetToServer() {
+
+    emitToServer("PLACE_BET", {
+        balance: GameEngine.balance,
+        bets: GameEngine.bets
+    });
+}
+
+// =========================
+// 🎰 SPIN SYNC HOOK
+// =========================
+
+function syncSpinToServer() {
+
+    emitToServer("SPIN_START", {
+        bets: GameEngine.bets
+    });
+}
+
+// =========================
+// 🏁 RESULT SYNC HOOK
+// =========================
+
+function syncResultToServer(result) {
+
+    emitToServer("SPIN_RESULT", {
+        result: result,
+        balance: GameEngine.balance
+    });
+}
+
+// =========================
+// 🌐🔌 FUTURE INIT SOCKET (PLACEHOLDER)
+// =========================
+
+function initSocket() {
+
+    if (!Backend.enabled) return;
+
+    console.log("🌐 SOCKET INIT READY (FUTURE)");
+}
+
+/* =========================
+   🧩 STEP 9 END
+========================= */
+/* =========================
+   🏗️ STEP 10 — FINAL ARCHITECTURE WRAP
+   (START — PRO STRUCTURE CLEANUP)
+========================= */
+
+// ======================================================
+// 🎯 MASTER FLOW CONTROLLER (ONE ENTRY POINT)
+// ======================================================
+
+function GameFlow(action, payload) {
+
+    switch (action) {
+
+        case "CHIP_CLICK":
+            safeChipClick(payload);
+            break;
+
+        case "TABLE_CLICK":
+            safeTableClick(payload);
+            break;
+
+        case "SPIN_CLICK":
+            safeSpinClick();
+            break;
+
+        case "WHEEL_END":
+            onWheelStop(payload);
+            break;
+
+        default:
+            console.log("⚠ UNKNOWN ACTION:", action);
+    }
+}
+
+// ======================================================
+// 🎮 GLOBAL GAME INIT (SAFE START)
+// ======================================================
+
+function initGame() {
+
+    console.log("🚀 GAME INIT START");
+
+    loadGame();
+    updateBalanceUI();
+
+    attachWheelListener();
+
+    setSpinButtonState(false);
+
+    console.log("✔ GAME READY");
+}
+
+// ======================================================
+// 🧹 FULL SYSTEM RESET (EMERGENCY + NEW GAME)
+// ======================================================
+
+function fullReset() {
+
+    GameEngine.balance = 1000;
+    GameEngine.bets = {};
+    GameEngine.selectedChip = null;
+    GameEngine.isSpinning = false;
+    GameEngine.lastResult = null;
+
+    unlockBoard();
+    updateBalanceUI();
+    setSpinButtonState(false);
+
+    stopWheelSound();
+
+    console.log("♻️ FULL RESET COMPLETE");
+}
+
+// ======================================================
+// 🔥 GLOBAL SAFETY LAYER (FINAL GUARD)
+// ======================================================
+
+window.addEventListener("error", (e) => {
+
+    console.log("💥 SYSTEM ERROR CAUGHT:", e.message);
+
+    emergencyReset();
+});
+
+/* =========================
+   🏗️ STEP 10 END
+========================= */
+
 /* ============================================
-   🎰 TABLE LOCK SYSTEM START (FINAL PRO LEVEL)
+   🎰 START TABLE LOCK SYSTEM START (FINAL PRO LEVEL)
 ============================================== */
 
 /* =========================
