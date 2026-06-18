@@ -329,11 +329,10 @@ html, body {
     justify-content:center;
     align-items:center;
 }
-
-.chips-container{
-    position: relative;
-    width: 260px;
-    height: 90px;
+.chips-container.collapsed .chip:not(.default-chip){
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(.5);
 }
 
 /* DEFAULT CHIP */
@@ -349,32 +348,17 @@ html, body {
 }
 .chip {
     position: absolute;
-    width: 45px;
-    height: 45px;
-
-    left: 50%;
     top: 50%;
-
-    transform: translate(-50%, -50%);
-    transition: transform 0.35s ease, opacity 0.35s ease;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 1;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transition: all 0.3s ease;
 }
 
 /* COLLAPSED */
 
-.chips-container.collapsed .chip:not(.default-chip){
-
-    opacity:0;
-    pointer-events:none;
-
-    transform:
-        translate(-50%, -50%)
-        scale(.5);
+.chips-container.expanded .chip{
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
 }
 
 /* EXPANDED FAN */
@@ -402,11 +386,7 @@ html, body {
    STEP 4 — COLLAPSED SAFE
    ====================================== */
 
-.chips-container.collapsed .chip:not(.default-chip){
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(.5);
-}
+
 /* =================================
    ✨ GOLD CHIP GLOW EFFECT ANIMATRION
 ====================================== */
