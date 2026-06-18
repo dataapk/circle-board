@@ -157,7 +157,6 @@ function initChipSystem() {
 
         container.classList.toggle("expanded");
         container.classList.toggle("collapsed");
-        console.log(container.className);
 
     }
 );
