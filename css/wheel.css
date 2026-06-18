@@ -317,73 +317,58 @@ html, body {
 }
 
 
-/* ======================================================
-   🪙 BET MARKER (CASINO FINAL FIX)
-====================================================== */
+/* =========================
+   🪙 iGaming FAN CHIP MENU
+========================= */
 
-
-
-.chips-wrapper {
+.chips-wrapper{
     position: relative;
     width: 100%;
-    height: 160px;
+    height: 110px;
 
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-
-    overflow: visible;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-/* =========================
-   CONTAINER
-========================= */
-
-.chips-container {
+.chips-container{
     position: relative;
-    width: 100%;
+    width: 260px;
+    height: 90px;
 }
 
-/* =========================
-   COLLAPSED STATE (ROW)
-========================= */
+.chips-container .chip{
+    position:absolute;
 
-.chips-container.collapsed {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 10px;
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    transition:
+        all .35s ease;
+
+    z-index:1;
 }
 
-/* =========================
-   CHIP BASE (NO DRIFT FIX)
-========================= */
+/* DEFAULT CHIP */
 
-.chip {
-    width: 44px;
-    height: 44px;
-
-    border-radius: 50%;
-
-    cursor: pointer;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-
-    position: absolute;   /* 🔥 IMPORTANT FIX */
-    transform: none;
-
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+.default-chip{
+    z-index:20 !important;
 }
 
-/* =========================
-   CHIP IMAGE
-========================= */
+/* COLLAPSED */
 
+.chips-container.collapsed .chip:not(.default-chip){
+
+    opacity:0;
+    pointer-events:none;
+
+    transform:
+        translate(-50%, -50%)
+        scale(.5);
+}
 .chip img {
     width: 100%;
     height: 100%;
@@ -425,6 +410,11 @@ html, body {
 
 .chips-container.expanded .chip:nth-child(6){
     transform: translate(85px,-45px);
+}
+.chips-container.expanded .chip:not(.default-chip){
+
+    opacity:1;
+    pointer-events:auto;
 }
 /* =========================
    ACTIVE CHIP
