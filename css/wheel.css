@@ -364,8 +364,8 @@ html, body {
 .chip {
     position: absolute;
 
-    width: 36px !important;
-    height: 36px !important;
+    width: 45px !important;
+    height: 45px !important;
 
     left: 50%;
     top: 50%;
