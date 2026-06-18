@@ -53,7 +53,7 @@ function initChipSystem() {
 
     if (!container || !defaultChip) return;
 
-    function isExpanded() {
+    function isOpen() {
         return container.classList.contains("expanded");
     }
 
@@ -68,7 +68,7 @@ function initChipSystem() {
     }
 
     // =========================
-    // DEFAULT CHIP CLICK
+    // DEFAULT TOGGLE ONLY
     // =========================
     defaultChip.addEventListener("click", (e) => {
 
@@ -76,17 +76,15 @@ function initChipSystem() {
 
         e.stopPropagation();
 
-        if (isExpanded()) {
+        if (isOpen()) {
             closeMenu();
         } else {
             openMenu();
         }
-
-        console.log("STATE:", container.className);
     });
 
     // =========================
-    // CHIP SELECT
+    // CHIP SELECT (ONLY CONTROL CLOSE HERE)
     // =========================
     chips.forEach((chip) => {
 
@@ -104,7 +102,10 @@ function initChipSystem() {
                 element: chip
             };
 
-            console.log("SELECTED:", GameEngine.selectedChip.value);
+            // sound
+            if (GameEngine?.audio && GameEngine?.chipSound) {
+                GameEngine.audio.play(GameEngine.chipSound);
+            }
 
             // update default text
             const span = defaultChip.querySelector("span");
@@ -112,13 +113,13 @@ function initChipSystem() {
                 span.innerText = "$" + GameEngine.selectedChip.value;
             }
 
-            // always collapse after select
+            // ONLY HERE CLOSE MENU (single source)
             closeMenu();
         });
     });
 
     // =========================
-    // OUTSIDE CLICK FIX (IMPORTANT)
+    // OUTSIDE CLICK (SAFE GUARD ONLY)
     // =========================
     document.addEventListener("click", (e) => {
 
