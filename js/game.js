@@ -137,10 +137,17 @@ function initChipSystem() {
     // =========================
     // OUTSIDE CLICK CLOSE
     // =========================
-    document.addEventListener("click", () => {
+    document.addEventListener("click", (e) => {
+
+    const container = document.querySelector(".chips-container");
+
+    if (!container) return;
+
+    // 👉 ONLY close when clicking OUTSIDE chip system
+    if (!e.target.closest(".chips-container")) {
         closeMenu();
-    });
-}
+    }
+});
 
 // ======================================================
 // 🎯 BOARD SYSTEM (SAFE)
