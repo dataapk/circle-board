@@ -148,21 +148,19 @@ function initChipSystem() {
     // DEFAULT CHIP OPEN/CLOSE
 
     defaultChip.addEventListener(
-        "click",
-        (e) => {
+    "click",
+    (e) => {
 
-            e.stopPropagation();
+        e.stopPropagation();
 
-            container.classList.toggle(
-                "expanded"
-            );
+        console.log("DEFAULT CHIP CLICK");
 
-            container.classList.toggle(
-                "collapsed"
-            );
+        container.classList.toggle("expanded");
+        container.classList.toggle("collapsed");
+        console.log(container.className);
 
-        }
-    );
+    }
+);
 
     // CHIP SELECT
 
