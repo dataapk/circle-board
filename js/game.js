@@ -147,12 +147,16 @@ function initChipSystem() {
 
     e.stopPropagation();
 
-    console.log("BEFORE TOGGLE:", container.className);
+    console.log("1 BEFORE:", container.className);
 
-    container.classList.toggle("expanded");
-    container.classList.toggle("collapsed");
+    container.classList.add("expanded");
+    container.classList.remove("collapsed");
 
-    console.log("AFTER TOGGLE:", container.className);
+    console.log("2 AFTER:", container.className);
+
+    setTimeout(() => {
+        console.log("3 AFTER 200ms:", container.className);
+    }, 200);
 });
 
     // =========================
