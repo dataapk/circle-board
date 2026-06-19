@@ -108,12 +108,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     startGame();
 
-    // 🔥 FORCE CHIP INIT (IMPORTANT)
-    initChipSystem();
+    // 🔥 FORCE UI INIT (BYPASS GAME SKIP)
+    setTimeout(() => {
+        if (typeof initChipSystem === "function") {
+            console.log("🪙 CHIP UI INIT FORCED");
+            initChipSystem();
+        }
+    }, 0);
 
     console.log("🔗 SYSTEM READY");
 });
-
 
 // ======================================================
 // 🔊 AUDIO INIT (MUST BE OUTSIDE TRY BLOCK)
