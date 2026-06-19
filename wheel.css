@@ -391,50 +391,35 @@ html, body {
    🎰 CHIP CONTAINER
 ========================= */
 
-.chips-container {
-    position: relative;
+.chips-container{
+    position:relative;
 
-    width: 320px;
-    height: 140px;
+    width:320px;
+    height:160px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 12px;
-
-    overflow: visible;
-   margin-top: -18px;
+    overflow:visible;
 }
 
 /* =========================
    🪙 CHIP BASE STYLE
 ========================= */
 
-.chip {
-    width: 46px;
-    height: 46px;
+.chip{
+    position:absolute;
 
-    position: relative;
+    top:50%;
+    left:50%;
 
-    border-radius: 50%;
+    width:46px;
+    height:46px;
 
-    cursor: pointer;
+    transform:translate(-50%,-50%);
 
-    flex-shrink: 0;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    transition:all .35s ease;
 }
 
 /* =========================
@@ -480,7 +465,6 @@ html, body {
 ========================= */
 
 .chip.active {
-    transform: scale(1.15);
 
     box-shadow:
         0 0 12px var(--glow-gold-mid),
@@ -489,12 +473,35 @@ html, body {
     z-index: var(--z-top);
 }
 
-/* =========================
-   🎯 DEFAULT CHIP FIX
-========================= */
+.default-chip{
+    opacity:1 !important;
+    visibility:visible !important;
+    pointer-events:auto;
+    z-index:20;
+}
+.chips-container.expanded .chip{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+}
+.chips-container.expanded .chip:nth-child(2){
+    transform:translate(-120px,-20px);
+}
 
-.default-chip {
-    z-index: var(--z-ui);
+.chips-container.expanded .chip:nth-child(3){
+    transform:translate(-70px,-80px);
+}
+
+.chips-container.expanded .chip:nth-child(4){
+    transform:translate(0px,-110px);
+}
+
+.chips-container.expanded .chip:nth-child(5){
+    transform:translate(70px,-80px);
+}
+
+.chips-container.expanded .chip:nth-child(6){
+    transform:translate(120px,-20px);
 }
 
 /* ======================================================
