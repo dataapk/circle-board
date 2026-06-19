@@ -270,14 +270,11 @@ function resolvePayout(result) {
 // ======================================================
 
 function onSpinEnd(result) {
-
     console.log("🏁 SPIN END");
 
-    // 🔓 unlock UI first
-    unlockGameUI();
-
-    // 🔄 single source reset
-    startNewRound();
+    resolvePayout(result);   // payout first
+    startNewRound();         // THEN reset everything
+    unlockGameUI();          // last UI unlock
 
     console.log("✔ READY NEXT ROUND");
 }
