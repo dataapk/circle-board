@@ -242,18 +242,30 @@ function spinGame() {
 // 💰 START: PAYOUT ENGINE (MISSING FIX)
 // ======================================================
 
+// START: PAYOUT
 function resolvePayout(result) {
-
     console.log("💸 PAYOUT START:", result);
 
-    let winAmount = calculateWin(result);
+    let totalWin = 0;
 
-    if (winAmount > 0) {
-        onBalanceChanged(winAmount);   // 🔥 এখানেই কল হবে
+    for (let bet of gameState.bets) {
+        if (bet.type === result) {
+            const win = bet.amount * 2;
+            totalWin += win;
+        }
     }
+
+    gameState.balance += totalWin;
+
+    console.log("✔ WIN TOTAL:", totalWin);
+
+    gameState.bets = []; // RESET BETS
+
+    updateBalance();
 
     console.log("✔ PAYOUT COMPLETE");
 }
+// END: PAYOUT
 // ======================================================
 // 💰 END: PAYOUT ENGINE
 // ======================================================
