@@ -383,118 +383,110 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-
     margin-top: -20px;
 }
 
 /* =========================
-   🎰 CHIP CONTAINER
+   CHIP CONTAINER (IMPORTANT FIX)
 ========================= */
 
 .chips-container {
     position: relative;
-
     width: 320px;
-    height: 140px;
+    height: 160px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 12px;
+    display: block; /* ❗ REMOVE FLEX (IMPORTANT) */
 
     overflow: visible;
-   margin-top: -18px;
 }
 
 /* =========================
-   🪙 CHIP BASE STYLE
+   BASE CHIP STACK (ALL SAME POSITION)
 ========================= */
 
 .chip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
     width: 46px;
     height: 46px;
 
-    position: relative;
+    transform: translate(-50%, -50%) scale(0.9);
 
-    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
 
-    cursor: pointer;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: all 0.25s ease;
 
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+}
 
+/* =========================
+   DEFAULT CHIP ALWAYS VISIBLE
+========================= */
+
+.default-chip {
+    opacity: 1 !important;
+    pointer-events: auto;
+    z-index: 10;
+}
+
+/* =========================
+   EXPANDED STATE
+========================= */
+
+.chips-container.expanded .chip {
     opacity: 1;
-    visibility: visible;
     pointer-events: auto;
 }
 
 /* =========================
-   🖼 CHIP IMAGE
+   FAN LAYOUT (EXPANDED ONLY)
+========================= */
+
+.chips-container.expanded .chip:nth-child(2) {
+    transform: translate(-120px, -40px);
+}
+
+.chips-container.expanded .chip:nth-child(3) {
+    transform: translate(-70px, -90px);
+}
+
+.chips-container.expanded .chip:nth-child(4) {
+    transform: translate(-10px, -110px);
+}
+
+.chips-container.expanded .chip:nth-child(5) {
+    transform: translate(60px, -90px);
+}
+
+.chips-container.expanded .chip:nth-child(6) {
+    transform: translate(110px, -40px);
+}
+
+/* =========================
+   CHIP IMAGE
 ========================= */
 
 .chip img {
     width: 85%;
     height: 85%;
-
     object-fit: contain;
-
-    display: block;
-
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
-
     pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
 }
 
 /* =========================
-   🏷 CHIP LABEL
-========================= */
-
-.chip span {
-    position: absolute;
-    left: 50%;
-    bottom: -16px;
-
-    transform: translateX(-50%);
-
-    font-size: 10px;
-    color: var(--text-main);
-
-    white-space: nowrap;
-
-    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-}
-
-/* =========================
-   🔥 ACTIVE CHIP STATE
+   ACTIVE CHIP
 ========================= */
 
 .chip.active {
     transform: scale(1.15);
-
     box-shadow:
         0 0 12px var(--glow-gold-mid),
         0 0 22px var(--glow-gold-soft);
-
-    z-index: var(--z-top);
-}
-
-/* =========================
-   🎯 DEFAULT CHIP FIX
-========================= */
-
-.default-chip {
-    z-index: var(--z-ui);
+    z-index: 999;
 }
 
 /* ======================================================
