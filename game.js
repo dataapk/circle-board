@@ -231,39 +231,39 @@ function spinGame() {
 // ======================================================
 // 🛑🛑🛑 END: SPIN SYSTEM 🛑🛑🛑
 // ======================================================
+ function onBalanceChanged(amount) {
+    GameEngine.balance += amount;
+
+    console.log("💰 BALANCE UPDATED:", GameEngine.balance);
+
+    updateBalanceUI(GameEngine.balance); // যদি UI থাকে
+}
 // ======================================================
 // 💰 START: PAYOUT ENGINE (MISSING FIX)
 // ======================================================
 
 function resolvePayout(result) {
 
-    console.log("💰 PAYOUT START:", result);
+    console.log("💸 PAYOUT START:", result);
 
-    if (!GameEngine.bets) return;
+    let winAmount = calculateWin(result);
 
-    let totalWin = 0;
-
-    for (const symbol in GameEngine.bets) {
-
-        if (symbol === result) {
-            totalWin += GameEngine.bets[symbol] * 2; // simple multiplier
-        }
+    if (winAmount > 0) {
+        onBalanceChanged(winAmount);   // 🔥 এখানেই কল হবে
     }
 
-    GameEngine.balance += totalWin;
-
-    onBalanceChanged();
-
-    showResult(result);
-
-    playWinEffect();
-
-    onSpinEnd(result);
+    console.log("✔ PAYOUT COMPLETE");
 }
-
 // ======================================================
 // 💰 END: PAYOUT ENGINE
 // ======================================================
+function onBalanceChanged(amount) {
+    GameEngine.balance += amount;
+
+    console.log("💰 BALANCE UPDATED:", GameEngine.balance);
+
+    updateBalanceUI(GameEngine.balance); // যদি UI থাকে
+}
 
 // ======================================================
 // 🏁 START: SPIN END HANDLER (CLEAN)
