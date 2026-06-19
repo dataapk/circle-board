@@ -162,24 +162,25 @@ function initChipSystem() {
 // ======================================================
 // 🎯🎯🎯 START: BOARD SYSTEM 🎯🎯🎯
 // ======================================================
-function setupBoardSystem() {
+unction setupBoardSystem() {
 
-    const boxes = document.querySelectorAll(".symbol-box");
-
-    boxes.forEach(box => {
-        box.onclick = () => onTableClick(box);
+    document.querySelectorAll(".symbol-box").forEach(box => {
+        box.addEventListener("click", () => onTableClick(box));
     });
 }
 
 function onTableClick(box) {
 
-    if (!GameEngine.selectedChip) return;
     if (GameEngine.isSpinning) return;
+    if (!GameEngine.selectedChip) return;
 
     const symbol = box.dataset.symbol;
     const amount = GameEngine.selectedChip.value;
 
     if (!subtractBalance(amount)) return;
+
+    // 🔊 TABLE SOUND (ADD HERE)
+    GameEngine.audio.play(GameEngine.tableSound);
 
     addBet(symbol, amount);
     placeChipVisual(box, amount);
@@ -211,23 +212,43 @@ function setupSpinButton() {
     btn.addEventListener("click", spinGame);
 }
 
+
+// ==========================
+// 🚀 SPIN FLOW (FULL CONTROL)
+// ==========================
+
 function spinGame() {
 
     console.log("🔥 SPIN START REQUEST");
 
-    if (GameEngine.isSpinning) return;
-
-    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
-        console.log("❌ NO BETS");
+    // 🧠 1. already spinning check
+    if (GameEngine.isSpinning) {
+        console.log("❌ BLOCKED: already spinning");
         return;
     }
 
+    // 💰 2. bet validation
+    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
+        console.log("❌ NO BETS PLACED");
+        return;
+    }
+
+    // 🎰 3. SET ENGINE STATE
     GameEngine.isSpinning = true;
 
+    // 🔘 4. BUTTON SOUND (spin click)
+    GameEngine.audio.play(GameEngine.spinButtonSound);
+
+    // 🔒 5. LOCK FULL GAME UI
     lockGameUI();
 
+    // 🔊 6. SPIN SOUND START
+    GameEngine.audio.play(GameEngine.spinSound);
+
+    // 🎡 7. START WHEEL ANIMATION
     spinWheel();
 }
+
 // ======================================================
 // 🛑🛑🛑 END: SPIN SYSTEM 🛑🛑🛑
 // ======================================================
@@ -282,11 +303,18 @@ function onBalanceChanged(amount) {
 // ======================================================
 
 function onSpinEnd(result) {
+
     console.log("🏁 SPIN END");
 
-    resolvePayout(result);   // payout first
-    startNewRound();         // THEN reset everything
-    unlockGameUI();          // last UI unlock
+    resolvePayout(result);
+
+    resetWheelState();
+
+    resetBoardUI();
+
+    startNewRound();
+
+    unlockGameUI();
 
     console.log("✔ READY NEXT ROUND");
 }
@@ -403,12 +431,42 @@ function onSpinEnd(result) {
 // 🔒🔒🔒 START: UI LOCK SYSTEM 🔒🔒🔒
 // ======================================================
 function lockGameUI() {
+
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    GameEngine.state = "SPINNING";
     GameEngine.isSpinning = true;
+
+    btn.classList.add("locked");
+
+    const text = btn.querySelector(".btn-text");
+    const icon = btn.querySelector(".wheel-icon");
+
+    if (text) text.innerText = "LOCKED";
+    if (icon) icon.style.animation = "none";
+
+    console.log("🔒 GAME UI LOCKED");
+}
+function unlockGameUI() {
+
+    const btn = document.getElementById("spinBtn");
+    if (!btn) return;
+
+    GameEngine.state = "READY";
+    GameEngine.isSpinning = false;
+
+    btn.classList.remove("locked");
+
+    const text = btn.querySelector(".btn-text");
+    const icon = btn.querySelector(".wheel-icon");
+
+    if (text) text.innerText = "SPIN";
+    if (icon) icon.style.animation = "wheelSpin 1.2s linear infinite";
+
+    console.log("🔓 GAME UI UNLOCKED");
 }
 
-function unlockGameUI() {
-    GameEngine.isSpinning = false;
-}
 // ======================================================
 // 🛑🛑🛑 END: UI LOCK SYSTEM 🛑🛑🛑
 // ======================================================
@@ -423,8 +481,9 @@ function resetBoardUI() {
     GameEngine.bets = {};
     GameEngine.selectedChip = null;
 
-    document.querySelectorAll(".bet-marker")
-        .forEach(m => m.remove());
+    document.querySelectorAll(".bet-marker").forEach(m => m.remove());
+
+    console.log("🧹 BOARD RESET");
 }
 // ======================================================
 // 🛑🛑🛑 END: RESET SYSTEM 🛑🛑🛑
