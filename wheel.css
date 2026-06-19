@@ -388,12 +388,11 @@ html, body {
    🎰 CHIP CONTAINER
 ========================= */
 
-.chips-container.closed .default-chip{
-  position: absolute;
+.chips-container.closed .chip{
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
 }
 /* =========================
    🪙 CHIP BASE STYLE
@@ -409,6 +408,11 @@ html, body {
   display:flex;
   align-items:center;
   justify-content:center;
+}
+
+.chips-container.fan .chip{
+  opacity: 1;
+  transform: none;
 }
 
 /* =========================
