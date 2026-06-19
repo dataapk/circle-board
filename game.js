@@ -1,36 +1,3 @@
-/* =========================================================
-   🧠 GAME ENGINE (GLOBAL STATE)
-========================================================= */
-
-const GameEngine = {
-    balance: 1000,
-    bets: {},
-    selectedChip: null,
-    isSpinning: false,
-    currentRotation: 0,
-    lastResult: null
-};
-
-
-/* =========================================================
-   🔊 AUDIO SYSTEM (UPDATED)
-========================================================= */
-
-const AudioSystem = {
-    enabled: true,
-    chip: null,
-    spinButton: null,
-    table: null,
-    wheel: null
-};
-
-function initAudio() {
-    AudioSystem.chip = document.getElementById("chipSound");
-    AudioSystem.spinButton = document.getElementById("spinButtonSound"); // spin button click sound
-    AudioSystem.table = document.getElementById("tableSound");
-    AudioSystem.wheel = document.getElementById("wheelSound"); // wheel.mp3
-}
-
 /* =========================
    🔊 CORE PLAY FUNCTION
 ========================= */
