@@ -316,115 +316,8 @@ html, body {
         0 0 40px var(--glow-gold-soft);
 }
 
-
-
 /* =========================
-   🪙 CHIP WRAPPER
-========================= */
-
-.chips-wrapper {
-    position: relative;
-    width: 100%;
-    height: 200px !important;
-    overflow: visible !important;
-}
-
-/* =========================
-   🪙 CHIP CONTAINER
-========================= */
-
-.chips-container{
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* =========================
-   🪙 BASE CHIP STYLE
-========================= */
-
-.chip {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 46px;
-    height: 46px;
-
-    transform: translate(-50%, -50%);
-
-    opacity: 1;
-    visibility: visible;
-
-    z-index: 999;
-}
-
-/* =========================
-   ⭐ DEFAULT CHIP ALWAYS VISIBLE
-========================= */
-
-.default-chip{
-    opacity: 1 !important;
-    pointer-events: auto;
-    z-index: 50;
-}
-
-/* =========================
-   ❌ COLLAPSED STATE (ONLY DEFAULT SHOW)
-========================= */
-
-.chips-container.collapsed .chip:not(.default-chip){
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(0.5);
-}
-
-/* =========================
-   ✅ EXPANDED STATE (SHOW ALL)
-========================= */
-
-.chips-container.expanded .chip:nth-child(n){
-    transform: translate(-50%, -50%) !important;
-}
-/* =========================
-   🎯 FAN LAYOUT
-========================= */
-
-.chips-container.expanded .chip:nth-child(2){
-    transform: translate(-120px, -50px);
-}
-
-.chips-container.expanded .chip:nth-child(3){
-    transform: translate(-70px, -100px);
-}
-
-.chips-container.expanded .chip:nth-child(4){
-    transform: translate(-10px, -120px);
-}
-
-.chips-container.expanded .chip:nth-child(5){
-    transform: translate(60px, -100px);
-}
-
-.chips-container.expanded .chip:nth-child(6){
-    transform: translate(110px, -50px);
-}
-
-/* =========================
-   🖼 CHIP IMAGE
-========================= */
-
-.chip img{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-/* =========================
-   BET MARKER
+   💰 BET MARKER (CHIP DISPLAY ON BOX)
 ========================= */
 
 .bet-marker {
@@ -435,9 +328,11 @@ html, body {
     min-width: 24px;
     height: 24px;
 
+    padding: 2px 6px;
+
     border-radius: 50px;
 
-    background: #FFD700;
+    background: var(--gold);
     color: #000;
 
     font-size: 11px;
@@ -447,10 +342,169 @@ html, body {
     justify-content: center;
     align-items: center;
 
-    box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+    box-shadow: 0 0 10px var(--glow-gold-mid);
 
-    z-index: 999;
+    z-index: var(--z-ui);
 }
+
+
+
+
+/* ======================================================
+   🧱 START: APP SHELL / GAME WRAPPER LAYOUT
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   📐 START: RESPONSIVE GRID SYSTEM (GAME CANVAS)
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   🎯 START: SYMBOL TABLE / BETTING GRID ENGINE
+   ====================================================== */
+
+
+
+
+
+/* ======================================================
+   🪙 CHIP SYSTEM ENGINE (CASINO SELECTOR FIXED)
+====================================================== */
+
+.chips-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: -20px;
+}
+
+/* =========================
+   🎰 CHIP CONTAINER
+========================= */
+
+.chips-container {
+    position: relative;
+
+    width: 320px;
+    height: 140px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 12px;
+
+    overflow: visible;
+   margin-top: -18px;
+}
+
+/* =========================
+   🪙 CHIP BASE STYLE
+========================= */
+
+.chip {
+    width: 46px;
+    height: 46px;
+
+    position: relative;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* =========================
+   🖼 CHIP IMAGE
+========================= */
+
+.chip img {
+    width: 85%;
+    height: 85%;
+
+    object-fit: contain;
+
+    display: block;
+
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* =========================
+   🏷 CHIP LABEL
+========================= */
+
+.chip span {
+    position: absolute;
+    left: 50%;
+    bottom: -16px;
+
+    transform: translateX(-50%);
+
+    font-size: 10px;
+    color: var(--text-main);
+
+    white-space: nowrap;
+
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* =========================
+   🔥 ACTIVE CHIP STATE
+========================= */
+
+.chip.active {
+    transform: scale(1.15);
+
+    box-shadow:
+        0 0 12px var(--glow-gold-mid),
+        0 0 22px var(--glow-gold-soft);
+
+    z-index: var(--z-top);
+}
+
+/* =========================
+   🎯 DEFAULT CHIP FIX
+========================= */
+
+.default-chip {
+    z-index: var(--z-ui);
+}
+
+/* ======================================================
+   🪙 CHIP SYSTEM END
+====================================================== */
+
+
+
+
+
 /* ======================================================
    🎮 FINAL CASINO SPIN BUTTON (STABLE VERSION)
 ====================================================== */
