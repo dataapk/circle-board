@@ -38,6 +38,9 @@ function initChipSystem() {
     const chips = document.querySelectorAll(".chip");
     const defaultChip = document.querySelector(".default-chip");
 
+    // safety check
+    if (!container || !defaultChip || chips.length === 0) return;
+
     let open = false;
 
     defaultChip.addEventListener("click", () => {
@@ -59,8 +62,10 @@ function initChipSystem() {
                 value: parseFloat(chip.dataset.value)
             };
 
-            defaultChip.querySelector("span").innerText =
-                "$" + GameEngine.selectedChip.value;
+            const span = defaultChip.querySelector("span");
+            if (span) {
+                span.innerText = "$" + GameEngine.selectedChip.value;
+            }
 
             playChipSound();
 
@@ -70,8 +75,6 @@ function initChipSystem() {
         });
     });
 }
-
-
 /* =========================================================
    🎯 TABLE SYSTEM (BETTING)
 ========================================================= */
