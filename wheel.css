@@ -351,7 +351,7 @@ html, body {
    🪙 CHIP BASE POSITION (CENTER STACK)
 ========================= */
 
-.chip{
+.chip {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -361,8 +361,10 @@ html, body {
 
     transform: translate(-50%, -50%) scale(1);
 
+    opacity: 0;
+    pointer-events: none;
+
     transition: all 0.25s ease;
-    cursor: pointer;
 }
 
 /* =========================
@@ -380,11 +382,9 @@ html, body {
 ========================= */
 
 .chips-container.collapsed .chip:not(.default-chip){
-    opacity: 1 !important;
-    pointer-events: auto;
-    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+    pointer-events: none;
 }
-
 /* =========================
    ✅ EXPANDED STATE (FAN LAYOUT)
 ========================= */
@@ -420,8 +420,10 @@ html, body {
    ⭐ DEFAULT CHIP ALWAYS ON TOP
 ========================= */
 
-.default-chip{
-    z-index: 10;
+.default-chip {
+    opacity: 1 !important;
+    pointer-events: auto;
+    z-index: 50;
 }
 
 /* =========================
