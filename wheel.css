@@ -388,11 +388,10 @@ html, body {
    🎰 CHIP CONTAINER
 ========================= */
 
-.chips-container.closed .chip{
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0);
+.chips-container.closed .chip:not(.default-chip){
   opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
 }
 /* =========================
    🪙 CHIP BASE STYLE
