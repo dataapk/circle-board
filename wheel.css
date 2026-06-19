@@ -317,24 +317,23 @@ html, body {
 }
 
 
+
 /* =========================
-   🪙 CHIP WRAPPER (CENTER FIX)
+   🪙 CHIP WRAPPER
 ========================= */
 
 .chips-wrapper{
     position: relative;
     width: 100%;
-    height: 120px;
+    height: 140px;
 
     display: flex;
     justify-content: center;
     align-items: center;
-
-    margin-top: 10px;
 }
 
 /* =========================
-   🪙 CHIP CONTAINER BASE
+   🪙 CHIP CONTAINER
 ========================= */
 
 .chips-container{
@@ -348,10 +347,10 @@ html, body {
 }
 
 /* =========================
-   🪙 CHIP BASE POSITION (CENTER STACK)
+   🪙 BASE CHIP STYLE
 ========================= */
 
-.chip {
+.chip{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -364,29 +363,31 @@ html, body {
     opacity: 0;
     pointer-events: none;
 
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
 }
 
 /* =========================
-   🖼 CHIP IMAGE
+   ⭐ DEFAULT CHIP ALWAYS VISIBLE
 ========================= */
 
-.chip img{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+.default-chip{
+    opacity: 1 !important;
+    pointer-events: auto;
+    z-index: 50;
 }
 
 /* =========================
-   ❌ COLLAPSED STATE (ONLY DEFAULT VISIBLE)
+   ❌ COLLAPSED STATE (ONLY DEFAULT SHOW)
 ========================= */
 
 .chips-container.collapsed .chip:not(.default-chip){
     opacity: 0;
     pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.5);
 }
+
 /* =========================
-   ✅ EXPANDED STATE (FAN LAYOUT)
+   ✅ EXPANDED STATE (SHOW ALL)
 ========================= */
 
 .chips-container.expanded .chip{
@@ -394,7 +395,9 @@ html, body {
     pointer-events: auto;
 }
 
-/* FAN POSITIONS */
+/* =========================
+   🎯 FAN LAYOUT
+========================= */
 
 .chips-container.expanded .chip:nth-child(2){
     transform: translate(-120px, -50px);
@@ -417,24 +420,14 @@ html, body {
 }
 
 /* =========================
-   ⭐ DEFAULT CHIP ALWAYS ON TOP
+   🖼 CHIP IMAGE
 ========================= */
 
-.default-chip {
-    opacity: 1 !important;
-    pointer-events: auto;
-    z-index: 50;
+.chip img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
-
-/* =========================
-   ✨ ACTIVE CHIP
-========================= */
-
-.chip.active{
-    transform: translate(-50%, -50%) scale(1.2);
-    z-index: 20;
-}
-
 /* =========================
    BET MARKER
 ========================= */
