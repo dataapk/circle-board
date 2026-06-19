@@ -141,24 +141,22 @@ function initChipSystem() {
     const chips = document.querySelectorAll(".chip");
     const defaultChip = document.querySelector(".default-chip");
 
-    if (!container || !defaultChip) return;
+    if (!container || !defaultChip || chips.length === 0) return;
 
     let open = false;
 
-    // toggle expand
     defaultChip.addEventListener("click", () => {
         if (GameEngine.isSpinning) return;
 
         open = !open;
         container.classList.toggle("expanded", open);
+        container.classList.toggle("collapsed", !open);
     });
 
-    // chip select
     chips.forEach(chip => {
         if (chip.classList.contains("default-chip")) return;
 
         chip.addEventListener("click", () => {
-
             if (GameEngine.isSpinning) return;
 
             chips.forEach(c => c.classList.remove("active"));
@@ -168,13 +166,13 @@ function initChipSystem() {
                 value: parseFloat(chip.dataset.value)
             };
 
-            // update default display
-            defaultChip.querySelector("span")?.innerText =
-                "$" + GameEngine.selectedChip.value;
+            const span = defaultChip.querySelector("span");
+            if (span) {
+                span.innerText = "$" + GameEngine.selectedChip.value;
+            }
 
             playChipSound();
 
-            // AUTO COLLAPSE AFTER SELECT
             container.classList.remove("expanded");
             open = false;
         });
