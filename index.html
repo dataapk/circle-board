@@ -7,7 +7,8 @@
 
     <title>Safiki Wheel</title>
 
-    <link rel="stylesheet" href="css/wheel.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./wheel.css">
 </head>
 
 <body>
@@ -27,119 +28,76 @@
     ========================== -->
     <div class="wheel-wrapper">
 
-        <img id="pointer" class="pointer-img" src="assets/pointer.png" alt="Pointer">
+        <img id="pointer" class="pointer-img" src="./assets/pointer.png" alt="Pointer">
 
-        <img id="wheel" class="wheel-img" src="assets/wheel.png" alt="Wheel">
+        <img id="wheel" class="wheel-img" src="./assets/wheel.png" alt="Wheel">
 
-        <div class="wheel-center-hub">
-            SAFIKI
+        <div class="wheel-center-hub">SAFIKI</div>
+    </div>
+
+    <!-- =========================
+         🎯 SYMBOL TABLE
+    ========================== -->
+    <div class="symbol-table">
+
+        <div class="symbol-box" data-symbol="heart">
+            <img src="./assets/heart.png">
+            <span>Heart</span>
         </div>
-    </div>
-     
 
-<!-- =========================
-     🎯 SYMBOL BET TABLE
-========================= -->
-<div class="symbol-table">
+        <div class="symbol-box" data-symbol="diamond">
+            <img src="./assets/diamond.png">
+            <span>Diamond</span>
+        </div>
 
-    <div class="symbol-box" data-symbol="heart">
-        <img src="assets/heart.png" alt="">
-        <span>Heart</span>
-    </div>
+        <div class="symbol-box" data-symbol="club">
+            <img src="./assets/club.png">
+            <span>Club</span>
+        </div>
 
-    <div class="symbol-box" data-symbol="diamond">
-        <img src="assets/diamond.png" alt="">
-        <span>Diamond</span>
-    </div>
+        <div class="symbol-box" data-symbol="spade">
+            <img src="./assets/spade.png">
+            <span>Spade</span>
+        </div>
 
-    <div class="symbol-box" data-symbol="club">
-        <img src="assets/club.png" alt="">
-        <span>Club</span>
-    </div>
+        <div class="symbol-box" data-symbol="crown">
+            <img src="./assets/crown.png">
+            <span>Crown</span>
+        </div>
 
-    <div class="symbol-box" data-symbol="spade">
-        <img src="assets/spade.png" alt="">
-        <span>Spade</span>
-    </div>
+        <div class="symbol-box" data-symbol="flag">
+            <img src="./assets/flag.png">
+            <span>Flag</span>
+        </div>
 
-    <div class="symbol-box" data-symbol="crown">
-        <img src="assets/crown.png" alt="">
-        <span>Crown</span>
     </div>
 
-    <div class="symbol-box" data-symbol="flag">
-        <img src="assets/flag.png" alt="">
-        <span>Flag</span>
+    <!-- =========================
+         🎮 SPIN BUTTON
+    ========================== -->
+    <div class="spin-section">
+        <button id="spinBtn">
+            <div class="wheel-icon"></div>
+            <span class="btn-text">SPIN</span>
+        </button>
     </div>
 
 </div>
 
 <!-- =========================
-     🎮 SPIN BUTTON
+     🔊 AUDIO
 ========================= -->
-<div class="spin-section">
-    <button id="spinBtn">
-
-    <div class="wheel-icon"></div>
-
-    <span class="btn-text">SPIN</span>
-
-</button>
-</div>
+<audio id="chipSound" src="./assets/chip.mp3"></audio>
+<audio id="spinButtonSound" src="./assets/spinbutton.mp3"></audio>
+<audio id="tableSound" src="./assets/table.mp3"></audio>
+<audio id="wheelSound" src="./assets/wheel.mp3"></audio>
 
 <!-- =========================
-     🪙 CHIPS SECTION (PRO iGaming)
+     📜 SCRIPTS (IMPORTANT ORDER)
 ========================= -->
 
-<div class="chips-wrapper">
-
-    <div class="chips-container collapsed">
-
-        <!-- DEFAULT CHIP (always visible trigger) -->
-        <div class="chip default-chip" data-value="0.10">
-            <img src="assets/chip_0.10c.png" alt="">
-            <span>$0.10</span>
-        </div>
-
-        <div class="chip" data-value="0.20">
-            <img src="assets/chip_20c.png" alt="">
-            <span>$0.20</span>
-        </div>
-
-        <div class="chip" data-value="0.50">
-            <img src="assets/chip_50c.png" alt="">
-            <span>$0.50</span>
-        </div>
-
-        <div class="chip" data-value="1">
-            <img src="assets/chip_1.png" alt="">
-            <span>$1</span>
-        </div>
-
-        <div class="chip" data-value="2">
-            <img src="assets/chip_2.png" alt="">
-            <span>$2</span>
-        </div>
-
-        <div class="chip" data-value="5">
-            <img src="assets/chip_5.png" alt="">
-            <span>$5</span>
-        </div>
-
-    </div>
-
-</div> <!-- game-container -->
-    
-<!-- =========================
-     📜 SCRIPTS
-========================== -->
-
-<audio id="chipSound" src="assets/chip.mp3"></audio>
-<audio id="tableSound" src="assets/table.mp3"></audio>
-<audio id="wheelSound" src="assets/wheel.mp3"></audio>
-<audio id="spinButtonSound" src="assets/spinbutton.mp3"></audio>
-<script src="js/gameEngine.js"></script>
-<script src="js/game.js"></script>
+<script src="./gameEngine.js"></script>
+<script src="./game.js"></script>
 
 </body>
 </html>
