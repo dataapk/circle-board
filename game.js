@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     startGame();
 
     console.log("🔗 SYSTEMS CONNECTED");
-};
+});
 // ======================================================
 // 🔴 LOCK GAME UI)
 // ======================================================
