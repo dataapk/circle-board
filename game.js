@@ -171,20 +171,25 @@ function initChipSystem(){
 
     chip.addEventListener("click", () => {
 
-      openFan();
+  // 1. OPEN FAN FIRST
+  container.classList.remove("closed");
 
-      chips.forEach(c => c.classList.remove("active"));
-      chip.classList.add("active");
+  // 2. SET ACTIVE
+  chips.forEach(c => c.classList.remove("active"));
+  chip.classList.add("active");
 
-      const value = parseFloat(chip.dataset.value || 0);
+  // 3. UPDATE ENGINE
+  const value = parseFloat(chip.dataset.value || 0);
 
-      window.GameEngine = window.GameEngine || {};
-      window.GameEngine.selectedChip = { value };
+  window.GameEngine = window.GameEngine || {};
+  window.GameEngine.selectedChip = { value };
 
-      defaultChip.querySelector("span").innerText = "$" + value;
+  console.log("🪙 CHIP:", value);
 
-      setTimeout(() => closeFan(), 200);
-    });
+  // 4. update default display
+  defaultChip.querySelector("span").innerText = "$" + value;
+
+});
 
   });
 }
