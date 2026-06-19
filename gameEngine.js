@@ -110,6 +110,12 @@ document.addEventListener("DOMContentLoaded", () => {
         loadGame();
     }
 
+    // 🔥 ADD THIS (CRITICAL)
+    if (typeof initChipSystem === "function") {
+        console.log("🪙 INIT CHIP SYSTEM CALLED");
+        initChipSystem();
+    }
+
     console.log("🔗 SYSTEM READY");
 });
 
