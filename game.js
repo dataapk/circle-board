@@ -231,6 +231,60 @@ function spinGame() {
 // ======================================================
 // 🛑🛑🛑 END: SPIN SYSTEM 🛑🛑🛑
 // ======================================================
+// ======================================================
+// 💰 START: PAYOUT ENGINE (MISSING FIX)
+// ======================================================
+
+function resolvePayout(result) {
+
+    console.log("💰 PAYOUT START:", result);
+
+    if (!GameEngine.bets) return;
+
+    let totalWin = 0;
+
+    for (const symbol in GameEngine.bets) {
+
+        if (symbol === result) {
+            totalWin += GameEngine.bets[symbol] * 2; // simple multiplier
+        }
+    }
+
+    GameEngine.balance += totalWin;
+
+    onBalanceChanged();
+
+    showResult(result);
+
+    playWinEffect();
+
+    onSpinEnd(result);
+}
+
+// ======================================================
+// 💰 END: PAYOUT ENGINE
+// ======================================================
+
+// ======================================================
+// 💰 PAYEMNT SUCCESS AND RESET BOARD SYSTEM
+// ======================================================
+function onSpinEnd(result) {
+
+    console.log("🏁 SPIN END");
+
+    resetWheelState();
+
+    resetBoardUI();
+
+    startNewRound();
+
+    unlockGameUI();
+
+    console.log("✔ READY NEXT ROUND");
+}
+// ======================================================
+// 💰 PAYEMNT SUCCESS AND RESET BOARD SYSTEM
+// ======================================================
 
 
 
