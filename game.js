@@ -155,15 +155,16 @@ function initChipSystem() {
 
     if (GameEngine.isSpinning) return;
 
-    // TOGGLE EXPAND STATE (FORCE SAFE)
-    if (container.classList.contains("expanded")) {
-        container.classList.remove("expanded");
-        container.classList.add("collapsed");
-    } else {
+    const isExpanded = container.classList.contains("expanded");
+
+    if (!isExpanded) {
         container.classList.add("expanded");
         container.classList.remove("collapsed");
+        return;
     }
 
+    container.classList.remove("expanded");
+    container.classList.add("collapsed");
 });
 
     container.classList.remove("expanded");
