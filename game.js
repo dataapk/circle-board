@@ -285,6 +285,46 @@ function onSpinEnd(result) {
 // ======================================================
 // 💰 PAYEMNT SUCCESS AND RESET BOARD SYSTEM
 // ======================================================
+// ======================================================
+// 🔄 START: NEW ROUND RESET (FINAL)
+// ======================================================
+
+function startNewRound() {
+
+    console.log("🔄 NEW ROUND STARTING");
+
+    // 🧹 clear all bets
+    GameEngine.bets = {};
+
+    // 🪙 reset selected chip
+    GameEngine.selectedChip = null;
+
+    // 🏁 reset last result
+    GameEngine.lastResult = null;
+
+    // 🎯 reset game state
+    GameEngine.state = "READY";
+    GameEngine.isSpinning = false;
+
+    // 🧹 clear UI bet markers
+    document.querySelectorAll(".bet-marker").forEach(m => m.remove());
+
+    // 🎨 clear winning highlight
+    document.querySelectorAll(".symbol-box").forEach(box => {
+        box.classList.remove("winner");
+    });
+
+    // 📍 reset pointer effect
+    if (typeof resetPointer === "function") {
+        resetPointer();
+    }
+
+    console.log("✔ ROUND RESET COMPLETE");
+}
+
+// ======================================================
+// 🔄 END: NEW ROUND RESET
+// ======================================================
 
 
 
