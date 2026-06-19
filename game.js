@@ -143,21 +143,51 @@ function initChipSystem() {
 
     if (!container || !defaultChip || chips.length === 0) return;
 
-    let open = false;
+    let expanded = false;
+    let firstOpenDone = false;
 
+    // DEFAULT TO COLLAPSED
+    container.classList.add("collapsed");
+    container.classList.remove("expanded");
+
+    // 1) DEFAULT CHIP CLICK → ONLY EXPAND FIRST TIME
     defaultChip.addEventListener("click", () => {
+
         if (GameEngine.isSpinning) return;
 
-        open = !open;
-        container.classList.toggle("expanded", open);
-        container.classList.toggle("collapsed", !open);
+        // FIRST CLICK = EXPAND ONLY
+        if (!firstOpenDone) {
+            container.classList.add("expanded");
+            container.classList.remove("collapsed");
+
+            expanded = true;
+            firstOpenDone = true;
+            return; // IMPORTANT: NO SELECTION
+        }
+
+        // AFTER FIRST OPEN → TOGGLE
+        expanded = !expanded;
+
+        if (expanded) {
+            container.classList.add("expanded");
+            container.classList.remove("collapsed");
+        } else {
+            container.classList.remove("expanded");
+            container.classList.add("collapsed");
+        }
     });
 
+    // 2) CHIP SELECTION
     chips.forEach(chip => {
+
         if (chip.classList.contains("default-chip")) return;
 
         chip.addEventListener("click", () => {
+
             if (GameEngine.isSpinning) return;
+
+            // MUST BE EXPANDED TO SELECT
+            if (!expanded) return;
 
             chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
@@ -173,8 +203,11 @@ function initChipSystem() {
 
             playChipSound();
 
+            // AUTO COLLAPSE AFTER SELECT
             container.classList.remove("expanded");
-            open = false;
+            container.classList.add("collapsed");
+
+            expanded = false;
         });
     });
 }
