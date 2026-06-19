@@ -390,18 +390,14 @@ html, body {
    CHIP CONTAINER (IMPORTANT FIX)
 ========================= */
 
-.chips-container {
+.chips-container{
     position: relative;
     width: 320px;
     height: 160px;
-
-    display: block; /* ❗ REMOVE FLEX (IMPORTANT) */
-
-    overflow: visible;
 }
 
 /* =========================
-   BASE CHIP STACK (ALL SAME POSITION)
+   BASE STATE = ALL STACKED (IMPORTANT)
 ========================= */
 
 .chip {
@@ -412,15 +408,15 @@ html, body {
     width: 46px;
     height: 46px;
 
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: translate(-50%, -50%) scale(0.7);
 
     opacity: 0;
     pointer-events: none;
 
-    transition: all 0.25s ease;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.25s ease;
 
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
+    will-change: transform;
 }
 
 /* =========================
@@ -430,11 +426,12 @@ html, body {
 .default-chip {
     opacity: 1 !important;
     pointer-events: auto;
-    z-index: 10;
+    z-index: 20;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 /* =========================
-   EXPANDED STATE
+   EXPANDED STATE ENABLE
 ========================= */
 
 .chips-container.expanded .chip {
@@ -443,27 +440,27 @@ html, body {
 }
 
 /* =========================
-   FAN LAYOUT (EXPANDED ONLY)
+   FAN ANIMATION (RESTORED STYLE)
 ========================= */
 
 .chips-container.expanded .chip:nth-child(2) {
-    transform: translate(-120px, -40px);
+    transform: translate(-120px, -20px) scale(1);
 }
 
 .chips-container.expanded .chip:nth-child(3) {
-    transform: translate(-70px, -90px);
+    transform: translate(-80px, -80px) scale(1);
 }
 
 .chips-container.expanded .chip:nth-child(4) {
-    transform: translate(-10px, -110px);
+    transform: translate(0px, -110px) scale(1);
 }
 
 .chips-container.expanded .chip:nth-child(5) {
-    transform: translate(60px, -90px);
+    transform: translate(80px, -80px) scale(1);
 }
 
 .chips-container.expanded .chip:nth-child(6) {
-    transform: translate(110px, -40px);
+    transform: translate(120px, -20px) scale(1);
 }
 
 /* =========================
