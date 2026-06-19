@@ -106,15 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     initAudio();
 
-    if (typeof loadGame === "function") {
-        loadGame();
-    }
+    startGame();
 
-    // 🔥 ADD THIS (CRITICAL)
-    if (typeof initChipSystem === "function") {
-        console.log("🪙 INIT CHIP SYSTEM CALLED");
-        initChipSystem();
-    }
+    // 🔥 FORCE CHIP INIT (IMPORTANT)
+    initChipSystem();
 
     console.log("🔗 SYSTEM READY");
 });
