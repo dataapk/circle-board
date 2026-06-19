@@ -162,7 +162,7 @@ function initChipSystem() {
 // ======================================================
 // 🎯🎯🎯 START: BOARD SYSTEM 🎯🎯🎯
 // ======================================================
-unction setupBoardSystem() {
+function setupBoardSystem() {
 
     document.querySelectorAll(".symbol-box").forEach(box => {
         box.addEventListener("click", () => onTableClick(box));
