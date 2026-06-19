@@ -329,10 +329,11 @@ html, body {
     justify-content:center;
     align-items:center;
 }
-.chips-container.collapsed .chip:not(.default-chip){
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(.5);
+.chips-container.expanded .chip {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+    transition: 0.25s ease;
 }
 
 /* DEFAULT CHIP */
