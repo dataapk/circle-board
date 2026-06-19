@@ -43,10 +43,15 @@ function initChipSystem() {
 
     let open = false;
 
+    // 🚨 FIX: force initial state (IMPORTANT)
+    container.classList.add("collapsed");
+    container.classList.remove("expanded");
+
     defaultChip.addEventListener("click", () => {
         if (GameEngine.isSpinning) return;
 
         open = !open;
+
         container.classList.toggle("expanded", open);
         container.classList.toggle("collapsed", !open);
     });
@@ -62,16 +67,8 @@ function initChipSystem() {
                 value: parseFloat(chip.dataset.value)
             };
 
-            const span = defaultChip.querySelector("span");
-            if (span) {
-                span.innerText = "$" + GameEngine.selectedChip.value;
-            }
-
-            playChipSound();
-
-            container.classList.add("collapsed");
-            container.classList.remove("expanded");
-            open = false;
+            defaultChip.querySelector("span").innerText =
+                "$" + GameEngine.selectedChip.value;
         });
     });
 }
