@@ -1,32 +1,3 @@
-/* =========================
-   🔊 CORE PLAY FUNCTION
-========================= */
-
-function playSound(s) {
-    if (!AudioSystem.enabled || !s) return;
-    s.currentTime = 0;
-    s.play().catch(() => {});
-}
-
-/* =========================
-   🎵 SOUND HELPERS
-========================= */
-
-const playChipSound = () => playSound(AudioSystem.chip);
-
-const playSpinButtonSound = () => playSound(AudioSystem.spinButton);
-
-const playTableSound = () => playSound(AudioSystem.table);
-
-const startWheelSound = () => playSound(AudioSystem.wheel);
-
-function stopWheelSound() {
-    if (!AudioSystem.wheel) return;
-    AudioSystem.wheel.pause();
-    AudioSystem.wheel.currentTime = 0;
-}
-
-
 /* =========================================================
    🎯 UI SYSTEM
 ========================================================= */
