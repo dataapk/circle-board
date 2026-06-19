@@ -139,88 +139,56 @@ function unlockGameUI() {
 // 🪙 CHIP SYSTEM ENGINE
 // =========================
 
-function initChipSystem() {
+function initChipSystem(){
 
   const container = document.querySelector(".chips-container");
   const chips = document.querySelectorAll(".chip");
   const defaultChip = document.querySelector(".default-chip");
 
-  if (!container || !defaultChip || chips.length === 0) return;
+  let open = false;
 
-  // DEFAULT STATE = COLLAPSED
-  container.classList.add("collapsed");
-
-  let isOpen = false;
-
-  // =========================
-  // OPEN / CLOSE TOGGLE
-  // =========================
-
-  function openFan() {
-    container.classList.remove("collapsed");
-    isOpen = true;
+  function openFan(){
+    container.classList.remove("closed");
+    open = true;
   }
 
-  function closeFan() {
-    container.classList.add("collapsed");
-    isOpen = false;
+  function closeFan(){
+    container.classList.add("closed");
+    open = false;
   }
-
-  // =========================
-  // DEFAULT CHIP CLICK → OPEN
-  // =========================
 
   defaultChip.addEventListener("click", () => {
-
-    if (window.GameEngine?.isSpinning) return;
-
-    if (!isOpen) {
+    if(!open){
       openFan();
-    } else {
+    }else{
       closeFan();
     }
   });
 
-  // =========================
-  // CHIP SELECTION
-  // =========================
-
   chips.forEach(chip => {
 
-    if (chip.classList.contains("default-chip")) return;
+    if(chip.classList.contains("default-chip")) return;
 
     chip.addEventListener("click", () => {
 
-      if (window.GameEngine?.isSpinning) return;
-
-      // ensure open
       openFan();
 
-      // active state
       chips.forEach(c => c.classList.remove("active"));
       chip.classList.add("active");
 
-      const value = parseFloat(chip.dataset.value || "0");
+      const value = parseFloat(chip.dataset.value || 0);
 
-      // update engine
       window.GameEngine = window.GameEngine || {};
       window.GameEngine.selectedChip = { value };
 
-      // update default display
-      const span = defaultChip.querySelector("span");
-      if (span) span.innerText = "$" + value;
+      defaultChip.querySelector("span").innerText = "$" + value;
 
-      // close after selection
-      setTimeout(() => {
-        closeFan();
-      }, 250);
-
+      setTimeout(() => closeFan(), 200);
     });
-  });
 
+  });
 }
 
-// INIT CALL
 initChipSystem();
 // ======================================================
 // END: CHIP SECTION
