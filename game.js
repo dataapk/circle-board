@@ -138,68 +138,60 @@ function unlockGameUI() {
 
 function initChipSystem() {
 
-    const container = document.querySelector(".chips-container");
-    const chips = document.querySelectorAll(".chip");
-    const defaultChip = document.querySelector(".default-chip");
+  const container = document.querySelector(".chips-container");
+  const chips = document.querySelectorAll(".chip");
+  const defaultChip = document.querySelector(".default-chip");
 
-    if (!container || !defaultChip || chips.length === 0) return;
+  if (!container || !defaultChip || chips.length === 0) return;
 
-    // FORCE INITIAL STATE
-    container.classList.add("collapsed");
-    container.classList.remove("expanded");
+  let expanded = false;
+  let firstClick = false;
 
-    // =========================
-    // 1) TOGGLE EXPAND / COLLAPSE
-    // =========================
-    defaultChip.addEventListener("click", () => {
+  defaultChip.addEventListener("click", () => {
 
-        if (GameEngine.isSpinning) return;
+    if (window.GameEngine?.isSpinning) return;
 
-        const isExpanded = container.classList.contains("expanded");
+    // FIRST OPEN ONLY
+    if (!firstClick) {
+      container.classList.add("expanded");
+      container.classList.remove("collapsed");
+      expanded = true;
+      firstClick = true;
+      return;
+    }
 
-        if (!isExpanded) {
-            container.classList.add("expanded");
-            container.classList.remove("collapsed");
-        } else {
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-        }
+    // TOGGLE AFTER FIRST OPEN
+    expanded = !expanded;
+
+    container.classList.toggle("expanded", expanded);
+    container.classList.toggle("collapsed", !expanded);
+  });
+
+  chips.forEach(chip => {
+
+    if (chip.classList.contains("default-chip")) return;
+
+    chip.addEventListener("click", () => {
+
+      if (!container.classList.contains("expanded")) return;
+
+      chips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+
+      const value = parseFloat(chip.dataset.value || "0");
+
+      window.GameEngine = window.GameEngine || {};
+      window.GameEngine.selectedChip = { value };
+
+      const span = defaultChip.querySelector("span");
+      if (span) span.innerText = "$" + value;
+
+      container.classList.remove("expanded");
+      container.classList.add("collapsed");
+
+      expanded = false;
     });
-
-    // =========================
-    // 2) CHIP SELECTION
-    // =========================
-    chips.forEach(chip => {
-
-        if (chip.classList.contains("default-chip")) return;
-
-        chip.addEventListener("click", () => {
-
-            if (GameEngine.isSpinning) return;
-
-            if (!container.classList.contains("expanded")) return;
-
-            chips.forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
-
-            GameEngine.selectedChip = {
-                value: parseFloat(chip.dataset.value)
-            };
-
-            const span = defaultChip.querySelector("span");
-            if (span) {
-                span.innerText = "$" + GameEngine.selectedChip.value;
-            }
-
-            playChipSound();
-
-            // AUTO COLLAPSE AFTER SELECT
-            container.classList.remove("expanded");
-            container.classList.add("collapsed");
-
-            GameEngine.isChipSelected = true;
-        });
-    });
+  });
 }
 // ======================================================
 // END: CHIP SECTION
