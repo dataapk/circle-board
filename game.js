@@ -135,6 +135,9 @@ function unlockGameUI() {
 // ======================================================
 // 🪙 START: CHIP SECTION
 // ======================================================
+// =========================
+// 🪙 CHIP SYSTEM ENGINE
+// =========================
 
 function initChipSystem() {
 
@@ -144,28 +147,43 @@ function initChipSystem() {
 
   if (!container || !defaultChip || chips.length === 0) return;
 
-  let expanded = false;
-  let firstClick = false;
+  // DEFAULT STATE = COLLAPSED
+  container.classList.add("collapsed");
+
+  let isOpen = false;
+
+  // =========================
+  // OPEN / CLOSE TOGGLE
+  // =========================
+
+  function openFan() {
+    container.classList.remove("collapsed");
+    isOpen = true;
+  }
+
+  function closeFan() {
+    container.classList.add("collapsed");
+    isOpen = false;
+  }
+
+  // =========================
+  // DEFAULT CHIP CLICK → OPEN
+  // =========================
 
   defaultChip.addEventListener("click", () => {
 
     if (window.GameEngine?.isSpinning) return;
 
-    // FIRST OPEN ONLY
-    if (!firstClick) {
-      container.classList.add("expanded");
-      container.classList.remove("collapsed");
-      expanded = true;
-      firstClick = true;
-      return;
+    if (!isOpen) {
+      openFan();
+    } else {
+      closeFan();
     }
-
-    // TOGGLE AFTER FIRST OPEN
-    expanded = !expanded;
-
-    container.classList.toggle("expanded", expanded);
-    container.classList.toggle("collapsed", !expanded);
   });
+
+  // =========================
+  // CHIP SELECTION
+  // =========================
 
   chips.forEach(chip => {
 
@@ -173,26 +191,37 @@ function initChipSystem() {
 
     chip.addEventListener("click", () => {
 
-      if (!container.classList.contains("expanded")) return;
+      if (window.GameEngine?.isSpinning) return;
 
+      // ensure open
+      openFan();
+
+      // active state
       chips.forEach(c => c.classList.remove("active"));
       chip.classList.add("active");
 
       const value = parseFloat(chip.dataset.value || "0");
 
+      // update engine
       window.GameEngine = window.GameEngine || {};
       window.GameEngine.selectedChip = { value };
 
+      // update default display
       const span = defaultChip.querySelector("span");
       if (span) span.innerText = "$" + value;
 
-      container.classList.remove("expanded");
-      container.classList.add("collapsed");
+      // close after selection
+      setTimeout(() => {
+        closeFan();
+      }, 250);
 
-      expanded = false;
     });
   });
+
 }
+
+// INIT CALL
+initChipSystem();
 // ======================================================
 // END: CHIP SECTION
 // ======================================================
