@@ -380,9 +380,9 @@ html, body {
 ========================= */
 
 .chips-container.collapsed .chip:not(.default-chip){
-    opacity: 0;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1 !important;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 /* =========================
