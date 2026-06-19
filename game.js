@@ -137,42 +137,47 @@ function unlockGameUI() {
 // ======================================================
 
 function initChipSystem() {
-
+    const container = document.querySelector(".chips-container");
     const chips = document.querySelectorAll(".chip");
+    const defaultChip = document.querySelector(".default-chip");
 
-    if (!chips.length) {
-        console.log("❌ No chips found");
-        return;
-    }
+    if (!container || !defaultChip) return;
 
-    chips.forEach((chip) => {
+    let open = false;
 
-        chip.addEventListener("click", (e) => {
+    // toggle expand
+    defaultChip.addEventListener("click", () => {
+        if (GameEngine.isSpinning) return;
 
-            e.stopPropagation();
+        open = !open;
+        container.classList.toggle("expanded", open);
+    });
 
-            // 🔊 CHIP SOUND (ONLY ONCE - FIXED)
-            GameEngine.audio.play(GameEngine.chipSound);
+    // chip select
+    chips.forEach(chip => {
+        if (chip.classList.contains("default-chip")) return;
 
-            // 🧠 ACTIVE STATE ONLY
-            chips.forEach(c =>
-                c.classList.remove("active")
-            );
+        chip.addEventListener("click", () => {
 
+            if (GameEngine.isSpinning) return;
+
+            chips.forEach(c => c.classList.remove("active"));
             chip.classList.add("active");
 
-            // 💰 STORE VALUE ONLY
             GameEngine.selectedChip = {
-                value: parseFloat(chip.getAttribute("data-value")),
-                element: chip
+                value: parseFloat(chip.dataset.value)
             };
 
-            console.log(
-                "🪙 CHIP:",
-                GameEngine.selectedChip.value
-            );
-        });
+            // update default display
+            defaultChip.querySelector("span")?.innerText =
+                "$" + GameEngine.selectedChip.value;
 
+            playChipSound();
+
+            // AUTO COLLAPSE AFTER SELECT
+            container.classList.remove("expanded");
+            open = false;
+        });
     });
 }
 // ======================================================
