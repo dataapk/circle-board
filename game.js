@@ -145,14 +145,23 @@ function initChipSystem() {
   const chips = document.querySelectorAll(".chip");
   const defaultChip = document.querySelector(".default-chip");
 
-  if (!container || !defaultChip) return;
+  if (!container || !defaultChip || chips.length === 0) return;
 
   let isOpen = false;
 
   // =========================
+  // RESET STATE (SAFETY)
+  // =========================
+  container.classList.add("closed");
+  container.classList.remove("fan");
+
+  // =========================
   // DEFAULT CHIP → ONLY OPEN FAN
   // =========================
-  defaultChip.addEventListener("click", () => {
+  defaultChip.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    if (window.GameEngine?.isSpinning) return;
 
     isOpen = !isOpen;
 
@@ -170,39 +179,42 @@ function initChipSystem() {
   // =========================
   chips.forEach(chip => {
 
+    // ❗ IMPORTANT: skip default chip fully
     if (chip.classList.contains("default-chip")) return;
 
-    chip.addEventListener("click", () => {
+    chip.addEventListener("click", (e) => {
+      e.stopPropagation();
 
       if (!container.classList.contains("fan")) return;
 
-      // select chip
+      // SELECT CHIP
       chips.forEach(c => c.classList.remove("active"));
       chip.classList.add("active");
 
-      const value = parseFloat(chip.dataset.value || 0);
+      const value = parseFloat(chip.dataset.value || "0");
 
       window.GameEngine = window.GameEngine || {};
       window.GameEngine.selectedChip = { value };
 
       console.log("🪙 CHIP:", value);
 
-      // update default display
-      defaultChip.querySelector("span").innerText = "$" + value;
+      // UPDATE DEFAULT DISPLAY
+      const span = defaultChip.querySelector("span");
+      if (span) span.innerText = "$" + value;
 
-      // close fan after selection
+      // CLOSE FAN AFTER SELECT
       setTimeout(() => {
         container.classList.add("closed");
         container.classList.remove("fan");
         isOpen = false;
-      }, 200);
+      }, 180);
 
     });
-
   });
 
 }
 
+// INIT
 initChipSystem();
 // ======================================================
 // END: CHIP SECTION
