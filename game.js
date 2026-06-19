@@ -13,21 +13,27 @@ const GameEngine = {
 
 
 /* =========================================================
-   🔊 AUDIO SYSTEM
+   🔊 AUDIO SYSTEM (UPDATED)
 ========================================================= */
 
 const AudioSystem = {
     enabled: true,
     chip: null,
-    spin: null,
-    table: null
+    spinButton: null,
+    table: null,
+    wheel: null
 };
 
 function initAudio() {
     AudioSystem.chip = document.getElementById("chipSound");
-    AudioSystem.spin = document.getElementById("spinSound");
+    AudioSystem.spinButton = document.getElementById("spinButtonSound"); // spin button click sound
     AudioSystem.table = document.getElementById("tableSound");
+    AudioSystem.wheel = document.getElementById("wheelSound"); // wheel.mp3
 }
+
+/* =========================
+   🔊 CORE PLAY FUNCTION
+========================= */
 
 function playSound(s) {
     if (!AudioSystem.enabled || !s) return;
@@ -35,9 +41,23 @@ function playSound(s) {
     s.play().catch(() => {});
 }
 
+/* =========================
+   🎵 SOUND HELPERS
+========================= */
+
 const playChipSound = () => playSound(AudioSystem.chip);
-const playSpinSound = () => playSound(AudioSystem.spin);
+
+const playSpinButtonSound = () => playSound(AudioSystem.spinButton);
+
 const playTableSound = () => playSound(AudioSystem.table);
+
+const startWheelSound = () => playSound(AudioSystem.wheel);
+
+function stopWheelSound() {
+    if (!AudioSystem.wheel) return;
+    AudioSystem.wheel.pause();
+    AudioSystem.wheel.currentTime = 0;
+}
 
 
 /* =========================================================
