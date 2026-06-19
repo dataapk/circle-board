@@ -378,13 +378,10 @@ html, body {
    🪙 CHIP SYSTEM ENGINE (CASINO SELECTOR FIXED)
 ====================================================== */
 
-.chips-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin-top: -20px;
+.chips-wrapper{
+  position: relative;
+  width: 360px;
+  height: 180px;
 }
 
 /* =========================
@@ -392,12 +389,9 @@ html, body {
 ========================= */
 
 .chips-container{
-    position:relative;
-
-    width:320px;
-    height:160px;
-
-    overflow:visible;
+  position: relative;
+  width: 320px;
+  height: 160px;
 }
 
 /* =========================
@@ -405,21 +399,15 @@ html, body {
 ========================= */
 
 .chip{
-    position:absolute;
-
-    top:50%;
-    left:50%;
-
-    width:46px;
-    height:46px;
-
-    transform:translate(-50%,-50%);
-
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-
-    transition:all .35s ease;
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 /* =========================
@@ -474,34 +462,35 @@ html, body {
 }
 
 .default-chip{
-    opacity:1 !important;
-    visibility:visible !important;
-    pointer-events:auto;
-    z-index:20;
+  border: 2px solid gold;
+  z-index: 2;
 }
-.chips-container.expanded .chip{
-    opacity:1;
-    visibility:visible;
-    pointer-events:auto;
+.chips-container.expanded.fan .chip{
+  transition: all 0.35s ease;
 }
-.chips-container.expanded .chip:nth-child(2){
-    transform:translate(-120px,-20px);
+}
+.chips-container.fan .chip:nth-child(1){
+  transform: translate(0px, 95px) rotate(-35deg);
 }
 
-.chips-container.expanded .chip:nth-child(3){
-    transform:translate(-70px,-80px);
+.chips-container.fan .chip:nth-child(2){
+  transform: translate(60px, 55px) rotate(-20deg);
 }
 
-.chips-container.expanded .chip:nth-child(4){
-    transform:translate(0px,-110px);
+.chips-container.fan .chip:nth-child(3){
+  transform: translate(120px, 30px) rotate(-8deg);
 }
 
-.chips-container.expanded .chip:nth-child(5){
-    transform:translate(70px,-80px);
+.chips-container.fan .chip:nth-child(4){
+  transform: translate(180px, 30px) rotate(8deg);
 }
 
-.chips-container.expanded .chip:nth-child(6){
-    transform:translate(120px,-20px);
+.chips-container.fan .chip:nth-child(5){
+  transform: translate(240px, 55px) rotate(20deg);
+}
+
+.chips-container.fan .chip:nth-child(6){
+  transform: translate(300px, 95px) rotate(35deg);
 }
 
 /* ======================================================
