@@ -388,12 +388,13 @@ html, body {
    🎰 CHIP CONTAINER
 ========================= */
 
-.chips-container{
-  position: relative;
-  width: 320px;
-  height: 160px;
+.chips-container.closed .default-chip{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
 }
-
 /* =========================
    🪙 CHIP BASE STYLE
 ========================= */
