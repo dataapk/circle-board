@@ -266,25 +266,26 @@ function resolvePayout(result) {
 // ======================================================
 
 // ======================================================
-// 💰 PAYEMNT SUCCESS AND RESET BOARD SYSTEM
+// 🏁 START: SPIN END HANDLER (CLEAN)
 // ======================================================
+
 function onSpinEnd(result) {
 
     console.log("🏁 SPIN END");
 
-    resetWheelState();
-
-    resetBoardUI();
-
-    startNewRound();
-
+    // 🔓 unlock UI first
     unlockGameUI();
+
+    // 🔄 single source reset
+    startNewRound();
 
     console.log("✔ READY NEXT ROUND");
 }
+
 // ======================================================
-// 💰 PAYEMNT SUCCESS AND RESET BOARD SYSTEM
+// 🏁 END: SPIN END HANDLER
 // ======================================================
+
 // ======================================================
 // 🔄 START: NEW ROUND RESET (FINAL)
 // ======================================================
