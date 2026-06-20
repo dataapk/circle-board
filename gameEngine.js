@@ -22,6 +22,8 @@ if (window.__ENGINE_INIT__) {
     // =========================
     balance: 1000,
     selectedChip: null,
+
+    // 🎯 OBJECT-BASED BETS
     bets: {},
 
     // =========================
@@ -29,7 +31,8 @@ if (window.__ENGINE_INIT__) {
     // =========================
     isSpinning: false,
     lastResult: null,
-    currentRotation: 0,
+    currentRotation: 0
+};
 
     // =========================
     // 🔊 AUDIO
@@ -136,7 +139,34 @@ function clearBets() {
 }
 
 // ======================================================
-//   🎡 START: RESULT SYSTEM
+//  💸 START: RESOLVEPAYOUT SYSTEM CORE
+// ======================================================
+function resolvePayout(result) {
+    console.log("💸 PAYOUT START:", result);
+
+    const bets = GameEngine.bets || [];
+
+    let totalWin = 0;
+
+    for (let bet of bets) {
+        if (bet.type === result) {
+            totalWin += bet.amount * 2;
+        }
+    }
+
+    GameEngine.balance += totalWin;
+
+    console.log("✔ WIN:", totalWin);
+
+    GameEngine.bets = []; // RESET
+
+    updateBalance();
+
+    console.log("✔ PAYOUT DONE");
+}
+
+// ======================================================
+//   💸 END: RESOLVEPAYOUT SYSTEM CORE
 // ======================================================
 
 
