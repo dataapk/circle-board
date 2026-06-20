@@ -161,16 +161,47 @@ const audioSystem = (function () {
     }
 
     // ==================================================
-    // 🪙 CHIP STATE
-    // ==================================================
-    function setSelectedChip(chip) {
-        state.selectedChip = chip;
-    }
+// 🪙 CHIP SYSTEM (LOGIC ONLY - GAMEENGINE)
+// ==================================================
 
-    function getSelectedChip() {
-        return state.selectedChip;
-    }
+const state = {
+    selectedChip: null
+};
 
+// ==========================
+// 🪙 SET CHIP
+// ==========================
+function setSelectedChip(chip) {
+    state.selectedChip = chip || null;
+}
+
+// ==========================
+// 🪙 GET CHIP OBJECT
+// ==========================
+function getSelectedChip() {
+    return state.selectedChip;
+}
+
+// ==========================
+// 💰 GET CHIP VALUE (SAFE)
+// ==========================
+function getChipValue() {
+    return state.selectedChip?.value ?? null;
+}
+
+// ==========================
+// ✅ CHECK CHIP EXISTS
+// ==========================
+function hasSelectedChip() {
+    return state.selectedChip !== null && state.selectedChip !== undefined;
+}
+
+// ==========================
+// 🔄 RESET CHIP (ROUND RESET USE)
+// ==========================
+function resetChip() {
+    state.selectedChip = null;
+}
     // ==================================================
     // 🎯 PLACE BET
     // ==================================================
@@ -323,6 +354,9 @@ const audioSystem = (function () {
 
     setSelectedChip,
     getSelectedChip,
+    getChipValue,
+    hasSelectedChip,
+    resetChip
 
     placeBet,
 
