@@ -70,75 +70,57 @@ function initChipSystem() {
 
   if (!container || !defaultChip || chips.length === 0) return;
 
-  // =========================
-  // STATE (ONLY SOURCE OF TRUTH)
-  // =========================
-  const state = {
-    open: false,
-    selectedValue: 0.1
-  };
-
-  // =========================
-  // INIT SAFE STATE
-  // =========================
   container.classList.remove("fan");
   container.classList.add("closed");
 
   // =========================
-  // OPEN / CLOSE FAN
+  // FAN TOGGLE
   // =========================
-defaultChip.addEventListener("click", (e) => {
+  defaultChip.addEventListener("click", (e) => {
 
     e.stopPropagation();
 
-    if (window.GameEngine?.isSpinning) return;
+    if (GameEngine.isSpinning?.()) return;
 
-    state.open = !state.open;
+    const isOpen = container.classList.contains("fan");
 
-    if (state.open) {
-
-        container.classList.add("fan");
-        container.classList.remove("closed");
-
-        GameEngine.audioSystem.play("chipSound");
-
+    if (isOpen) {
+      container.classList.remove("fan");
+      container.classList.add("closed");
     } else {
-
-        container.classList.remove("fan");
-        container.classList.add("closed");
-
-        GameEngine.audioSystem.play("chipSound");
+      container.classList.add("fan");
+      container.classList.remove("closed");
     }
-});
+
+    GameEngine.audioSystem.play("chipSound");
+  });
 
   // =========================
   // CHIP SELECT
   // =========================
-chips.forEach(chip => {
+  chips.forEach(chip => {
 
     if (chip.classList.contains("default-chip")) return;
 
     chip.addEventListener("click", (e) => {
 
-        e.stopPropagation();
+      e.stopPropagation();
 
-        const value = parseFloat(chip.dataset.value || "0.1");
+      const value = parseFloat(chip.dataset.value || "0.1");
 
-        GameEngine.setSelectedChip({
-            value: value
-        });
+      GameEngine.setSelectedChip({ value });
 
-        chips.forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
+      chips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
 
-        const span = defaultChip.querySelector("span");
-        if (span) span.innerText = "$" + value;
+      const span = defaultChip.querySelector("span");
+      if (span) span.innerText = "$" + value;
 
-        console.log("🪙 CHIP SELECTED:", value);
+      console.log("🪙 CHIP SELECTED:", value);
     });
+
   });
 }
-
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
 // ======================================================
