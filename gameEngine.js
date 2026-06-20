@@ -178,6 +178,9 @@ const audioSystem = (function () {
 
     amount = Number(amount);
 
+    // =========================
+    // 1️⃣ VALIDATION
+    // =========================
     if (!type || isNaN(amount) || amount <= 0) {
         return { success: false, reason: "invalid_bet" };
     }
@@ -190,14 +193,35 @@ const audioSystem = (function () {
         return { success: false, reason: "insufficient_balance" };
     }
 
+    // =========================
+    // 2️⃣ BALANCE UPDATE
+    // =========================
     state.balance -= amount;
 
+    // =========================
+    // 3️⃣ BET STORE (MAIN ENGINE STATE)
+    // =========================
     state.bets[type] =
         (state.bets[type] || 0) + amount;
 
-    // 🔊 NEW AUDIO SYSTEM
-    GameEngine.audioSystem.play("chipSound");
+    // =========================
+    // 4️⃣ AUDIO (SAFE CALL)
+    // =========================
+    GameEngine.audioSystem?.play("chipSound");
 
+    // =========================
+    // 5️⃣ DEBUG LOG (OPTIONAL)
+    // =========================
+    console.log("💰 BET PLACED:", {
+        type,
+        amount,
+        balance: state.balance,
+        bets: state.bets
+    });
+
+    // =========================
+    // 6️⃣ RETURN RESULT
+    // =========================
     return {
         success: true,
         balance: state.balance,
