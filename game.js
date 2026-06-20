@@ -2,12 +2,15 @@
 // 🚀 BOOT / DOM READY SYSTEM
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
+
     if (!window.GameEngine) {
         console.error("❌ GameEngine not loaded!");
         return;
     }
 
-    GameEngine.syncUI();
+    console.log("🧠 Game Ready");
+
+    initGame(); // তোমার main init function
 });
 
 // ======================================================
