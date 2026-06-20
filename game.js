@@ -368,10 +368,21 @@ function spinWheel() {
     if (!wheel) return;
 
     const duration = 12000;
-    const start = GameEngine.currentRotation || 0;
+
+    const start = GameEngine.getRotation
+        ? GameEngine.getRotation()
+        : (GameEngine.currentRotation || 0);
+
     const target = start + (8 * 360);
 
     const t0 = performance.now();
+
+    // 🎡 LOCK ENGINE
+    if (GameEngine.setSpinning) {
+        GameEngine.setSpinning(true);
+    } else {
+        GameEngine.isSpinning = true;
+    }
 
     function animate(t) {
 
@@ -383,10 +394,31 @@ function spinWheel() {
         wheel.style.transform = `rotate(${angle}deg)`;
 
         if (p < 1) {
+
             requestAnimationFrame(animate);
+
         } else {
-            GameEngine.currentRotation = target;
-            handleWheelResult(target);
+
+            // 🎯 FINAL ROTATION SAVE (SAFE ENGINE SYNC)
+            if (GameEngine.setRotation) {
+                GameEngine.setRotation(target);
+            } else {
+                GameEngine.currentRotation = target;
+            }
+
+            // 🔓 UNLOCK
+            if (GameEngine.setSpinning) {
+                GameEngine.setSpinning(false);
+            } else {
+                GameEngine.isSpinning = false;
+            }
+
+            // 🎯 RESULT HANDLER (SAFE CALL)
+            if (typeof handleWheelResult === "function") {
+                handleWheelResult(target);
+            } else {
+                console.error("❌ handleWheelResult is missing");
+            }
         }
     }
 
@@ -394,6 +426,25 @@ function spinWheel() {
 }
 // ======================================================
 // 🛑🛑🛑 END: WHEEL SYSTEM 🛑🛑🛑
+// ======================================================
+
+// ======================================================
+// 🛑 HANDLEWITHRESULTS 🛑
+// ======================================================
+function handleWheelResult(result) {
+
+    const payout = GameEngine.handleResult(result);
+
+    updateBalanceUI(payout.balance);
+
+    GameEngine.audioSystem.play(
+        payout.win > 0 ? "winSound" : "loseSound"
+    );
+
+    console.log("🎯 WHEEL RESULT:", result, payout);
+}
+// ======================================================
+// 🛑🛑🛑 END: HANDLEWITHRESULTS SYSTEM 🛑🛑🛑
 // ======================================================
 
 // ======================================================
