@@ -199,10 +199,7 @@ function onTableClick(box) {
 
     const result = GameEngine.placeBet(symbol, amount);
 
-    if (!result.success) {
-        console.log("BET FAILED:", result.reason);
-        return;
-    }
+    if (!result.success) return;
 
     placeChipVisual(box, amount);
 
