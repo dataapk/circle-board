@@ -90,9 +90,8 @@ window.GameEngine = {
 
     unlockGame() {
         this.isSpinning = false;
-    }
-};
-
+     },
+    
     // =========================
     // 🔊 AUDIO (STATE ONLY)
     // =========================
