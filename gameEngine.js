@@ -164,13 +164,6 @@ const audioSystem = (function () {
 // 🪙 CHIP SYSTEM (LOGIC ONLY - GAMEENGINE)
 // ==================================================
 
-const state = {
-    selectedChip: null
-};
-
-// ==========================
-// 🪙 SET CHIP
-// ==========================
 function setSelectedChip(chip) {
     state.selectedChip = chip || null;
 }
