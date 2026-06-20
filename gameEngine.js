@@ -72,7 +72,9 @@ GameEngine.loadSounds = function(soundMap) {
     }
 };
 
-// safe play function
+// END: AUDIO SYSTEM CORE
+
+// START: AUDIO PLAY FUNCTION
 GameEngine.playSound = function (key) {
     const sound = this.sounds?.[key];
     if (!sound) return;
@@ -81,11 +83,10 @@ GameEngine.playSound = function (key) {
         sound.currentTime = 0;
         sound.play();
     } catch (e) {
-        console.log("🔇 AUDIO ERROR:", key);
+        console.log("🔇 SOUND ERROR:", key);
     }
 };
-
-// END: AUDIO SYSTEM CORE
+// END: AUDIO PLAY FUNCTION
 
 // ======================================================
 //    💰 START: BALANCE SYSTEM (SAFE)
