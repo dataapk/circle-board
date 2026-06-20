@@ -265,11 +265,15 @@ GameEngine.playSound("spin");
 // 💰 END: PAYOUT ENGINE
 // ======================================================
 function onBalanceChanged(amount) {
+
+    amount = Number(amount);
+    if (isNaN(amount)) return;
+
     GameEngine.balance += amount;
 
     console.log("💰 BALANCE UPDATED:", GameEngine.balance);
 
-    updateBalanceUI(GameEngine.balance); // যদি UI থাকে
+    updateBalance();
 }
 
 // ======================================================
