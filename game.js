@@ -150,27 +150,22 @@ chips.forEach(chip => {
 
         e.stopPropagation();
 
-        // ❌ TEMP: state.open dependency remove (BUG SOURCE)
-        // if (!state.open) return;
-
         const value = parseFloat(chip.dataset.value || "0.1");
 
-        // ✅ ENGINE ONLY SINGLE SOURCE
         GameEngine.setSelectedChip({
             value: value
         });
 
-        // UI active
         chips.forEach(c => c.classList.remove("active"));
         chip.classList.add("active");
 
-        // UI update
         const span = defaultChip.querySelector("span");
         if (span) span.innerText = "$" + value;
 
         console.log("🪙 CHIP SELECTED:", value);
 
-        ncaught SyntaxError: Unexpected token ')' (at game.js:151:5)
+    });
+});
 
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
