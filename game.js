@@ -148,7 +148,7 @@ chips.forEach(chip => {
         state.open = false;
         container.classList.remove("fan");
         container.classList.add("closed");
-    });
+    );
 });
 
 // ======================================================
