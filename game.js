@@ -136,40 +136,39 @@ function initChipSystem() {
   // =========================
   // CHIP SELECT
   // =========================
-  chips.forEach(chip => {
+chips.forEach(chip => {
 
     if (chip.classList.contains("default-chip")) return;
 
     chip.addEventListener("click", (e) => {
 
-      e.stopPropagation();
+        e.stopPropagation();
 
-      if (!state.open) return;
+        if (!state.open) return;
 
-      const value = parseFloat(chip.dataset.value || "0.1");
+        const value = parseFloat(chip.dataset.value || "0.1");
 
-      // SELECT
-      state.selectedValue = value;
+        // 🔥 ONLY ENGINE STATE (REMOVE ALL DUPLICATES)
+        GameEngine.setSelectedChip({
+            value: value
+        });
 
-      window.GameEngine = window.GameEngine || {};
-      window.GameEngine.selectedChip = { value };
+        // UI active
+        chips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
 
-      // UI active
-      chips.forEach(c => c.classList.remove("active"));
-      chip.classList.add("active");
+        // update default display
+        const span = defaultChip.querySelector("span");
+        if (span) span.innerText = "$" + value;
 
-      // update default display
-      const span = defaultChip.querySelector("span");
-      if (span) span.innerText = "$" + value;
+        console.log("🪙 CHIP SELECTED:", value);
 
-      console.log("🪙 CHIP SELECTED:", value);
-
-      // CLOSE FAN
-      state.open = false;
-      container.classList.remove("fan");
-      container.classList.add("closed");
+        // CLOSE FAN
+        state.open = false;
+        container.classList.remove("fan");
+        container.classList.add("closed");
     });
-  });
+});
 }
 
 // ======================================================
