@@ -263,9 +263,8 @@ GameEngine.playSound("spin");
 // 💰 START: PAYOUT ENGINE
 // ======================================================
 
-function updateBalance() {
+function syncBalanceUI() {
     const el = document.getElementById("balance");
-
     if (!el) return;
 
     el.innerText = "$" + GameEngine.balance.toFixed(2);
