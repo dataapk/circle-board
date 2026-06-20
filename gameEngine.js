@@ -15,93 +15,76 @@ if (window.__ENGINE_INIT__) {
 // 🟢 START: CORE ENGINE STATE 🟢
 // ======================================================
 // ======================================================
- window.GameEngine = {
+window.GameEngine = {
 
     // =========================
-    // 💰 STATE
+    // 💰 PLAYER STATE
     // =========================
     balance: 1000,
+    selectedChip: null,
     bets: {},
 
+    // =========================
+    // 🎰 GAME STATE
+    // =========================
     isSpinning: false,
+    lastResult: null,
+    currentRotation: 0,
 
     // =========================
-    // 🔒 LOCK SYSTEM
-    // =========================
-    lockGame() {
-        this.isSpinning = true;
-        console.log("🔒 GAME LOCKED");
-    },
-
-    unlockGame() {
-        this.isSpinning = false;
-        console.log("🔓 GAME UNLOCKED");
-    },
-
-    // =========================
-    // 🎯 BET SYSTEM
+    // 🎯 PLACE BET (optional reference)
     // =========================
     placeBet(type, amount) {
+        if (this.isSpinning) return;
 
-        // 🚫 BLOCK IF SPINNING
-        if (this.isSpinning) {
-            console.log("❌ BET BLOCKED (SPINNING)");
-            return;
+        this.bets[type] = (this.bets[type] || 0) + amount;
+        this.balance -= amount;
+    },
+
+    // =========================
+    // 💸 PAYOUT ENGINE
+    // =========================
+    resolvePayout(result) {
+
+        console.log("💸 PAYOUT START:", result);
+
+        let winAmount = this.bets[result] || 0;
+
+        if (winAmount > 0) {
+            this.balance += winAmount * 2;
+            console.log("✅ WIN:", winAmount * 2);
+        } else {
+            console.log("❌ NO WIN");
         }
 
-        if (!this.bets[type]) {
-            this.bets[type] = 0;
+        // save result
+        this.lastResult = result;
+
+        // reset bets safely
+        this.bets = {};
+
+        // unlock game
+        this.unlockGame();
+
+        // UI sync hook
+        if (typeof updateBalance === "function") {
+            updateBalance();
         }
-
-        this.bets[type] += amount;
-
-        console.log("BET:", type, this.bets[type]);
     },
 
     // =========================
-    // 🎰 SPIN START
+    // 🔓 GAME CONTROL
     // =========================
-    startSpin() {
+    unlockGame() {
+        this.isSpinning = false;
+    },
 
-        this.lockGame();
-
-        console.log("🎰 SPIN STARTED");
-
-        // এখানে animation + engine call হবে
+    lockGame() {
+        this.isSpinning = true;
     },
 
     // =========================
-    // 💸 PAYOUT
-    // =========================
-    // =========================
-// 🎯 PAYOUT ENGINE
-// =========================
-resolvePayout(result) {
-
-    console.log("💸 PAYOUT START:", result);
-
-    let winAmount = this.bets[result] || 0;
-
-    if (winAmount > 0) {
-        this.balance += winAmount * 2;
-        console.log("✅ WIN:", winAmount * 2);
-    } else {
-        console.log("❌ NO WIN");
-    }
-
-    // reset bets safely
-    this.bets = {};
-
-    // unlock game
-    this.unlockGame();
-
-    // UI sync hook
-    if (typeof updateBalance === "function") {
-        updateBalance();
-    },
-
-    // =========================
-    // 🔊 AUDIO
+    // 🔊 AUDIO (STATE ONLY)
     // =========================
     chipSound: null,
     tableSound: null,
