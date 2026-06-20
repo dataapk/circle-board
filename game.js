@@ -270,18 +270,18 @@ function resolvePayout(result) {
 
     let totalWin = 0;
 
-    for (let bet of gameState.bets) {
+    for (let bet of GameEngine.bets) {
         if (bet.type === result) {
             const win = bet.amount * 2;
             totalWin += win;
         }
     }
 
-    gameState.balance += totalWin;
+    GameEngine.balance += totalWin;
 
     console.log("✔ WIN TOTAL:", totalWin);
 
-    gameState.bets = []; // RESET BETS
+    GameEngine.bets = []; // RESET BETS
 
     updateBalance();
 
