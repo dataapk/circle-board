@@ -107,7 +107,7 @@ function initChipSystem() {
   // =========================
   // OPEN / CLOSE FAN
   // =========================
-  defaultChip.addEventListener("click", (e) => {
+ defaultChip.addEventListener("click", (e) => {
 
     e.stopPropagation();
 
@@ -116,18 +116,20 @@ function initChipSystem() {
     state.open = !state.open;
 
     if (state.open) {
+
         container.classList.add("fan");
         container.classList.remove("closed");
 
         // 🔊 CHIP SOUND
-        GameEngine.playSound("chip");
+        GameEngine.audioSystem.play("chipSound");
 
     } else {
+
         container.classList.remove("fan");
         container.classList.add("closed");
 
-        // 🔊 CHIP SOUND (optional close sound same)
-        GameEngine.playSound("chip");
+        // 🔊 CHIP SOUND
+        GameEngine.audioSystem.play("chipSound");
     }
 });
 
