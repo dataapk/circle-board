@@ -1,5 +1,5 @@
 // ======================================================
-// 🧠 START: iGAMING PRO GAME ENGINE
+// 🧠 START: iGAMING PRO GAME ENGINE (STM AUDIO SYNC)
 // ======================================================
 
 window.GameEngine = (function () {
@@ -17,7 +17,7 @@ window.GameEngine = (function () {
     };
 
     // ==================================================
-    // 🔊 AUDIO REGISTRY
+    // 🔊 AUDIO (DOM BOUND FROM STM)
     // ==================================================
     const audio = {
         chipSound: null,
@@ -28,6 +28,20 @@ window.GameEngine = (function () {
         winSound: null,
         loseSound: null
     };
+
+    // ==================================================
+    // 🔗 AUTO BIND FROM STM HTML
+    // ==================================================
+    function bindSTMAudio() {
+
+        audio.chipSound = document.getElementById("chipSound");
+        audio.tableSound = document.getElementById("tableSound");
+        audio.spinButtonSound = document.getElementById("spinButtonSound");
+        audio.spinSound = document.getElementById("spinSound");
+        audio.tickSound = document.getElementById("tickSound");
+        audio.winSound = document.getElementById("winSound");
+        audio.loseSound = document.getElementById("loseSound");
+    }
 
     // ==================================================
     // 💰 PAYOUT TABLE
@@ -45,7 +59,6 @@ window.GameEngine = (function () {
     // 📊 STATE ACCESS
     // ==================================================
     function getState() {
-
         return {
             balance: state.balance,
             bets: { ...state.bets },
@@ -79,30 +92,23 @@ window.GameEngine = (function () {
         amount = Number(amount);
 
         if (!type || isNaN(amount) || amount <= 0) {
-            return {
-                success: false,
-                reason: "invalid_bet"
-            };
+            return { success: false, reason: "invalid_bet" };
         }
 
         if (state.isSpinning) {
-            return {
-                success: false,
-                reason: "game_locked"
-            };
+            return { success: false, reason: "game_locked" };
         }
 
         if (state.balance < amount) {
-            return {
-                success: false,
-                reason: "insufficient_balance"
-            };
+            return { success: false, reason: "insufficient_balance" };
         }
 
         state.balance -= amount;
 
         state.bets[type] =
             (state.bets[type] || 0) + amount;
+
+        playSound("chip");
 
         return {
             success: true,
@@ -143,9 +149,7 @@ window.GameEngine = (function () {
         for (let bet in state.bets) {
 
             if (bet === result) {
-
-                win +=
-                    state.bets[bet] *
+                win += state.bets[bet] *
                     (PAYOUT_TABLE[bet] || 0);
             }
         }
@@ -160,15 +164,16 @@ window.GameEngine = (function () {
 
         state.lastResult = result;
 
-        const win =
-            calculateWin(result);
+        const win = calculateWin(result);
 
         if (win > 0) {
             state.balance += win;
+            playSound("win");
+        } else {
+            playSound("lose");
         }
 
         state.bets = {};
-
         unlockGame();
 
         return {
@@ -182,7 +187,6 @@ window.GameEngine = (function () {
     // 🔄 ROUND RESET
     // ==================================================
     function resetRound() {
-
         state.bets = {};
         state.lastResult = null;
         state.selectedChip = null;
@@ -190,59 +194,18 @@ window.GameEngine = (function () {
     }
 
     // ==================================================
-    // 🔊 AUDIO REGISTER
-    // ==================================================
-    function registerAudio(sounds) {
-
-        audio.chipSound =
-            sounds.chipSound || null;
-
-        audio.tableSound =
-            sounds.tableSound || null;
-
-        audio.spinButtonSound =
-            sounds.spinButtonSound || null;
-
-        audio.spinSound =
-            sounds.spinSound || null;
-
-        audio.tickSound =
-            sounds.tickSound || null;
-
-        audio.winSound =
-            sounds.winSound || null;
-
-        audio.loseSound =
-            sounds.loseSound || null;
-    }
-
-    // ==================================================
-    // 🔊 PLAY SOUND
+    // 🔊 SAFE PLAY SOUND
     // ==================================================
     function playSound(type) {
 
         const map = {
-
-            chip:
-                audio.chipSound,
-
-            table:
-                audio.tableSound,
-
-            spinButton:
-                audio.spinButtonSound,
-
-            spin:
-                audio.spinSound,
-
-            tick:
-                audio.tickSound,
-
-            win:
-                audio.winSound,
-
-            lose:
-                audio.loseSound
+            chip: audio.chipSound,
+            table: audio.tableSound,
+            spinButton: audio.spinButtonSound,
+            spin: audio.spinSound,
+            tick: audio.tickSound,
+            win: audio.winSound,
+            lose: audio.loseSound
         };
 
         const sound = map[type];
@@ -250,16 +213,10 @@ window.GameEngine = (function () {
         if (!sound) return;
 
         try {
-
             sound.currentTime = 0;
             sound.play();
-
         } catch (err) {
-
-            console.log(
-                "🔇 SOUND ERROR:",
-                type
-            );
+            console.log("🔇 SOUND ERROR:", type);
         }
     }
 
@@ -287,8 +244,9 @@ window.GameEngine = (function () {
 
         resetRound,
 
-        registerAudio,
-        playSound
+        playSound,
+
+        bindSTMAudio   // 👈 IMPORTANT
     };
 
 })();
