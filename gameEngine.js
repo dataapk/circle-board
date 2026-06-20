@@ -87,7 +87,7 @@ if (window.__ENGINE_INIT__) {
 
         updateBalance();
     }
-};
+
     // =========================
     // 🔊 AUDIO
     // =========================
@@ -197,36 +197,7 @@ function clearBets() {
     GameEngine.bets = {};
 }
 
-// ======================================================
-//  💸 START: RESOLVEPAYOUT SYSTEM CORE
-// ======================================================
-function resolvePayout(result) {
-    console.log("💸 PAYOUT START:", result);
 
-    const bets = GameEngine.bets || [];
-
-    let totalWin = 0;
-
-    for (let bet of bets) {
-        if (bet.type === result) {
-            totalWin += bet.amount * 2;
-        }
-    }
-
-    GameEngine.balance += totalWin;
-
-    console.log("✔ WIN:", totalWin);
-
-    GameEngine.bets = []; // RESET
-
-    updateBalance();
-
-    console.log("✔ PAYOUT DONE");
-}
-
-// ======================================================
-//   💸 END: RESOLVEPAYOUT SYSTEM CORE
-// ======================================================
 
 
 function handleWheelResult(angle) {
@@ -335,12 +306,4 @@ function getRotation() {
 function debugEngine() {
     console.log("🧠 ENGINE STATE:", GameEngine);
 }
-
-
-
-
-
-
-
-
 
