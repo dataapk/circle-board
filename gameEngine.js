@@ -1,189 +1,175 @@
-
 // ======================================================
-// 🧠 GAME ENGINE (PRO CLEAN SINGLE SOURCE)
+// 🧠 START: iGAMING PRO GAME ENGINE (LOGIC ONLY)
 // ======================================================
 
-console.log("🧠 GAME ENGINE LOADED");
+window.GameEngine = (function () {
 
-// =========================
-// 🧠 CORE ENGINE
-// =========================
+    // ==================================================
+    // 🔐 PRIVATE STATE (NO OUTSIDE DIRECT ACCESS)
+    // ==================================================
+    const state = {
+        balance: 1000,
+        bets: {},
+        isSpinning: false,
+        lastResult: null,
+        rotation: 0
+    };
 
-window.GameEngine = {
+    // ==================================================
+    // 💰 PAYOUT TABLE (SERVER STYLE SAFE CONFIG)
+    // ==================================================
+    const PAYOUT_TABLE = {
+        heart: 2,
+        diamond: 2,
+        club: 2,
+        spade: 2,
+        crown: 3,
+        flag: 3
+    };
 
-    // =========================
-    // 💰 STATE
-    // =========================
-    balance: 1000,
-    bets: {},
-    isSpinning: false,
-    lastResult: null,
-    currentRotation: 0,
+    // ==================================================
+    // 🧾 GET FULL STATE (READ ONLY)
+    // ==================================================
+    function getState() {
+        return {
+            balance: state.balance,
+            bets: { ...state.bets },
+            isSpinning: state.isSpinning,
+            lastResult: state.lastResult,
+            rotation: state.rotation
+        };
+    }
 
-    // =========================
-    // 🖥️ UI SYNC (ONLY SOURCE OF TRUTH)
-// =========================
-    syncUI() {
-        const el = document.getElementById("balance");
-        if (!el) return;
+    // ==================================================
+    // 💰 GET BALANCE
+    // ==================================================
+    function getBalance() {
+        return state.balance;
+    }
 
-        el.innerText = "$" + Number(this.balance).toFixed(2);
-    },
-
-    // =========================
-    // 🎯 PLACE BET (DEDUCT BALANCE HERE ONLY)
-// =========================
-    placeBet(type, amount) {
+    // ==================================================
+    // 🎯 PLACE BET (PURE LOGIC)
+    // ==================================================
+    function placeBet(type, amount) {
 
         amount = Number(amount);
-        if (isNaN(amount) || amount <= 0) return false;
 
-        if (this.balance < amount) {
-            console.log("❌ NOT ENOUGH BALANCE");
-            return false;
+        if (!type || isNaN(amount) || amount <= 0) {
+            return { success: false, reason: "invalid_bet" };
         }
 
-        this.balance -= amount;
-
-        if (!this.bets[type]) {
-            this.bets[type] = 0;
+        if (state.isSpinning) {
+            return { success: false, reason: "game_locked" };
         }
 
-        this.bets[type] += amount;
+        if (state.balance < amount) {
+            return { success: false, reason: "insufficient_balance" };
+        }
 
-        this.syncUI();
+        state.balance -= amount;
 
-        console.log("💰 BET PLACED:", type, amount);
-        console.log("💸 BALANCE:", this.balance);
+        state.bets[type] = (state.bets[type] || 0) + amount;
 
-        return true;
-    },
-
-    // =========================
-    // 💸 PAYOUT ENGINE
-    // =========================
-    resolvePayout(result) {
-
-        this.lastResult = result;
-
-        const PAYOUT = {
-            heart: 2,
-            diamond: 2,
-            club: 2,
-            spade: 2,
-            crown: 3,
-            flag: 3
+        return {
+            success: true,
+            balance: state.balance,
+            bets: { ...state.bets }
         };
+    }
+
+    // ==================================================
+    // 🔒 LOCK GAME
+    // ==================================================
+    function lockGame() {
+        state.isSpinning = true;
+    }
+
+    // ==================================================
+    // 🔓 UNLOCK GAME
+    // ==================================================
+    function unlockGame() {
+        state.isSpinning = false;
+    }
+
+    // ==================================================
+    // 🎡 SET ROTATION
+    // ==================================================
+    function setRotation(angle) {
+        state.rotation = angle % 360;
+    }
+
+    function getRotation() {
+        return state.rotation;
+    }
+
+    // ==================================================
+    // 🎯 CALCULATE RESULT WIN
+    // ==================================================
+    function calculateWin(result) {
 
         let win = 0;
 
-        if (this.bets[result]) {
-            win = this.bets[result] * (PAYOUT[result] || 0);
+        for (let bet in state.bets) {
+
+            if (bet === result) {
+                win += state.bets[bet] * (PAYOUT_TABLE[bet] || 0);
+            }
         }
+
+        return Math.round(win * 100) / 100;
+    }
+
+    // ==================================================
+    // 💸 RESOLVE PAYOUT (CORE ENGINE LOGIC)
+    // ==================================================
+    function resolvePayout(result) {
+
+        state.lastResult = result;
+
+        const win = calculateWin(result);
 
         if (win > 0) {
-            this.balance += win;
-            console.log("✅ WIN:", win);
-        } else {
-            console.log("❌ NO WIN");
+            state.balance += win;
         }
 
-        // reset bets
-        this.bets = {};
+        state.bets = {};
 
-        // update UI
-        this.syncUI();
+        unlockGame();
 
-        // unlock game
-        this.unlockGame();
-
-        console.log("✔ PAYOUT COMPLETE");
-    },
-
-    // =========================
-    // 🔒 GAME CONTROL
-    // =========================
-    lockGame() {
-        this.isSpinning = true;
-    },
-
-    unlockGame() {
-        this.isSpinning = false;
-    },
-
-    // =========================
-    // 🎡 WHEEL CONTROL
-    // =========================
-    setRotation(angle) {
-        this.currentRotation = angle;
-    },
-
-    getRotation() {
-        return this.currentRotation;
+        return {
+            result,
+            win,
+            balance: state.balance
+        };
     }
-};
+
+    // ==================================================
+    // 🔄 RESET ROUND (SAFE STATE RESET)
+    // ==================================================
+    function resetRound() {
+        state.bets = {};
+        state.lastResult = null;
+        state.isSpinning = false;
+    }
+
+    // ==================================================
+    // 📦 PUBLIC API (ONLY THESE EXPOSED)
+    // ==================================================
+    return {
+        getState,
+        getBalance,
+        placeBet,
+        lockGame,
+        unlockGame,
+        setRotation,
+        getRotation,
+        calculateWin,
+        resolvePayout,
+        resetRound
+    };
+
+})();
 
 // ======================================================
-// 🎡 WHEEL RESULT HANDLER (GLOBAL BRIDGE)
+// 🧠 END: iGAMING PRO GAME ENGINE
 // ======================================================
-
-function handleWheelResult(angle) {
-
-    const symbols = [
-        "heart",
-        "diamond",
-        "club",
-        "spade",
-        "crown",
-        "flag"
-    ];
-
-    const index = Math.floor((angle % 360) / (360 / symbols.length));
-
-    const result = symbols[index];
-
-    console.log("🎯 RESULT:", result);
-
-    GameEngine.resolvePayout(result);
-}
-
-// ======================================================
-// 🎮 SPIN END CONTROLLER
-// ======================================================
-
-function onSpinEnd(result) {
-
-    console.log("🏁 SPIN END");
-
-    GameEngine.resolvePayout(result);
-
-    resetWheelState();
-    resetBoardUI();
-    startNewRound();
-    unlockGameUI();
-
-    console.log("✔ READY NEXT ROUND");
-}
-
-// ======================================================
-// 🧹 RESET SYSTEM
-// ======================================================
-
-function resetWheelState() {
-    GameEngine.isSpinning = false;
-    GameEngine.currentRotation = 0;
-    GameEngine.lastResult = null;
-}
-
-// dummy UI hooks (safe placeholders)
-function resetBoardUI() {}
-function startNewRound() {}
-function unlockGameUI() {}
-
-// ======================================================
-// 🧪 DEBUG
-// ======================================================
-
-function debugEngine() {
-    console.log("🧠 ENGINE STATE:", GameEngine);
-}
