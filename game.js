@@ -106,13 +106,20 @@ function initChipSystem() {
     state.open = !state.open;
 
     if (state.open) {
-      container.classList.add("fan");
-      container.classList.remove("closed");
+        container.classList.add("fan");
+        container.classList.remove("closed");
+
+        // 🔊 CHIP SOUND
+        GameEngine.playSound("chip");
+
     } else {
-      container.classList.remove("fan");
-      container.classList.add("closed");
+        container.classList.remove("fan");
+        container.classList.add("closed");
+
+        // 🔊 CHIP SOUND (optional close sound same)
+        GameEngine.playSound("chip");
     }
-  });
+});
 
   // =========================
   // CHIP SELECT
@@ -232,6 +239,9 @@ function spinGame() {
 
     // 🎰 3. SET ENGINE STATE
     GameEngine.isSpinning = true;
+    
+    / 🔊 2. SPIN SOUND (HERE)
+    GameEngine.playSound("spin");
 
     
 
