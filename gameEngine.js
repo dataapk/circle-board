@@ -59,6 +59,34 @@ function initAudio() {
     console.log("🔊 AUDIO READY");
 }
 
+// START: AUDIO SYSTEM CORE
+
+GameEngine.sounds = {};   // empty now → backend fill করবে later
+
+// default safe loader (future backend use)
+GameEngine.loadSounds = function(soundMap) {
+    this.sounds = {};
+
+    for (const key in soundMap) {
+        this.sounds[key] = new Audio(soundMap[key]);
+    }
+};
+
+// safe play function
+GameEngine.playSound = function (key) {
+    const sound = this.sounds?.[key];
+    if (!sound) return;
+
+    try {
+        sound.currentTime = 0;
+        sound.play();
+    } catch (e) {
+        console.log("🔇 AUDIO ERROR:", key);
+    }
+};
+
+// END: AUDIO SYSTEM CORE
+
 // ======================================================
 //    💰 START: BALANCE SYSTEM (SAFE)
 // ======================================================
