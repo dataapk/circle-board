@@ -94,17 +94,6 @@ window.GameEngine = {
 };
 
     // =========================
-    // 🔓 GAME CONTROL
-    // =========================
-    unlockGame() {
-        this.isSpinning = false;
-    },
-
-    lockGame() {
-        this.isSpinning = true;
-    },
-
-    // =========================
     // 🔊 AUDIO (STATE ONLY)
     // =========================
     chipSound: null,
