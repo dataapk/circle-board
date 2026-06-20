@@ -233,8 +233,7 @@ function spinGame() {
     // 🎰 3. SET ENGINE STATE
     GameEngine.isSpinning = true;
 
-    // 🔘 4. BUTTON SOUND (spin click)
-    GameEngine.audio.play(GameEngine.spinButtonSound);
+    
 
     // 🔒 5. LOCK FULL GAME UI
     lockGameUI();
