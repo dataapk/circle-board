@@ -350,18 +350,43 @@ function spinWheel() {
         GameEngine.isSpinning = true;
     }
 
-    function animate(t) {
+   function animate(t) {
 
-        const p = Math.min((t - t0) / duration, 1);
-        const ease = p * (2 - p);
+    const p = Math.min((t - t0) / duration, 1);
+    const ease = p * (2 - p);
 
-        const angle = start + (target - start) * ease;
+    const angle = start + (target - start) * ease;
 
-        wheel.style.transform = `rotate(${angle}deg)`;
+    wheel.style.transform = `rotate(${angle}deg)`;
 
-        if (p < 1) {
+    if (p < 1) {
 
-            requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
+
+    } else {
+
+        // 🎯 FINAL ROTATION SAVE
+        if (GameEngine.setRotation) {
+            GameEngine.setRotation(target);
+        }
+
+        // 🔓 UNLOCK
+        if (GameEngine.setSpinning) {
+            GameEngine.setSpinning(false);
+        }
+
+        // 🎯 RESULT (ONLY HERE)
+        const symbols = ["heart", "diamond", "club", "spade", "crown", "flag"];
+
+        const normalized = Math.floor(((target % 360) + 360) % 360 / (360 / symbols.length));
+
+        const result = symbols[normalized];
+
+        handleWheelResult(result);
+    }
+}
+
+requestAnimationFrame(animate);
 
         } else {
 
