@@ -3,15 +3,42 @@
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
 
-    if (!window.GameEngine) {
-        console.error("❌ GameEngine not loaded!");
-        return;
+    try {
+
+        // ==================================================
+        // 🔐 ENGINE CHECK
+        // ==================================================
+        if (!window.GameEngine) {
+            console.error("❌ GameEngine not loaded!");
+            return;
+        }
+
+        console.log("🧠 Game Engine Detected");
+
+        // ==================================================
+        // 🚀 SAFE GAME INIT WRAPPER
+        // ==================================================
+        if (typeof initGame !== "function") {
+            console.error("❌ initGame() not found!");
+            return;
+        }
+
+        // ==================================================
+        // 🎮 START GAME
+        // ==================================================
+        initGame();
+
+        console.log("🎮 GAME READY (SAFE MODE)");
+
+    } catch (err) {
+
+        console.error("💥 GAME BOOT ERROR:", err);
+
     }
-
-    console.log("🧠 Game Ready");
-
-    initGame(); // তোমার main init function
 });
+// ======================================================
+// 🚀 BOOT / DOM READY SYSTEM END
+// ======================================================
 
 // ======================================================
 // 🧠 GAME INIT CORE
