@@ -141,10 +141,6 @@ GameEngine.playSound = function (key) {
 // END: AUDIO PLAY FUNCTION
 
 
-
-
-
-
 // ======================================================
 //    💰 START: BALANCE SYSTEM (SAFE)
 // ======================================================
@@ -191,7 +187,6 @@ function addBet(symbol, amount) {
 function clearBets() {
     GameEngine.bets = {};
 }
-
 
 
 
