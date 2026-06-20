@@ -260,34 +260,7 @@ GameEngine.playSound("spin");
 // 🛑🛑🛑 END: SPIN SYSTEM 🛑🛑🛑
 // ======================================================
 
-// ======================================================
-// 💰 START: PAYOUT ENGINE (MISSING FIX)
-// ======================================================
 
-// START: PAYOUT
-function resolvePayout(result) {
-    console.log("💸 PAYOUT START:", result);
-
-    let totalWin = 0;
-
-    for (let bet of GameEngine.bets) {
-        if (bet.type === result) {
-            const win = bet.amount * 2;
-            totalWin += win;
-        }
-    }
-
-    GameEngine.balance += totalWin;
-
-    console.log("✔ WIN TOTAL:", totalWin);
-
-    GameEngine.bets = []; // RESET BETS
-
-    updateBalance();
-
-    console.log("✔ PAYOUT COMPLETE");
-}
-// END: PAYOUT
 // ======================================================
 // 💰 END: PAYOUT ENGINE
 // ======================================================
