@@ -259,22 +259,22 @@ GameEngine.playSound("spin");
 // ======================================================
 // 🛑🛑🛑 END: SPIN SYSTEM 🛑🛑🛑
 // ======================================================
+// ======================================================
+// 💰 START: PAYOUT ENGINE
+// ======================================================
+
+function updateBalance() {
+    const el = document.getElementById("balance");
+
+    if (!el) return;
+
+    el.innerText = "$" + GameEngine.balance.toFixed(2);
+}
 
 
 // ======================================================
 // 💰 END: PAYOUT ENGINE
 // ======================================================
-function onBalanceChanged(amount) {
-
-    amount = Number(amount);
-    if (isNaN(amount)) return;
-
-    GameEngine.balance += amount;
-
-    console.log("💰 BALANCE UPDATED:", GameEngine.balance);
-
-    updateBalance();
-}
 
 // ======================================================
 // 🏁 START: SPIN END HANDLER (CLEAN)
@@ -300,32 +300,7 @@ function onSpinEnd(result) {
 // ======================================================
 // 🏁 END: SPIN END HANDLER
 // ======================================================
-function subtractBalance(amount) {
 
-    amount = Number(amount);
-    if (isNaN(amount) || amount <= 0) return false;
-
-    if (GameEngine.balance < amount) {
-        console.log("❌ NOT ENOUGH BALANCE");
-        return false;
-    }
-
-    GameEngine.balance -= amount;
-
-    console.log("💸 BALANCE:", GameEngine.balance);
-
-    return true;
-}
-
-function addBalance(amount) {
-
-    amount = Number(amount);
-    if (isNaN(amount) || amount <= 0) return;
-
-    GameEngine.balance += amount;
-
-    console.log("💰 BALANCE ADDED:", amount);
-}
 
 // ======================================================
 // 🔄 START: NEW ROUND RESET (FINAL)
