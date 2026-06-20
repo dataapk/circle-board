@@ -358,8 +358,8 @@ return {
 
     resetRound,
 
-    audioSystem
-};
+    audioSystem,
+
     // ⭐ IMPORTANT BRIDGE
     getBets: () => state.bets,
     isSpinning: () => state.isSpinning,
@@ -369,7 +369,3 @@ return {
 };
 
 })();
-
-// ======================================================
-// 🧠 END: iGAMING PRO GAME ENGINE
-// ======================================================
