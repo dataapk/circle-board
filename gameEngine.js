@@ -18,22 +18,76 @@ if (window.__ENGINE_INIT__) {
  window.GameEngine = {
 
     // =========================
-    // 💰 PLAYER STATE
+    // 💰 STATE
     // =========================
     balance: 1000,
-    selectedChip: null,
-
-    // 🎯 OBJECT-BASED BETS
     bets: {},
 
-    // =========================
-    // 🎰 GAME STATE
-    // =========================
     isSpinning: false,
-    lastResult: null,
-    currentRotation: 0
-};
 
+    // =========================
+    // 🔒 LOCK SYSTEM
+    // =========================
+    lockGame() {
+        this.isSpinning = true;
+        console.log("🔒 GAME LOCKED");
+    },
+
+    unlockGame() {
+        this.isSpinning = false;
+        console.log("🔓 GAME UNLOCKED");
+    },
+
+    // =========================
+    // 🎯 BET SYSTEM
+    // =========================
+    placeBet(type, amount) {
+
+        // 🚫 BLOCK IF SPINNING
+        if (this.isSpinning) {
+            console.log("❌ BET BLOCKED (SPINNING)");
+            return;
+        }
+
+        if (!this.bets[type]) {
+            this.bets[type] = 0;
+        }
+
+        this.bets[type] += amount;
+
+        console.log("BET:", type, this.bets[type]);
+    },
+
+    // =========================
+    // 🎰 SPIN START
+    // =========================
+    startSpin() {
+
+        this.lockGame();
+
+        console.log("🎰 SPIN STARTED");
+
+        // এখানে animation + engine call হবে
+    },
+
+    // =========================
+    // 💸 PAYOUT
+    // =========================
+    resolvePayout(result) {
+
+        console.log("💸 PAYOUT:", result);
+
+        let win = this.bets[result] || 0;
+
+        this.balance += win * 2;
+
+        this.bets = {};
+
+        this.unlockGame(); // ✔ IMPORTANT
+
+        updateBalance();
+    }
+};
     // =========================
     // 🔊 AUDIO
     // =========================
@@ -90,6 +144,11 @@ GameEngine.playSound = function (key) {
     }
 };
 // END: AUDIO PLAY FUNCTION
+
+
+
+
+
 
 // ======================================================
 //    💰 START: BALANCE SYSTEM (SAFE)
