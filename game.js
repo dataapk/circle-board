@@ -87,7 +87,7 @@ function initChipSystem() {
   // =========================
   // OPEN / CLOSE FAN
   // =========================
- defaultChip.addEventListener("click", (e) => {
+defaultChip.addEventListener("click", (e) => {
 
     e.stopPropagation();
 
@@ -100,7 +100,6 @@ function initChipSystem() {
         container.classList.add("fan");
         container.classList.remove("closed");
 
-        // 🔊 CHIP SOUND
         GameEngine.audioSystem.play("chipSound");
 
     } else {
@@ -108,9 +107,36 @@ function initChipSystem() {
         container.classList.remove("fan");
         container.classList.add("closed");
 
-        // 🔊 CHIP SOUND
         GameEngine.audioSystem.play("chipSound");
     }
+});
+
+chips.forEach(chip => {
+
+    if (chip.classList.contains("default-chip")) return;
+
+    chip.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        const value = parseFloat(chip.dataset.value || "0.1");
+
+        GameEngine.setSelectedChip({
+            value: value
+        });
+
+        chips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+
+        const span = defaultChip.querySelector("span");
+        if (span) span.innerText = "$" + value;
+
+        console.log("🪙 CHIP SELECTED:", value);
+
+        state.open = false;
+        container.classList.remove("fan");
+        container.classList.add("closed");
+    });
 });
 
   // =========================
@@ -144,12 +170,7 @@ chips.forEach(chip => {
 
         console.log("🪙 CHIP SELECTED:", value);
 
-        // CLOSE FAN (UI ONLY)
-        state.open = false;
-        container.classList.remove("fan");
-        container.classList.add("closed");
-    );
-});
+        ncaught SyntaxError: Unexpected token ')' (at game.js:151:5)
 
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
