@@ -135,9 +135,9 @@ chips.forEach(chip => {
         if (span) span.innerText = "$" + value;
 
         console.log("🪙 CHIP SELECTED:", value);
-
     });
-});
+  });
+}
 
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
