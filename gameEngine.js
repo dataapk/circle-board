@@ -318,27 +318,34 @@ const audioSystem = (function () {
     // ==================================================
     return {
 
-        getState,
-        getBalance,
+    getState,
+    getBalance,
 
-        setSelectedChip,
-        getSelectedChip,
+    setSelectedChip,
+    getSelectedChip,
 
-        placeBet,
+    placeBet,
 
-        lockGame,
-        unlockGame,
+    lockGame,
+    unlockGame,
 
-        setRotation,
-        getRotation,
+    setRotation,
+    getRotation,
 
-        calculateWin,
-        resolvePayout,
+    calculateWin,
+    resolvePayout,
 
-        resetRound,
+    resetRound,
 
-        audioSystem   // 👈 IMPORTANT
-    };
+    audioSystem,
+
+    // ⭐ IMPORTANT BRIDGE
+    getBets: () => state.bets,
+    isSpinning: () => state.isSpinning,
+    setSpinning: (v) => state.isSpinning = v,
+
+    setBalance: (v) => state.balance = v
+};
 
 })();
 
