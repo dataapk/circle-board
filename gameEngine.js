@@ -18,23 +18,33 @@ if (window.__ENGINE_INIT__) {
 window.GameEngine = {
 
     // =========================
-    // 💰 PLAYER STATE
+    // 💰 STATE
     // =========================
     balance: 1000,
-    selectedChip: null,
     bets: {},
-
-    // =========================
-    // 🎰 GAME STATE
-    // =========================
     isSpinning: false,
     lastResult: null,
-    currentRotation: 0,
-    
-    // =================
-    // METHODS
-    // =================
 
+    // =========================
+    // 🎯 INIT
+    // =========================
+    init() {
+        this.syncUI();
+    },
+
+    // =========================
+    // 🖥️ UI SYNC (ONLY ONE SOURCE)
+    // =========================
+    syncUI() {
+        const el = document.getElementById("balance");
+        if (!el) return;
+
+        el.innerText = "$" + Number(this.balance).toFixed(2);
+    },
+
+    // =========================
+    // 💰 PLACE BET
+    // =========================
     placeBet(type, amount) {
 
         amount = Number(amount);
@@ -46,38 +56,42 @@ window.GameEngine = {
 
         this.bets[type] = (this.bets[type] || 0) + amount;
 
-        console.log("💰 BET:", type, amount);
+        this.syncUI();
 
         return true;
     },
 
+    // =========================
+    // 💸 PAYOUT
+    // =========================
     resolvePayout(result) {
 
-        console.log("💸 PAYOUT START:", result);
+        this.lastResult = result;
 
         let winAmount = this.bets[result] || 0;
 
         if (winAmount > 0) {
             this.balance += winAmount * 2;
-            console.log("✅ WIN:", winAmount * 2);
-        } else {
-            console.log("❌ NO WIN");
         }
 
-        // save result
-        this.lastResult = result;
-
-        // reset bets safely
         this.bets = {};
 
-        // unlock game
-        this.unlockGame();
+        this.syncUI();
 
-        // UI sync hook
-        if (typeof updateBalance === "function") {
-            updateBalance();
-        }
+        this.unlockGame();
     },
+
+    // =========================
+    // 🔒 GAME STATE
+    // =========================
+    lockGame() {
+        this.isSpinning = true;
+    },
+
+    unlockGame() {
+        this.isSpinning = false;
+    }
+};
 
     // =========================
     // 🔓 GAME CONTROL
