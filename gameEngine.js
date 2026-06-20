@@ -160,31 +160,26 @@ const audioSystem = (function () {
         return state.balance;
     }
 
-    // ==================================================
+ // ==================================================
 // 🪙 CHIP SYSTEM (LOGIC ONLY - GAMEENGINE)
 // ==================================================
+
+function setSelectedChip(chip) {
+    state.selectedChip = chip || null;
+}
 
 function getSelectedChip() {
     return state.selectedChip;
 }
 
-// ==========================
-// 💰 GET CHIP VALUE (SAFE)
-// ==========================
 function getChipValue() {
     return state.selectedChip?.value ?? null;
 }
 
-// ==========================
-// ✅ CHECK CHIP EXISTS
-// ==========================
 function hasSelectedChip() {
     return state.selectedChip !== null && state.selectedChip !== undefined;
 }
 
-// ==========================
-// 🔄 RESET CHIP (ROUND RESET USE)
-// ==========================
 function resetChip() {
     state.selectedChip = null;
 }
