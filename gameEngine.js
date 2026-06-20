@@ -282,8 +282,6 @@ window.GameEngine = (function () {
 
         getState,
         getBalance,
-        handleWheelResult,
-
         setSelectedChip,
         getSelectedChip,
         getChipValue,
