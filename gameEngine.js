@@ -34,12 +34,33 @@ window.GameEngine = {
     // =========================
     // 🎯 PLACE BET (optional reference)
     // =========================
-    placeBet(type, amount) {
-        if (this.isSpinning) return;
+    function placeBet(type, amount) {
 
-        this.bets[type] = (this.bets[type] || 0) + amount;
-        this.balance -= amount;
-    },
+    amount = Number(amount);
+    if (isNaN(amount) || amount <= 0) return;
+
+    // ❗ check balance
+    if (GameEngine.balance < amount) {
+        console.log("❌ NOT ENOUGH BALANCE");
+        return;
+    }
+
+    // 💸 deduct balance (IMPORTANT)
+    GameEngine.balance -= amount;
+
+    // 🎯 store bet
+    if (!GameEngine.bets[type]) {
+        GameEngine.bets[type] = 0;
+    }
+
+    GameEngine.bets[type] += amount;
+
+    console.log("💰 BET PLACED:", type, amount);
+    console.log("💸 BALANCE NOW:", GameEngine.balance);
+
+    // 🔄 UI SYNC (IMPORTANT)
+    updateBalance();
+}
 
     // =========================
     // 💸 PAYOUT ENGINE
