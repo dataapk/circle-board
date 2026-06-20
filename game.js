@@ -386,11 +386,11 @@ function spinWheel() {
 
         if (typeof handleWheelResult === "function") {
             handleWheelResult(result);
-        }
+         }
     }
-}
 
-requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
+}
 
 // ======================================================
 // 🛑🛑🛑 END: WHEEL SYSTEM 🛑🛑🛑
