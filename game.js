@@ -399,17 +399,13 @@ function spinWheel() {
 // ======================================================
 // 🛑 HANDLEWITHRESULTS 🛑
 // ======================================================
-function handleWheelResult(result) {
+function updateBalanceUI() {
+    const state = GameEngine.getState();
+    const el = document.getElementById("balance");
 
-    const payout = GameEngine.handleResult(result);
-
-    updateBalanceUI(payout.balance);
-
-    GameEngine.audioSystem.play(
-        payout.win > 0 ? "winSound" : "loseSound"
-    );
-
-    console.log("🎯 WHEEL RESULT:", result, payout);
+    if (el) {
+        el.innerText = state.balance;
+    }
 }
 // ======================================================
 // 🛑🛑🛑 END: HANDLEWITHRESULTS SYSTEM 🛑🛑🛑
