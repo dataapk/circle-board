@@ -276,40 +276,18 @@ const audioSystem = (function () {
     // ==================================================
     // 🔄 ROUND RESET
     // ==================================================
-    function resetRound() {
-        state.bets = {};
-        state.lastResult = null;
-        state.selectedChip = null;
-        state.isSpinning = false;
+   function resetRound() {
+
+    state.bets = {};
+    state.lastResult = null;
+    state.selectedChip = null;
+    state.isSpinning = false;
+
+    // 🔊 optional: stop all sounds cleanly
+    if (audioSystem && audioSystem.stopAll) {
+        audioSystem.stopAll();
     }
-
-    // ==================================================
-    // 🔊 SAFE PLAY SOUND
-    // ==================================================
-    function playSound(type) {
-
-        const map = {
-            chip: audio.chipSound,
-            table: audio.tableSound,
-            spinButton: audio.spinButtonSound,
-            spin: audio.spinSound,
-            tick: audio.tickSound,
-            win: audio.winSound,
-            lose: audio.loseSound
-        };
-
-        const sound = map[type];
-
-        if (!sound) return;
-
-        try {
-            sound.currentTime = 0;
-            sound.play();
-        } catch (err) {
-            console.log("🔇 SOUND ERROR:", type);
-        }
-    }
-
+}
     // ==================================================
     // 📦 PUBLIC API
     // ==================================================
