@@ -330,10 +330,11 @@ function resetChip() {
         audioSystem.stopAll();
     }
 }
+    
     // ==================================================
-    // 📦 PUBLIC API
-    // ==================================================
-    return {
+// 📦 PUBLIC API
+// ==================================================
+return {
 
     getState,
     getBalance,
@@ -342,7 +343,7 @@ function resetChip() {
     getSelectedChip,
     getChipValue,
     hasSelectedChip,
-    resetChip
+    resetChip,
 
     placeBet,
 
@@ -357,8 +358,8 @@ function resetChip() {
 
     resetRound,
 
-    audioSystem,
-
+    audioSystem
+};
     // ⭐ IMPORTANT BRIDGE
     getBets: () => state.bets,
     isSpinning: () => state.isSpinning,
