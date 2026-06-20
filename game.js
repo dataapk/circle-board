@@ -189,6 +189,9 @@ function onTableClick(box) {
     addBet(symbol, amount);
     placeChipVisual(box, amount);
 
+    // 🔊 TABLE SOUND (HERE IS THE CORRECT PLACE)
+    GameEngine.playSound("table");
+
     console.log("💰 BET:", symbol, amount);
 }
 
