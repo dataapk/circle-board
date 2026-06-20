@@ -207,7 +207,6 @@ function onTableClick(box) {
 
     console.log("💰 BET:", symbol, amount);
 }
-}
 
 function placeChipVisual(box, amount) {
 
