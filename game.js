@@ -1,77 +1,57 @@
 // ======================================================
-// 🚀 BOOT / DOM READY SYSTEM
+// 🚀 BOOT / DOM READY (SINGLE ENTRY ONLY)
 // ======================================================
-document.addEventListener("DOMContentLoaded", () => {
 
-    try {
+(() => {
 
-        // ==================================================
-        // 🔐 ENGINE CHECK
-        // ==================================================
-        if (!window.GameEngine) {
-            console.error("❌ GameEngine not loaded!");
+    let gameInitialized = false;
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        // 🔐 safety guard (extra protection)
+        if (gameInitialized) {
+            console.log("⚠ GAME ALREADY INITIALIZED (DOM SKIP)");
             return;
         }
 
-        console.log("🧠 Game Engine Detected");
+        startGame();
 
-        // ==================================================
-        // 🚀 SAFE GAME INIT WRAPPER
-        // ==================================================
-        if (typeof initGame !== "function") {
-            console.error("❌ initGame() not found!");
+    });
+
+    // ======================================================
+    // 🧠 GAME START WRAPPER
+    // ======================================================
+    function startGame() {
+
+        if (gameInitialized) {
+            console.log("⚠ GAME ALREADY INITIALIZED (START SKIP)");
             return;
         }
 
-        // ==================================================
-        // 🎮 START GAME
-        // ==================================================
-        initGame();
+        gameInitialized = true;
 
-        console.log("🎮 GAME READY (SAFE MODE)");
+        console.log("🧠 GAME INIT START");
 
-    } catch (err) {
+        try {
 
-        console.error("💥 GAME BOOT ERROR:", err);
+            // 🔊 AUDIO SYSTEM
+            if (window.GameEngine?.audioSystem?.bind) {
+                GameEngine.audioSystem.bind();
+            }
 
-    }
-});
-// ======================================================
-// 🚀 BOOT / DOM READY SYSTEM END
-// ======================================================
+            // 🎯 CORE MODULES
+            if (typeof initChipSystem === "function") initChipSystem();
+            if (typeof setupBoardSystem === "function") setupBoardSystem();
+            if (typeof setupSpinButton === "function") setupSpinButton();
 
-// ======================================================
-// 🧠 GAME INIT CORE
-// ======================================================
-let gameInitialized = false;
+            console.log("🎮 GAME READY");
 
-function startGame() {
-    initGame();
-}
-
-function initGame() {
-
-    if (gameInitialized) {
-        console.log("⚠ GAME ALREADY INITIALIZED - SKIP");
-        return;
+        } catch (err) {
+            console.error("💥 GAME INIT ERROR:", err);
+        }
     }
 
-    gameInitialized = true;
-
-    console.log("🧠 GAME INIT START");
-
-    try {
-        GameEngine.audioSystem.bind();
-        initChipSystem();
-        setupBoardSystem();
-        setupSpinButton();
-
-        console.log("🎮 GAME READY");
-
-    } catch (err) {
-        console.log("💥 GAME INIT ERROR:", err);
-    }
-}
+})();
 // ======================================================
 // 🛑🛑🛑 END: GAME INIT CORE 🛑🛑🛑
 // ======================================================
