@@ -73,18 +73,30 @@ if (window.__ENGINE_INIT__) {
     // =========================
     // 💸 PAYOUT
     // =========================
-    resolvePayout(result) {
+    // =========================
+// 🎯 PAYOUT ENGINE
+// =========================
+resolvePayout(result) {
 
-        console.log("💸 PAYOUT:", result);
+    console.log("💸 PAYOUT START:", result);
 
-        let win = this.bets[result] || 0;
+    let winAmount = this.bets[result] || 0;
 
-        this.balance += win * 2;
+    if (winAmount > 0) {
+        this.balance += winAmount * 2;
+        console.log("✅ WIN:", winAmount * 2);
+    } else {
+        console.log("❌ NO WIN");
+    }
 
-        this.bets = {};
+    // reset bets safely
+    this.bets = {};
 
-        this.unlockGame(); // ✔ IMPORTANT
+    // unlock game
+    this.unlockGame();
 
+    // UI sync hook
+    if (typeof updateBalance === "function") {
         updateBalance();
     },
 
