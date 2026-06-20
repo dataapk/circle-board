@@ -220,22 +220,48 @@ window.GameEngine = (function () {
 
     function resolvePayout(result) {
 
-        state.lastResult = result;
-
-        const win = calculateWin(result);
-
-        if (win > 0) {
-            state.balance += win;
-            audioSystem.play("winSound");
-        } else {
-            audioSystem.play("loseSound");
-        }
-
-        state.bets = {};
-        unlockGame();
-
-        return { result, win, balance: state.balance };
+    // 🧠 validate result
+    if (!result) {
+        console.error("❌ Invalid result");
+        return;
     }
+
+    state.lastResult = result;
+
+    // 💰 calculate win
+    const win = calculateWin(result) || 0;
+
+    // 🛡️ safe balance update
+    if (win > 0) {
+        state.balance += win;
+        audioSystem.play("winSound");
+    } else {
+        audioSystem.play("loseSound");
+    }
+
+    // 🧹 reset bets
+    state.bets = {};
+
+    // 🔓 unlock game
+    unlockGame();
+
+    // 🎯 IMPORTANT: UI SYNC (missing part)
+    if (typeof updateBalanceUI === "function") {
+        updateBalanceUI(state.balance);
+    }
+
+    console.log("🎯 PAYOUT RESULT:", {
+        result,
+        win,
+        balance: state.balance
+    });
+
+    return {
+        result,
+        win,
+        balance: state.balance
+    };
+}
 
     // ==================================================
     // 🔄 RESET
@@ -256,6 +282,7 @@ window.GameEngine = (function () {
 
         getState,
         getBalance,
+        handleWheelResult,
 
         setSelectedChip,
         getSelectedChip,
