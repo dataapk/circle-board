@@ -336,7 +336,7 @@ const audioSystem = (function () {
 
         playSound,
 
-        bindSTMAudio   // 👈 IMPORTANT
+        audioSystem   // 👈 IMPORTANT
     };
 
 })();
