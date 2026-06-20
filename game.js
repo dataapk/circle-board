@@ -326,7 +326,7 @@ function startNewRound() {
 
 
 // ======================================================
-// 🎡🎡🎡 START: WHEEL ANIMATION 🎡🎡🎡
+// 🎡🎡🎡 START: SPIN WHEEL 🎡🎡🎡
 // ======================================================
 function spinWheel() {
 
@@ -349,6 +349,9 @@ function spinWheel() {
     } else {
         GameEngine.isSpinning = true;
     }
+    // ======================================================
+// 🎡🎡🎡 START: WHEEL ANIMATION 🎡🎡🎡
+// ======================================================
 
   function animate(t) {
 
@@ -386,37 +389,7 @@ function spinWheel() {
             handleWheelResult(result);
         }
     }
-}
 
-requestAnimationFrame(animate);
-
-        } else {
-
-            // 🎯 FINAL ROTATION SAVE (SAFE ENGINE SYNC)
-            if (GameEngine.setRotation) {
-                GameEngine.setRotation(target);
-            } else {
-                GameEngine.currentRotation = target;
-            }
-
-            // 🔓 UNLOCK
-            if (GameEngine.setSpinning) {
-                GameEngine.setSpinning(false);
-            } else {
-                GameEngine.isSpinning = false;
-            }
-
-            // 🎯 RESULT HANDLER (SAFE CALL)
-            if (typeof handleWheelResult === "function") {
-                handleWheelResult(target);
-            } else {
-                console.error("❌ handleWheelResult is missing");
-            }
-        }
-    }
-
-    requestAnimationFrame(animate);
-}
 // ======================================================
 // 🛑🛑🛑 END: WHEEL SYSTEM 🛑🛑🛑
 // ======================================================
