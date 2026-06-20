@@ -241,10 +241,10 @@ function spinGame() {
     }
 
     // 🎰 3. SET ENGINE STATE
-    GameEngine.isSpinning = true;
-    
-    / 🔊 2. SPIN SOUND (HERE)
-    GameEngine.playSound("spin");
+GameEngine.isSpinning = true;
+
+// 🔊 2. SPIN SOUND (HERE)
+GameEngine.playSound("spin");
 
     
 
