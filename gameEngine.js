@@ -17,9 +17,15 @@ window.GameEngine = (function () {
     };
 
     // ==================================================
-    // 🔊 AUDIO (DOM BOUND FROM STM)
+// 🔊 PRO iGAMING AUDIO SYSTEM (CASINO LEVEL)
+// ==================================================
+
+const audioSystem = (function () {
+
     // ==================================================
-    const audio = {
+    // 🔐 PRIVATE SOUND REGISTRY (STM DOM BIND)
+    // ==================================================
+    const sounds = {
         chipSound: null,
         tableSound: null,
         spinButtonSound: null,
@@ -30,18 +36,102 @@ window.GameEngine = (function () {
     };
 
     // ==================================================
-    // 🔗 AUTO BIND FROM STM HTML
+    // ⛔ ANTI-SPAM CONTROL (CASINO SAFE)
     // ==================================================
-    function bindSTMAudio() {
+    const cooldown = {};
+    const COOLDOWN_TIME = 80; // ms
 
-        audio.chipSound = document.getElementById("chipSound");
-        audio.tableSound = document.getElementById("tableSound");
-        audio.spinButtonSound = document.getElementById("spinButtonSound");
-        audio.spinSound = document.getElementById("spinSound");
-        audio.tickSound = document.getElementById("tickSound");
-        audio.winSound = document.getElementById("winSound");
-        audio.loseSound = document.getElementById("loseSound");
+    // ==================================================
+    // 🔗 BIND STM AUDIO ELEMENTS
+    // ==================================================
+    function bind() {
+
+        sounds.chipSound =
+            document.getElementById("chipSound");
+
+        sounds.tableSound =
+            document.getElementById("tableSound");
+
+        sounds.spinButtonSound =
+            document.getElementById("spinButtonSound");
+
+        sounds.spinSound =
+            document.getElementById("spinSound");
+
+        sounds.tickSound =
+            document.getElementById("tickSound");
+
+        sounds.winSound =
+            document.getElementById("winSound");
+
+        sounds.loseSound =
+            document.getElementById("loseSound");
     }
+
+    // ==================================================
+    // 🔊 SAFE PLAY (NO CRASH + NO DOUBLE SPAM)
+    // ==================================================
+    function play(type) {
+
+        const now = Date.now();
+
+        if (cooldown[type] && now - cooldown[type] < COOLDOWN_TIME) {
+            return;
+        }
+
+        cooldown[type] = now;
+
+        const sound = sounds[type];
+
+        if (!sound) return;
+
+        try {
+
+            sound.currentTime = 0;
+
+            const playPromise = sound.play();
+
+            // prevent browser autoplay crash
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {});
+            }
+
+        } catch (err) {
+            // silent fail (casino standard)
+        }
+    }
+
+    // ==================================================
+    // 🔧 OPTIONAL: STOP ALL SOUNDS
+    // ==================================================
+    function stopAll() {
+
+        for (let key in sounds) {
+
+            const s = sounds[key];
+
+            if (s) {
+                s.pause();
+                s.currentTime = 0;
+            }
+        }
+    }
+
+      // ==================================================
+// 🔊 PRO iGAMING AUDIO SYSTEM END
+// ==================================================
+
+    // ==================================================
+    // 📦 PUBLIC API
+    // ==================================================
+    return {
+
+        bind,
+        play,
+        stopAll
+    };
+
+})();
 
     // ==================================================
     // 💰 PAYOUT TABLE
