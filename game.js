@@ -282,6 +282,22 @@ function onSpinEnd(result) {
 // ======================================================
 // 🏁 END: SPIN END HANDLER
 // ======================================================
+function handleWheelResult(result) {
+
+    // 🎯 ENGINE PAYOUT (correct function)
+    const payout = GameEngine.resolvePayout(result);
+
+    // 💰 UPDATE UI BALANCE
+    updateBalanceUI();
+
+    // 🔊 SOUND BASED ON RESULT
+    GameEngine.audioSystem.play(
+        payout.win > 0 ? "winSound" : "loseSound"
+    );
+
+    // 🧠 DEBUG LOG
+    console.log("🎯 WHEEL RESULT:", result, payout);
+}
 
 
 // ======================================================
