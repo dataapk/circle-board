@@ -31,40 +31,6 @@ window.GameEngine = {
     lastResult: null,
     currentRotation: 0,
 
-    // =========================
-    // 🎯 PLACE BET (optional reference)
-    // =========================
-    function placeBet(type, amount) {
-
-    amount = Number(amount);
-    if (isNaN(amount) || amount <= 0) return;
-
-    // ❗ check balance
-    if (GameEngine.balance < amount) {
-        console.log("❌ NOT ENOUGH BALANCE");
-        return;
-    }
-
-    // 💸 deduct balance (IMPORTANT)
-    GameEngine.balance -= amount;
-
-    // 🎯 store bet
-    if (!GameEngine.bets[type]) {
-        GameEngine.bets[type] = 0;
-    }
-
-    GameEngine.bets[type] += amount;
-
-    console.log("💰 BET PLACED:", type, amount);
-    console.log("💸 BALANCE NOW:", GameEngine.balance);
-
-    // 🔄 UI SYNC (IMPORTANT)
-    updateBalance();
-}
-
-    // =========================
-    // 💸 PAYOUT ENGINE
-    // =========================
     resolvePayout(result) {
 
         console.log("💸 PAYOUT START:", result);
@@ -160,7 +126,32 @@ GameEngine.playSound = function (key) {
     }
 };
 // END: AUDIO PLAY FUNCTION
+// ======================================================
+//    💰 START: PLACE BET SYSTEM
+// ======================================================
+function placeBet(type, amount) {
 
+    amount = Number(amount);
+    if (isNaN(amount) || amount <= 0) return;
+
+    if (GameEngine.balance < amount) {
+        console.log("❌ NOT ENOUGH BALANCE");
+        return;
+    }
+
+    GameEngine.balance -= amount;
+
+    if (!GameEngine.bets[type]) {
+        GameEngine.bets[type] = 0;
+    }
+
+    GameEngine.bets[type] += amount;
+
+    console.log("💰 BET PLACED:", type, amount);
+    console.log("💸 BALANCE:", GameEngine.balance);
+
+    updateBalance(); // UI sync
+}
 
 // ======================================================
 //    💰 START: BALANCE SYSTEM (SAFE)
