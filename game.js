@@ -191,20 +191,22 @@ function setupBoardSystem() {
 function onTableClick(box) {
 
     if (GameEngine.isSpinning) return;
-    if (!GameEngine.selectedChip) return;
+    if (!GameEngine.getSelectedChip) return;
 
     const symbol = box.dataset.symbol;
-    const amount = GameEngine.selectedChip.value;
+    const amount = GameEngine.getSelectedChip().value;
 
-    if (!subtractBalance(amount)) return;
+    const result = GameEngine.placeBet(symbol, amount);
 
-    addBet(symbol, amount);
+    if (!result.success) return;
+
     placeChipVisual(box, amount);
 
-    // 🔊 TABLE SOUND (HERE IS THE CORRECT PLACE)
-    GameEngine.playSound("table");
+    // 🔊 TABLE SOUND
+    GameEngine.audioSystem.play("tableSound");
 
     console.log("💰 BET:", symbol, amount);
+}
 }
 
 function placeChipVisual(box, amount) {
