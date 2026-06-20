@@ -350,7 +350,7 @@ function spinWheel() {
         GameEngine.isSpinning = true;
     }
 
-   function animate(t) {
+  function animate(t) {
 
     const p = Math.min((t - t0) / duration, 1);
     const ease = p * (2 - p);
@@ -375,14 +375,16 @@ function spinWheel() {
             GameEngine.setSpinning(false);
         }
 
-        // 🎯 RESULT (ONLY HERE)
+        // 🎯 RESULT
         const symbols = ["heart", "diamond", "club", "spade", "crown", "flag"];
 
         const normalized = Math.floor(((target % 360) + 360) % 360 / (360 / symbols.length));
 
         const result = symbols[normalized];
 
-        handleWheelResult(result);
+        if (typeof handleWheelResult === "function") {
+            handleWheelResult(result);
+        }
     }
 }
 
