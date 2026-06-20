@@ -280,7 +280,7 @@ function onSpinEnd(result) {
 
     console.log("🏁 SPIN END");
 
-    resolvePayout(result);
+    GameEngine.resolvePayout(result); // ✅ FIXED
 
     resetWheelState();
 
