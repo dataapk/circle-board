@@ -16,14 +16,7 @@ if (window.__GAME_INIT__) {
 // 🚀🚀🚀 START: BOOT / DOM READY SYSTEM 🚀🚀🚀
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
-
-    GameEngine.on("balanceChanged", (balance) => {
-        const el = document.getElementById("balance");
-        if (!el) return;
-
-        el.innerText = "$" + balance.toFixed(2);
-    });
-
+    GameEngine.syncUI();
 });
 // ======================================================
 // 🛑🛑🛑 END: BOOT SYSTEM 🛑🛑🛑
