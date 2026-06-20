@@ -189,19 +189,23 @@ function setupBoardSystem() {
 
 function onTableClick(box) {
 
-    if (GameEngine.isSpinning) return;
-    if (!GameEngine.getSelectedChip) return;
+    const state = GameEngine.getState();
+
+    if (state.isSpinning) return;
+    if (!state.selectedChip) return;
 
     const symbol = box.dataset.symbol;
-    const amount = GameEngine.getSelectedChip().value;
+    const amount = state.selectedChip.value;
 
     const result = GameEngine.placeBet(symbol, amount);
 
-    if (!result.success) return;
+    if (!result.success) {
+        console.log("BET FAILED:", result.reason);
+        return;
+    }
 
     placeChipVisual(box, amount);
 
-    // 🔊 TABLE SOUND
     GameEngine.audioSystem.play("tableSound");
 
     console.log("💰 BET:", symbol, amount);
