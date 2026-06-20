@@ -351,8 +351,12 @@ function spinWheel() {
         if (p < 1) {
             requestAnimationFrame(animate);
         } else {
+
+            // 🎯 SAVE ROTATION ONLY
             GameEngine.currentRotation = target;
-            handleWheelResult(target);
+
+            // 🚨 ONLY TRIGGER ENGINE (NO LOGIC HERE)
+            GameEngine.handleWheelResult(target);
         }
     }
 
