@@ -123,13 +123,17 @@ const audioSystem = (function () {
     // ==================================================
     return {
 
-        bind,
-        play,
-        stopAll
-    };
+    bind,
+    play,
+    stopAll,
 
-})();
+    getState,
+    getBalance,
 
+    setSelectedChip,
+    getSelectedChip
+
+};
     // ==================================================
     // 💰 PAYOUT TABLE
     // ==================================================
