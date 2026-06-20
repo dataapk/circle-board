@@ -129,28 +129,23 @@ GameEngine.playSound = function (key) {
 // ======================================================
 //    💰 START: PLACE BET SYSTEM
 // ======================================================
-function placeBet(type, amount) {
+placeBet(type, amount) {
 
     amount = Number(amount);
-    if (isNaN(amount) || amount <= 0) return;
+    if (isNaN(amount) || amount <= 0) return false;
 
-    if (GameEngine.balance < amount) {
+    if (this.balance < amount) {
         console.log("❌ NOT ENOUGH BALANCE");
-        return;
+        return false;
     }
 
-    GameEngine.balance -= amount;
+    this.balance -= amount;
 
-    if (!GameEngine.bets[type]) {
-        GameEngine.bets[type] = 0;
-    }
-
-    GameEngine.bets[type] += amount;
+    this.bets[type] = (this.bets[type] || 0) + amount;
 
     console.log("💰 BET PLACED:", type, amount);
-    console.log("💸 BALANCE:", GameEngine.balance);
 
-    updateBalance(); // UI sync
+    return true;
 }
 
 // ======================================================
