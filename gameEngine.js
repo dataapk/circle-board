@@ -218,7 +218,18 @@ window.GameEngine = (function () {
     // 🎯 RESOLVE PAYOUT
     // ==================================================
 
-    function resolvePayout(result) {
+    console.log("BEFORE PAYOUT:", GameEngine.getState());
+
+// 🧠 validate first
+if (!result) {
+    console.error("❌ Invalid result");
+    return;
+}
+
+// 🎯 payout call
+GameEngine.resolvePayout(result);
+
+console.log("AFTER PAYOUT:", GameEngine.getState());
 
     // 🧠 validate result
     if (!result) {
