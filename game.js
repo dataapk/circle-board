@@ -124,11 +124,12 @@ chips.forEach(chip => {
 
         e.stopPropagation();
 
-        if (!state.open) return;
+        // ❌ TEMP: state.open dependency remove (BUG SOURCE)
+        // if (!state.open) return;
 
         const value = parseFloat(chip.dataset.value || "0.1");
 
-        // 🔥 ONLY ENGINE STATE (REMOVE ALL DUPLICATES)
+        // ✅ ENGINE ONLY SINGLE SOURCE
         GameEngine.setSelectedChip({
             value: value
         });
@@ -137,19 +138,18 @@ chips.forEach(chip => {
         chips.forEach(c => c.classList.remove("active"));
         chip.classList.add("active");
 
-        // update default display
+        // UI update
         const span = defaultChip.querySelector("span");
         if (span) span.innerText = "$" + value;
 
         console.log("🪙 CHIP SELECTED:", value);
 
-        // CLOSE FAN
+        // CLOSE FAN (UI ONLY)
         state.open = false;
         container.classList.remove("fan");
         container.classList.add("closed");
     });
 });
-}
 
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
