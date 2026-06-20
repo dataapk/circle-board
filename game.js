@@ -238,8 +238,6 @@ function spinGame() {
     // 🔒 5. LOCK FULL GAME UI
     lockGameUI();
 
-    // 🔊 6. SPIN SOUND START
-    GameEngine.audio.play(GameEngine.spinSound);
 
     // 🎡 7. START WHEEL ANIMATION
     spinWheel();
