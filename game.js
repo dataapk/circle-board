@@ -334,60 +334,29 @@ function spinWheel() {
     if (!wheel) return;
 
     const duration = 12000;
-
-    const start = GameEngine.getRotation
-        ? GameEngine.getRotation()
-        : (GameEngine.currentRotation || 0);
-
+    const start = GameEngine.currentRotation || 0;
     const target = start + (8 * 360);
 
     const t0 = performance.now();
 
-    // 🎡 LOCK ENGINE
-    if (GameEngine.setSpinning) {
-        GameEngine.setSpinning(true);
-    } else {
-        GameEngine.isSpinning = true;
-    }
-    // ======================================================
-// 🎡🎡🎡 START: WHEEL ANIMATION 🎡🎡🎡
-// ======================================================
+    function animate(t) {
 
-  function animate(t) {
+        const p = Math.min((t - t0) / duration, 1);
+        const ease = p * (2 - p);
 
-    const p = Math.min((t - t0) / duration, 1);
-    const ease = p * (2 - p);
+        const angle = start + (target - start) * ease;
 
-    const angle = start + (target - start) * ease;
+        wheel.style.transform = `rotate(${angle}deg)`;
 
-    wheel.style.transform = `rotate(${angle}deg)`;
-
-    if (p < 1) {
-
-        requestAnimationFrame(animate);
-
-    } else {
-
-        // 🎯 FINAL ROTATION SAVE
-        if (GameEngine.setRotation) {
-            GameEngine.setRotation(target);
+        if (p < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            GameEngine.currentRotation = target;
+            handleWheelResult(target);
         }
-
-        if (GameEngine.setSpinning) {
-            GameEngine.setSpinning(false);
-        }
-
-        // 🎯 RESULT
-        const symbols = ["heart", "diamond", "club", "spade", "crown", "flag"];
-
-        const normalized = Math.floor(((target % 360) + 360) % 360 / (360 / symbols.length));
-
-        const result = symbols[normalized];
-
-        if (typeof handleWheelResult === "function") {
-            handleWheelResult(result);
-         }
     }
+
+    requestAnimationFrame(animate);
 }
 
 // ======================================================
