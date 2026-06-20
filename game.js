@@ -17,11 +17,13 @@ if (window.__GAME_INIT__) {
 // ======================================================
 document.addEventListener("DOMContentLoaded", () => {
 
-    console.log("🚀 GAME DOM READY");
+    GameEngine.on("balanceChanged", (balance) => {
+        const el = document.getElementById("balance");
+        if (!el) return;
 
-    startGame();
+        el.innerText = "$" + balance.toFixed(2);
+    });
 
-    console.log("🔗 SYSTEMS CONNECTED");
 });
 // ======================================================
 // 🛑🛑🛑 END: BOOT SYSTEM 🛑🛑🛑
