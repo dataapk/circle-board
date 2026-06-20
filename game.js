@@ -356,7 +356,7 @@ function spinWheel() {
             GameEngine.currentRotation = target;
 
             // 🚨 ONLY TRIGGER ENGINE (NO LOGIC HERE)
-            GameEngine.handleWheelResult(target);
+              GameEngine.resolvePayout(result);
         }
     }
 
