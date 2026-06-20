@@ -388,8 +388,6 @@ function spinWheel() {
             handleWheelResult(result);
          }
     }
-
-    requestAnimationFrame(animate);
 }
 
 // ======================================================
