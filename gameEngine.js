@@ -168,7 +168,7 @@ const audioSystem = (function () {
 // 🪙 CHIP SYSTEM (LOGIC ONLY - GAMEENGINE)
 // ==================================================
 
-setSelectedChip(chip) {
+setSelectedChip(chip) 
     console.log("🟢 CHIP SET CALLED:", chip);
     console.trace("📍 CHIP SET TRACE");
 
