@@ -241,31 +241,30 @@ function spinGame() {
 
     console.log("🔥 SPIN START REQUEST");
 
+    const state = GameEngine.getState();
+
     // 🧠 1. already spinning check
-    if (GameEngine.isSpinning) {
+    if (state.isSpinning) {
         console.log("❌ BLOCKED: already spinning");
         return;
     }
 
     // 💰 2. bet validation
-    if (!GameEngine.bets || Object.keys(GameEngine.bets).length === 0) {
+    if (!state.bets || Object.keys(state.bets).length === 0) {
         console.log("❌ NO BETS PLACED");
         return;
     }
 
-    // 🎰 3. SET ENGINE STATE
-GameEngine.isSpinning = true;
+    // 🎰 3. SET ENGINE STATE (IMPORTANT)
+    GameEngine.lockGame();
 
-// 🔊 2. SPIN SOUND (HERE)
-GameEngine.playSound("spin");
-
-    
+    // 🔊 4. SPIN SOUND (SAFE AUDIO SYSTEM)
+    GameEngine.audioSystem.play("spinSound");
 
     // 🔒 5. LOCK FULL GAME UI
     lockGameUI();
 
-
-    // 🎡 7. START WHEEL ANIMATION
+    // 🎡 6. START WHEEL ANIMATION
     spinWheel();
 }
 
