@@ -205,6 +205,9 @@ function onTableClick(box) {
 
     GameEngine.audioSystem.play("tableSound");
 
+    // 🔥 ADD THIS (IMPORTANT)
+    updateBalanceUI(result.balance);
+
     console.log("💰 BET:", symbol, amount);
 }
 
