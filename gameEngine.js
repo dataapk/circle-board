@@ -30,6 +30,26 @@ window.GameEngine = {
     isSpinning: false,
     lastResult: null,
     currentRotation: 0,
+    
+    // =================
+    // METHODS
+    // =================
+
+    placeBet(type, amount) {
+
+        amount = Number(amount);
+        if (isNaN(amount) || amount <= 0) return false;
+
+        if (this.balance < amount) return false;
+
+        this.balance -= amount;
+
+        this.bets[type] = (this.bets[type] || 0) + amount;
+
+        console.log("💰 BET:", type, amount);
+
+        return true;
+    },
 
     resolvePayout(result) {
 
