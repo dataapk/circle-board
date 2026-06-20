@@ -31,8 +31,7 @@ function initGame() {
     console.log("🧠 GAME INIT START");
 
     try {
-
-        initAudio();
+        GameEngine.audioSystem.bind();
         initChipSystem();
         setupBoardSystem();
         setupSpinButton();
