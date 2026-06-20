@@ -147,25 +147,31 @@ GameEngine.playSound = function (key) {
 };
 // END: AUDIO PLAY FUNCTION
 // ======================================================
-//    💰 START: PLACE BET SYSTEM
+//     PLACE BET 
 // ======================================================
-placeBet(type, amount) {
-
+  function placeBet(type, amount) {
+   
     amount = Number(amount);
-    if (isNaN(amount) || amount <= 0) return false;
+    if (isNaN(amount) || amount <= 0) return;
 
-    if (this.balance < amount) {
+    if (GameEngine.balance < amount) {
         console.log("❌ NOT ENOUGH BALANCE");
-        return false;
+        return;
     }
 
-    this.balance -= amount;
+    GameEngine.balance -= amount;
 
-    this.bets[type] = (this.bets[type] || 0) + amount;
+    if (!GameEngine.bets[type]) {
+        GameEngine.bets[type] = 0;
+    }
+
+    GameEngine.bets[type] += amount;
 
     console.log("💰 BET PLACED:", type, amount);
+    console.log("💸 BALANCE:", GameEngine.balance);
 
-    return true;
+    // 🔥 THIS IS THE MISSING PART
+    updateBalance();
 }
 
 // ======================================================
