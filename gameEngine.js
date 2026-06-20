@@ -188,16 +188,35 @@ window.GameEngine = (function () {
     // ==================================================
     function calculateWin(result) {
 
-        let win = 0;
+    const payoutTable = {
+        heart: 2,
+        diamond: 2,
+        club: 2,
+        spade: 2,
+        crown: 3,
+        flag: 3
+    };
 
-        for (let bet in state.bets) {
-            if (bet === result) {
-                win += state.bets[bet] * (PAYOUT_TABLE[bet] || 0);
-            }
+    let win = 0;
+
+    const bets = state.bets || {};
+
+    for (let bet in bets) {
+
+        const amount = bets[bet];
+
+        if (bet === result) {
+            const multiplier = payoutTable[bet] || 0;
+            win += amount * multiplier;
         }
-
-        return Math.round(win * 100) / 100;
     }
+
+    return Math.round(win * 100) / 100;
+}
+    
+    // ==================================================
+    // 🎯 RESOLVE PAYOUT
+    // ==================================================
 
     function resolvePayout(result) {
 
