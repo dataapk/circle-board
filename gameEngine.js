@@ -73,34 +73,31 @@ const audioSystem = (function () {
     // ==================================================
     function play(type) {
 
-        const now = Date.now();
+    const now = Date.now();
 
-        if (cooldown[type] && now - cooldown[type] < COOLDOWN_TIME) {
-            return;
-        }
-
-        cooldown[type] = now;
-
-        const sound = sounds[type];
-
-        if (!sound) return;
-
-        try {
-
-            sound.currentTime = 0;
-
-            const playPromise = sound.play();
-
-            // prevent browser autoplay crash
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {});
-            }
-
-        } catch (err) {
-            // silent fail (casino standard)
-        }
+    if (cooldown[type] && now - cooldown[type] < COOLDOWN_TIME) {
+        return;
     }
 
+    cooldown[type] = now;
+
+    const sound = sounds[type];
+
+    if (!(sound instanceof HTMLAudioElement)) return;
+
+    try {
+        sound.currentTime = 0;
+
+        const playPromise = sound.play();
+
+        if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(() => {});
+        }
+
+    } catch (err) {
+        // silent fail
+    }
+}
     // ==================================================
     // 🔧 OPTIONAL: STOP ALL SOUNDS
     // ==================================================
@@ -179,34 +176,34 @@ const audioSystem = (function () {
     // ==================================================
     function placeBet(type, amount) {
 
-        amount = Number(amount);
+    amount = Number(amount);
 
-        if (!type || isNaN(amount) || amount <= 0) {
-            return { success: false, reason: "invalid_bet" };
-        }
-
-        if (state.isSpinning) {
-            return { success: false, reason: "game_locked" };
-        }
-
-        if (state.balance < amount) {
-            return { success: false, reason: "insufficient_balance" };
-        }
-
-        state.balance -= amount;
-
-        state.bets[type] =
-            (state.bets[type] || 0) + amount;
-
-        playSound("chip");
-
-        return {
-            success: true,
-            balance: state.balance,
-            bets: { ...state.bets }
-        };
+    if (!type || isNaN(amount) || amount <= 0) {
+        return { success: false, reason: "invalid_bet" };
     }
 
+    if (state.isSpinning) {
+        return { success: false, reason: "game_locked" };
+    }
+
+    if (state.balance < amount) {
+        return { success: false, reason: "insufficient_balance" };
+    }
+
+    state.balance -= amount;
+
+    state.bets[type] =
+        (state.bets[type] || 0) + amount;
+
+    // 🔊 NEW AUDIO SYSTEM
+    GameEngine.audioSystem.play("chipSound");
+
+    return {
+        success: true,
+        balance: state.balance,
+        bets: { ...state.bets }
+    };
+}
     // ==================================================
     // 🔒 GAME LOCK
     // ==================================================
@@ -252,26 +249,30 @@ const audioSystem = (function () {
     // ==================================================
     function resolvePayout(result) {
 
-        state.lastResult = result;
+    state.lastResult = result;
 
-        const win = calculateWin(result);
+    const win = calculateWin(result);
 
-        if (win > 0) {
-            state.balance += win;
-            playSound("win");
-        } else {
-            playSound("lose");
-        }
+    if (win > 0) {
 
-        state.bets = {};
-        unlockGame();
+        state.balance += win;
 
-        return {
-            result,
-            win,
-            balance: state.balance
-        };
+        GameEngine.audioSystem.play("winSound");
+
+    } else {
+
+        GameEngine.audioSystem.play("loseSound");
     }
+
+    state.bets = {};
+    unlockGame();
+
+    return {
+        result,
+        win,
+        balance: state.balance
+    };
+}
 
     // ==================================================
     // 🔄 ROUND RESET
@@ -311,8 +312,6 @@ const audioSystem = (function () {
         resolvePayout,
 
         resetRound,
-
-        playSound,
 
         audioSystem   // 👈 IMPORTANT
     };
