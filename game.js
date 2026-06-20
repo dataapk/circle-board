@@ -179,10 +179,6 @@ function onTableClick(box) {
 
     if (!subtractBalance(amount)) return;
 
-if (GameEngine.audio && GameEngine.tableSound) {
-    GameEngine.audio.play(GameEngine.tableSound);
-}
-
     addBet(symbol, amount);
     placeChipVisual(box, amount);
 
