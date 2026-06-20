@@ -111,34 +111,6 @@ defaultChip.addEventListener("click", (e) => {
     }
 });
 
-chips.forEach(chip => {
-
-    if (chip.classList.contains("default-chip")) return;
-
-    chip.addEventListener("click", (e) => {
-
-        e.stopPropagation();
-
-        const value = parseFloat(chip.dataset.value || "0.1");
-
-        GameEngine.setSelectedChip({
-            value: value
-        });
-
-        chips.forEach(c => c.classList.remove("active"));
-        chip.classList.add("active");
-
-        const span = defaultChip.querySelector("span");
-        if (span) span.innerText = "$" + value;
-
-        console.log("🪙 CHIP SELECTED:", value);
-
-        state.open = false;
-        container.classList.remove("fan");
-        container.classList.add("closed");
-    });
-});
-
   // =========================
   // CHIP SELECT
   // =========================
