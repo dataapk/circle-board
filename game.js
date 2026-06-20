@@ -373,7 +373,6 @@ function spinWheel() {
             GameEngine.setRotation(target);
         }
 
-        // 🔓 UNLOCK
         if (GameEngine.setSpinning) {
             GameEngine.setSpinning(false);
         }
@@ -389,6 +388,9 @@ function spinWheel() {
             handleWheelResult(result);
         }
     }
+}
+
+requestAnimationFrame(animate);
 
 // ======================================================
 // 🛑🛑🛑 END: WHEEL SYSTEM 🛑🛑🛑
