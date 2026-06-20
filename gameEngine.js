@@ -86,7 +86,7 @@ if (window.__ENGINE_INIT__) {
         this.unlockGame(); // ✔ IMPORTANT
 
         updateBalance();
-    }
+    },
 
     // =========================
     // 🔊 AUDIO
