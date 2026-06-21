@@ -224,6 +224,34 @@ function spinGame() {
 // ======================================================
 // 🛑🛑🛑 END: SPIN SYSTEM 🛑🛑🛑
 // ======================================================
+//======================================================
+// 🎯 WHEEL RESULT CALCULATOR (SEPARATE FROM ANIMATION)
+// ======================================================
+function getWheelResultFromAngle(angle) {
+
+    const wheelSegments = [
+        "heart",
+        "spade",
+        "diamond",
+        "club",
+        "crown",
+        "flag",
+        "heart",
+        "crown",
+        "spade",
+        "diamond",
+        "flag",
+        "club"
+    ];
+
+    const normalizedAngle = (angle % 360 + 360) % 360;
+
+    const segmentSize = 360 / wheelSegments.length;
+
+    const index = Math.floor(normalizedAngle / segmentSize);
+
+    return wheelSegments[index];
+}
 // ======================================================
 // 💰 START: PAYOUT ENGINE
 // ======================================================
