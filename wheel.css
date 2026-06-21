@@ -391,9 +391,11 @@ html, body {
 .chips-container.closed .chip:not(.default-chip){
  
 }
-.chips-container {
-  position: relative;
-  z-index: 9999;
+.chips-container{
+    position: relative;
+    width: 320px;
+    height: 160px;
+    margin: 0 auto;
 }
 /* =========================
    🪙 CHIP BASE STYLE
