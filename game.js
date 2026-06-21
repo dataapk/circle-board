@@ -257,14 +257,17 @@ function getWheelResultFromAngle(angle) {
 // ======================================================
 function onSpinEnd(result) {
 
-    console.log("🏁 ON SPIN END HIT");
+    console.log("🧪 PROOF: onSpinEnd TRIGGERED");
+
+    console.trace("📍 CALL STACK TRACE");
+
+    console.log("🏁 SPIN END");
 
     const payout = GameEngine.resolvePayout(result);
 
-    console.log("🎯 AFTER PAYOUT");
-
     updateBalanceUI(payout.balance);
 
+    resetWheelState();
     resetBoardUI();
 
     startNewRound();
