@@ -375,46 +375,59 @@ html, body {
 
 
 /* ======================================================
-   🪙 CHIP SYSTEM ENGINE (CASINO SELECTOR FIXED)
+   🪙 CHIP SYSTEM ENGINE (SEMICIRCLE JS CONTROLLED)
 ====================================================== */
 
+/* =========================
+   🎰 WRAPPER (MOBILE SAFE)
+========================= */
+
 .chips-wrapper{
-  position: relative;
-  width: 360px;
-  height: 180px;
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    height: 180px;
+    margin: 0 auto;
+    overflow: visible;
 }
 
 /* =========================
    🎰 CHIP CONTAINER
 ========================= */
 
-.chips-container.closed .chip:not(.default-chip){
- 
-}
 .chips-container{
     position: relative;
-    width: 320px;
-    height: 160px;
-    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
+
 /* =========================
    🪙 CHIP BASE STYLE
 ========================= */
 
-.chip {
-  z-index: 10000;
+.chip{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+
+    transition: all 0.25s ease;
+
+    z-index: 10;
 }
 
 /* =========================
    🖼 CHIP IMAGE
 ========================= */
 
-.chip img {
+.chip img{
     width: 85%;
     height: 85%;
 
     object-fit: contain;
-
     display: block;
 
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
@@ -428,7 +441,7 @@ html, body {
    🏷 CHIP LABEL
 ========================= */
 
-.chip span {
+.chip span{
     position: absolute;
     left: 50%;
     bottom: -16px;
@@ -444,48 +457,61 @@ html, body {
 }
 
 /* =========================
-   🔥 ACTIVE CHIP STATE
+   🔥 ACTIVE CHIP
 ========================= */
 
-.chip.active {
-
+.chip.active{
     box-shadow:
         0 0 12px var(--glow-gold-mid),
         0 0 22px var(--glow-gold-soft);
 
-    z-index: var(--z-top);
+    z-index: 999;
 }
 
-.default-chip {
-  z-index: 10001;
-  position: absolute;
+/* =========================
+   🎯 DEFAULT CHIP
+========================= */
+
+.default-chip{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 1000;
 }
+
 .chips-container.expanded.fan .chip{
   transition: all 0.35s ease;
 }
 
+/* =========================
+   🎰 6 CHIP SEMI FAN (BALANCED)
+========================= */
+
 .chips-container.fan .chip:nth-child(1){
-  transform: translate(0px, 95px) rotate(-35deg);
+  transform: translate(10px, 95px) rotate(-35deg);
 }
 
 .chips-container.fan .chip:nth-child(2){
-  transform: translate(60px, 55px) rotate(-20deg);
+  transform: translate(70px, 55px) rotate(-22deg);
 }
 
 .chips-container.fan .chip:nth-child(3){
-  transform: translate(120px, 30px) rotate(-8deg);
+  transform: translate(130px, 25px) rotate(-8deg);
 }
 
 .chips-container.fan .chip:nth-child(4){
-  transform: translate(180px, 30px) rotate(8deg);
+  transform: translate(190px, 25px) rotate(8deg);
 }
 
 .chips-container.fan .chip:nth-child(5){
-  transform: translate(240px, 55px) rotate(20deg);
+  transform: translate(250px, 55px) rotate(22deg);
 }
 
 .chips-container.fan .chip:nth-child(6){
-  transform: translate(300px, 95px) rotate(35deg);
+  transform: translate(310px, 95px) rotate(35deg);
 }
 
 /* ======================================================
