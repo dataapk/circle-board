@@ -259,21 +259,12 @@ function onSpinEnd(result) {
 
     console.log("🏁 SPIN END");
 
-    // 💰 payout
     const payout = GameEngine.resolvePayout(result);
 
-    // 🎯 sync balance UI
     updateBalanceUI(payout.balance);
-
-    // 🎨 reset visuals
-    resetWheelState();
-    resetBoardUI();
-
-    // 🔄 start fresh round
-    startNewRound();
-
-    // 🔓 unlock board
     unlockGameUI();
+
+    startNewRound();
 
     console.log("✔ READY NEXT ROUND");
 }
