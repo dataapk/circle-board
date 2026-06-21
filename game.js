@@ -434,7 +434,29 @@ function unlockGameUI() {
 // ======================================================
 // 🛑🛑🛑 END: UI LOCK SYSTEM 🛑🛑🛑
 // ======================================================
+function resetRoundUI() {
 
+    console.log("🎨 UI RESET START");
+
+    // 🧹 remove all bet visuals
+    document.querySelectorAll(".bet-marker")
+        .forEach(el => el.remove());
+
+    // 🧹 remove highlights
+    document.querySelectorAll(".symbol-box")
+        .forEach(el => el.classList.remove("winner"));
+
+    // 🧹 force chip reset UI
+    document.querySelectorAll(".chip")
+        .forEach(el => el.classList.remove("selected"));
+
+    // 🧹 clear pointer effects
+    if (typeof resetPointer === "function") {
+        resetPointer();
+    }
+
+    console.log("🎨 UI RESET DONE");
+}
 
 // ======================================================
 // 🛑🛑🛑 END: RESET SYSTEM 🛑🛑🛑
