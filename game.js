@@ -61,76 +61,95 @@
 // ======================================================
 // 🪙🪙🪙 START: CHIP SYSTEM (FAN FIXED) 🪙🪙🪙
 // ======================================================
-
 function initChipSystem() {
 
-  const container = document.querySelector(".chips-container");
-  const chips = document.querySelectorAll(".chip");
-  const defaultChip = document.querySelector(".default-chip");
+    const container = document.querySelector(".chips-container");
+    const chips = document.querySelectorAll(".chip");
+    const defaultChip = document.querySelector(".default-chip");
 
-  if (!container || !defaultChip || chips.length === 0) return;
+    if (!container || !defaultChip || chips.length === 0) {
+        console.error("❌ CHIP SYSTEM INIT FAILED");
+        return;
+    }
 
-  container.classList.remove("fan");
-  container.classList.add("closed");
+    console.log("🟢 CHIP SYSTEM INIT OK");
 
-  // =========================
-  // FAN TOGGLE
-  // =========================
-  defaultChip.addEventListener("click", (e) => {
+    // =========================
+    // RESET START STATE
+    // =========================
+    container.classList.remove("fan");
+    container.classList.add("closed");
+    GameEngine.chipFanOpen = false;
+    GameEngine.selectedChip = null;
 
-    e.stopPropagation();
+    // =========================
+    // DEFAULT CHIP (FAN TOGGLE ONLY)
+    // =========================
+    defaultChip.addEventListener("click", (e) => {
 
-    // 🔒 safety check (fix function call bug)
-    if (GameEngine.isSpinning) return;
+        e.stopPropagation();
 
-    const isOpen = container.classList.contains("fan");
+        if (GameEngine.isSpinning) return;
 
-    // 🎯 toggle UI state
-    if (isOpen) {
+        GameEngine.chipFanOpen = !GameEngine.chipFanOpen;
+
+        if (GameEngine.chipFanOpen) {
+            container.classList.add("fan");
+            container.classList.remove("closed");
+        } else {
+            container.classList.remove("fan");
+            container.classList.add("closed");
+        }
+
+        GameEngine.audioSystem?.play?.("chipSound");
+
+        console.log("🎰 FAN STATE:", GameEngine.chipFanOpen);
+    });
+
+    // =========================
+    // CHIP SELECT LOGIC (IMPORTANT FIX)
+    // =========================
+    chips.forEach((chip) => {
+
+        chip.addEventListener("click", (e) => {
+
+            e.stopPropagation();
+
+            if (GameEngine.isSpinning) return;
+
+            const value = Number(chip.dataset.value);
+
+            // 🧠 set selected chip
+            GameEngine.selectedChip = value;
+
+            // 🎯 update default chip UI
+            defaultChip.innerText = value;
+
+            // 🔒 close fan
+            GameEngine.chipFanOpen = false;
+            container.classList.remove("fan");
+            container.classList.add("closed");
+
+            // 🔊 sound
+            GameEngine.audioSystem?.play?.("chipSound");
+
+            console.log("🪙 CHIP SELECTED:", value);
+        });
+    });
+
+    // =========================
+    // OUTSIDE CLICK → CLOSE FAN (IMPORTANT)
+    // =========================
+    document.addEventListener("click", () => {
+
+        if (!GameEngine.chipFanOpen) return;
+
+        GameEngine.chipFanOpen = false;
         container.classList.remove("fan");
         container.classList.add("closed");
 
-        // 🧠 update engine state
-        GameEngine.chipFanOpen = false;
-
-    } else {
-        container.classList.add("fan");
-        container.classList.remove("closed");
-
-        // 🧠 update engine state
-        GameEngine.chipFanOpen = true;
-    }
-
-    // 🔊 sound
-    GameEngine.audioSystem?.play?.("chipSound");
-
-    console.log("🎰 FAN TOGGLE:", GameEngine.chipFanOpen);
-});
-  // =========================
-  // CHIP SELECT
-  // =========================
-  chips.forEach(chip => {
-
-    if (chip.classList.contains("default-chip")) return;
-
-    chip.addEventListener("click", (e) => {
-
-      e.stopPropagation();
-
-      const value = parseFloat(chip.dataset.value || "0.1");
-
-      GameEngine.setSelectedChip({ value });
-
-      chips.forEach(c => c.classList.remove("active"));
-      chip.classList.add("active");
-
-      const span = defaultChip.querySelector("span");
-      if (span) span.innerText = "$" + value;
-
-      console.log("🪙 CHIP SELECTED:", value);
+        console.log("🔒 FAN AUTO CLOSED");
     });
-
-  });
 }
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
