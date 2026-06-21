@@ -281,7 +281,6 @@ function onSpinEnd(result) {
 // ======================================================
 // 💰 START: PAYOUT ENGINE
 // ======================================================
-
 // ======================================================
 // 🔄 START: NEW ROUND RESET (FINAL)
 // ======================================================
@@ -290,15 +289,15 @@ function startNewRound() {
 
     console.log("🔄 START NEW ROUND HIT");
 
-    // 🧠 ENGINE RESET
     GameEngine.resetGame();
 
-    // 🎨 UI RESET
-    if (typeof resetRoundUI === "function") {
-        resetRoundUI();
-    }
+    document.querySelectorAll(".bet-marker").forEach(el => el.remove());
 
-    // 🔍 DEBUG
+    console.log(
+        "BET MARKERS AFTER RESET:",
+        document.querySelectorAll(".bet-marker").length
+    );
+
     console.log("STATE AFTER RESET:", GameEngine.getState());
 
     console.log("✔ ROUND READY");
@@ -306,6 +305,7 @@ function startNewRound() {
 // ======================================================
 // 🔄 END: NEW ROUND 
 // ======================================================
+
 
 
 
