@@ -276,28 +276,26 @@ function onSpinEnd(result) {
 
     console.log("🏁 SPIN END");
 
-    // 🎯 1. ENGINE PAYOUT (ONLY ONCE)
     const payout = GameEngine.resolvePayout(result);
+    console.log("🧪 PAYOUT:", payout);
 
-    // 💰 2. UI BALANCE SYNC
+    console.log("🧪 BEFORE RESET CALL:", GameEngine.getState());
+
+    GameEngine.resetRound();
+
+    console.log("🧪 AFTER RESET CALL:", GameEngine.getState());
+
     updateBalanceUI(GameEngine.balance);
 
-    // 🔊 3. SOUND FEEDBACK
     GameEngine.audioSystem.play(
         payout.win > 0 ? "winSound" : "loseSound"
     );
 
-    // 🧠 4. ENGINE RESET (IMPORTANT FIX)
-    GameEngine.resetRound();
-
-    // 🎡 5. UI RESET (VISUAL ONLY)
     resetWheelState();
     resetBoardUI();
 
-    // 🔓 6. ENABLE INTERACTION
     unlockGameUI();
 
-    // 🔄 7. NEXT ROUND READY
     startNewRound();
 
     console.log("✔ READY NEXT ROUND");
