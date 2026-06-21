@@ -335,14 +335,18 @@ function spinWheel() {
             requestAnimationFrame(animate);
         } else {
 
-            // 🎯 SAVE ROTATION ONLY
             GameEngine.currentRotation = target;
-            
-            // 🎯 RESULT OUTSIDE LOGIC
-            const result = getWheelResultFromAngle(target);
 
-            // 🚨 ENGINE CALL ONLY
-            GameEngine.resolvePayout(result);
+    const result = getWheelResultFromAngle(target);
+
+    // 💣 STEP 1: PAYOUT
+    const payout = GameEngine.resolvePayout(result);
+
+    console.log("🎯 RESULT:", result);
+    console.log("💰 PAYOUT:", payout);
+
+    // 🔥 STEP 2: CONTINUE FLOW (MISSING LINK FIX)
+    onSpinEnd(result);
         }
     }
 
