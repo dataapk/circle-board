@@ -266,13 +266,17 @@ function resolvePayout(result) {
     // 🔄 RESET
     // ==================================================
     function resetRound() {
-        state.bets = {};
-        state.lastResult = null;
-        state.selectedChip = null;
-        state.isSpinning = false;
+    console.log("🧪 RESET ROUND CALLED");
 
-        audioSystem.stopAll();
-    }
+    state.bets = {};
+    state.lastResult = null;
+    state.selectedChip = null;
+    state.isSpinning = false;
+
+    console.log("🧪 AFTER RESET:", state);
+
+    audioSystem.stopAll();
+}
 
     // ==================================================
     // 📦 PUBLIC API
