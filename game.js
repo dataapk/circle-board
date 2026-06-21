@@ -8,15 +8,33 @@
 
     document.addEventListener("DOMContentLoaded", () => {
 
-        // 🔐 safety guard (extra protection)
-        if (gameInitialized) {
-            console.log("⚠ GAME ALREADY INITIALIZED (DOM SKIP)");
-            return;
-        }
+    // 🔐 safety guard
+    if (gameInitialized) {
+        console.log("⚠ GAME ALREADY INITIALIZED");
+        return;
+    }
 
-        startGame();
+    startGame();
 
+    // 🎯 SAFE PLACE: board event inside DOM ready
+    const board = document.querySelector(".game-board");
+
+    if (!board) {
+        console.error("❌ GAME BOARD NOT FOUND");
+        return;
+    }
+
+    board.addEventListener("click", (e) => {
+
+        if (!GameEngine.selectedChip) return;
+        if (GameEngine.isSpinning) return;
+
+        const betValue = GameEngine.selectedChip;
+
+        GameEngine.placeBet?.(betValue, e);
     });
+
+});
 
     // ======================================================
     // 🧠 GAME START WRAPPER
@@ -139,6 +157,7 @@ function initChipSystem() {
         closeChipFan();
     });
 }
+
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
 // ======================================================
