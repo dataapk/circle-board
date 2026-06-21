@@ -277,28 +277,22 @@ function onSpinEnd(result) {
     console.log("🏁 SPIN END");
 
     const payout = GameEngine.resolvePayout(result);
-    console.log("🧪 PAYOUT:", payout);
 
-    console.log("🧪 BEFORE RESET CALL:", GameEngine.getState());
-
-    GameEngine.resetRound();
-
-    console.log("🧪 AFTER RESET CALL:", GameEngine.getState());
-
-    updateBalanceUI(GameEngine.balance);
+    updateBalanceUI(GameEngine.getState().balance);
 
     GameEngine.audioSystem.play(
         payout.win > 0 ? "winSound" : "loseSound"
     );
 
+    // 🚨 FIRST ENGINE RESET
+    GameEngine.resetRound();
+
+    // 🎨 THEN UI RESET
     resetWheelState();
     resetBoardUI();
-
     unlockGameUI();
 
-    startNewRound();
-
-    console.log("✔ READY NEXT ROUND");
+    console.log("✔ READY NEXT ROUND", GameEngine.getState());
 }
 
 // ======================================================
