@@ -257,17 +257,25 @@ function getWheelResultFromAngle(angle) {
 // ======================================================
 function onSpinEnd(result) {
 
+    console.log("🏁 SPIN END");
+
+    // 💰 payout
     const payout = GameEngine.resolvePayout(result);
 
-    updateBalanceUI(GameEngine.balance);
+    // 🎯 sync balance UI
+    updateBalanceUI(payout.balance);
 
+    // 🎨 reset visuals
     resetWheelState();
     resetBoardUI();
 
-    // 🔥 THIS IS REQUIRED (missing link)
+    // 🔄 start fresh round
     startNewRound();
 
+    // 🔓 unlock board
     unlockGameUI();
+
+    console.log("✔ READY NEXT ROUND");
 }
 
 // ======================================================
@@ -280,13 +288,18 @@ function onSpinEnd(result) {
 
 function startNewRound() {
 
-    console.log("🔄 NEW ROUND STARTED");
+    console.log("🔄 START NEW ROUND HIT");
 
-    // 🧠 engine reset
+    // 🧠 ENGINE RESET
     GameEngine.resetGame();
 
-    // 🎨 ui reset
-    resetRoundUI();
+    // 🎨 UI RESET
+    if (typeof resetRoundUI === "function") {
+        resetRoundUI();
+    }
+
+    // 🔍 DEBUG
+    console.log("STATE AFTER RESET:", GameEngine.getState());
 
     console.log("✔ ROUND READY");
 }
@@ -344,14 +357,7 @@ function spinWheel() {
 // ======================================================
 // 🛑 HANDLEWITHRESULTS 🛑
 // ======================================================
-function updateBalanceUI() {
-    const state = GameEngine.getState();
-    const el = document.getElementById("balance");
 
-    if (el) {
-        el.innerText = "$" + Number(state.balance).toFixed(2);
-    }
-}
 // ======================================================
 // 🛑🛑🛑 END: HANDLEWITHRESULTS SYSTEM 🛑🛑🛑
 // ======================================================
@@ -399,17 +405,12 @@ function unlockGameUI() {
 // ======================================================
 // 🛑🛑🛑 END: UI LOCK SYSTEM 🛑🛑🛑
 // ======================================================
-function resetRoundUI() {
+function updateBalanceUI(balance) {
+    const el = document.getElementById("balance");
 
-    document.querySelectorAll(".bet-marker")
-        .forEach(el => el.remove());
-
-    document.querySelectorAll(".symbol-box")
-        .forEach(el => el.classList.remove("winner"));
-
-    resetPointer?.();
-
-    console.log("🎨 UI RESET DONE");
+    if (el) {
+        el.innerText = "$" + balance.toFixed(2);
+    }
 }
 // ======================================================
 // 🛑🛑🛑 END: RESET SYSTEM 🛑🛑🛑
