@@ -278,38 +278,6 @@ function onSpinEnd(result) {
 // 💰 START: PAYOUT ENGINE
 // ======================================================
 
-
-// ======================================================
-// 💰 END: PAYOUT ENGINE
-// ======================================================
-
-// ======================================================
-// 🔄 START: ONSPIN RESULTS
-// ======================================================
-
-function onSpinEnd(result) {
-
-    console.log("🏁 SPIN END");
-
-    // 💰 ENGINE PAYOUT
-    const payout = GameEngine.resolvePayout(result);
-
-    // 💰 UI UPDATE
-    updateBalanceUI();
-
-    // 🔊 SOUND
-    GameEngine.audioSystem.play(
-        payout.win > 0 ? "winSound" : "loseSound"
-    );
-
-    // ♻️ SINGLE RESET (MOST IMPORTANT)
-    GameEngine.resetGame();
-
-    // 🔓 UNLOCK (optional if resetGame না করে unlock দেয়)
-    GameEngine.unlockGame();
-
-    console.log("✔ READY NEXT ROUND");
-}
 // ======================================================
 // 🔄 START: NEW ROUND RESET (FINAL)
 // ======================================================
