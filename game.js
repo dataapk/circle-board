@@ -412,5 +412,8 @@ function resetBoardUI() {
         .querySelectorAll(".bet-marker")
         .forEach(el => el.remove());
 
-    console.log("🧹 BOARD RESET");
+    console.log(
+        "🧹 BOARD RESET:",
+        document.querySelectorAll(".bet-marker").length
+    );
 }
