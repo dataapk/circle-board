@@ -66,68 +66,140 @@ function initChipSystem() {
     const container = document.querySelector(".chips-container");
     const chips = document.querySelectorAll(".chip");
     const defaultChip = document.querySelector(".default-chip");
+    const board = document.querySelector(".game-board");
 
     if (!container || !defaultChip || chips.length === 0) {
         console.error("❌ CHIP SYSTEM INIT FAILED");
         return;
     }
 
-    console.log("🟢 CHIP SYSTEM INIT OK");
+    console.log("🟢 CHIP SYSTEM READY");
 
     // =========================
-    // INITIAL STATE RESET
+    // STATE
     // =========================
-    GameEngine.chipFanOpen = false;
-    GameEngine.selectedChip = GameEngine.selectedChip || Number(defaultChip.dataset.value || 0);
-
-    container.classList.remove("fan");
-    container.classList.add("closed");
-
-    defaultChip.innerText = GameEngine.selectedChip;
+    let isFanOpen = false;
+    let selectedChip = Number(defaultChip.dataset.value || 1);
 
     // =========================
-    // TOGGLE FAN
+    // HELPERS
     // =========================
+
+    function openChipFan() {
+
+        const centerX = container.clientWidth / 2;
+        const centerY = container.clientHeight / 2;
+
+        const radius = Math.min(container.clientWidth, container.clientHeight) * 0.6;
+
+        const items = [...chips].filter(c => !c.classList.contains("default-chip"));
+        const total = items.length;
+
+        const startAngle = Math.PI;
+        const endAngle = 2 * Math.PI;
+
+        const step = (endAngle - startAngle) / (total - 1);
+
+        items.forEach((chip, i) => {
+
+            const angle = startAngle + step * i;
+
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+
+            chip.style.left = x + "px";
+            chip.style.top = y + "px";
+
+            chip.style.opacity = "1";
+            chip.style.pointerEvents = "auto";
+        });
+
+        container.classList.add("fan");
+        container.classList.remove("closed");
+
+        isFanOpen = true;
+    }
+
+    function closeChipFan() {
+
+        chips.forEach(chip => {
+
+            if (!chip.classList.contains("default-chip")) {
+                chip.style.opacity = "0";
+                chip.style.pointerEvents = "none";
+            }
+        });
+
+        container.classList.remove("fan");
+        container.classList.add("closed");
+
+        isFanOpen = false;
+    }
+
+    function setDefaultChip(value) {
+        selectedChip = value;
+        defaultChip.innerText = value;
+        defaultChip.dataset.value = value;
+    }
+
+    // =========================
+    // DEFAULT CHIP CLICK (TOGGLE FAN)
+    // =========================
+
     defaultChip.addEventListener("click", (e) => {
 
         e.stopPropagation();
 
-        if (GameEngine.isSpinning) return;
-
-        if (GameEngine.chipFanOpen) {
+        if (isFanOpen) {
             closeChipFan();
         } else {
             openChipFan();
         }
-
-        GameEngine.audioSystem?.play?.("chipSound");
     });
 
     // =========================
-    // CHIP SELECT HANDLER
+    // CHIP SELECT
     // =========================
-    chips.forEach((chip) => {
 
-    chip.addEventListener("click", (e) => {
+    chips.forEach(chip => {
 
-        e.stopPropagation();
+        if (chip.classList.contains("default-chip")) return;
 
-        const value = Number(chip.dataset.value);
+        chip.addEventListener("click", (e) => {
 
-        // 🧠 SAVE SELECTED CHIP
-        GameEngine.selectedChip = value;
+            e.stopPropagation();
 
-        // 🎯 UPDATE DEFAULT UI
-        const defaultChip = document.querySelector(".default-chip");
-        defaultChip.innerText = value;
+            const value = Number(chip.dataset.value);
 
-        // 🔒 CLOSE FAN AFTER SELECT
-        closeChipFan();
+            setDefaultChip(value);
 
-        console.log("🪙 SELECTED CHIP:", value);
+            closeChipFan();
+        });
     });
-});
 
+    // =========================
+    // BOARD CLICK (PLACE BET)
+    // =========================
+
+    if (board) {
+
+        board.addEventListener("click", (e) => {
+
+            if (GameEngine.isSpinning) return;
+
+            const betValue = selectedChip;
+
+            GameEngine.placeBet?.(betValue, e);
+        });
+    }
+
+    // =========================
+    // INIT STATE
+    // =========================
+
+    closeChipFan();
+    setDefaultChip(selectedChip);
+}
     // =========================
     // OUTSIDE CLICK CLOSE
     // =========================
