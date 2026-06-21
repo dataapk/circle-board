@@ -389,36 +389,18 @@ html, body {
 ========================= */
 
 .chips-container.closed .chip:not(.default-chip){
-  opacity: 0;
-  transform: scale(0);
-  pointer-events: none;
+ 
 }
-.chips-container .default-chip{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+.chips-container {
+  position: relative;
+  z-index: 9999;
 }
 /* =========================
    🪙 CHIP BASE STYLE
 ========================= */
 
-.chip{
-  position: absolute;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.35s ease;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.chips-container.fan .chip{
-  opacity: 1;
-  transform: none;
+.chip {
+  z-index: 10000;
 }
 
 /* =========================
@@ -472,14 +454,14 @@ html, body {
     z-index: var(--z-top);
 }
 
-.default-chip{
-  border: 2px solid gold;
-  z-index: 2;
+.default-chip {
+  z-index: 10001;
+  position: absolute;
 }
 .chips-container.expanded.fan .chip{
   transition: all 0.35s ease;
 }
-}
+
 .chips-container.fan .chip:nth-child(1){
   transform: translate(0px, 95px) rotate(-35deg);
 }
