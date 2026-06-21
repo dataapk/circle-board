@@ -384,115 +384,103 @@ html, body {
 /* ======================================================
    🎰 CHIP SYSTEM (CASINO SEMICIRCLE READY)
 ====================================================== */
+/* ======================================================
+   🪙 CHIP FAN SYSTEM — FINAL PRODUCTION CSS
+====================================================== */
 
-.chips-wrapper{
+
+/* =========================
+   🧱 WRAPPER (OUTER SAFE ZONE)
+========================= */
+
+.chips-wrapper {
     position: relative;
     width: 100%;
     max-width: 360px;
     height: 180px;
+
     margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     overflow: visible;
 }
 
+
 /* =========================
-   🎰 CHIP CONTAINER
+   🎯 CONTAINER (JS COORDINATE BASE)
 ========================= */
 
-.chips-container{
+.chips-container {
     position: relative;
     width: 100%;
     height: 100%;
+
     overflow: visible;
 }
 
+
 /* =========================
-   🪙 CHIP BASE STYLE (ALL START CENTER)
+   🪙 CHIP BASE STYLE
+   (JS controls position)
 ========================= */
 
-.chip{
+.chip {
     position: absolute;
+
     top: 50%;
     left: 50%;
 
-    /* সব chip শুরুতে center এ থাকবে */
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%) scale(1);
 
     opacity: 0;
+
+    transition: transform 0.25s ease, opacity 0.25s ease;
+
     pointer-events: none;
 
-    transition: all 0.25s ease;
+    user-select: none;
+    -webkit-user-drag: none;
 
     z-index: 10;
 }
 
-/* =========================
-   🟢 DEFAULT CHIP (ALWAYS VISIBLE)
-========================= */
-
-.default-chip{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%) scale(1);
-
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-
-    z-index: 1000;
-}
-
-/* =========================
-   🎯 FAN OPEN STATE (JS CONTROLLED)
-========================= */
-
-.chips-container.fan .chip{
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-    pointer-events: auto;
-}
-
-/* =========================
-   🔒 FAN CLOSED STATE
-========================= */
-
-.chips-container.closed .chip:not(.default-chip){
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
-    pointer-events: none;
-}
 
 /* =========================
    🖼 CHIP IMAGE
 ========================= */
 
-.chip img{
+.chip img {
     width: 85%;
     height: 85%;
+
     object-fit: contain;
+
     display: block;
 
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
 
     pointer-events: none;
-    user-select: none;
-    -webkit-user-drag: none;
 }
+
 
 /* =========================
    🏷 CHIP LABEL
 ========================= */
 
-.chip span{
+.chip span {
     position: absolute;
+
     left: 50%;
-    bottom: -16px;
+    bottom: -14px;
 
     transform: translateX(-50%);
 
     font-size: 10px;
-    color: var(--text-main);
+
+    color: #fff;
 
     white-space: nowrap;
 
@@ -500,44 +488,112 @@ html, body {
 }
 
 
-.chip.active{
+/* =========================
+   🔥 ACTIVE CHIP STATE
+========================= */
+
+.chip.active {
     box-shadow:
-        0 0 12px var(--glow-gold-mid),
-        0 0 22px var(--glow-gold-soft);
+        0 0 12px rgba(255, 215, 0, 0.6),
+        0 0 22px rgba(255, 215, 0, 0.3);
 
     z-index: 999;
 }
 
-.chips-container.expanded.fan .chip{
-  transition: all 0.35s ease;
-}
 
 /* =========================
-   🎰 6 CHIP SEMI FAN (BALANCED)
+   🎯 DEFAULT CHIP (ALWAYS VISIBLE)
 ========================= */
 
-.chips-container.fan .chip:nth-child(1){
-  transform: translate(10px, 95px) rotate(-35deg);
+.default-chip {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale(1);
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+    z-index: 1000;
 }
 
-.chips-container.fan .chip:nth-child(2){
-  transform: translate(70px, 55px) rotate(-22deg);
+
+/* =========================
+   🎰 FAN OPEN STATE
+========================= */
+
+.chips-container.fan .chip {
+    opacity: 1;
+    pointer-events: auto;
 }
 
-.chips-container.fan .chip:nth-child(3){
-  transform: translate(130px, 25px) rotate(-8deg);
+
+/* =========================
+   🔒 CLOSED STATE SAFETY
+========================= */
+
+.chips-container.closed .chip:not(.default-chip) {
+    opacity: 0;
+    pointer-events: none;
 }
 
-.chips-container.fan .chip:nth-child(4){
-  transform: translate(190px, 25px) rotate(8deg);
+
+/* =========================
+   ⚡ OPTIONAL SMOOTH GROUP TRANSITION
+========================= */
+
+.chips-container.fan .chip {
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.chips-container.fan .chip:nth-child(5){
-  transform: translate(250px, 55px) rotate(22deg);
-}
+/* ======================================================
+   🪙 CHIP SYSTEM GLOWING EFFECT 
+====================================================== */
+.default-chip {
+    position: absolute;
 
-.chips-container.fan .chip:nth-child(6){
-  transform: translate(310px, 95px) rotate(35deg);
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale(1);
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+    z-index: 1000;
+
+    /* ✨ GOLDEN GLOW */
+    box-shadow:
+        0 0 10px rgba(255, 215, 0, 0.6),
+        0 0 20px rgba(255, 200, 0, 0.4),
+        0 0 35px rgba(255, 180, 0, 0.25);
+
+    animation: defaultChipGlow 1.8s ease-in-out infinite;
+}
+@keyframes defaultChipGlow {
+
+    0% {
+        box-shadow:
+            0 0 8px rgba(255, 215, 0, 0.4),
+            0 0 15px rgba(255, 200, 0, 0.25);
+    }
+
+    50% {
+        box-shadow:
+            0 0 18px rgba(255, 215, 0, 0.8),
+            0 0 35px rgba(255, 200, 0, 0.5),
+            0 0 50px rgba(255, 180, 0, 0.3);
+    }
+
+    100% {
+        box-shadow:
+            0 0 8px rgba(255, 215, 0, 0.4),
+            0 0 15px rgba(255, 200, 0, 0.25);
+    }
 }
 
 /* ======================================================
