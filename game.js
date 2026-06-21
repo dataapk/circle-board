@@ -438,19 +438,23 @@ function resetRoundUI() {
 
     console.log("🎨 UI RESET START");
 
-    // 🧹 remove all bet visuals
-    document.querySelectorAll(".bet-marker")
-        .forEach(el => el.remove());
+    // 🧹 SAFE CLEAR (not single element)
+    const markers = document.querySelectorAll(".bet-marker");
 
-    // 🧹 remove highlights
+    markers.forEach(m => {
+        m.remove();
+    });
+
+    console.log("REMOVED:", markers.length);
+
+    // 🧹 highlights
     document.querySelectorAll(".symbol-box")
         .forEach(el => el.classList.remove("winner"));
 
-    // 🧹 force chip reset UI
+    // 🧹 chip UI
     document.querySelectorAll(".chip")
         .forEach(el => el.classList.remove("selected"));
 
-    // 🧹 clear pointer effects
     if (typeof resetPointer === "function") {
         resetPointer();
     }
