@@ -200,17 +200,7 @@ function initChipSystem() {
     closeChipFan();
     setDefaultChip(selectedChip);
 }
-    // =========================
-    // OUTSIDE CLICK CLOSE
-    // =========================
-    document.addEventListener("click", (e) => {
-
-        if (!GameEngine.chipFanOpen) return;
-        if (container.contains(e.target)) return;
-
-        closeChipFan();
-    });
-}
+    
 
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
