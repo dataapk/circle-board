@@ -198,7 +198,7 @@ function closeChipFan(containerSelector = ".chips-container") {
 
     console.log("🔒 FAN CLOSED");
 }
-});
+);
 // ======================================================
 // 🎯🎯🎯 CLOSE FAN SYSTEM  🎯🎯🎯
 // ======================================================
