@@ -255,14 +255,24 @@ function getWheelResultFromAngle(angle) {
 // ======================================================
 // 🛑🛑🛑 ONSPIN STATE FUCTION 🛑🛑🛑
 // ======================================================
-function resetUI() {
-    updateBalanceUI();
-    resetBoardUI();
-    resetChipUI();
-    resetWheelState();
-    resetButtonUI();
-}
+function onSpinEnd(result) {
 
+    console.log("🏁 SPIN END");
+
+    // 💰 payout only
+    const payout = GameEngine.resolvePayout(result);
+
+    // 🎨 UI reset (wheel + board)
+    resetWheelState();
+
+    // 🔄 new round
+    startNewRound();
+
+    // 🔓 unlock
+    unlockGameUI();
+
+    console.log("✔ READY NEXT ROUND");
+}
 
 // ======================================================
 // 💰 START: PAYOUT ENGINE
