@@ -255,16 +255,15 @@ function getWheelResultFromAngle(angle) {
 // ======================================================
 // 🛑🛑🛑 ONSPIN STATE FUCTION 🛑🛑🛑
 // ======================================================
-
-function resetSpinUI() {
-
-    resetWheelState();
+function resetUI() {
+    updateBalanceUI();
     resetBoardUI();
     resetChipUI();
+    resetWheelState();
     resetButtonUI();
-    resetSpinButtonUI();
-    resetHighlightsUI();
 }
+
+
 // ======================================================
 // 💰 START: PAYOUT ENGINE
 // ======================================================
@@ -280,24 +279,24 @@ function resetSpinUI() {
 
 function onSpinEnd(result) {
 
-    console.log("🏁 SPIN END TRIGGERED");
+    console.log("🏁 SPIN END");
 
-    console.log("BEFORE RESET STATE:", GameEngine.getState());
-
+    // 💰 ENGINE PAYOUT
     const payout = GameEngine.resolvePayout(result);
 
-    updateBalanceUI(GameEngine.balance);
+    // 💰 UI UPDATE
+    updateBalanceUI();
 
+    // 🔊 SOUND
     GameEngine.audioSystem.play(
         payout.win > 0 ? "winSound" : "loseSound"
     );
 
-    resetWheelState();
-    resetBoardUI();
-    unlockGameUI();
-    startNewRound();
+    // ♻️ SINGLE RESET (MOST IMPORTANT)
+    GameEngine.resetGame();
 
-    console.log("AFTER RESET STATE:", GameEngine.getState());
+    // 🔓 UNLOCK (optional if resetGame না করে unlock দেয়)
+    GameEngine.unlockGame();
 
     console.log("✔ READY NEXT ROUND");
 }
@@ -307,39 +306,27 @@ function onSpinEnd(result) {
 
 function startNewRound() {
 
-    console.log("🔄 NEW ROUND STARTING");
+    console.log("🔄 NEW ROUND START REQUEST");
 
-    // 🧹 clear all bets
-    GameEngine.bets = {};
-
-    // 🪙 reset selected chip
-    GameEngine.selectedChip = null;
-
-    // 🏁 reset last result
-    GameEngine.lastResult = null;
-
-    // 🎯 reset game state
-    GameEngine.state = "READY";
-    GameEngine.isSpinning = false;
-
-    // 🧹 clear UI bet markers
-    document.querySelectorAll(".bet-marker").forEach(m => m.remove());
-
-    // 🎨 clear winning highlight
-    document.querySelectorAll(".symbol-box").forEach(box => {
-        box.classList.remove("winner");
-    });
-
-    // 📍 reset pointer effect
-    if (typeof resetPointer === "function") {
-        resetPointer();
+    // 🚨 SAFETY CHECK (optional)
+    if (GameEngine.isSpinning) {
+        console.log("⛔ Cannot start new round while spinning");
+        return;
     }
 
-    console.log("✔ ROUND RESET COMPLETE");
-}
+    // ♻️ CALL SINGLE SOURCE RESET
+    GameEngine.resetGame();
 
+    // 🎨 UI RESET (VISUAL ONLY)
+    resetRoundUI();
+
+    // 🔓 READY STATE
+    GameEngine.unlockGame();
+
+    console.log("✔ NEW ROUND READY");
+}
 // ======================================================
-// 🔄 END: NEW ROUND RESET
+// 🔄 END: NEW ROUND 
 // ======================================================
 
 
@@ -449,14 +436,6 @@ function unlockGameUI() {
 // ======================================================
 
 
-
-// ======================================================
-// 🧹🧹🧹 START: RESET SYSTEM 🧹🧹🧹
-// ======================================================
-function resetBoardUI() {
-    document.querySelectorAll(".bet-marker").forEach(m => m.remove());
-    console.log("🧹 BOARD RESET");
-}
 // ======================================================
 // 🛑🛑🛑 END: RESET SYSTEM 🛑🛑🛑
 // ======================================================
