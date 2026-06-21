@@ -80,21 +80,32 @@ function initChipSystem() {
 
     e.stopPropagation();
 
-    if (GameEngine.isSpinning?.()) return;
+    // 🔒 safety check (fix function call bug)
+    if (GameEngine.isSpinning) return;
 
     const isOpen = container.classList.contains("fan");
 
+    // 🎯 toggle UI state
     if (isOpen) {
-      container.classList.remove("fan");
-      container.classList.add("closed");
+        container.classList.remove("fan");
+        container.classList.add("closed");
+
+        // 🧠 update engine state
+        GameEngine.chipFanOpen = false;
+
     } else {
-      container.classList.add("fan");
-      container.classList.remove("closed");
+        container.classList.add("fan");
+        container.classList.remove("closed");
+
+        // 🧠 update engine state
+        GameEngine.chipFanOpen = true;
     }
 
-    GameEngine.audioSystem.play("chipSound");
-  });
+    // 🔊 sound
+    GameEngine.audioSystem?.play?.("chipSound");
 
+    console.log("🎰 FAN TOGGLE:", GameEngine.chipFanOpen);
+});
   // =========================
   // CHIP SELECT
   // =========================
