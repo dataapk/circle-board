@@ -285,23 +285,23 @@ function resolvePayout(result) {
     };
 }
 
+    
     // ==================================================
-    // 🔄 RESET
-    // ==================================================
-    function resetRound() {
+// ♻️ FULL GAME RESET (ENGINE ONLY)
+// ==================================================
+function resetGame() {
 
-    console.log("🔄 RESET ROUND CALLED");
+    console.log("♻️ ENGINE RESET START");
 
     state.bets = {};
-    state.lastResult = null;
-    state.selectedChip = null;
     state.isSpinning = false;
+    state.lastResult = null;
+    state.currentRotation = 0;
+    state.selectedChip = null;
+    state.state = "READY";
 
-    console.log("RESET COMPLETE STATE:", state);
-
-    audioSystem.stopAll();
+    console.log("♻️ ENGINE RESET DONE");
 }
-
     // ==================================================
     // 📦 PUBLIC API
     // ==================================================
