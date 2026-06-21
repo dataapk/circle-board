@@ -75,40 +75,36 @@ function initChipSystem() {
     console.log("🟢 CHIP SYSTEM INIT OK");
 
     // =========================
-    // RESET START STATE
+    // INITIAL STATE RESET
     // =========================
+    GameEngine.chipFanOpen = false;
+    GameEngine.selectedChip = GameEngine.selectedChip || Number(defaultChip.dataset.value || 0);
+
     container.classList.remove("fan");
     container.classList.add("closed");
-    GameEngine.chipFanOpen = false;
-    GameEngine.selectedChip = null;
+
+    defaultChip.innerText = GameEngine.selectedChip;
 
     // =========================
-    // DEFAULT CHIP (FAN TOGGLE ONLY)
+    // TOGGLE FAN
     // =========================
-    
-defaultChip.addEventListener("click", (e) => {
+    defaultChip.addEventListener("click", (e) => {
 
-    e.stopPropagation();
+        e.stopPropagation();
 
-    if (GameEngine.isSpinning) return;
+        if (GameEngine.isSpinning) return;
 
-    const container = document.querySelector(".chips-container");
-    if (!container) return;
+        if (GameEngine.chipFanOpen) {
+            closeChipFan();
+        } else {
+            openChipFan();
+        }
 
-    // 🧠 SINGLE SOURCE OF TRUTH (ENGINE STATE)
-    const isOpen = GameEngine.chipFanOpen === true;
-
-    if (isOpen) {
-        closeChipFan();
-    } else {
-        openChipFan();
-    }
-
-    GameEngine.audioSystem?.play?.("chipSound");
-});
+        GameEngine.audioSystem?.play?.("chipSound");
+    });
 
     // =========================
-    // CHIP SELECT LOGIC (IMPORTANT FIX)
+    // CHIP SELECT HANDLER
     // =========================
     chips.forEach((chip) => {
 
@@ -120,18 +116,11 @@ defaultChip.addEventListener("click", (e) => {
 
             const value = Number(chip.dataset.value);
 
-            // 🧠 set selected chip
             GameEngine.selectedChip = value;
-
-            // 🎯 update default chip UI
             defaultChip.innerText = value;
 
-            // 🔒 close fan
-            GameEngine.chipFanOpen = false;
-            container.classList.remove("fan");
-            container.classList.add("closed");
+            closeChipFan();
 
-            // 🔊 sound
             GameEngine.audioSystem?.play?.("chipSound");
 
             console.log("🪙 CHIP SELECTED:", value);
@@ -139,17 +128,14 @@ defaultChip.addEventListener("click", (e) => {
     });
 
     // =========================
-    // OUTSIDE CLICK → CLOSE FAN (IMPORTANT)
+    // OUTSIDE CLICK CLOSE
     // =========================
-    document.addEventListener("click", () => {
+    document.addEventListener("click", (e) => {
 
         if (!GameEngine.chipFanOpen) return;
+        if (container.contains(e.target)) return;
 
-        GameEngine.chipFanOpen = false;
-        container.classList.remove("fan");
-        container.classList.add("closed");
-
-        console.log("🔒 FAN AUTO CLOSED");
+        closeChipFan();
     });
 }
 // ======================================================
