@@ -448,12 +448,7 @@ function unlockGameUI() {
 // 🧹🧹🧹 START: RESET SYSTEM 🧹🧹🧹
 // ======================================================
 function resetBoardUI() {
-
-    GameEngine.bets = {};
-    GameEngine.selectedChip = null;
-
     document.querySelectorAll(".bet-marker").forEach(m => m.remove());
-
     console.log("🧹 BOARD RESET");
 }
 // ======================================================
