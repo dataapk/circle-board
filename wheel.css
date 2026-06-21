@@ -390,17 +390,16 @@ html, body {
 
 .chips-wrapper {
     position: relative;
+
     width: 100%;
     max-width: 360px;
+
     height: 180px;
 
     margin: 0 auto;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
     overflow: visible;
+   background: transparent !important;
 }
 
 
@@ -410,12 +409,16 @@ html, body {
 
 .chips-container {
     position: relative;
+
     width: 100%;
     height: 100%;
 
     overflow: visible;
-}
 
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
 
 /* =========================
    🪙 CHIP BASE STYLE
@@ -525,9 +528,9 @@ html, body {
    🔒 CLOSED STATE SAFETY
 ========================= */
 
-.chips-container.closed .chip:not(.default-chip) {
-    opacity: 0;
-    pointer-events: none;
+.chips-container.closed {
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 
