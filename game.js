@@ -406,3 +406,11 @@ function updateBalanceUI(balance) {
 // ======================================================
 // 🛑🛑🛑 END: RESET SYSTEM 🛑🛑🛑
 // ======================================================
+function resetBoardUI() {
+
+    document
+        .querySelectorAll(".bet-marker")
+        .forEach(el => el.remove());
+
+    console.log("🧹 BOARD RESET");
+}
