@@ -436,32 +436,16 @@ function unlockGameUI() {
 // ======================================================
 function resetRoundUI() {
 
-    console.log("🎨 UI RESET START");
+    document.querySelectorAll(".bet-marker")
+        .forEach(el => el.remove());
 
-    // 🧹 SAFE CLEAR (not single element)
-    const markers = document.querySelectorAll(".bet-marker");
-
-    markers.forEach(m => {
-        m.remove();
-    });
-
-    console.log("REMOVED:", markers.length);
-
-    // 🧹 highlights
     document.querySelectorAll(".symbol-box")
         .forEach(el => el.classList.remove("winner"));
 
-    // 🧹 chip UI
-    document.querySelectorAll(".chip")
-        .forEach(el => el.classList.remove("selected"));
-
-    if (typeof resetPointer === "function") {
-        resetPointer();
-    }
+    resetPointer?.();
 
     console.log("🎨 UI RESET DONE");
 }
-
 // ======================================================
 // 🛑🛑🛑 END: RESET SYSTEM 🛑🛑🛑
 // ======================================================
