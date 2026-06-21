@@ -13,11 +13,10 @@ window.GameEngine = (function () {
     isSpinning: false,
     lastResult: null,
     rotation: 0,
-
-    // 🪙 CHIP SYSTEM (ADD THIS)
     selectedChip: null,
-    defaultChip: 0.5,
-    chipFanOpen: false
+
+    chipFanOpen: false,
+    uiLocked: false
 };
 
     // ==================================================
