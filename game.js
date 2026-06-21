@@ -306,24 +306,15 @@ function onSpinEnd(result) {
 
 function startNewRound() {
 
-    console.log("🔄 NEW ROUND START REQUEST");
+    console.log("🔄 NEW ROUND STARTED");
 
-    // 🚨 SAFETY CHECK (optional)
-    if (GameEngine.isSpinning) {
-        console.log("⛔ Cannot start new round while spinning");
-        return;
-    }
-
-    // ♻️ CALL SINGLE SOURCE RESET
+    // 🧠 engine reset
     GameEngine.resetGame();
 
-    // 🎨 UI RESET (VISUAL ONLY)
+    // 🎨 ui reset
     resetRoundUI();
 
-    // 🔓 READY STATE
-    GameEngine.unlockGame();
-
-    console.log("✔ NEW ROUND READY");
+    console.log("✔ ROUND READY");
 }
 // ======================================================
 // 🔄 END: NEW ROUND 
