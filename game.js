@@ -286,8 +286,8 @@ function onSpinEnd(result) {
 
     resetWheelState();
     resetBoardUI();
-    startNewRound();
     unlockGameUI();
+    startNewRound();
 
     console.log("✔ READY NEXT ROUND");
 }
