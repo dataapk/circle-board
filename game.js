@@ -108,24 +108,25 @@ function initChipSystem() {
     // =========================
     chips.forEach((chip) => {
 
-        chip.addEventListener("click", (e) => {
+    chip.addEventListener("click", (e) => {
 
-            e.stopPropagation();
+        e.stopPropagation();
 
-            if (GameEngine.isSpinning) return;
+        const value = Number(chip.dataset.value);
 
-            const value = Number(chip.dataset.value);
+        // 🧠 SAVE SELECTED CHIP
+        GameEngine.selectedChip = value;
 
-            GameEngine.selectedChip = value;
-            defaultChip.innerText = value;
+        // 🎯 UPDATE DEFAULT UI
+        const defaultChip = document.querySelector(".default-chip");
+        defaultChip.innerText = value;
 
-            closeChipFan();
+        // 🔒 CLOSE FAN AFTER SELECT
+        closeChipFan();
 
-            GameEngine.audioSystem?.play?.("chipSound");
-
-            console.log("🪙 CHIP SELECTED:", value);
-        });
+        console.log("🪙 SELECTED CHIP:", value);
     });
+});
 
     // =========================
     // OUTSIDE CLICK CLOSE
