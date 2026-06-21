@@ -326,7 +326,7 @@ function resetGame() {
         calculateWin,
         resolvePayout,
 
-        resetRound,
+        resetGame,
 
         audioSystem,
 
