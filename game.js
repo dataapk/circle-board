@@ -382,9 +382,12 @@ function spinWheel() {
 
             // 🎯 SAVE ROTATION ONLY
             GameEngine.currentRotation = target;
+            
+            // 🎯 RESULT OUTSIDE LOGIC
+            const result = getWheelResultFromAngle(target);
 
-            // 🚨 ONLY TRIGGER ENGINE (NO LOGIC HERE)
-              GameEngine.resolvePayout(result);
+            // 🚨 ENGINE CALL ONLY
+            GameEngine.resolvePayout(result);
         }
     }
 
