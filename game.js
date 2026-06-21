@@ -85,26 +85,27 @@ function initChipSystem() {
     // =========================
     // DEFAULT CHIP (FAN TOGGLE ONLY)
     // =========================
-    defaultChip.addEventListener("click", (e) => {
+    
+defaultChip.addEventListener("click", (e) => {
 
-        e.stopPropagation();
+    e.stopPropagation();
 
-        if (GameEngine.isSpinning) return;
+    if (GameEngine.isSpinning) return;
 
-        GameEngine.chipFanOpen = !GameEngine.chipFanOpen;
+    const container = document.querySelector(".chips-container");
+    if (!container) return;
 
-        if (GameEngine.chipFanOpen) {
-            container.classList.add("fan");
-            container.classList.remove("closed");
-        } else {
-            container.classList.remove("fan");
-            container.classList.add("closed");
-        }
+    // 🧠 SINGLE SOURCE OF TRUTH (ENGINE STATE)
+    const isOpen = GameEngine.chipFanOpen === true;
 
-        GameEngine.audioSystem?.play?.("chipSound");
+    if (isOpen) {
+        closeChipFan();
+    } else {
+        openChipFan();
+    }
 
-        console.log("🎰 FAN STATE:", GameEngine.chipFanOpen);
-    });
+    GameEngine.audioSystem?.play?.("chipSound");
+});
 
     // =========================
     // CHIP SELECT LOGIC (IMPORTANT FIX)
