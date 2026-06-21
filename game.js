@@ -269,46 +269,28 @@ function syncBalanceUI() {
 // ======================================================
 
 // ======================================================
-// 🏁 START: SPIN END HANDLER (CLEAN)
+// 🔄 START: ONSPIN RESULTS
 // ======================================================
 
 function onSpinEnd(result) {
 
     console.log("🏁 SPIN END");
 
-    GameEngine.resolvePayout(result); // ✅ FIXED
-
-    resetWheelState();
-
-    resetBoardUI();
-
-    startNewRound();
-
-    unlockGameUI();
-
-    console.log("✔ READY NEXT ROUND");
-}
-
-// ======================================================
-// 🏁 END: SPIN END HANDLER
-// ======================================================
-function handleWheelResult(result) {
-
-    // 🎯 ENGINE PAYOUT (correct function)
     const payout = GameEngine.resolvePayout(result);
 
-    // 💰 UPDATE UI BALANCE
-    updateBalanceUI();
+    updateBalanceUI(GameEngine.balance);
 
-    // 🔊 SOUND BASED ON RESULT
     GameEngine.audioSystem.play(
         payout.win > 0 ? "winSound" : "loseSound"
     );
 
-    // 🧠 DEBUG LOG
-    console.log("🎯 WHEEL RESULT:", result, payout);
-}
+    resetWheelState();
+    resetBoardUI();
+    startNewRound();
+    unlockGameUI();
 
+    console.log("✔ READY NEXT ROUND");
+}
 
 // ======================================================
 // 🔄 START: NEW ROUND RESET (FINAL)
