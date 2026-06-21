@@ -162,6 +162,29 @@ window.GameEngine = (function () {
     }
 
     // ==================================================
+// 📊 ENGINE GETTERS (PUBLIC ACCESS)
+// ==================================================
+
+function getBalance() {
+    return state.balance;
+}
+
+function getBets() {
+    return { ...state.bets };
+}
+
+function getEngineState() {
+    return {
+        balance: state.balance,
+        bets: { ...state.bets },
+        isSpinning: state.isSpinning,
+        lastResult: state.lastResult,
+        rotation: state.rotation,
+        selectedChip: state.selectedChip
+    };
+}
+
+    // ==================================================
     // 🔒 LOCK / UNLOCK
     // ==================================================
     function lockGame() {
