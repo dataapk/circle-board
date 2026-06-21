@@ -252,16 +252,22 @@ function getWheelResultFromAngle(angle) {
 
     return wheelSegments[index];
 }
+/ ======================================================
+// 🛑🛑🛑 ONSPIN STATE FUCTION 🛑🛑🛑
+// ======================================================
+
+function resetSpinUI() {
+
+    resetWheelState();
+    resetBoardUI();
+    resetChipUI();
+    resetButtonUI();
+    resetSpinButtonUI();
+    resetHighlightsUI();
+}
 // ======================================================
 // 💰 START: PAYOUT ENGINE
 // ======================================================
-
-function syncBalanceUI() {
-    const el = document.getElementById("balance");
-    if (!el) return;
-
-    el.innerText = "$" + GameEngine.balance.toFixed(2);
-}
 
 
 // ======================================================
@@ -276,25 +282,18 @@ function onSpinEnd(result) {
 
     console.log("🏁 SPIN END");
 
-    // 1. PAYOUT
     const payout = GameEngine.resolvePayout(result);
 
-    // 2. UI UPDATE
     updateBalanceUI(GameEngine.getBalance());
 
-    // 3. SOUND
     GameEngine.audioSystem.play(
         payout.win > 0 ? "winSound" : "loseSound"
     );
 
-    // 4. RESET UI FIRST
-    resetWheelState();
-    resetBoardUI();
+    // 🎯 ONLY ONE CALL
+    resetSpinUI();
 
-    // 5. ENGINE RESET (IMPORTANT)
     GameEngine.resetRound();
-
-    // 6. UNLOCK GAME
     GameEngine.unlockGame();
 
     console.log("✔ READY NEXT ROUND");
@@ -395,7 +394,7 @@ function updateBalanceUI() {
     const el = document.getElementById("balance");
 
     if (el) {
-        el.innerText = state.balance;
+        el.innerText = "$" + Number(state.balance).toFixed(2);
     }
 }
 // ======================================================
