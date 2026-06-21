@@ -289,14 +289,17 @@ function resolvePayout(result) {
     // 🔄 RESET
     // ==================================================
     function resetRound() {
+
+    console.log("🔄 RESET ROUND CALLED");
+
     state.bets = {};
     state.lastResult = null;
     state.selectedChip = null;
     state.isSpinning = false;
 
-    audioSystem.stopAll();
+    console.log("RESET COMPLETE STATE:", state);
 
-    console.log("🔄 ENGINE RESET DONE", getState());
+    audioSystem.stopAll();
 }
 
     // ==================================================
