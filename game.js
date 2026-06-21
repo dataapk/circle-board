@@ -257,21 +257,17 @@ function getWheelResultFromAngle(angle) {
 // ======================================================
 function onSpinEnd(result) {
 
-    console.log("🏁 SPIN END");
-
-    // 💰 payout only
     const payout = GameEngine.resolvePayout(result);
 
-    // 🎨 UI reset (wheel + board)
-    resetWheelState();
+    updateBalanceUI(GameEngine.balance);
 
-    // 🔄 new round
+    resetWheelState();
+    resetBoardUI();
+
+    // 🔥 THIS IS REQUIRED (missing link)
     startNewRound();
 
-    // 🔓 unlock
     unlockGameUI();
-
-    console.log("✔ READY NEXT ROUND");
 }
 
 // ======================================================
