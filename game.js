@@ -198,23 +198,6 @@ function closeChipFan(containerSelector = ".chips-container") {
 
     console.log("🔒 FAN CLOSED");
 }
-defaultChip.addEventListener("click", (e) => {
-
-    e.stopPropagation();
-
-    if (GameEngine.isSpinning) return;
-
-    const container = document.querySelector(".chips-container");
-
-    const isOpen = container.classList.contains("fan");
-
-    if (isOpen) {
-        closeChipFan();
-    } else {
-        openChipFan();
-    }
-
-    GameEngine.audioSystem?.play?.("chipSound");
 });
 // ======================================================
 // 🎯🎯🎯 CLOSE FAN SYSTEM  🎯🎯🎯
