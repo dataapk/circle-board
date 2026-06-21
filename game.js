@@ -82,10 +82,26 @@ function initChipSystem() {
     let selectedChip = Number(defaultChip.dataset.value || 1);
 
     // =========================
-    // HELPERS
+    // RESET (VISIBILITY FIX)
     // =========================
+    function resetChips() {
 
+        const list = container.querySelectorAll(".chip");
+
+        list.forEach(chip => {
+
+            chip.style.opacity = "1";
+            chip.style.transform = "translate(-50%, -50%) scale(1)";
+            chip.style.pointerEvents = "auto";
+        });
+    }
+
+    // =========================
+    // OPEN FAN (SEMICIRCLE LOGIC)
+    // =========================
     function openChipFan() {
+
+        resetChips();
 
         const centerX = container.clientWidth / 2;
         const centerY = container.clientHeight / 2;
@@ -120,9 +136,14 @@ function initChipSystem() {
         isFanOpen = true;
     }
 
+    // =========================
+    // CLOSE FAN
+    // =========================
     function closeChipFan() {
 
-        chips.forEach(chip => {
+        const list = container.querySelectorAll(".chip");
+
+        list.forEach(chip => {
 
             if (!chip.classList.contains("default-chip")) {
                 chip.style.opacity = "0";
@@ -136,16 +157,19 @@ function initChipSystem() {
         isFanOpen = false;
     }
 
+    // =========================
+    // SET DEFAULT CHIP
+    // =========================
     function setDefaultChip(value) {
+
         selectedChip = value;
         defaultChip.innerText = value;
         defaultChip.dataset.value = value;
     }
 
     // =========================
-    // DEFAULT CHIP CLICK (TOGGLE FAN)
+    // DEFAULT CHIP CLICK
     // =========================
-
     defaultChip.addEventListener("click", (e) => {
 
         e.stopPropagation();
@@ -160,7 +184,6 @@ function initChipSystem() {
     // =========================
     // CHIP SELECT
     // =========================
-
     chips.forEach(chip => {
 
         if (chip.classList.contains("default-chip")) return;
@@ -172,7 +195,6 @@ function initChipSystem() {
             const value = Number(chip.dataset.value);
 
             setDefaultChip(value);
-
             closeChipFan();
         });
     });
@@ -180,23 +202,19 @@ function initChipSystem() {
     // =========================
     // BOARD CLICK (PLACE BET)
     // =========================
-
     if (board) {
 
         board.addEventListener("click", (e) => {
 
             if (GameEngine.isSpinning) return;
 
-            const betValue = selectedChip;
-
-            GameEngine.placeBet?.(betValue, e);
+            GameEngine.placeBet?.(selectedChip, e);
         });
     }
 
     // =========================
     // INIT STATE
     // =========================
-
     closeChipFan();
     setDefaultChip(selectedChip);
 }
