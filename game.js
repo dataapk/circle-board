@@ -280,21 +280,24 @@ function resetSpinUI() {
 
 function onSpinEnd(result) {
 
-    console.log("🏁 SPIN END");
+    console.log("🏁 SPIN END TRIGGERED");
+
+    console.log("BEFORE RESET STATE:", GameEngine.getState());
 
     const payout = GameEngine.resolvePayout(result);
 
-    updateBalanceUI(GameEngine.getBalance());
+    updateBalanceUI(GameEngine.balance);
 
     GameEngine.audioSystem.play(
         payout.win > 0 ? "winSound" : "loseSound"
     );
 
-    // 🎯 ONLY ONE CALL
-    resetSpinUI();
+    resetWheelState();
+    resetBoardUI();
+    unlockGameUI();
+    startNewRound();
 
-    GameEngine.resetRound();
-    GameEngine.unlockGame();
+    console.log("AFTER RESET STATE:", GameEngine.getState());
 
     console.log("✔ READY NEXT ROUND");
 }
