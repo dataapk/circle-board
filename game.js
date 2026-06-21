@@ -141,7 +141,84 @@ function initChipSystem() {
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
 // ======================================================
+function openChipFan(containerSelector = ".chips-container") {
 
+    const container = document.querySelector(containerSelector);
+    const chips = container.querySelectorAll(".chip:not(.default-chip)");
+
+    const rect = container.getBoundingClientRect();
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const radius = Math.min(rect.width, rect.height) * 0.6;
+
+    const total = chips.length;
+
+    // 🎯 semicircle = 180 degrees
+    const startAngle = Math.PI;       // 180°
+    const endAngle = 2 * Math.PI;     // 360°
+
+    const step = (endAngle - startAngle) / (total - 1);
+
+    chips.forEach((chip, i) => {
+
+        const angle = startAngle + (step * i);
+
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
+
+        chip.style.position = "absolute";
+        chip.style.left = `${x}px`;
+        chip.style.top = `${y}px`;
+
+        chip.style.transform = "translate(-50%, -50%) scale(1)";
+        chip.style.opacity = "1";
+        chip.style.pointerEvents = "auto";
+    });
+
+    container.classList.add("fan");
+    container.classList.remove("closed");
+
+    console.log("🎰 FAN OPENED (JS POSITIONED)");
+}
+function closeChipFan(containerSelector = ".chips-container") {
+
+    const container = document.querySelector(containerSelector);
+    const chips = container.querySelectorAll(".chip:not(.default-chip)");
+
+    chips.forEach(chip => {
+        chip.style.transform = "translate(-50%, -50%) scale(0)";
+        chip.style.opacity = "0";
+        chip.style.pointerEvents = "none";
+    });
+
+    container.classList.remove("fan");
+    container.classList.add("closed");
+
+    console.log("🔒 FAN CLOSED");
+}
+defaultChip.addEventListener("click", (e) => {
+
+    e.stopPropagation();
+
+    if (GameEngine.isSpinning) return;
+
+    const container = document.querySelector(".chips-container");
+
+    const isOpen = container.classList.contains("fan");
+
+    if (isOpen) {
+        closeChipFan();
+    } else {
+        openChipFan();
+    }
+
+    GameEngine.audioSystem?.play?.("chipSound");
+});
+/ ======================================================
+// 🎯🎯🎯 CLOSE FAN SYSTEM  🎯🎯🎯
+// ======================================================
 
 
 // ======================================================
