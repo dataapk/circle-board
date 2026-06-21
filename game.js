@@ -429,3 +429,15 @@ function resetBoardUI() {
         document.querySelectorAll(".bet-marker").length
     );
 }
+function resetWheelState() {
+
+    const wheel = document.querySelector(".wheel-img");
+
+    if (wheel) {
+        wheel.style.transform = "rotate(0deg)";
+    }
+
+    GameEngine.currentRotation = 0;
+
+    console.log("🎡 WHEEL RESET DONE");
+}
