@@ -237,18 +237,6 @@ function openChipFan() {
     closeChipFan?.();
 }
 
-    // =========================
-    // BOARD CLICK (PLACE BET)
-    // =========================
-    if (board) {
-
-        board.addEventListener("click", (e) => {
-
-            if (GameEngine.isSpinning) return;
-
-            GameEngine.placeBet?.(selectedChip, e);
-        });
-    }
 
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
