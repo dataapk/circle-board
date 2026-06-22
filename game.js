@@ -102,43 +102,49 @@ function initChipSystem() {
     // =========================
     // OPEN FAN (SEMICIRCLE LOGIC)
     // =========================
-    function openChipFan() {
+// =========================
+// OPEN CHIP FAN (FIXED)
+// =========================
+function openChipFan() {
 
-        resetChips();
+    resetChips();
 
-        const centerX = container.clientWidth / 2;
-        const centerY = container.clientHeight / 2;
+    const rect = container.getBoundingClientRect();
 
-        const radius = Math.min(container.clientWidth, container.clientHeight) * 0.6;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
 
-        const items = [...chips].filter(c => !c.classList.contains("default-chip"));
-        const total = items.length;
+    const radius = Math.min(rect.width, rect.height) * 0.6;
 
-        const startAngle = Math.PI;
-        const endAngle = 2 * Math.PI;
+    const items = [...chips].filter(c => !c.classList.contains("default-chip"));
+    const total = items.length;
 
-        const step = (endAngle - startAngle) / (total - 1);
+    const startAngle = Math.PI;
+    const endAngle = 2 * Math.PI;
 
-        items.forEach((chip, i) => {
+    const step = (endAngle - startAngle) / (total - 1);
 
-            const angle = startAngle + step * i;
+    items.forEach((chip, i) => {
+
+        const angle = startAngle + step * i;
 
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
 
-     chip.style.transform = `
-        translate(${x}px, ${y}px)
-   `;
+        chip.style.left = x + "px";
+        chip.style.top = y + "px";
 
-chip.style.opacity = "1";
-chip.style.pointerEvents = "auto";
-        });
+        chip.style.transform = "translate(-50%, -50%)";
 
-        container.classList.add("fan");
-        container.classList.remove("closed");
+        chip.style.opacity = "1";
+        chip.style.pointerEvents = "auto";
+    });
 
-        isFanOpen = true;
-    }
+    container.classList.add("fan");
+    container.classList.remove("closed");
+
+    isFanOpen = true;
+}
 
     // =========================
     // CLOSE FAN
