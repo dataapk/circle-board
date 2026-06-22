@@ -76,15 +76,16 @@ function initChipSystem() {
     // =========================
     // 🔊 SOUND SETUP
     // =========================
-    const chipSound = new Audio("chip.mp3");
-    chipSound.preload = "auto";
+    const chipSound = document.getElementById("chipSound");
 
-    function playChipSound() {
-        chipSound.currentTime = 0;
-        chipSound.play().catch(err => {
-            console.log("🔇 SOUND BLOCKED:", err);
-        });
-    }
+function playChipSound() {
+    if (!chipSound) return;
+
+    chipSound.currentTime = 0;
+    chipSound.play().catch(err => {
+        console.log("🔇 SOUND BLOCKED:", err);
+    });
+}
 
     // =========================
     // STATE
@@ -195,18 +196,18 @@ function openChipFan() {
     // =========================
     // DEFAULT CHIP CLICK
     // =========================
-    defaultChip.addEventListener("click", (e) => {
+  chip.addEventListener("click", (e) => {
 
-        e.stopPropagation();
+    e.stopPropagation();
 
-        console.log("🟢 DEFAULT CHIP CLICKED");
+    console.log("🟢 CHIP CLICKED:", chip);
 
-        playChipSound();
+    playChipSound();
 
-        if (isFanOpen) {
-            closeChipFan();
-        } else {
-            openChipFan();
+    const value = Number(chip.dataset.value);
+
+    setDefaultChip(value);
+    closeChipFan();
         }
     });
 
