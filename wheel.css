@@ -401,82 +401,67 @@ html, body {
 }
 
 /* ==================================================== */
-/* 🪙 100% FIXED BALANCED 5-SLOT CHIP FAN (BUG FIX)     */
+/* 🪙 BALANCED 5-SLOT CHIP FAN WITH REDUCED DISTANCE    */
 /* ==================================================== */
 
-/* মেইন ডিফল্ট চিপ সবসময় নিজের জায়গাতেই (সেন্টারে) স্থির থাকবে */
+/* মেইন ডিফল্ট চিপ (সেন্টার) সবসময় নিজের জায়গায় স্থির থাকবে */
 .chips-container .chip.default-chip,
 .chips-container.open .chip.default-chip {
     transform: translate(0, 0) rotate(0deg) !important;
     z-index: 10;
 }
 
-/* ফ্যানের ভেতরের ৫টি চিপের জন্য নিখুঁত সিলেকশন লজিক */
-/* :not(.default-chip) দিয়ে ফিল্টার করে প্রতিটি চিপকে আলাদাভাবে ধরা হয়েছে */
+/* ফ্যানের ৫টি চিপের জন্য নিখুঁত এবং ফিক্সড পজিশন */
+/* দূরত্ব (Translate Y) আগে -125px ছিল, তা কমিয়ে -100px করা হয়েছে */
 
-/* স্লট ১: চরম বামে (যা আগে হারিয়ে গিয়েছিল) */
-.chips-container.open .chip:not(.default-chip):nth-child(1),
-.chips-container.open .chip:not(.default-chip):nth-of-type(1),
-.chips-container.open .chip:nth-child(2) {
-    transform: translate(-120px, -60px) rotate(-40deg) !important;
+/* স্লট ১: চরম বামে (বেশি বাঁকা) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(1) {
+    transform: translate(-120px, -50px) rotate(-40deg) !important;
 }
 
-/* স্লট ২: মাঝামাঝি বামে */
-.chips-container.open .chip:not(.default-chip):nth-child(2),
-.chips-container.open .chip:not(.default-chip):nth-of-type(2),
-.chips-container.open .chip:nth-child(3) {
-    transform: translate(-60px, -105px) rotate(-20deg) !important;
+/* স্লট ২: মাঝামাঝি বামে (কম বাঁকা) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(2) {
+    transform: translate(-60px, -85px) rotate(-20deg) !important;
 }
 
-/* স্লট ৩: একদম সোজা উপরে (সেন্টার বরাবর) */
-.chips-container.open .chip:not(.default-chip):nth-child(3),
-.chips-container.open .chip:not(.default-chip):nth-of-type(3),
-.chips-container.open .chip:nth-child(4) {
-    transform: translate(0px, -125px) rotate(0deg) !important;
+/* স্লট ৩: একদম সোজা উপরে (সেন্টার বরাবর ১টি চিপ - দূরত্ব কমানো হয়েছে) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(3) {
+    transform: translate(0px, -100px) rotate(0deg) !important;
 }
 
-/* স্লট ৪: মাঝামাঝি ডানে */
-.chips-container.open .chip:not(.default-chip):nth-child(4),
-.chips-container.open .chip:not(.default-chip):nth-of-type(4),
-.chips-container.open .chip:nth-child(5) {
-    transform: translate(60px, -105px) rotate(20deg) !important;
+/* স্লট ৪: মাঝামাঝি ডানে (কম বাঁকা) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(4) {
+    transform: translate(60px, -85px) rotate(20deg) !important;
 }
 
-/* স্লট ৫: চরম ডানে */
-.chips-container.open .chip:not(.default-chip):nth-child(5),
-.chips-container.open .chip:not(.default-chip):nth-of-type(5),
-.chips-container.open .chip:nth-child(6) {
-    transform: translate(120px, -60px) rotate(40deg) !important;
+/* স্লট ৫: চরম ডানে (বেশি বাঁকা) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(5) {
+    transform: translate(120px, -50px) rotate(40deg) !important;
 }
 
 
 /* ==================================================== */
-/* 🚀 চিপ হোভার এফেক্ট (সব চিপের জন্য ফিক্সড)           */
+/* 🚀 চিপ হোভার এফেক্ট (নতুন দূরত্ব অনুযায়ী)             */
 /* ==================================================== */
 
 .chips-container.open .chip:not(.default-chip):hover {
     z-index: 15;
 }
 
-.chips-container.open .chip:not(.default-chip):nth-child(1):hover,
-.chips-container.open .chip:nth-child(2):hover {
-    transform: translate(-120px, -60px) rotate(-40deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(1):hover {
+    transform: translate(-120px, -50px) rotate(-40deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-child(2):hover,
-.chips-container.open .chip:nth-child(3):hover {
-    transform: translate(-60px, -105px) rotate(-20deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(2):hover {
+    transform: translate(-60px, -85px) rotate(-20deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-child(3):hover,
-.chips-container.open .chip:nth-child(4):hover {
-    transform: translate(0px, -125px) rotate(0deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(3):hover {
+    transform: translate(0px, -100px) rotate(0deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-child(4):hover,
-.chips-container.open .chip:nth-child(5):hover {
-    transform: translate(60px, -105px) rotate(20deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(4):hover {
+    transform: translate(60px, -85px) rotate(20deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-child(5):hover,
-.chips-container.open .chip:nth-child(6):hover {
-    transform: translate(120px, -60px) rotate(40deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(5):hover {
+    transform: translate(120px, -50px) rotate(40deg) scale(1.15) !important;
 }
 
 /* ডিফল্ট চিপ হোভার */
