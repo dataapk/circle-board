@@ -76,6 +76,11 @@
 // 🪙 CHIP SYSTEM (SAFE FULL VERSION)
 // ======================================================
 
+
+// ======================================================
+// 🪙 FRESH CHIP SYSTEM (UPWARD SPRING - CLEAN)
+// ======================================================
+
 function initChipSystem() {
 
     // =========================
@@ -83,7 +88,9 @@ function initChipSystem() {
     // =========================
     const container = document.querySelector(".chips-container");
     const defaultChip = document.querySelector(".default-chip");
-    const chips = document.querySelectorAll(".chip:not(.default-chip)");
+    const chips = Array.from(document.querySelectorAll(".chip"))
+        .filter(c => !c.classList.contains("default-chip"));
+
     const chipSound = document.getElementById("chipSound");
 
     if (!container || !defaultChip) {
@@ -102,7 +109,7 @@ function initChipSystem() {
     // =========================
     // SOUND
     // =========================
-    function playChipSound() {
+    function playSound() {
         if (!chipSound) return;
         chipSound.currentTime = 0;
         chipSound.play().catch(() => {});
@@ -112,16 +119,15 @@ function initChipSystem() {
     // SET DEFAULT CHIP
     // =========================
     function setDefaultChip(value) {
-
         selectedChip = value;
         defaultChip.innerText = value;
         defaultChip.dataset.value = value;
     }
 
     // =========================
-    // RESET (CENTER STATE ONLY)
+    // RESET TO CENTER (IMPORTANT BASE STATE)
     // =========================
-    function resetToCenter() {
+    function resetChips() {
 
         chips.forEach(chip => {
 
@@ -129,7 +135,7 @@ function initChipSystem() {
             chip.style.top = "50%";
 
             chip.style.transform =
-                "translate(-50%, -50%) scale(1)";
+                "translate(-50%, -50%) scale(0.2)";
 
             chip.style.opacity = "0";
             chip.style.pointerEvents = "none";
@@ -137,7 +143,7 @@ function initChipSystem() {
     }
 
     // =========================
-    // OPEN FAN (UPWARD SEMICIRCLE)
+    // OPEN (UPWARD SEMICIRCLE SPRING)
     // =========================
     function openFan() {
 
@@ -145,10 +151,11 @@ function initChipSystem() {
 
         const rect = defaultChip.getBoundingClientRect();
 
-        const centerX = rect.left;
-        const centerY = rect.top;
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
 
-        const radius = 120;
+        const radius = 130;
+
         const total = chips.length;
 
         const startAngle = Math.PI;
@@ -172,7 +179,7 @@ function initChipSystem() {
             requestAnimationFrame(() => {
 
                 chip.style.transition =
-                    "transform 0.45s cubic-bezier(0.2,0.8,0.2,1)";
+                    "transform 0.55s cubic-bezier(0.2,0.9,0.2,1)";
 
                 chip.style.transform =
                     "translate(-50%, -50%) scale(1)";
@@ -181,7 +188,7 @@ function initChipSystem() {
     }
 
     // =========================
-    // CLOSE FAN (COLLAPSE)
+    // CLOSE (COLLAPSE INTO CENTER)
     // =========================
     function closeFan() {
 
@@ -190,7 +197,7 @@ function initChipSystem() {
         chips.forEach(chip => {
 
             chip.style.transition =
-                "transform 0.35s cubic-bezier(0.2,0.8,0.2,1)";
+                "transform 0.35s cubic-bezier(0.2,0.9,0.2,1)";
 
             chip.style.transform =
                 "translate(-50%, -50%) scale(0.2)";
@@ -201,11 +208,11 @@ function initChipSystem() {
     }
 
     // =========================
-    // TOGGLE FAN
+    // TOGGLE
     // =========================
     function toggleFan() {
 
-        playChipSound();
+        playSound();
 
         if (isOpen) closeFan();
         else openFan();
@@ -215,13 +222,12 @@ function initChipSystem() {
     // DEFAULT CHIP CLICK
     // =========================
     defaultChip.addEventListener("click", (e) => {
-
         e.stopPropagation();
         toggleFan();
     });
 
     // =========================
-    // CHIP CLICK HANDLER
+    // CHIP CLICK
     // =========================
     chips.forEach(chip => {
 
@@ -229,7 +235,7 @@ function initChipSystem() {
 
             e.stopPropagation();
 
-            playChipSound();
+            playSound();
 
             const value = Number(chip.dataset.value);
 
@@ -242,7 +248,7 @@ function initChipSystem() {
     // =========================
     // INIT STATE
     // =========================
-    resetToCenter();
+    resetChips();
 }
 
 // ======================================================
