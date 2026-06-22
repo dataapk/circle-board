@@ -517,7 +517,7 @@ html, body {
 
     pointer-events: auto;
 
-    z-index: 1000;
+    z-index: 99999;
 }
 
 
