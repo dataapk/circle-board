@@ -57,147 +57,75 @@
 // ======================================================
 
 
-
 // ======================================================
 // 🪙🪙🪙 START: CHIP SYSTEM (FAN FIXED) 🪙🪙🪙
 // ======================================================
 
-// ======================================================
-// 🪙 CHIP SYSTEM (CLEAN SPRING VERSION)
-// ======================================================
-
-
-// ======================================================
-// 🪙 CHIP SYSTEM (UPWARD SEMICIRCLE - CLEAN FINAL)
-// ======================================================
-
-
-// ======================================================
-// 🪙 CHIP SYSTEM (SAFE FULL VERSION)
-// ======================================================
-
-
-// ======================================================
-// 🪙 FRESH CHIP SYSTEM (UPWARD SPRING - CLEAN)
-// ======================================================
-
 function initChipSystem() {
 
-    // =========================
-    // ELEMENTS
-    // =========================
     const container = document.querySelector(".chips-container");
     const defaultChip = document.querySelector(".default-chip");
     const chips = Array.from(document.querySelectorAll(".chip"))
         .filter(c => !c.classList.contains("default-chip"));
 
-    const chipSound = document.getElementById("chipSound");
+    if (!container || !defaultChip) return;
 
-    if (!container || !defaultChip) {
-        console.error("❌ CHIP SYSTEM INIT FAILED");
-        return;
-    }
-
-    console.log("🟢 CHIP SYSTEM READY");
-
-    // =========================
-    // STATE
-    // =========================
     let isOpen = false;
-    let selectedChip = Number(defaultChip.dataset.value || 1);
 
     // =========================
-    // SOUND
+    // SPRING CONFIG
     // =========================
-    function playSound() {
-        if (!chipSound) return;
-        chipSound.currentTime = 0;
-        chipSound.play().catch(() => {});
-    }
+    const radius = 120;
 
-    // =========================
-    // SET DEFAULT CHIP
-    // =========================
-    function setDefaultChip(value) {
-        selectedChip = value;
-        defaultChip.innerText = value;
-        defaultChip.dataset.value = value;
-    }
+    function getTargets() {
+        const total = chips.length;
 
-    // =========================
-    // RESET TO CENTER (IMPORTANT BASE STATE)
-    // =========================
-    function resetChips() {
+        const start = Math.PI;
+        const end = 0;
 
-        chips.forEach(chip => {
+        const step = (start - end) / (total - 1);
 
-            chip.style.left = "50%";
-            chip.style.top = "50%";
+        return chips.map((chip, i) => {
+            const angle = start - step * i;
 
-            chip.style.transform =
-                "translate(-50%, -50%) scale(0.2)";
-
-            chip.style.opacity = "0";
-            chip.style.pointerEvents = "none";
+            return {
+                x: radius * Math.cos(angle),
+                y: radius * Math.sin(angle)
+            };
         });
     }
 
     // =========================
-    // OPEN (UPWARD SEMICIRCLE SPRING)
+    // OPEN (SPRING FAN)
     // =========================
     function openFan() {
 
         isOpen = true;
 
-        const rect = defaultChip.getBoundingClientRect();
-
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        const radius = 130;
-
-        const total = chips.length;
-
-        const startAngle = Math.PI;
-        const endAngle = 0;
-
-        const step = (startAngle - endAngle) / (total - 1);
+        const targets = getTargets();
 
         chips.forEach((chip, i) => {
 
-            const angle = startAngle - step * i;
-
-            const x = centerX + radius * Math.cos(angle);
-            const y = centerY + radius * Math.sin(angle);
-
-            chip.style.left = x + "px";
-            chip.style.top = y + "px";
+            const { x, y } = targets[i];
 
             chip.style.opacity = "1";
             chip.style.pointerEvents = "auto";
 
             requestAnimationFrame(() => {
-
-                chip.style.transition =
-                    "transform 0.55s cubic-bezier(0.2,0.9,0.2,1)";
-
                 chip.style.transform =
-                    "translate(-50%, -50%) scale(1)";
+                    `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(1)`;
             });
         });
     }
 
     // =========================
-    // CLOSE (COLLAPSE INTO CENTER)
+    // CLOSE (SPRING BACK)
     // =========================
     function closeFan() {
 
         isOpen = false;
 
         chips.forEach(chip => {
-
-            chip.style.transition =
-                "transform 0.35s cubic-bezier(0.2,0.9,0.2,1)";
 
             chip.style.transform =
                 "translate(-50%, -50%) scale(0.2)";
@@ -210,47 +138,39 @@ function initChipSystem() {
     // =========================
     // TOGGLE
     // =========================
-    function toggleFan() {
+    defaultChip.addEventListener("click", () => {
 
-        playSound();
+        if (GameEngine?.isSpinning) return;
 
         if (isOpen) closeFan();
         else openFan();
-    }
-
-    // =========================
-    // DEFAULT CHIP CLICK
-    // =========================
-    defaultChip.addEventListener("click", (e) => {
-        e.stopPropagation();
-        toggleFan();
     });
 
     // =========================
-    // CHIP CLICK
+    // SELECT CHIP
     // =========================
     chips.forEach(chip => {
 
-        chip.addEventListener("click", (e) => {
+        chip.addEventListener("click", () => {
 
-            e.stopPropagation();
+            const value = parseFloat(chip.dataset.value);
 
-            playSound();
+            chips.forEach(c => c.classList.remove("active"));
+            chip.classList.add("active");
 
-            const value = Number(chip.dataset.value);
+            if (defaultChip.querySelector("span")) {
+                defaultChip.querySelector("span").innerText = "$" + value;
+            }
 
-            setDefaultChip(value);
+            GameEngine.selectedChip = { value };
 
             closeFan();
         });
     });
 
-    // =========================
     // INIT STATE
-    // =========================
-    resetChips();
+    closeFan();
 }
-
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
 // ======================================================
