@@ -86,15 +86,18 @@ function initChipSystem() {
     // =========================
     function resetChips() {
 
-        const list = container.querySelectorAll(".chip");
+    const list = container.querySelectorAll(".chip");
 
-        list.forEach(chip => {
+    list.forEach(chip => {
 
-            chip.style.opacity = "1";
-            chip.style.transform = "translate(-50%, -50%) scale(1)";
-            chip.style.pointerEvents = "auto";
-        });
-    }
+        if (chip.classList.contains("default-chip")) return;
+
+        chip.style.opacity = "1";
+        chip.style.pointerEvents = "auto";
+
+        // ❌ REMOVE transform reset for all chips
+    });
+}
 
     // =========================
     // OPEN FAN (SEMICIRCLE LOGIC)
