@@ -545,52 +545,7 @@ html, body {
 /* ======================================================
    🪙 CHIP SYSTEM GLOWING EFFECT 
 ====================================================== */
-.default-chip {
 
-    position:absolute;
-
-    top:50%;
-    left:50%;
-
-    transform:translate(-50%, -50%);
-
-    opacity:1;
-
-    pointer-events:auto;
-
-    z-index:1000;
-}
-
-.default-chip img {
-
-    filter:
-        drop-shadow(0 0 8px rgba(255,215,0,.7))
-        drop-shadow(0 0 18px rgba(255,200,0,.5))
-        drop-shadow(0 0 28px rgba(255,180,0,.35));
-
-    animation: defaultChipGlow 1.8s ease-in-out infinite;
-}
-@keyframes defaultChipGlow {
-
-    0%{
-        filter:
-        drop-shadow(0 0 5px rgba(255,215,0,.4))
-        drop-shadow(0 0 10px rgba(255,200,0,.2));
-    }
-
-    50%{
-        filter:
-        drop-shadow(0 0 12px rgba(255,215,0,.9))
-        drop-shadow(0 0 25px rgba(255,200,0,.6))
-        drop-shadow(0 0 40px rgba(255,180,0,.4));
-    }
-
-    100%{
-        filter:
-        drop-shadow(0 0 5px rgba(255,215,0,.4))
-        drop-shadow(0 0 10px rgba(255,200,0,.2));
-    }
-}
 /* ======================================================
    🪙 CHIP SYSTEM END
 ====================================================== */
