@@ -119,7 +119,7 @@ function initChipSystem() {
 
             closeChipFan();
         });
-}
+)
 function playChipSound() {
     if (!chipSound) return;
 
