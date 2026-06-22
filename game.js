@@ -61,28 +61,115 @@
 // ======================================================
 // 🪙🪙🪙 START: CHIP SYSTEM (FAN FIXED) 🪙🪙🪙
 // ======================================================
+
+// ======================================================
+// 🪙 CHIP SYSTEM (CLEAN SPRING VERSION)
+// ======================================================
+
 function initChipSystem() {
 
-    container = document.querySelector(".chips-container");
-    defaultChip = document.querySelector(".default-chip");
-    chipSound = document.getElementById("chipSound");
+    // =========================
+    // ELEMENTS
+    // =========================
+    const container = document.querySelector(".chips-container");
+    const defaultChip = document.querySelector(".default-chip");
+    const chips = document.querySelectorAll(".chip:not(.default-chip)");
+    const chipSound = document.getElementById("chipSound");
 
-    // ❌ OLD: includes default chip
-    // chips = document.querySelectorAll(".chip");
-
-    // ✅ NEW: only fan chips
-    chips = document.querySelectorAll(".chip:not(.default-chip)");
-
-    if (!container || !defaultChip || chips.length === 0) {
+    if (!container || !defaultChip) {
         console.error("❌ CHIP SYSTEM INIT FAILED");
         return;
     }
 
     console.log("🟢 CHIP SYSTEM READY");
-}
 
-    // FORCE DEFAULT CENTER
-    centerDefaultChip();
+    // =========================
+    // STATE
+    // =========================
+    let isOpen = false;
+    let selectedChip = Number(defaultChip.dataset.value || 1);
+
+    // =========================
+    // SOUND
+    // =========================
+    function playChipSound() {
+        if (!chipSound) return;
+        chipSound.currentTime = 0;
+        chipSound.play().catch(() => {});
+    }
+
+    // =========================
+    // SET DEFAULT CHIP
+    // =========================
+    function setDefaultChip(value) {
+
+        selectedChip = value;
+
+        defaultChip.innerText = value;
+        defaultChip.dataset.value = value;
+    }
+
+    // =========================
+    // OPEN FAN (SPRING UPWARD)
+    // =========================
+    function openFan() {
+
+        isOpen = true;
+
+        const rect = defaultChip.getBoundingClientRect();
+
+        const baseX = rect.left;
+        const baseY = rect.top;
+
+        const gap = 60;
+
+        chips.forEach((chip, i) => {
+
+            chip.style.left = baseX + "px";
+            chip.style.top = baseY + "px";
+
+            chip.style.opacity = "1";
+            chip.style.pointerEvents = "auto";
+
+            requestAnimationFrame(() => {
+
+                chip.style.transition = "transform 0.45s cubic-bezier(0.2,0.8,0.2,1)";
+
+                const offsetY = -(i + 1) * gap;
+
+                chip.style.transform =
+                    "translate(-50%, -50%) translateY(" + offsetY + "px) scale(1)";
+            });
+        });
+    }
+
+    // =========================
+    // CLOSE FAN (COLLAPSE)
+    // =========================
+    function closeFan() {
+
+        isOpen = false;
+
+        chips.forEach((chip) => {
+
+            chip.style.transition = "transform 0.35s cubic-bezier(0.2,0.8,0.2,1)";
+            chip.style.transform =
+                "translate(-50%, -50%) translateY(0px) scale(0.2)";
+            chip.style.opacity = "0";
+            chip.style.pointerEvents = "none";
+        });
+    }
+
+    // =========================
+    // TOGGLE FAN
+    // =========================
+    function toggleFan() {
+
+        playChipSound();
+
+        if (isOpen) closeFan();
+        else openFan();
+    }
 
     // =========================
     // DEFAULT CHIP CLICK
@@ -90,22 +177,13 @@ function initChipSystem() {
     defaultChip.addEventListener("click", (e) => {
 
         e.stopPropagation();
-
-        playChipSound();
-
-        if (isFanOpen) {
-            closeChipFan();
-        } else {
-            openChipFan();
-        }
+        toggleFan();
     });
 
     // =========================
-    // OTHER CHIPS CLICK
+    // CHIP CLICK
     // =========================
-    chips.forEach(chip => {
-
-        if (chip.classList.contains("default-chip")) return;
+    chips.forEach((chip) => {
 
         chip.addEventListener("click", (e) => {
 
@@ -115,97 +193,17 @@ function initChipSystem() {
 
             const value = Number(chip.dataset.value);
 
+            // ✅ UPDATE DEFAULT CHIP
             setDefaultChip(value);
 
-            closeChipFan();
+            closeFan();
         });
-)
-function playChipSound() {
-    if (!chipSound) return;
-
-    chipSound.currentTime = 0;
-
-    chipSound.play().catch(err => {
-        console.log("🔇 SOUND BLOCKED:", err);
-    });
-}
-function centerDefaultChip() {
-
-    if (!defaultChip) return;
-
-    defaultChip.style.left = "50%";
-    defaultChip.style.top = "50%";
-    defaultChip.style.transform = "translate(-50%, -50%) scale(1)";
-    defaultChip.style.opacity = "1";
-    defaultChip.style.visibility = "visible";
-}
-
- // =========================
-// 🚀 OPEN FAN (STABLE VERSION)
-// =========================
-
-function openChipFan() {
-
-    const rect = container.getBoundingClientRect();
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const radius = Math.min(rect.width, rect.height) * 0.6;
-
-    const items = [...chips].filter(c => !c.classList.contains("default-chip"));
-
-    const total = items.length;
-
-    const startAngle = Math.PI;
-    const endAngle = 2 * Math.PI;
-
-    const step = (endAngle - startAngle) / (total - 1);
-
-    items.forEach((chip, i) => {
-
-        const angle = startAngle + step * i;
-
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
-
-        chip.style.left = x + "px";
-        chip.style.top = y + "px";
-
-        chip.style.transform = "translate(-50%, -50%)";
-        chip.style.opacity = "1";
-        chip.style.pointerEvents = "auto";
     });
 
-    container.classList.add("fan");
-    container.classList.remove("closed");
-
-    isFanOpen = true;
-}
-function closeChipFan() {
-
-    const list = container.querySelectorAll(".chip");
-
-    list.forEach(chip => {
-
-        if (chip.classList.contains("default-chip")) return;
-
-        chip.style.opacity = "0";
-        chip.style.pointerEvents = "none";
-    });
-
-    container.classList.remove("fan");
-    container.classList.add("closed");
-
-    isFanOpen = false;
-
-    centerDefaultChip();
-}
-function setDefaultChip(value) {
-
-    selectedChip = value;
-    defaultChip.innerText = value;
-    defaultChip.dataset.value = value;
+    // =========================
+    // INIT STATE
+    // =========================
+    closeFan();
 }
 
 
