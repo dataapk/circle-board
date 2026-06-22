@@ -73,25 +73,55 @@ function initChipSystem() {
     }
 
     console.log("🟢 CHIP SYSTEM READY");
-    // =========================
-    // 🔊 SOUND SETUP
-    // =========================
+
     const chipSound = document.getElementById("chipSound");
 
-function playChipSound() {
-    if (!chipSound) return;
+    function playChipSound() {
+        if (!chipSound) return;
+        chipSound.currentTime = 0;
+        chipSound.play().catch(e => console.log("sound error", e));
+    }
 
-    chipSound.currentTime = 0;
-    chipSound.play().catch(err => {
-        console.log("🔇 SOUND BLOCKED:", err);
+    // =========================
+    // DEFAULT CHIP
+    // =========================
+    defaultChip.addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        console.log("🟢 DEFAULT CHIP CLICKED");
+
+        playChipSound();
+
+        if (isFanOpen) closeChipFan();
+        else openChipFan();
     });
-}
 
     // =========================
-    // STATE
+    // ALL OTHER CHIPS
     // =========================
-    let isFanOpen = false;
-    let selectedChip = Number(defaultChip.dataset.value || 1);
+    chips.forEach(chip => {
+
+        if (chip.classList.contains("default-chip")) return;
+
+        chip.addEventListener("click", (e) => {
+
+            e.stopPropagation();
+
+            console.log("🟢 CHIP CLICKED:", chip);
+
+            playChipSound();
+
+            const value = Number(chip.dataset.value);
+
+            setDefaultChip(value);
+
+            closeChipFan();
+        });
+    });
+
+    closeChipFan();
+}
 
     // =========================
     // RESET (VISIBILITY FIX)
@@ -191,51 +221,8 @@ function openChipFan() {
         selectedChip = value;
         defaultChip.innerText = value;
         defaultChip.dataset.value = value;
-    }
-
-    // =========================
-    // DEFAULT CHIP CLICK
-    // =========================
-  chip.addEventListener("click", (e) => {
-
-    e.stopPropagation();
-
-    console.log("🟢 CHIP CLICKED:", chip);
-
-    playChipSound();
-
-    const value = Number(chip.dataset.value);
-
-    setDefaultChip(value);
-    closeChipFan();
       
     });
-
-    // =========================
-    // 🎯 ALL CHIPS CLICK
-    // =========================
-    chips.forEach(chip => {
-
-        chip.addEventListener("click", (e) => {
-
-            e.stopPropagation();
-
-            console.log("🟢 CHIP CLICKED:", chip);
-
-            playChipSound();
-
-            const value = Number(chip.dataset.value || 1);
-
-            setDefaultChip?.(value); // safe call if exists
-
-            closeChipFan?.();
-        });
-    });
-
-    // =========================
-    // 🚀 INIT STATE
-    // =========================
-    closeChipFan?.();
 }
 
 
