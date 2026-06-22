@@ -66,7 +66,6 @@ function initChipSystem() {
     const container = document.querySelector(".chips-container");
     const chips = document.querySelectorAll(".chip");
     const defaultChip = document.querySelector(".default-chip");
-    const board = document.querySelector(".game-board");
 
     if (!container || !defaultChip || chips.length === 0) {
         console.error("❌ CHIP SYSTEM INIT FAILED");
@@ -74,6 +73,18 @@ function initChipSystem() {
     }
 
     console.log("🟢 CHIP SYSTEM READY");
+    // =========================
+    // 🔊 SOUND SETUP
+    // =========================
+    const chipSound = new Audio("chip.mp3");
+    chipSound.preload = "auto";
+
+    function playChipSound() {
+        chipSound.currentTime = 0;
+        chipSound.play().catch(err => {
+            console.log("🔇 SOUND BLOCKED:", err);
+        });
+    }
 
     // =========================
     // STATE
@@ -188,6 +199,10 @@ function openChipFan() {
 
         e.stopPropagation();
 
+        console.log("🟢 DEFAULT CHIP CLICKED");
+
+        playChipSound();
+
         if (isFanOpen) {
             closeChipFan();
         } else {
@@ -196,22 +211,31 @@ function openChipFan() {
     });
 
     // =========================
-    // CHIP SELECT
+    // 🎯 ALL CHIPS CLICK
     // =========================
     chips.forEach(chip => {
-
-        if (chip.classList.contains("default-chip")) return;
 
         chip.addEventListener("click", (e) => {
 
             e.stopPropagation();
 
-            const value = Number(chip.dataset.value);
+            console.log("🟢 CHIP CLICKED:", chip);
 
-            setDefaultChip(value);
-            closeChipFan();
+            playChipSound();
+
+            const value = Number(chip.dataset.value || 1);
+
+            setDefaultChip?.(value); // safe call if exists
+
+            closeChipFan?.();
         });
     });
+
+    // =========================
+    // 🚀 INIT STATE
+    // =========================
+    closeChipFan?.();
+}
 
     // =========================
     // BOARD CLICK (PLACE BET)
