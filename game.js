@@ -123,14 +123,15 @@ function initChipSystem() {
 
             const angle = startAngle + step * i;
 
-            const x = centerX + radius * Math.cos(angle);
-            const y = centerY + radius * Math.sin(angle);
+        const x = centerX + radius * Math.cos(angle);
+        const y = centerY + radius * Math.sin(angle);
 
-            chip.style.left = x + "px";
-            chip.style.top = y + "px";
+     chip.style.transform = `
+        translate(${x}px, ${y}px)
+   `;
 
-            chip.style.opacity = "1";
-            chip.style.pointerEvents = "auto";
+chip.style.opacity = "1";
+chip.style.pointerEvents = "auto";
         });
 
         container.classList.add("fan");
