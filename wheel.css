@@ -352,101 +352,89 @@ html, body {
    🪙 CHIP SYSTEM — PHYSICS SPRING (FINAL)
 ====================================================== */
 
+/* চিপস র্যাপার পজিশন */
 .chips-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 360px;
-    height: 180px;
-    margin: 0 auto;
-    overflow: visible;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
+/* মেইন চিপস কন্টেইনার (ডিফল্ট অবস্থায় চিপগুলো একটার নিচে আরেকটা লুকিয়ে থাকবে) */
 .chips-container {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: 70px;
+    height: 70px;
 }
 
-/* =========================
-   CHIP BASE
-========================= */
-
+/* প্রতিটি চিপের কমন স্টাইল ও স্প্রিং ট্রানজিশন */
 .chip {
     position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 42px;
-    height: 42px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 70px;
     cursor: pointer;
-    user-select: none;
-
-    transform: translate(-50%, -50%) scale(0.2);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
     opacity: 0;
-    pointer-events: none;
-
-    transition: transform 0.65s cubic-bezier(0.2, 1.2, 0.2, 1),
-                opacity 0.25s ease;
+    pointer-events: none; /* বন্ধ থাকা অবস্থায় ক্লিক নেওয়া বন্ধ */
+    z-index: 1;
 }
 
-/* DEFAULT CHIP ALWAYS ON TOP */
-.default-chip {
+/* ডিফল্ট চিপ (যা সবসময় দেখা যাবে এবং সবার উপরে থাকবে) */
+.chip.default-chip {
     opacity: 1;
     pointer-events: auto;
     z-index: 10;
-    transform: translate(-50%, -50%) scale(1);
 }
 
-/* IMAGE */
-.chip img {
-    width: 85%;
-    height: 85%;
-    object-fit: contain;
-}
-
-/* ACTIVE */
-.chip.active {
-    transform: translate(-50%, -50%) scale(1.2);
-    box-shadow: 0 0 18px rgba(255,215,0,0.6);
-}
-/* =========================
-   ✨ OPTIONAL GLOW (DEFAULT CHIP ONLY)
-========================= */
-.default-chip img {
-    filter: drop-shadow(0 0 8px rgba(255,215,0,0.7));
-}
-
-/* =========================
-   🎰 FAN OPEN STATE (ONLY POSITION CONTROL)
-========================= */
-
-.chips-container.fan .chip {
+/* কন্টেইনার যখন OPEN (ক্লিক করার পর) হবে - চিপগুলো সেমি-সার্কেলে ছড়িয়ে যাবে */
+.chips-container.open .chip {
     opacity: 1;
-    visibility: visible;
+    pointer-events: auto;
 }
 
-
-/* =========================
-   🔒 CLOSED STATE SAFETY (ONLY OTHERS HIDE)
-========================= */
-
-.chips-container.closed .chip:not(.default-chip) {
-    opacity: 0;
-    pointer-events: none;
+/* ৫টি চিপের জন্য স্প্রিং ও সেমি-সার্কেল ডিগ্রি অ্যাঙ্গেল ডিস্ট্রিবিউশন */
+/* চিপ ১: বামে বাঁকা */
+.chips-container.open .chip[data-value="0.10"]:not(.default-chip),
+.chips-container.open .chip:nth-child(2) {
+    transform: translate(-110px, -60px) rotate(-40deg);
 }
 
+/* চিপ ২: মাঝামাঝি বামে */
+.chips-container.open .chip[data-value="0.20"],
+.chips-container.open .chip:nth-child(3) {
+    transform: translate(-55px, -100px) rotate(-20deg);
+}
 
-/* =========================
-   🧠 GLOBAL SAFETY RESET
-========================= */
+/* চিপ ৩: একদম সোজা উপরে */
+.chips-container.open .chip[data-value="0.50"],
+.chips-container.open .chip:nth-child(4) {
+    transform: translate(0px, -120px) rotate(0deg);
+}
 
-.chip {
-    will-change: transform;
+/* চিপ ৪: মাঝামাঝি ডানে */
+.chips-container.open .chip[data-value="1"],
+.chips-container.open .chip:nth-child(5) {
+    transform: translate(55px, -100px) rotate(20deg);
+}
+
+/* চিপ ৫: ডানে বাঁকা */
+.chips-container.open .chip[data-value="2"],
+.chips-container.open .chip:nth-child(6) {
+    transform: translate(110px, -60px) rotate(40deg);
+}
+
+/* চিপ ৬: চরম ডানে (যদি $5 চিপ থাকে) */
+.chips-container.open .chip[data-value="5"],
+.chips-container.open .chip:nth-child(7) {
+    transform: translate(165px, -20px) rotate(60deg);
+}
+
+/* চিপ হোভার এফেক্ট */
+.chip:hover {
+    transform: scale(1.15) !important;
+    z-index: 12;
 }
 /* ======================================================
    🪙 CHIP SYSTEM GLOWING EFFECT 
