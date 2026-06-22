@@ -63,9 +63,10 @@
 // ======================================================
 function initChipSystem() {
 
-    const container = document.querySelector(".chips-container");
-    const chips = document.querySelectorAll(".chip");
-    const defaultChip = document.querySelector(".default-chip");
+    container = document.querySelector(".chips-container");
+    chips = document.querySelectorAll(".chip");
+    defaultChip = document.querySelector(".default-chip");
+    chipSound = document.getElementById("chipSound");
 
     if (!container || !defaultChip || chips.length === 0) {
         console.error("❌ CHIP SYSTEM INIT FAILED");
@@ -74,31 +75,27 @@ function initChipSystem() {
 
     console.log("🟢 CHIP SYSTEM READY");
 
-    const chipSound = document.getElementById("chipSound");
-
-    function playChipSound() {
-        if (!chipSound) return;
-        chipSound.currentTime = 0;
-        chipSound.play().catch(e => console.log("sound error", e));
-    }
+    // FORCE DEFAULT CENTER
+    centerDefaultChip();
 
     // =========================
-    // DEFAULT CHIP
+    // DEFAULT CHIP CLICK
     // =========================
     defaultChip.addEventListener("click", (e) => {
 
         e.stopPropagation();
 
-        console.log("🟢 DEFAULT CHIP CLICKED");
-
         playChipSound();
 
-        if (isFanOpen) closeChipFan();
-        else openChipFan();
+        if (isFanOpen) {
+            closeChipFan();
+        } else {
+            openChipFan();
+        }
     });
 
     // =========================
-    // ALL OTHER CHIPS
+    // OTHER CHIPS CLICK
     // =========================
     chips.forEach(chip => {
 
@@ -107,8 +104,6 @@ function initChipSystem() {
         chip.addEventListener("click", (e) => {
 
             e.stopPropagation();
-
-            console.log("🟢 CHIP CLICKED:", chip);
 
             playChipSound();
 
@@ -122,44 +117,41 @@ function initChipSystem() {
 
     closeChipFan();
 }
+function playChipSound() {
+    if (!chipSound) return;
 
-    // =========================
-    // RESET (VISIBILITY FIX)
-    // =========================
-    function resetChips() {
+    chipSound.currentTime = 0;
 
-    const list = container.querySelectorAll(".chip");
-
-    list.forEach(chip => {
-
-        if (chip.classList.contains("default-chip")) return;
-
-        chip.style.opacity = "1";
-        chip.style.pointerEvents = "auto";
-
-        // ❌ REMOVE transform reset for all chips
+    chipSound.play().catch(err => {
+        console.log("🔇 SOUND BLOCKED:", err);
     });
 }
+function centerDefaultChip() {
 
-    // =========================
-    // OPEN FAN (SEMICIRCLE LOGIC)
-    // =========================
+    if (!defaultChip) return;
+
+    defaultChip.style.left = "50%";
+    defaultChip.style.top = "50%";
+    defaultChip.style.transform = "translate(-50%, -50%) scale(1)";
+    defaultChip.style.opacity = "1";
+    defaultChip.style.visibility = "visible";
+}
+
+ // =========================
+// 🚀 OPEN FAN (STABLE VERSION)
 // =========================
-// OPEN CHIP FAN (FIXED)
-// =========================
+
 function openChipFan() {
-
-    resetChips();
 
     const rect = container.getBoundingClientRect();
 
-    // ✅ REAL VISUAL CENTER (NOT clientWidth mix)
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
     const radius = Math.min(rect.width, rect.height) * 0.6;
 
     const items = [...chips].filter(c => !c.classList.contains("default-chip"));
+
     const total = items.length;
 
     const startAngle = Math.PI;
@@ -174,15 +166,11 @@ function openChipFan() {
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
 
-        // ✅ IMPORTANT FIX: reset previous positioning conflict
         chip.style.left = x + "px";
         chip.style.top = y + "px";
 
-        // keep only centering transform
         chip.style.transform = "translate(-50%, -50%)";
-
         chip.style.opacity = "1";
-        chip.style.visibility = "visible";
         chip.style.pointerEvents = "auto";
     });
 
@@ -191,23 +179,12 @@ function openChipFan() {
 
     isFanOpen = true;
 }
-function centerDefaultChip() {
-
-    if (!defaultChip || !container) return;
-
-    defaultChip.style.left = "50%";
-    defaultChip.style.top = "50%";
-    defaultChip.style.transform = "translate(-50%, -50%) scale(1)";
-}
-
-    // =========================
-    // CLOSE FAN
-    // =========================
-    function closeChipFan() {
+function closeChipFan() {
 
     const list = container.querySelectorAll(".chip");
 
     list.forEach(chip => {
+
         if (chip.classList.contains("default-chip")) return;
 
         chip.style.opacity = "0";
@@ -219,20 +196,15 @@ function centerDefaultChip() {
 
     isFanOpen = false;
 
-    centerDefaultChip(); // 🔥 IMPORTANT
+    centerDefaultChip();
+}
+function setDefaultChip(value) {
+
+    selectedChip = value;
+    defaultChip.innerText = value;
+    defaultChip.dataset.value = value;
 }
 
-    // =========================
-    // SET DEFAULT CHIP
-    // =========================
-    function setDefaultChip(value) {
-
-        selectedChip = value;
-        defaultChip.innerText = value;
-        defaultChip.dataset.value = value;
-      
-   }
-    
 
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
