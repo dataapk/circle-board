@@ -401,7 +401,7 @@ html, body {
 }
 
 /* ==================================================== */
-/* 🪙 COMPACT 5-SLOT CHIP FAN (NO OVERLAPING FIX)      */
+/* 🪙 COMPACT 5-SLOT CHIP FAN (HTML ORDER BASED)        */
 /* ==================================================== */
 
 /* মেইন ডিফল্ট চিপ (সেন্টার) সবসময় নিজের জায়গায় স্থির থাকবে */
@@ -411,58 +411,58 @@ html, body {
     z-index: 10;
 }
 
-/* ফ্যান ওপেন হলে ৫টি চিপের নতুন পজিশন (কোনো চিপ আর ওভারল্যাপ করবে না) */
+/* ফ্যান ওপেন হলে ৫টি চিপের নিখুঁত জ্যামিতিক পজিশন (দূরত্ব কমানো হয়েছে) */
+/* এখানে ব্রাউজার ডিফল্ট চিপ বাদে বাকি ৫টি চিপকে ক্রমানুসারে সাজাবে */
 
 /* স্লট ১: চরম বামে */
-.chips-container.open .chip.slot-1 {
-    transform: translate(-130px, -45px) rotate(-45deg) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(1) {
+    transform: translate(-120px, -50px) rotate(-40deg) !important;
 }
 
 /* স্লট ২: মাঝামাঝি বামে */
-.chips-container.open .chip.slot-2 {
-    transform: translate(-75px, -85px) rotate(-22.5deg) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(2) {
+    transform: translate(-60px, -85px) rotate(-20deg) !important;
 }
 
-/* স্লট ৩: সোজা উপরে (ওভারল্যাপ বাগ ফিক্স - সামান্য ডান-বামে ব্যালেন্স করা হয়েছে) */
-/* এখানে সামান্য X-axis বা ট্র্যান্সলেট অ্যাডজাস্ট করায় এটি আর ডিফল্ট চিপের আড়ালে লুকাবে না */
-.chips-container.open .chip.slot-3 {
-    transform: translate(-10px, -110px) rotate(5deg) !important;
-    z-index: 11; /* ডিফল্ট চিপের চেয়ে বেশি জেড-ইনডেক্স যেন উপরে ভেসে থাকে */
+/* স্লট ৩: সোজা উপরে (আপনার চমৎকার লজিক অনুযায়ী ওভারল্যাপ এড়াতে সামান্য ডানে সরানো হয়েছে) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(3) {
+    transform: translate(15px, -105px) rotate(8deg) !important;
+    z-index: 12;
 }
 
 /* স্লট ৪: মাঝামাঝি ডানে */
-.chips-container.open .chip.slot-4 {
-    transform: translate(55px, -95px) rotate(25deg) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(4) {
+    transform: translate(65px, -85px) rotate(22deg) !important;
 }
 
 /* স্লট ৫: চরম ডানে */
-.chips-container.open .chip.slot-5 {
-    transform: translate(115px, -60px) rotate(50deg) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(5) {
+    transform: translate(120px, -50px) rotate(40deg) !important;
 }
 
 
 /* ==================================================== */
-/* 🚀 চিপ হোভার এফেক্ট (নতুন ওভারল্যাপ ফিক্সড পজিশন)    */
+/* 🚀 চিপ হোভার এফেক্ট                                   */
 /* ==================================================== */
 
 .chips-container.open .chip:not(.default-chip):hover {
     z-index: 15;
 }
 
-.chips-container.open .chip.slot-1:hover {
-    transform: translate(-130px, -45px) rotate(-45deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(1):hover {
+    transform: translate(-120px, -50px) rotate(-40deg) scale(1.15) !important;
 }
-.chips-container.open .chip.slot-2:hover {
-    transform: translate(-75px, -85px) rotate(-22.5deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(2):hover {
+    transform: translate(-60px, -85px) rotate(-20deg) scale(1.15) !important;
 }
-.chips-container.open .chip.slot-3:hover {
-    transform: translate(-10px, -110px) rotate(5deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(3):hover {
+    transform: translate(15px, -105px) rotate(8deg) scale(1.15) !important;
 }
-.chips-container.open .chip.slot-4:hover {
-    transform: translate(55px, -95px) rotate(25deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(4):hover {
+    transform: translate(65px, -85px) rotate(22deg) scale(1.15) !important;
 }
-.chips-container.open .chip.slot-5:hover {
-    transform: translate(115px, -60px) rotate(50deg) scale(1.15) !important;
+.chips-container.open .chip:not(.default-chip):nth-of-type(5):hover {
+    transform: translate(120px, -50px) rotate(40deg) scale(1.15) !important;
 }
 
 /* ডিফল্ট চিপ হোভার */
