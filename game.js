@@ -208,7 +208,7 @@ function openChipFan() {
 
     setDefaultChip(value);
     closeChipFan();
-        }
+       )
     });
 
     // =========================
