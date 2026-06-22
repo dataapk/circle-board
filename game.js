@@ -71,6 +71,11 @@
 // 🪙 CHIP SYSTEM (UPWARD SEMICIRCLE - CLEAN FINAL)
 // ======================================================
 
+
+// ======================================================
+// 🪙 CHIP SYSTEM (SAFE FULL VERSION)
+// ======================================================
+
 function initChipSystem() {
 
     // =========================
@@ -107,9 +112,28 @@ function initChipSystem() {
     // SET DEFAULT CHIP
     // =========================
     function setDefaultChip(value) {
+
         selectedChip = value;
         defaultChip.innerText = value;
         defaultChip.dataset.value = value;
+    }
+
+    // =========================
+    // RESET (CENTER STATE ONLY)
+    // =========================
+    function resetToCenter() {
+
+        chips.forEach(chip => {
+
+            chip.style.left = "50%";
+            chip.style.top = "50%";
+
+            chip.style.transform =
+                "translate(-50%, -50%) scale(1)";
+
+            chip.style.opacity = "0";
+            chip.style.pointerEvents = "none";
+        });
     }
 
     // =========================
@@ -139,18 +163,16 @@ function initChipSystem() {
             const x = centerX + radius * Math.cos(angle);
             const y = centerY + radius * Math.sin(angle);
 
-            // position base
             chip.style.left = x + "px";
             chip.style.top = y + "px";
 
             chip.style.opacity = "1";
             chip.style.pointerEvents = "auto";
 
-            // spring animation
             requestAnimationFrame(() => {
 
                 chip.style.transition =
-                    "transform 0.5s cubic-bezier(0.2,0.8,0.2,1)";
+                    "transform 0.45s cubic-bezier(0.2,0.8,0.2,1)";
 
                 chip.style.transform =
                     "translate(-50%, -50%) scale(1)";
@@ -182,6 +204,7 @@ function initChipSystem() {
     // TOGGLE FAN
     // =========================
     function toggleFan() {
+
         playChipSound();
 
         if (isOpen) closeFan();
@@ -192,6 +215,7 @@ function initChipSystem() {
     // DEFAULT CHIP CLICK
     // =========================
     defaultChip.addEventListener("click", (e) => {
+
         e.stopPropagation();
         toggleFan();
     });
@@ -209,7 +233,6 @@ function initChipSystem() {
 
             const value = Number(chip.dataset.value);
 
-            // update default chip
             setDefaultChip(value);
 
             closeFan();
@@ -219,7 +242,7 @@ function initChipSystem() {
     // =========================
     // INIT STATE
     // =========================
-    closeFan();
+    resetToCenter();
 }
 
 // ======================================================
