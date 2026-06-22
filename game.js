@@ -63,113 +63,62 @@
 
 function initChipSystem() {
 
-    const container = document.querySelector(".chips-container");
-    const defaultChip = document.querySelector(".default-chip");
-    const chips = Array.from(document.querySelectorAll(".chip"))
-        .filter(c => !c.classList.contains("default-chip"));
+  const container = document.querySelector(".chips-container");
+  const chips = document.querySelectorAll(".chip");
+  const defaultChip = document.querySelector(".default-chip");
 
-    if (!container || !defaultChip) return;
+  if (!container || !defaultChip || chips.length === 0) return;
 
-    let isOpen = false;
+  container.classList.remove("fan");
+  container.classList.add("closed");
 
-    // =========================
-    // SPRING CONFIG
-    // =========================
-    const radius = 120;
+  // =========================
+  // FAN TOGGLE
+  // =========================
+  defaultChip.addEventListener("click", (e) => {
 
-    function getTargets() {
-        const total = chips.length;
+    e.stopPropagation();
 
-        const start = Math.PI;
-        const end = 0;
+    if (GameEngine.isSpinning?.()) return;
 
-        const step = (start - end) / (total - 1);
+    const isOpen = container.classList.contains("fan");
 
-        return chips.map((chip, i) => {
-            const angle = start - step * i;
-
-            return {
-                x: radius * Math.cos(angle),
-                y: radius * Math.sin(angle)
-            };
-        });
+    if (isOpen) {
+      container.classList.remove("fan");
+      container.classList.add("closed");
+    } else {
+      container.classList.add("fan");
+      container.classList.remove("closed");
     }
 
-    // =========================
-    // OPEN (SPRING FAN)
-    // =========================
-    function openFan() {
+    GameEngine.audioSystem.play("chipSound");
+  });
 
-        isOpen = true;
+  // =========================
+  // CHIP SELECT
+  // =========================
+  chips.forEach(chip => {
 
-        const targets = getTargets();
+    if (chip.classList.contains("default-chip")) return;
 
-        chips.forEach((chip, i) => {
+    chip.addEventListener("click", (e) => {
 
-            const { x, y } = targets[i];
+      e.stopPropagation();
 
-            chip.style.opacity = "1";
-            chip.style.pointerEvents = "auto";
+      const value = parseFloat(chip.dataset.value || "0.1");
 
-            requestAnimationFrame(() => {
-                chip.style.transform =
-                    `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(1)`;
-            });
-        });
-    }
+      GameEngine.setSelectedChip({ value });
 
-    // =========================
-    // CLOSE (SPRING BACK)
-    // =========================
-    function closeFan() {
+      chips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
 
-        isOpen = false;
+      const span = defaultChip.querySelector("span");
+      if (span) span.innerText = "$" + value;
 
-        chips.forEach(chip => {
-
-            chip.style.transform =
-                "translate(-50%, -50%) scale(0.2)";
-
-            chip.style.opacity = "0";
-            chip.style.pointerEvents = "none";
-        });
-    }
-
-    // =========================
-    // TOGGLE
-    // =========================
-    defaultChip.addEventListener("click", () => {
-
-        if (GameEngine?.isSpinning) return;
-
-        if (isOpen) closeFan();
-        else openFan();
+      console.log("🪙 CHIP SELECTED:", value);
     });
 
-    // =========================
-    // SELECT CHIP
-    // =========================
-    chips.forEach(chip => {
-
-        chip.addEventListener("click", () => {
-
-            const value = parseFloat(chip.dataset.value);
-
-            chips.forEach(c => c.classList.remove("active"));
-            chip.classList.add("active");
-
-            if (defaultChip.querySelector("span")) {
-                defaultChip.querySelector("span").innerText = "$" + value;
-            }
-
-            GameEngine.selectedChip = { value };
-
-            closeFan();
-        });
-    });
-
-    // INIT STATE
-    closeFan();
+  });
 }
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
