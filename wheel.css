@@ -401,7 +401,7 @@ html, body {
 }
 
 /* ==================================================== */
-/* 🪙 BALANCED 5-SLOT CHIP FAN WITH REDUCED DISTANCE    */
+/* 🪙 COMPACT 5-SLOT CHIP FAN (100% CSS FIXED POSITION) */
 /* ==================================================== */
 
 /* মেইন ডিফল্ট চিপ (সেন্টার) সবসময় নিজের জায়গায় স্থির থাকবে */
@@ -411,56 +411,66 @@ html, body {
     z-index: 10;
 }
 
-/* ফ্যানের ৫টি চিপের জন্য নিখুঁত এবং ফিক্সড পজিশন */
-/* দূরত্ব (Translate Y) আগে -125px ছিল, তা কমিয়ে -100px করা হয়েছে */
+/* ফ্যান ওপেন হলে ৫টি চিপের নিখুঁত জ্যামিতিক পজিশন এবং কম দূরত্ব */
+/* মেইন চিপের পর থেকে ব্রাউজার ১ থেকে ৫ নম্বর চিপ নিখুঁতভাবে সিরিয়াল করবে */
 
-/* স্লট ১: চরম বামে (বেশি বাঁকা) */
-.chips-container.open .chip:not(.default-chip):nth-of-type(1) {
+/* স্লট ১: চরম বামে (যা আগে হারিয়ে গিয়েছিল) */
+.chips-container.open .chip:not(.default-chip):nth-child(1),
+.chips-container.open .chip.default-chip + .chip {
     transform: translate(-120px, -50px) rotate(-40deg) !important;
 }
 
-/* স্লট ২: মাঝামাঝি বামে (কম বাঁকা) */
-.chips-container.open .chip:not(.default-chip):nth-of-type(2) {
+/* স্লট ২: মাঝামাঝি বামে */
+.chips-container.open .chip:not(.default-chip):nth-child(2),
+.chips-container.open .chip.default-chip + .chip + .chip {
     transform: translate(-60px, -85px) rotate(-20deg) !important;
 }
 
-/* স্লট ৩: একদম সোজা উপরে (সেন্টার বরাবর ১টি চিপ - দূরত্ব কমানো হয়েছে) */
-.chips-container.open .chip:not(.default-chip):nth-of-type(3) {
+/* স্লট ৩: একদম সোজা উপরে (আপনার কথা মতো দূরত্ব অনেক কমানো হয়েছে) */
+.chips-container.open .chip:not(.default-chip):nth-child(3),
+.chips-container.open .chip.default-chip + .chip + .chip + .chip {
     transform: translate(0px, -100px) rotate(0deg) !important;
 }
 
-/* স্লট ৪: মাঝামাঝি ডানে (কম বাঁকা) */
-.chips-container.open .chip:not(.default-chip):nth-of-type(4) {
+/* স্লট ৪: মাঝামাঝি ডানে */
+.chips-container.open .chip:not(.default-chip):nth-child(4),
+.chips-container.open .chip.default-chip + .chip + .chip + .chip + .chip {
     transform: translate(60px, -85px) rotate(20deg) !important;
 }
 
-/* স্লট ৫: চরম ডানে (বেশি বাঁকা) */
-.chips-container.open .chip:not(.default-chip):nth-of-type(5) {
+/* স্লট ৫: চরম ডানে */
+.chips-container.open .chip:not(.default-chip):nth-child(5),
+.chips-container.open .chip.default-chip + .chip + .chip + .chip + .chip + .chip {
     transform: translate(120px, -50px) rotate(40deg) !important;
 }
 
 
 /* ==================================================== */
-/* 🚀 চিপ হোভার এফেক্ট (নতুন দূরত্ব অনুযায়ী)             */
+/* 🚀 চিপ হোভার এফেক্ট (নতুন এবং ফিক্সড দূরত্ব অনুযায়ী)     */
 /* ==================================================== */
 
 .chips-container.open .chip:not(.default-chip):hover {
     z-index: 15;
 }
 
-.chips-container.open .chip:not(.default-chip):nth-of-type(1):hover {
+.chips-container.open .chip:not(.default-chip):nth-child(1):hover,
+.chips-container.open .chip.default-chip + .chip:hover {
     transform: translate(-120px, -50px) rotate(-40deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-of-type(2):hover {
+.chips-container.open .chip:not(.default-chip):nth-child(2):hover,
+.chips-container.open .chip.default-chip + .chip + .chip:hover {
     transform: translate(-60px, -85px) rotate(-20deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-of-type(3):hover {
+.chips-container.open .chip:not(.default-chip):nth-child(3):hover,
+.chips-container.open .chip.default-chip + .chip + .chip + .chip:hover {
     transform: translate(0px, -100px) rotate(0deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-of-type(4):hover {
+.chips-container.open .chip:not(.default-chip):nth-child(4):hover,
+.chips-container.open .chip.default-chip + .chip + .chip + .chip + .chip:hover {
     transform: translate(60px, -85px) rotate(20deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-of-type(5):hover {
+.chips-container.open .chip:not(.default-chip):nth-child(5):hover,
+.chips-container.open .chip.default-chip + .chip + .chip + .chip + .chip + .chip:hover {
     transform: translate(120px, -50px) rotate(40deg) scale(1.15) !important;
 }
 
