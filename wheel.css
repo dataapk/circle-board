@@ -400,46 +400,88 @@ html, body {
     pointer-events: auto;
 }
 
-/* ৫টি চিপের জন্য স্প্রিং ও সেমি-সার্কেল ডিগ্রি অ্যাঙ্গেল ডিস্ট্রিবিউশন */
-/* চিপ ১: বামে বাঁকা */
-.chips-container.open .chip[data-value="0.10"]:not(.default-chip),
-.chips-container.open .chip:nth-child(2) {
+/* ==================================================== */
+/* 🪙 CHIP FAN POSITIONING & SEMI-CIRCLE DISTRIBUTION */
+/* ==================================================== */
+
+/* ফ্যান ওপেন হলে মেইন বা ডিফল্ট চিপটি তার নিজের জায়গায় (সেন্টারে) স্থির থাকবে */
+.chips-container.open .chip.default-chip {
+    transform: translate(0, 0) rotate(0deg);
+    z-index: 10;
+}
+
+/* ফ্যানের ভেতরের ৫/৬টি চিপের জন্য নিখুঁত অর্ধবৃত্তাকার ডিস্ট্রিবিউশন */
+/* এখানে data-value বাদ দিয়ে শুধুমাত্র চাইল্ড অর্ডার ব্যবহার করা হয়েছে */
+
+/* চিপ ১: একদম বামে বাঁকা */
+.chips-container.open .chip:nth-child(1):not(.default-chip),
+.chips-container.open .chip:nth-of-type(1):not(.default-chip) {
     transform: translate(-110px, -60px) rotate(-40deg);
 }
 
 /* চিপ ২: মাঝামাঝি বামে */
-.chips-container.open .chip[data-value="0.20"],
-.chips-container.open .chip:nth-child(3) {
+.chips-container.open .chip:nth-child(2):not(.default-chip),
+.chips-container.open .chip:nth-of-type(2):not(.default-chip) {
     transform: translate(-55px, -100px) rotate(-20deg);
 }
 
-/* চিপ ৩: একদম সোজা উপরে */
-.chips-container.open .chip[data-value="0.50"],
-.chips-container.open .chip:nth-child(4) {
+/* চিপ ৩: একদম সোজা উপরে (সেন্টার লাইন) */
+.chips-container.open .chip:nth-child(3):not(.default-chip),
+.chips-container.open .chip:nth-of-type(3):not(.default-chip) {
     transform: translate(0px, -120px) rotate(0deg);
 }
 
 /* চিপ ৪: মাঝামাঝি ডানে */
-.chips-container.open .chip[data-value="1"],
-.chips-container.open .chip:nth-child(5) {
+.chips-container.open .chip:nth-child(4):not(.default-chip),
+.chips-container.open .chip:nth-of-type(4):not(.default-chip) {
     transform: translate(55px, -100px) rotate(20deg);
 }
 
 /* চিপ ৫: ডানে বাঁকা */
-.chips-container.open .chip[data-value="2"],
-.chips-container.open .chip:nth-child(6) {
+.chips-container.open .chip:nth-child(5):not(.default-chip),
+.chips-container.open .chip:nth-of-type(5):not(.default-chip) {
     transform: translate(110px, -60px) rotate(40deg);
 }
 
-/* চিপ ৬: চরম ডানে (যদি $5 চিপ থাকে) */
-.chips-container.open .chip[data-value="5"],
-.chips-container.open .chip:nth-child(7) {
+/* চিপ ৬: চরম ডানে (যদি ব্যাকআপে ৬ নম্বর চিপ থাকে) */
+.chips-container.open .chip:nth-child(6):not(.default-chip),
+.chips-container.open .chip:nth-of-type(6):not(.default-chip) {
     transform: translate(165px, -20px) rotate(60deg);
 }
 
-/* চিপ হোভার এফেক্ট */
-.chip:hover {
-    transform: scale(1.15) !important;
+
+/* ==================================================== */
+/* 🚀 চিপ হোভার এফেক্ট (স্মুথ এবং লজিক্যাল সমাধান)      */
+/* ==================================================== */
+/* !important ব্যবহার না করে মূল transform-কে অক্ষুণ্ণ রেখে স্কেল করা হলো */
+
+.chips-container.open .chip:not(.default-chip):hover {
+    z-index: 15;
+}
+
+/* প্রতিটি চিপের নিজস্ব পজিশন ঠিক রেখে হোভারে বড় হবে */
+.chips-container.open .chip:nth-child(1):not(.default-chip):hover {
+    transform: translate(-110px, -60px) rotate(-40deg) scale(1.15);
+}
+.chips-container.open .chip:nth-child(2):not(.default-chip):hover {
+    transform: translate(-55px, -100px) rotate(-20deg) scale(1.15);
+}
+.chips-container.open .chip:nth-child(3):not(.default-chip):hover {
+    transform: translate(0px, -120px) rotate(0deg) scale(1.15);
+}
+.chips-container.open .chip:nth-child(4):not(.default-chip):hover {
+    transform: translate(55px, -100px) rotate(20deg) scale(1.15);
+}
+.chips-container.open .chip:nth-child(5):not(.default-chip):hover {
+    transform: translate(110px, -60px) rotate(40deg) scale(1.15);
+}
+.chips-container.open .chip:nth-child(6):not(.default-chip):hover {
+    transform: translate(165px, -20px) rotate(60deg) scale(1.15);
+}
+
+/* মেইন ডিফল্ট চিপের হোভার এফেক্ট */
+.chip.default-chip:hover {
+    transform: scale(1.1) !important;
     z-index: 12;
 }
 /* ======================================================
