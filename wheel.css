@@ -401,7 +401,7 @@ html, body {
 }
 
 /* ==================================================== */
-/* 🪙 COMPACT 5-SLOT CHIP FAN (100% CSS FIXED POSITION) */
+/* 🪙 COMPACT 5-SLOT CHIP FAN (NO OVERLAPING FIX)      */
 /* ==================================================== */
 
 /* মেইন ডিফল্ট চিপ (সেন্টার) সবসময় নিজের জায়গায় স্থির থাকবে */
@@ -411,67 +411,58 @@ html, body {
     z-index: 10;
 }
 
-/* ফ্যান ওপেন হলে ৫টি চিপের নিখুঁত জ্যামিতিক পজিশন এবং কম দূরত্ব */
-/* মেইন চিপের পর থেকে ব্রাউজার ১ থেকে ৫ নম্বর চিপ নিখুঁতভাবে সিরিয়াল করবে */
+/* ফ্যান ওপেন হলে ৫টি চিপের নতুন পজিশন (কোনো চিপ আর ওভারল্যাপ করবে না) */
 
-/* স্লট ১: চরম বামে (যা আগে হারিয়ে গিয়েছিল) */
-.chips-container.open .chip:not(.default-chip):nth-child(1),
-.chips-container.open .chip.default-chip + .chip {
-    transform: translate(-120px, -50px) rotate(-40deg) !important;
+/* স্লট ১: চরম বামে */
+.chips-container.open .chip.slot-1 {
+    transform: translate(-130px, -45px) rotate(-45deg) !important;
 }
 
 /* স্লট ২: মাঝামাঝি বামে */
-.chips-container.open .chip:not(.default-chip):nth-child(2),
-.chips-container.open .chip.default-chip + .chip + .chip {
-    transform: translate(-60px, -85px) rotate(-20deg) !important;
+.chips-container.open .chip.slot-2 {
+    transform: translate(-75px, -85px) rotate(-22.5deg) !important;
 }
 
-/* স্লট ৩: একদম সোজা উপরে (আপনার কথা মতো দূরত্ব অনেক কমানো হয়েছে) */
-.chips-container.open .chip:not(.default-chip):nth-child(3),
-.chips-container.open .chip.default-chip + .chip + .chip + .chip {
-    transform: translate(0px, -100px) rotate(0deg) !important;
+/* স্লট ৩: সোজা উপরে (ওভারল্যাপ বাগ ফিক্স - সামান্য ডান-বামে ব্যালেন্স করা হয়েছে) */
+/* এখানে সামান্য X-axis বা ট্র্যান্সলেট অ্যাডজাস্ট করায় এটি আর ডিফল্ট চিপের আড়ালে লুকাবে না */
+.chips-container.open .chip.slot-3 {
+    transform: translate(-10px, -110px) rotate(5deg) !important;
+    z-index: 11; /* ডিফল্ট চিপের চেয়ে বেশি জেড-ইনডেক্স যেন উপরে ভেসে থাকে */
 }
 
 /* স্লট ৪: মাঝামাঝি ডানে */
-.chips-container.open .chip:not(.default-chip):nth-child(4),
-.chips-container.open .chip.default-chip + .chip + .chip + .chip + .chip {
-    transform: translate(60px, -85px) rotate(20deg) !important;
+.chips-container.open .chip.slot-4 {
+    transform: translate(55px, -95px) rotate(25deg) !important;
 }
 
 /* স্লট ৫: চরম ডানে */
-.chips-container.open .chip:not(.default-chip):nth-child(5),
-.chips-container.open .chip.default-chip + .chip + .chip + .chip + .chip + .chip {
-    transform: translate(120px, -50px) rotate(40deg) !important;
+.chips-container.open .chip.slot-5 {
+    transform: translate(115px, -60px) rotate(50deg) !important;
 }
 
 
 /* ==================================================== */
-/* 🚀 চিপ হোভার এফেক্ট (নতুন এবং ফিক্সড দূরত্ব অনুযায়ী)     */
+/* 🚀 চিপ হোভার এফেক্ট (নতুন ওভারল্যাপ ফিক্সড পজিশন)    */
 /* ==================================================== */
 
 .chips-container.open .chip:not(.default-chip):hover {
     z-index: 15;
 }
 
-.chips-container.open .chip:not(.default-chip):nth-child(1):hover,
-.chips-container.open .chip.default-chip + .chip:hover {
-    transform: translate(-120px, -50px) rotate(-40deg) scale(1.15) !important;
+.chips-container.open .chip.slot-1:hover {
+    transform: translate(-130px, -45px) rotate(-45deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-child(2):hover,
-.chips-container.open .chip.default-chip + .chip + .chip:hover {
-    transform: translate(-60px, -85px) rotate(-20deg) scale(1.15) !important;
+.chips-container.open .chip.slot-2:hover {
+    transform: translate(-75px, -85px) rotate(-22.5deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-child(3):hover,
-.chips-container.open .chip.default-chip + .chip + .chip + .chip:hover {
-    transform: translate(0px, -100px) rotate(0deg) scale(1.15) !important;
+.chips-container.open .chip.slot-3:hover {
+    transform: translate(-10px, -110px) rotate(5deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-child(4):hover,
-.chips-container.open .chip.default-chip + .chip + .chip + .chip + .chip:hover {
-    transform: translate(60px, -85px) rotate(20deg) scale(1.15) !important;
+.chips-container.open .chip.slot-4:hover {
+    transform: translate(55px, -95px) rotate(25deg) scale(1.15) !important;
 }
-.chips-container.open .chip:not(.default-chip):nth-child(5):hover,
-.chips-container.open .chip.default-chip + .chip + .chip + .chip + .chip + .chip:hover {
-    transform: translate(120px, -50px) rotate(40deg) scale(1.15) !important;
+.chips-container.open .chip.slot-5:hover {
+    transform: translate(115px, -60px) rotate(50deg) scale(1.15) !important;
 }
 
 /* ডিফল্ট চিপ হোভার */
