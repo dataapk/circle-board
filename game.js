@@ -119,9 +119,6 @@ function initChipSystem() {
 
             closeChipFan();
         });
-    });
-
-    closeChipFan();
 }
 function playChipSound() {
     if (!chipSound) return;
