@@ -111,6 +111,7 @@ function openChipFan() {
 
     const rect = container.getBoundingClientRect();
 
+    // ✅ REAL VISUAL CENTER (NOT clientWidth mix)
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
@@ -131,12 +132,15 @@ function openChipFan() {
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
 
+        // ✅ IMPORTANT FIX: reset previous positioning conflict
         chip.style.left = x + "px";
         chip.style.top = y + "px";
 
+        // keep only centering transform
         chip.style.transform = "translate(-50%, -50%)";
 
         chip.style.opacity = "1";
+        chip.style.visibility = "visible";
         chip.style.pointerEvents = "auto";
     });
 
