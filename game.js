@@ -64,9 +64,14 @@
 function initChipSystem() {
 
     container = document.querySelector(".chips-container");
-    chips = document.querySelectorAll(".chip");
     defaultChip = document.querySelector(".default-chip");
     chipSound = document.getElementById("chipSound");
+
+    // ❌ OLD: includes default chip
+    // chips = document.querySelectorAll(".chip");
+
+    // ✅ NEW: only fan chips
+    chips = document.querySelectorAll(".chip:not(.default-chip)");
 
     if (!container || !defaultChip || chips.length === 0) {
         console.error("❌ CHIP SYSTEM INIT FAILED");
@@ -74,6 +79,7 @@ function initChipSystem() {
     }
 
     console.log("🟢 CHIP SYSTEM READY");
+}
 
     // FORCE DEFAULT CENTER
     centerDefaultChip();
