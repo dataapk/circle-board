@@ -143,6 +143,18 @@ function centerDefaultChip() {
     defaultChip.style.visibility = "visible";
 }
 
+function resetChips() {
+
+    chips.forEach(chip => {
+
+        chip.style.left = "50%";
+        chip.style.top = "50%";
+        chip.style.transform = "translate(-50%, -50%)";
+        chip.style.opacity = "1";
+        chip.style.pointerEvents = "auto";
+    });
+}
+
  // =========================
 // 🚀 OPEN FAN (STABLE VERSION)
 // =========================
