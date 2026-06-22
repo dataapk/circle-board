@@ -66,6 +66,11 @@
 // 🪙 CHIP SYSTEM (CLEAN SPRING VERSION)
 // ======================================================
 
+
+// ======================================================
+// 🪙 CHIP SYSTEM (UPWARD SEMICIRCLE - CLEAN FINAL)
+// ======================================================
+
 function initChipSystem() {
 
     // =========================
@@ -102,15 +107,13 @@ function initChipSystem() {
     // SET DEFAULT CHIP
     // =========================
     function setDefaultChip(value) {
-
         selectedChip = value;
-
         defaultChip.innerText = value;
         defaultChip.dataset.value = value;
     }
 
     // =========================
-    // OPEN FAN (SPRING UPWARD)
+    // OPEN FAN (UPWARD SEMICIRCLE)
     // =========================
     function openFan() {
 
@@ -118,27 +121,39 @@ function initChipSystem() {
 
         const rect = defaultChip.getBoundingClientRect();
 
-        const baseX = rect.left;
-        const baseY = rect.top;
+        const centerX = rect.left;
+        const centerY = rect.top;
 
-        const gap = 60;
+        const radius = 120;
+        const total = chips.length;
+
+        const startAngle = Math.PI;
+        const endAngle = 0;
+
+        const step = (startAngle - endAngle) / (total - 1);
 
         chips.forEach((chip, i) => {
 
-            chip.style.left = baseX + "px";
-            chip.style.top = baseY + "px";
+            const angle = startAngle - step * i;
+
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+
+            // position base
+            chip.style.left = x + "px";
+            chip.style.top = y + "px";
 
             chip.style.opacity = "1";
             chip.style.pointerEvents = "auto";
 
+            // spring animation
             requestAnimationFrame(() => {
 
-                chip.style.transition = "transform 0.45s cubic-bezier(0.2,0.8,0.2,1)";
-
-                const offsetY = -(i + 1) * gap;
+                chip.style.transition =
+                    "transform 0.5s cubic-bezier(0.2,0.8,0.2,1)";
 
                 chip.style.transform =
-                    "translate(-50%, -50%) translateY(" + offsetY + "px) scale(1)";
+                    "translate(-50%, -50%) scale(1)";
             });
         });
     }
@@ -150,11 +165,14 @@ function initChipSystem() {
 
         isOpen = false;
 
-        chips.forEach((chip) => {
+        chips.forEach(chip => {
 
-            chip.style.transition = "transform 0.35s cubic-bezier(0.2,0.8,0.2,1)";
+            chip.style.transition =
+                "transform 0.35s cubic-bezier(0.2,0.8,0.2,1)";
+
             chip.style.transform =
-                "translate(-50%, -50%) translateY(0px) scale(0.2)";
+                "translate(-50%, -50%) scale(0.2)";
+
             chip.style.opacity = "0";
             chip.style.pointerEvents = "none";
         });
@@ -164,7 +182,6 @@ function initChipSystem() {
     // TOGGLE FAN
     // =========================
     function toggleFan() {
-
         playChipSound();
 
         if (isOpen) closeFan();
@@ -175,15 +192,14 @@ function initChipSystem() {
     // DEFAULT CHIP CLICK
     // =========================
     defaultChip.addEventListener("click", (e) => {
-
         e.stopPropagation();
         toggleFan();
     });
 
     // =========================
-    // CHIP CLICK
+    // CHIP CLICK HANDLER
     // =========================
-    chips.forEach((chip) => {
+    chips.forEach(chip => {
 
         chip.addEventListener("click", (e) => {
 
@@ -193,7 +209,7 @@ function initChipSystem() {
 
             const value = Number(chip.dataset.value);
 
-            // ✅ UPDATE DEFAULT CHIP
+            // update default chip
             setDefaultChip(value);
 
             closeFan();
@@ -205,7 +221,6 @@ function initChipSystem() {
     // =========================
     closeFan();
 }
-
 
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
