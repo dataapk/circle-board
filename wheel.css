@@ -396,15 +396,14 @@ html, body {
 .chips-wrapper {
     position: relative;
 
-    width: 100%;
-    max-width: 360px;
+    width: 360px;   /* IMPORTANT: fixed width */
     height: 180px;
 
     margin: 0 auto;
 
-    overflow: visible;
-
-    background: transparent !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
