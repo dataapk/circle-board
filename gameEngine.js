@@ -8,16 +8,13 @@ window.GameEngine = (function () {
     // 🔐 PRIVATE STATE
     // ==================================================
     const state = {
-    balance: 1000,
-    bets: {},
-    isSpinning: false,
-    lastResult: null,
-    rotation: 0,
-    selectedChip: null,
-
-    chipFanOpen: false,
-    uiLocked: false
-};
+        balance: 1000,
+        bets: {},
+        isSpinning: false,
+        lastResult: null,
+        rotation: 0,
+        selectedChip: null
+    };
 
     // ==================================================
     // 💰 PAYOUT TABLE
@@ -136,54 +133,34 @@ window.GameEngine = (function () {
     // ==================================================
     function placeBet(type, amount) {
 
-    // 🪙 fallback chip system (IMPORTANT)
-    if (!amount) {
-        amount = state.selectedChip || state.defaultChip;
+        amount = Number(amount);
+
+        if (!type || isNaN(amount) || amount <= 0) {
+            return { success: false, reason: "invalid_bet" };
+        }
+
+        if (state.isSpinning) {
+            return { success: false, reason: "game_locked" };
+        }
+
+        if (state.balance < amount) {
+            return { success: false, reason: "insufficient_balance" };
+        }
+
+        state.balance -= amount;
+        state.bets[type] = (state.bets[type] || 0) + amount;
+
+        audioSystem.play("chipSound");
+
+        console.log("💰 BET PLACED:", { type, amount, balance: state.balance });
+
+        return {
+            success: true,
+            balance: state.balance,
+            bets: { ...state.bets }
+        };
     }
 
-    amount = Number(amount);
-
-    // ❌ validation
-    if (!type || isNaN(amount) || amount <= 0) {
-        return { success: false, reason: "invalid_bet" };
-    }
-
-    // 🔒 lock check
-    if (state.isSpinning) {
-        return { success: false, reason: "game_locked" };
-    }
-
-    // 💰 balance check
-    if (state.balance < amount) {
-        return { success: false, reason: "insufficient_balance" };
-    }
-
-    // 💰 deduct balance
-    state.balance -= amount;
-
-    // 🎯 store bet
-    state.bets[type] = (state.bets[type] || 0) + amount;
-
-    // 🔊 sound
-    audioSystem.play("chipSound");
-
-    console.log("💰 BET PLACED:", {
-        type,
-        amount,
-        balance: state.balance
-    });
-
-    // 🔄 UI sync (IMPORTANT ADDITION)
-    if (typeof updateBalanceUI === "function") {
-        updateBalanceUI(state.balance);
-    }
-
-    return {
-        success: true,
-        balance: state.balance,
-        bets: { ...state.bets }
-    };
-}
     // ==================================================
 // 📊 ENGINE GETTERS (PUBLIC ACCESS)
 // ==================================================
