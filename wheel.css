@@ -388,23 +388,28 @@ html, body {
    🧱 WRAPPER (OUTER SAFE ZONE)
 ========================= */
 
+    
+/* =========================
+   🧱 WRAPPER (OUTER SAFE ZONE)
+========================= */
+
 .chips-wrapper {
     position: relative;
 
     width: 100%;
     max-width: 360px;
-
     height: 180px;
 
     margin: 0 auto;
 
     overflow: visible;
-   background: transparent !important;
+
+    background: transparent !important;
 }
 
 
 /* =========================
-   🎯 CONTAINER (JS COORDINATE BASE)
+   🎯 CONTAINER (JS BASE LAYER)
 ========================= */
 
 .chips-container {
@@ -420,9 +425,9 @@ html, body {
     border: none !important;
 }
 
+
 /* =========================
    🪙 CHIP BASE STYLE
-   (JS controls position)
 ========================= */
 
 .chip {
@@ -434,10 +439,13 @@ html, body {
     transform: translate(-50%, -50%) scale(1);
 
     opacity: 1;
+    visibility: visible;
 
     z-index: 50;
 
     pointer-events: auto;
+
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 
@@ -472,7 +480,6 @@ html, body {
     transform: translateX(-50%);
 
     font-size: 10px;
-
     color: #fff;
 
     white-space: nowrap;
@@ -495,7 +502,7 @@ html, body {
 
 
 /* =========================
-   🎯 DEFAULT CHIP (ALWAYS VISIBLE)
+   🎯 DEFAULT CHIP (ALWAYS VISIBLE + ABOVE ALL)
 ========================= */
 
 .default-chip {
@@ -506,7 +513,8 @@ html, body {
 
     transform: translate(-50%, -50%) scale(1);
 
-    opacity: 1;
+    opacity: 1 !important;
+    visibility: visible !important;
 
     pointer-events: auto;
 
@@ -515,33 +523,32 @@ html, body {
 
 
 /* =========================
-   🎰 FAN OPEN STATE
+   🎰 FAN OPEN STATE (ONLY POSITION CONTROL)
 ========================= */
 
 .chips-container.fan .chip {
     opacity: 1;
-    pointer-events: auto;
+    visibility: visible;
 }
 
 
 /* =========================
-   🔒 CLOSED STATE SAFETY
+   🔒 CLOSED STATE SAFETY (ONLY OTHERS HIDE)
 ========================= */
 
-.chips-container.closed {
-    background: transparent !important;
-    box-shadow: none !important;
+.chips-container.closed .chip:not(.default-chip) {
+    opacity: 0;
+    pointer-events: none;
 }
 
 
 /* =========================
-   ⚡ OPTIONAL SMOOTH GROUP TRANSITION
+   🧠 GLOBAL SAFETY RESET
 ========================= */
 
-.chips-container.fan .chip {
-    transition: transform 0.3s ease, opacity 0.3s ease;
+.chip {
+    will-change: transform;
 }
-
 /* ======================================================
    🪙 CHIP SYSTEM GLOWING EFFECT 
 ====================================================== */
