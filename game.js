@@ -149,7 +149,7 @@ function resetChips() {
         chip.style.transform = "translate(-50%, -50%)";
         chip.style.opacity = "1";
         chip.style.pointerEvents = "auto";
-}
+});
 
  // =========================
 // 🚀 OPEN FAN (STABLE VERSION)
