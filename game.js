@@ -222,8 +222,8 @@ function openChipFan() {
         defaultChip.innerText = value;
         defaultChip.dataset.value = value;
       
-    });
-}
+   }
+        });
 
 
 // ======================================================
