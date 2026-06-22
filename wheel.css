@@ -490,8 +490,8 @@ html, body {
 /* =========================
    ✨ OPTIONAL GLOW (DEFAULT CHIP ONLY)
 ========================= */
-.default-chip {
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+.default-chip img {
+    filter: drop-shadow(0 0 8px rgba(255,215,0,0.7));
 }
 
 /* =========================
