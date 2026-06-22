@@ -38,14 +38,13 @@
         enableAudioOnFirstInteraction();
     }
 
-    // ====================================
-    // 🪙 CHIP SYSTEM (SEMI-CIRCLE SPRING FAN)
-    // ====================================
+    // ====================================// 🪙 CHIP SYSTEM (SEMI-CIRCLE SPRING FAN) WITH SWAPPING
+    // ====================================================
     function setDefaultChip() {
         if (typeof GameEngine !== 'undefined') {
+            // শুরুতে ডিফল্ট চিপের মান ০.১০ সেট করা হচ্ছে
             GameEngine.setSelectedChip({ value: 0.10 });
         }
-        // ডিফল্ট চিপ অ্যাক্টিভ থাকবে কিন্তু ফ্যান বন্ধ থাকবে
         UI.defaultChip.classList.add("active");
     }
 
@@ -59,32 +58,35 @@
 
         // ফ্যানের ভেতরের বাকি চিপগুলোর সিলেকশন লজিক
         UI.chips.forEach((chip) => {
-            // ডিফল্ট চিপের মূল ক্লিকের জন্য আলাদা লজিক (উপরে), তাই এখানে স্কিপ
+            // মেইন বা ডিফল্ট চিপের ক্লিকের লজিক উপরে আলাদা করা আছে, তাই এটিকে স্কিপ করা হলো
             if (chip.classList.contains("default-chip")) return;
 
             chip.addEventListener("click", (e) => {
                 e.stopPropagation();
-                const value = Number(chip.dataset.value);
+                
+                // ১. অদল-বদল (Swap) লজিক কল করা হচ্ছে
+                swapChipsData(chip);
+                
+                // ২. সোয়াপ হওয়ার পর সেন্টারে (Default) যে নতুন ভ্যালু আসলো, তা বের করা
+                const newValue = Number(UI.defaultChip.dataset.value);
 
+                // ৩. ব্যাকএন্ড বা গেম ইঞ্জিনের কাছে নতুন সিলেক্টেড ভ্যালু পাঠানো
                 if (typeof GameEngine !== 'undefined') {
-                    GameEngine.setSelectedChip({ value });
+                    GameEngine.setSelectedChip({ value: newValue });
                 }
 
-                // ১. ভিজ্যুয়াল আপডেট (ক্লিক করা চিপটি ডিফল্ট চিপের জায়গায় সেট হবে)
-                updateDefaultChipVisual(chip);
                 playSound(UI.chipSound);
                 
-                // ২. চিপ সিলেক্ট হওয়ার পর ফ্যান স্বয়ংক্রিয়ভাবে বন্ধ (Minimize) হয়ে যাবে
+                // ৪. চিপ সিলেক্ট হওয়ার পর ফ্যান স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে
                 closeFanMenu();
             });
         });
 
-        // বোর্ডের বাইরে কোথাও ক্লিক করলে ফ্যান মেনু মিনিমাইজ হয়ে যাবে
+        // বোর্ডের বাইরে কোথাও ক্লিক করলে ফ্যান মেনু মিনিমাইজ হয়ে যাবে
         document.addEventListener("click", () => closeFanMenu());
     }
 
     function toggleFanMenu() {
-        // 'open' ক্লাসটি CSS-এ সেমি-সার্কেল স্প্রিং অ্যানিমেশন ট্রিগার করবে
         UI.chipsContainer.classList.toggle("open");
     }
 
@@ -92,17 +94,33 @@
         UI.chipsContainer.classList.remove("open");
     }
 
-    function updateDefaultChipVisual(selectedChip) {
+    // 🔄 এই ফাংশনটি চিপের ডাটা একে অপরের সাথে নিখুঁতভাবে অদল-বদল (Swap) করবে
+    function swapChipsData(selectedChip) {
+        // ক) সেন্টারে থাকা মেইন ডিফল্ট চিপের বর্তমান ডাটা ব্যাকআপ বা সেভ রাখা হচ্ছে
+        const oldDefaultValue = UI.defaultChip.dataset.value;
+        const oldDefaultImg = UI.defaultChip.querySelector("img").src;
+        const oldDefaultText = UI.defaultChip.querySelector("span").innerText;
+
+        // খ) নিচে ফ্যানের যে চিপটিতে ক্লিক করা হয়েছে, তার ডাটা সেভ রাখা হচ্ছে
+        const clickedValue = selectedChip.dataset.value;
+        const clickedImg = selectedChip.querySelector("img").src;
+        const clickedText = selectedChip.querySelector("span") ? selectedChip.querySelector("span").innerText : "$" + clickedValue;
+
+        // গ) স্টেপ-১: ক্লিক করা চিপের সব ডাটা সেন্টারের মেইন চিপে বসিয়ে দেওয়া হলো
+        UI.defaultChip.dataset.value = clickedValue;
+        UI.defaultChip.querySelector("img").src = clickedImg;
+        UI.defaultChip.querySelector("span").innerText = clickedText;
+
+        // ঘ) স্টেপ-২: সেন্টারের যে পুরনো ডাটা আমরা ব্যাকআপ রেখেছিলাম, তা নিচের ক্লিক করা চিপে পাঠিয়ে দেওয়া হলো
+        selectedChip.dataset.value = oldDefaultValue;
+        selectedChip.querySelector("img").src = oldDefaultImg;
+        if (selectedChip.querySelector("span")) {
+            selectedChip.querySelector("span").innerText = oldDefaultText;
+        }
+
+        // ঙ) ভিজ্যুয়াল হাইলাইট আপডেট (সব চিপ থেকে অ্যাক্টিভ ক্লাস সরিয়ে শুধু মেইন চিপে রাখা)
         UI.chips.forEach(c => c.classList.remove("active"));
-        selectedChip.classList.add("active");
-        
-        const value = selectedChip.dataset.value;
-        const imgUrl = selectedChip.querySelector("img").src;
-        
-        // মেইন ডিফল্ট চিপের ডিসপ্লে পরিবর্তন
-        UI.defaultChip.querySelector("span").innerText = "$" + value;
-        UI.defaultChip.querySelector("img").src = imgUrl;
-        UI.defaultChip.dataset.value = value;
+        UI.defaultChip.classList.add("active");
     }
 
     // ====================================
@@ -130,6 +148,9 @@
             updateBoardUI(result.bets);
         });
     }
+    // ====================================
+    // 🎯 BOARD CALCULATION
+    // ====================================
 
     function updateBoardUI(bets) {
         let totalBetCalculated = 0;
@@ -171,6 +192,9 @@
             spinWheel(winningSymbol);
         });
     }
+    // ====================================
+    // 🎮 SPIN WHEEL
+    // ====================================
 
     function spinWheel(winningSymbol) {
         playSound(UI.spinSound);
@@ -231,6 +255,9 @@
             });
         }
     }
+    // ====================================
+    // 🎯 BALANCE CALCULATION
+    // ====================================
 
     function updateBalance(balance) {
         UI.balance.innerText = "$" + balance.toFixed(2);
