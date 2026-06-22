@@ -223,8 +223,7 @@ function openChipFan() {
         defaultChip.dataset.value = value;
       
    }
-        });
-
+    
 
 // ======================================================
 // 🛑🛑🛑 END: CHIP SYSTEM 🛑🛑🛑
