@@ -401,69 +401,93 @@ html, body {
 }
 
 /* ==================================================== */
-/* 🪙 COMPACT 5-SLOT CHIP FAN (HTML ORDER BASED)        */
+/* 🪙 PRESTIGE 7-STATE SPRING CHIP FAN (TOTAL FIX)      */
 /* ==================================================== */
 
-/* মেইন ডিফল্ট চিপ (সেন্টার) সবসময় নিজের জায়গায় স্থির থাকবে */
+/* ১. মেইন ডিফল্ট চিপ (সেন্টার / বেস পজিশন) */
+/* এটি নিচে তার নিজের জায়গায় থাকবে এবং সোয়াপের সময় স্মুথ অ্যানিমেশন ট্রানজিশন পাবে */
 .chips-container .chip.default-chip,
 .chips-container.open .chip.default-chip {
     transform: translate(0, 0) rotate(0deg) !important;
     z-index: 10;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* ফ্যান ওপেন হলে ৫টি চিপের নিখুঁত জ্যামিতিক পজিশন (দূরত্ব কমানো হয়েছে) */
-/* এখানে ব্রাউজার ডিফল্ট চিপ বাদে বাকি ৫টি চিপকে ক্রমানুসারে সাজাবে */
+/* ২. ফ্যান ওপেন হলে পিওর স্প্রিং অ্যানিমেশন (সবগুলো চিপের জন্য) */
+/* কোনো মিলি-সেকেন্ড ডিলে ছাড়া সব চিপ একসাথে নিচ থেকে স্প্রিংয়ের মতো উপরে ডানা মেলবে */
+.chips-container.open .chip:not(.default-chip) {
+    animation: springFanOpen 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    transition: transform 0.3s ease, z-index 0.1s ease;
+}
+
+/* ৩. গুগল গাইডলাইন অনুযায়ী মোট ৭টি চাইল্ড স্টেটের নিখুঁত ডিস্ট্রিবিউশন */
+/* এর ফলে সোয়াপিংয়ের সময় কোনো ঘর খালি থাকবে না এবং ৭টি স্টেটই সুরক্ষিত থাকবে */
 
 /* স্লট ১: চরম বামে */
-.chips-container.open .chip:not(.default-chip):nth-of-type(1) {
-    transform: translate(-120px, -50px) rotate(-40deg) !important;
+.chips-container.open .chip:nth-child(2) {
+    transform: translate(-125px, -50px) rotate(-40deg) !important;
 }
 
 /* স্লট ২: মাঝামাঝি বামে */
-.chips-container.open .chip:not(.default-chip):nth-of-type(2) {
-    transform: translate(-60px, -85px) rotate(-20deg) !important;
+.chips-container.open .chip:nth-child(3) {
+    transform: translate(-65px, -85px) rotate(-20deg) !important;
 }
 
-/* স্লট ৩: সোজা উপরে (আপনার চমৎকার লজিক অনুযায়ী ওভারল্যাপ এড়াতে সামান্য ডানে সরানো হয়েছে) */
-.chips-container.open .chip:not(.default-chip):nth-of-type(3) {
+/* স্লট ৩: সোজা উপরে (ওভারল্যাপ এড়াতে সামান্য এক্স-অক্ষ সরানো ও দূরত্ব কমানো হয়েছে) */
+.chips-container.open .chip:nth-child(4) {
     transform: translate(15px, -105px) rotate(8deg) !important;
     z-index: 12;
 }
 
 /* স্লট ৪: মাঝামাঝি ডানে */
-.chips-container.open .chip:not(.default-chip):nth-of-type(4) {
+.chips-container.open .chip:nth-child(5) {
     transform: translate(65px, -85px) rotate(22deg) !important;
 }
 
-/* স্লট ৫: চরম ডানে */
-.chips-container.open .chip:not(.default-chip):nth-of-type(5) {
-    transform: translate(120px, -50px) rotate(40deg) !important;
+/* স্লট ۵: চরম ডানে */
+.chips-container.open .chip:nth-child(6) {
+    transform: translate(125px, -50px) rotate(40deg) !important;
+}
+
+/* স্লট ৬: এক্সট্রা ব্যাকআপ স্টেট (সোয়াপিং সেফটি চাইল্ড) */
+.chips-container.open .chip:nth-child(7) {
+    transform: translate(175px, -15px) rotate(60deg) !important;
 }
 
 
 /* ==================================================== */
-/* 🚀 চিপ হোভার এফেক্ট                                   */
+/* 🎥 পিওর স্প্রিং ফ্যান ওপেন অ্যানিমেশন ফ্রেম            */
 /* ==================================================== */
+@keyframes springFanOpen {
+    0% {
+        opacity: 0;
+        /* ফ্যান খোলার মুহূর্তে চিপগুলো মেইন ডিফল্ট চিপের ভেতর (0,0) থেকে জন্ম নেবে */
+        transform: translate(0, 0) scale(0.3) rotate(0deg); 
+    }
+    70% {
+        /* স্প্রিং এফেক্ট দেওয়ার জন্য চিপগুলো সামান্য একটু বড় হয়ে পপ-আপ করবে */
+        scale: 1.08;
+    }
+    100% {
+        opacity: 1;
+        scale: 1;
+        /* এখানে এসে চিপগুলো উপরে দেওয়া তাদের নিজ নিজ translate পজিশন ও অ্যাঙ্গেলে লক হয়ে যাবে */
+    }
+}
 
+
+/* ==================================================== */
+/* 🖱️ চিপ হোভার এফেক্ট (অ্যানিমেশন বা পজিশন ভাঙবে না)   */
+/* ==================================================== */
 .chips-container.open .chip:not(.default-chip):hover {
     z-index: 15;
 }
-
-.chips-container.open .chip:not(.default-chip):nth-of-type(1):hover {
-    transform: translate(-120px, -50px) rotate(-40deg) scale(1.15) !important;
-}
-.chips-container.open .chip:not(.default-chip):nth-of-type(2):hover {
-    transform: translate(-60px, -85px) rotate(-20deg) scale(1.15) !important;
-}
-.chips-container.open .chip:not(.default-chip):nth-of-type(3):hover {
-    transform: translate(15px, -105px) rotate(8deg) scale(1.15) !important;
-}
-.chips-container.open .chip:not(.default-chip):nth-of-type(4):hover {
-    transform: translate(65px, -85px) rotate(22deg) scale(1.15) !important;
-}
-.chips-container.open .chip:not(.default-chip):nth-of-type(5):hover {
-    transform: translate(120px, -50px) rotate(40deg) scale(1.15) !important;
-}
+.chips-container.open .chip:nth-child(2):hover { transform: translate(-125px, -50px) rotate(-40deg) scale(1.15) !important; }
+.chips-container.open .chip:nth-child(3):hover { transform: translate(-65px, -85px) rotate(-20deg) scale(1.15) !important; }
+.chips-container.open .chip:nth-child(4):hover { transform: translate(15px, -105px) rotate(8deg) scale(1.15) !important; }
+.chips-container.open .chip:nth-child(5):hover { transform: translate(65px, -85px) rotate(22deg) scale(1.15) !important; }
+.chips-container.open .chip:nth-child(6):hover { transform: translate(125px, -50px) rotate(40deg) scale(1.15) !important; }
+.chips-container.open .chip:nth-child(7):hover { transform: translate(175px, -15px) rotate(60deg) scale(1.15) !important; }
 
 /* ডিফল্ট চিপ হোভার */
 .chip.default-chip:hover {
