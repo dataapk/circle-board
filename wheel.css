@@ -401,85 +401,75 @@ html, body {
 }
 
 /* ==================================================== */
-/* 🪙 CHIP FAN POSITIONING & SEMI-CIRCLE DISTRIBUTION */
+/* 🪙 PERFECT 5-SLOT BALANCED SEMI-CIRCLE CHIP FAN     */
 /* ==================================================== */
 
-/* ফ্যান ওপেন হলে মেইন বা ডিফল্ট চিপটি তার নিজের জায়গায় (সেন্টারে) স্থির থাকবে */
+/* মেইন ডিফল্ট চিপ সবসময় নিজের জায়গাতেই (সেন্টারে) স্থির থাকবে */
+.chips-container .chip.default-chip,
 .chips-container.open .chip.default-chip {
-    transform: translate(0, 0) rotate(0deg);
+    transform: translate(0, 0) rotate(0deg) !important;
     z-index: 10;
 }
 
-/* ফ্যানের ভেতরের ৫/৬টি চিপের জন্য নিখুঁত অর্ধবৃত্তাকার ডিস্ট্রিবিউশন */
-/* এখানে data-value বাদ দিয়ে শুধুমাত্র চাইল্ড অর্ডার ব্যবহার করা হয়েছে */
+/* ফ্যানের ৫টি স্লটের নিখুঁত ব্যালেন্সড ডিস্ট্রিবিউশন */
+/* (মাঝখানেরটা সোজা, বামে ২টি সমদূরত্বে এবং ডানে ২টি সমদূরত্বে) */
 
-/* চিপ ১: একদম বামে বাঁকা */
-.chips-container.open .chip:nth-child(1):not(.default-chip),
-.chips-container.open .chip:nth-of-type(1):not(.default-chip) {
-    transform: translate(-110px, -60px) rotate(-40deg);
+/* স্লট ১: চরম বামে (বেশি বাঁকা) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(1),
+.chips-container.open .chip:not(.default-chip):nth-child(1) {
+    transform: translate(-120px, -60px) rotate(-40deg);
 }
 
-/* চিপ ২: মাঝামাঝি বামে */
-.chips-container.open .chip:nth-child(2):not(.default-chip),
-.chips-container.open .chip:nth-of-type(2):not(.default-chip) {
-    transform: translate(-55px, -100px) rotate(-20deg);
+/* স্লট ২: মাঝামাঝি বামে (কম বাঁকা) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(2),
+.chips-container.open .chip:not(.default-chip):nth-child(2) {
+    transform: translate(-60px, -105px) rotate(-20deg);
 }
 
-/* চিপ ৩: একদম সোজা উপরে (সেন্টার লাইন) */
-.chips-container.open .chip:nth-child(3):not(.default-chip),
-.chips-container.open .chip:nth-of-type(3):not(.default-chip) {
-    transform: translate(0px, -120px) rotate(0deg);
+/* স্লট ৩: একদম সোজা উপরে (সেন্টার লাইন বরাবর ১টি চিপ) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(3),
+.chips-container.open .chip:not(.default-chip):nth-child(3) {
+    transform: translate(0px, -125px) rotate(0deg);
 }
 
-/* চিপ ৪: মাঝামাঝি ডানে */
-.chips-container.open .chip:nth-child(4):not(.default-chip),
-.chips-container.open .chip:nth-of-type(4):not(.default-chip) {
-    transform: translate(55px, -100px) rotate(20deg);
+/* স্লট ৪: মাঝামাঝি ডানে (কম বাঁকা) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(4),
+.chips-container.open .chip:not(.default-chip):nth-child(4) {
+    transform: translate(60px, -105px) rotate(20deg);
 }
 
-/* চিপ ৫: ডানে বাঁকা */
-.chips-container.open .chip:nth-child(5):not(.default-chip),
-.chips-container.open .chip:nth-of-type(5):not(.default-chip) {
-    transform: translate(110px, -60px) rotate(40deg);
-}
-
-/* চিপ ৬: চরম ডানে (যদি ব্যাকআপে ৬ নম্বর চিপ থাকে) */
-.chips-container.open .chip:nth-child(6):not(.default-chip),
-.chips-container.open .chip:nth-of-type(6):not(.default-chip) {
-    transform: translate(165px, -20px) rotate(60deg);
+/* স্লট ৫: চরম ডানে (বেশি বাঁকা) */
+.chips-container.open .chip:not(.default-chip):nth-of-type(5),
+.chips-container.open .chip:not(.default-chip):nth-child(5) {
+    transform: translate(120px, -60px) rotate(40deg);
 }
 
 
 /* ==================================================== */
-/* 🚀 চিপ হোভার এফেক্ট (স্মুথ এবং লজিক্যাল সমাধান)      */
+/* 🚀 চিপ হোভার এফেক্ট (নতুন পজিশন অনুযায়ী স্কেলিং)     */
 /* ==================================================== */
-/* !important ব্যবহার না করে মূল transform-কে অক্ষুণ্ণ রেখে স্কেল করা হলো */
 
 .chips-container.open .chip:not(.default-chip):hover {
     z-index: 15;
 }
 
-/* প্রতিটি চিপের নিজস্ব পজিশন ঠিক রেখে হোভারে বড় হবে */
-.chips-container.open .chip:nth-child(1):not(.default-chip):hover {
-    transform: translate(-110px, -60px) rotate(-40deg) scale(1.15);
+.chips-container.open .chip:not(.default-chip):nth-of-type(1):hover {
+    transform: translate(-120px, -60px) rotate(-40deg) scale(1.15);
 }
-.chips-container.open .chip:nth-child(2):not(.default-chip):hover {
-    transform: translate(-55px, -100px) rotate(-20deg) scale(1.15);
+.chips-container.open .chip:not(.default-chip):nth-of-type(2):hover {
+    transform: translate(-60px, -105px) rotate(-20deg) scale(1.15);
 }
-.chips-container.open .chip:nth-child(3):not(.default-chip):hover {
-    transform: translate(0px, -120px) rotate(0deg) scale(1.15);
+.chips-container.open .chip:not(.default-chip):nth-of-type(3):hover {
+    transform: translate(0px, -125px) rotate(0deg) scale(1.15);
 }
-.chips-container.open .chip:nth-child(4):not(.default-chip):hover {
-    transform: translate(55px, -100px) rotate(20deg) scale(1.15);
+.chips-container.open .chip:not(.default-chip):nth-of-type(4):hover {
+    transform: translate(60px, -105px) rotate(20deg) scale(1.15);
 }
-.chips-container.open .chip:nth-child(5):not(.default-chip):hover {
-    transform: translate(110px, -60px) rotate(40deg) scale(1.15);
-}
-.chips-container.open .chip:nth-child(6):not(.default-chip):hover {
-    transform: translate(165px, -20px) rotate(60deg) scale(1.15);
+.chips-container.open .chip:not(.default-chip):nth-of-type(5):hover {
+    transform: translate(120px, -60px) rotate(40deg) scale(1.15);
 }
 
-/* মেইন ডিফল্ট চিপের হোভার এফেক্ট */
+/* ডিফল্ট চিপ হোভার */
 .chip.default-chip:hover {
     transform: scale(1.1) !important;
     z-index: 12;
