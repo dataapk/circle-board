@@ -1,5 +1,5 @@
 // ======================================================
-// 🎮 CLEAN GAME UI V4 (Semi-Circle Fan & Audio Fixed)
+// 🎮 CLEAN GAME UI V5 (48px Optimized & No Duplicate Chip)
 // ======================================================
 
 (() => {
@@ -27,7 +27,7 @@
         "spade", "diamond", "flag", "club"
     ];
 
-    let isAudioAllowed = false; // ব্রাউজার সাউন্ড অ্যাক্টিভেশন ফ্ল্যাগ
+    let isAudioAllowed = false;
 
     function init() {
         bindChips();
@@ -39,52 +39,48 @@
     }
 
     // ====================================
-    // 🪙 CHIP SYSTEM (SEMI-CIRCLE SPRING FAN)
+    // 🪙 CHIP SYSTEM (48px OPTIMIZED)
     // ====================================
     function setDefaultChip() {
         if (typeof GameEngine !== 'undefined') {
             GameEngine.setSelectedChip({ value: 0.10 });
         }
-        // ডিফল্ট চিপ অ্যাক্টিভ থাকবে কিন্তু ফ্যান বন্ধ থাকবে
         UI.defaultChip.classList.add("active");
     }
 
     function bindChips() {
-        // ডিফল্ট চিপে ক্লিক করলে সেমি-সার্কেল স্প্রিং ফ্যান খুলবে/বন্ধ হবে
+        // ডিফল্ট চিপে ক্লিক করলে ফ্যান ওপেন/ক্লোজ হবে
         UI.defaultChip.addEventListener("click", (e) => {
             e.stopPropagation();
             playSound(UI.chipSound);
             toggleFanMenu();
         });
 
-        // ফ্যানের ভেতরের বাকি চিপগুলোর সিলেকশন লজিক
+        // ফ্যানের ভেতরের বাকি চিপগুলোর ক্লিক লজিক
         UI.chips.forEach((chip) => {
-            // ডিফল্ট চিপের মূল ক্লিকের জন্য আলাদা লজিক (উপরে), তাই এখানে স্কিপ
-            if (chip.classList.contains("default-chip")) return;
-
             chip.addEventListener("click", (e) => {
                 e.stopPropagation();
+                
+                // যদি ইউজার মেইন চিপ খোলা অবস্থায় আবার মেইন চিপেই ক্লিক করে, তবে ফাংশন রিটার্ন করবে
+                if (chip === UI.defaultChip && !UI.chipsContainer.classList.contains("open")) return;
+
                 const value = Number(chip.dataset.value);
 
                 if (typeof GameEngine !== 'undefined') {
                     GameEngine.setSelectedChip({ value });
                 }
 
-                // ১. ভিজ্যুয়াল আপডেট (ক্লিক করা চিপটি ডিফল্ট চিপের জায়গায় সেট হবে)
+                // মেইন ভিজ্যুয়াল চিপের টেক্সট ও ইমেজ ৪৮ পিক্সেল অনুযায়ী আপডেট
                 updateDefaultChipVisual(chip);
                 playSound(UI.chipSound);
-                
-                // ২. চিপ সিলেক্ট হওয়ার পর ফ্যান স্বয়ংক্রিয়ভাবে বন্ধ (Minimize) হয়ে যাবে
                 closeFanMenu();
             });
         });
 
-        // বোর্ডের বাইরে কোথাও ক্লিক করলে ফ্যান মেনু মিনিমাইজ হয়ে যাবে
         document.addEventListener("click", () => closeFanMenu());
     }
 
     function toggleFanMenu() {
-        // 'open' ক্লাসটি CSS-এ সেমি-সার্কেল স্প্রিং অ্যানিমেশন ট্রিগার করবে
         UI.chipsContainer.classList.toggle("open");
     }
 
@@ -99,7 +95,6 @@
         const value = selectedChip.dataset.value;
         const imgUrl = selectedChip.querySelector("img").src;
         
-        // মেইন ডিফল্ট চিপের ডিসপ্লে পরিবর্তন
         UI.defaultChip.querySelector("span").innerText = "$" + value;
         UI.defaultChip.querySelector("img").src = imgUrl;
         UI.defaultChip.dataset.value = value;
@@ -117,12 +112,10 @@
             const state = GameEngine.getState();
             if (state.isSpinning) return;
 
-            // যদি কোনো চিপ আলাদা করে সিলেক্ট করা না থাকে, তবে ডিফল্ট চিপের ভ্যালু দিয়ে বেট হবে
             const currentChipValue = state.selectedChip ? state.selectedChip.value : 0.10;
-
             const symbol = box.dataset.symbol;
+            
             const result = GameEngine.placeBet(symbol, currentChipValue);
-
             if (!result.success) return;
 
             playSound(UI.tableSound);
@@ -163,7 +156,7 @@
             if (state.isSpinning) return;
             if (!state.bets || Object.keys(state.bets).length === 0) return;
 
-            closeFanMenu(); // স্পিন শুরু হলে চিপস মেনু খোলা থাকলে বন্ধ করে দেওয়া
+            closeFanMenu(); 
             playSound(UI.spinBtnSound);
             GameEngine.lock();
             
@@ -217,7 +210,7 @@
     }
 
     // ====================================
-    // 🛠️ ACTIONS, SOUND ENGINE & HELPERS
+    // 🛠️ ACTIONS & AUDIO TUNING
     // ====================================
     function bindActions() {
         if (UI.clearBetBtn) {
@@ -244,15 +237,12 @@
         if (UI.totalBet) UI.totalBet.innerText = "$0.00";
     }
 
-    // ব্রাউজারের অডিও রেস্ট্রিকশন বাইপাস করার মেকানিজম
     function enableAudioOnFirstInteraction() {
         const activateAudio = () => {
             isAudioAllowed = true;
-            // অডিও লোড নিশ্চিত করা
             [UI.chipSound, UI.spinSound, UI.tableSound, UI.spinBtnSound].forEach(audio => {
                 if(audio) audio.load();
             });
-            // একবার অ্যাক্টিভেট হয়ে গেলে ইভেন্ট রিমুভ করে দেওয়া
             document.removeEventListener("click", activateAudio);
             document.removeEventListener("touchstart", activateAudio);
         };
@@ -263,7 +253,7 @@
     function playSound(audioElement) {
         if (!audioElement || !isAudioAllowed) return;
         audioElement.currentTime = 0;
-        audioElement.play().catch(err => console.log("Audio playback delayed or blocked: ", err));
+        audioElement.play().catch(err => console.log("Audio play blocked: ", err));
     }
 
     init();
