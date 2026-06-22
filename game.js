@@ -191,27 +191,36 @@ function openChipFan() {
 
     isFanOpen = true;
 }
+function centerDefaultChip() {
+
+    if (!defaultChip || !container) return;
+
+    defaultChip.style.left = "50%";
+    defaultChip.style.top = "50%";
+    defaultChip.style.transform = "translate(-50%, -50%) scale(1)";
+}
 
     // =========================
     // CLOSE FAN
     // =========================
     function closeChipFan() {
 
-        const list = container.querySelectorAll(".chip");
+    const list = container.querySelectorAll(".chip");
 
-        list.forEach(chip => {
+    list.forEach(chip => {
+        if (chip.classList.contains("default-chip")) return;
 
-            if (!chip.classList.contains("default-chip")) {
-                chip.style.opacity = "0";
-                chip.style.pointerEvents = "none";
-            }
-        });
+        chip.style.opacity = "0";
+        chip.style.pointerEvents = "none";
+    });
 
-        container.classList.remove("fan");
-        container.classList.add("closed");
+    container.classList.remove("fan");
+    container.classList.add("closed");
 
-        isFanOpen = false;
-    }
+    isFanOpen = false;
+
+    centerDefaultChip(); // 🔥 IMPORTANT
+}
 
     // =========================
     // SET DEFAULT CHIP
