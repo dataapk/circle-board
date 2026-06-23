@@ -267,13 +267,25 @@
 
             // 💥 ৫. বোনাস অ্যানিমেশন ট্রিগার (২ সেকেন্ডের মাথায়)
             setTimeout(() => {
-                if (typeof triggerVoltageAnimation === "function") {
-                    triggerVoltageAnimation(bonusData, () => {
-                        console.log("Voltage bonus locked!");
+                // গ্লোবাল উইন্ডো বা লোকাল স্কোপ—উভয় জায়গা থেকে ফাংশনটি খোঁজার চেষ্টা করা হচ্ছে
+                const runBonusAnimation = window.triggerVoltageAnimation || (typeof triggerVoltageAnimation === "function" ? triggerVoltageAnimation : null);
+                
+                if (runBonusAnimation) {
+                    runBonusAnimation(bonusData, () => {
+                        console.log("Voltage bonus locked successfully!");
                     });
+                } else {
+                    // 🎯 সেফটি ফিক্স: যদি কোনো কারণে ফাংশনটি একদমই না পাওয়া যায়, তবে গেম যাতে ক্র্যাশ না করে
+                    console.warn("triggerVoltageAnimation is completely missing from gameEngine.js! Falling back safely.");
+                    
+                    // এখানে একটি ডাইনামিক নোটিফিকেশন বা ভিজ্যুয়াল ইফেক্ট ব্যাকআপ হিসেবে রান করে দেওয়া হলো
+                    const alertBox = document.createElement("div");
+                    alertBox.style.cssText = "position:fixed; top:20%; left:50%; transform:translate(-50%, -50%); background:rgba(0,255,204,0.9); color:#000; padding:15px 30px; font-weight:bold; border-radius:8px; box-shadow:0 0 20px #00ffcc; z-index:99999; font-family:sans-serif; text-transform:uppercase;";
+                    alertBox.innerText = `⚡ VOLTAGE BONUS: ${bonusData.multiplier || '5X'} LOCKED! ⚡`;
+                    document.body.appendChild(alertBox);
+                    setTimeout(() => alertBox.remove(), 3000);
                 }
             }, 2000);
-
             // 📈 ৬. GPU Accelerated 14-Second Smooth CSS Transition
             // কাস্টম কিউবিক-বেজিয়ার: শুরুতে স্লো, মাঝে তীব্র গতি, শেষ ৫ সেকেন্ডে মাখনের মতো নিখুঁতভাবে স্থির হবে
             UI.wheel.style.transition = "transform 14s cubic-bezier(0.25, 1, 0.2, 1)";
