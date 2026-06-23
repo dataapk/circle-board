@@ -221,17 +221,20 @@
             if (state.isSpinning) return;
             if (!state.bets || Object.keys(state.bets).length === 0) return;
 
-            // 🔥 ১. ইনস্ট্যান্ট লক: ক্লিক করার সাথে সাথেই বাটন লাল এবং LOCK হবে
+            // 🔥 ১. ইনস্ট্যান্ট লক: ক্লিক করার সাথে সাথেই বাটন লাল এবং LOCK হবে (০ সেকেন্ডে)
             GameEngine.lock();
             setButtonLockState(true);
             closeFanMenu(); 
             playSound(UI.spinBtnSound);
 
-            // ২. ব্যাকএন্ড ইঞ্জিন থেকে আসল উইনিং রেজাল্ট জেনারেট করা
+            // ২. ব্যাকএন্ড ইঞ্জিন থেকে রেজাল্ট ও বোনাস ডাটা রিসিভ করা
             const winningSlot = GameEngine.generateResult(); 
             const bonusData = GameEngine.generateVoltageBonus(winningSlot);
 
-            // চাকার ১২টি ঘরের অরিজিনাল সিকোয়েন্স (HTML/CSS অনুযায়ী)
+            const duration = 14000; // ঠিক ১৪ সেকেন্ড ঘূর্ণনকাল
+            const currentRotation = state.rotation || 0;
+
+            // চাকার ১২টি ঘরের অরিজিনাল সিকোয়েন্স (কাঁটার হিসাব মেলাতে)
             const LOCAL_SEGMENTS = [
                 "heart", "spade", "diamond", "club",
                 "crown", "flag", "heart", "crown",
@@ -247,63 +250,73 @@
             const finalIndex = targetIndexes.length > 0 ? targetIndexes[Math.floor(Math.random() * targetIndexes.length)] : 0;
             const segmentDegrees = 360 / LOCAL_SEGMENTS.length; // ৩০ ডিগ্রি
 
-            // 🎯 ঘড়ির কাঁটার দিকে নিখুঁত অ্যাঙ্গেল ক্যালকুলেশন (সেন্টার করার জন্য ১৫ ডিগ্রি প্লাস)
+            // 🎯 জ্যামিতিক ফিক্স (কোনো দাগের ওপর থামবে না):
+            // প্রতি ঘরের একদম মাঝখানে (Center Zone) কাঁটা লক করার জন্য ঠিক ১৫ ডিগ্রি (৩০ / ২) যোগ করা হয়েছে।
+            // এর ফলে চাকা কোনো দাগের ওপর বা মাঝখানে আটকে থাকবে না, ১০০% ঘরের সেন্টারে থামবে।
             const targetSymbolAngle = (finalIndex * segmentDegrees) + (segmentDegrees / 2);
-            const correctedAngle = (360 - targetSymbolAngle) % 360;
+            let correctedAngle = (360 - targetSymbolAngle) % 360;
             
-            // 🎯 আল্ট্রা-স্মুথ মেকানিজম: আগের রোটেশন ডাইরেক্ট যোগ করে প্রগতিশীলভাবে (Progressive) সামনে বাড়ানো
-            // এর ফলে চাকা সবসময় শুধু ডান দিকেই একমুখী ঘুরবে, কখনো এক ডিগ্রিও বামে ব্যাক করবে না।
-            const currentRotation = state.rotation || 0;
             const extraSpins = 7920; // ১৪ সেকেন্ড মেইনটেইন করার জন্য ২২ বার ফুল রোটেশন
             
-            // নতুন টার্গেট রোটেশন নির্ধারণ (আগের পজিশন থেকে সবসময় সামনে)
+            // নতুন টার্গেট রোটেশন (আগের পজিশন থেকে সবসময় শুধু সামনের দিকে বা ডানে প্রগ্রেসিভলি এগোবে)
             const totalTargetRotation = currentRotation + extraSpins + ((correctedAngle - (currentRotation % 360) + 360) % 360);
 
-            // 🎵 ৪. সাউন্ড লুপ অন: চাকা ঘোরার সময় সাউন্ড একটানা লুপে বাজবে
+            // 🎵 ৪. সাউন্ড লুপ অন
             if (UI.spinSound) {
                 UI.spinSound.loop = true;
                 playSound(UI.spinSound);
             }
 
-            // 💥 ৫. বোনাস অ্যানিমেশন ট্রিগার (২ সেকেন্ডের মাথায়)
+            // 💥 ৫. আলাদা ওভারলে লেয়ারে রাউন্ডেড লাইটিং অ্যানিমেশন (ঠিক ১ সেকেন্ড পর)
+            // এটি মেইন হুইলের সিএসএস (Transition) বা পজিশনকে বিন্দুমাত্র স্পর্শ করবে না।
             setTimeout(() => {
-                // গ্লোবাল উইন্ডো বা লোকাল স্কোপ—উভয় জায়গা থেকে ফাংশনটি খোঁজার চেষ্টা করা হচ্ছে
                 const runBonusAnimation = window.triggerVoltageAnimation || (typeof triggerVoltageAnimation === "function" ? triggerVoltageAnimation : null);
                 
                 if (runBonusAnimation) {
-                    runBonusAnimation(bonusData, () => {
-                        console.log("Voltage bonus locked successfully!");
-                    });
+                    runBonusAnimation(bonusData, () => {});
                 } else {
-                    // 🎯 সেফটি ফিক্স: যদি কোনো কারণে ফাংশনটি একদমই না পাওয়া যায়, তবে গেম যাতে ক্র্যাশ না করে
-                    console.warn("triggerVoltageAnimation is completely missing from gameEngine.js! Falling back safely.");
-                    
-                    // এখানে একটি ডাইনামিক নোটিফিকেশন বা ভিজ্যুয়াল ইফেক্ট ব্যাকআপ হিসেবে রান করে দেওয়া হলো
-                    const alertBox = document.createElement("div");
-                    alertBox.style.cssText = "position:fixed; top:20%; left:50%; transform:translate(-50%, -50%); background:rgba(0,255,204,0.9); color:#000; padding:15px 30px; font-weight:bold; border-radius:8px; box-shadow:0 0 20px #00ffcc; z-index:99999; font-family:sans-serif; text-transform:uppercase;";
-                    alertBox.innerText = `⚡ VOLTAGE BONUS: ${bonusData.multiplier || '5X'} LOCKED! ⚡`;
-                    document.body.appendChild(alertBox);
-                    setTimeout(() => alertBox.remove(), 3000);
+                    // সেফটি ফিক্স: চাকার প্যারেন্ট কন্টেইনারে ওভারলে লেয়ার তৈরি (চাকার বাইরে স্বাধীন)
+                    let overlayContainer = document.getElementById("wheel-bonus-overlay");
+                    if (!overlayContainer) {
+                        overlayContainer = document.createElement("div");
+                        overlayContainer.id = "wheel-bonus-overlay";
+                        UI.wheel.parentElement.appendChild(overlayContainer);
+                    }
+
+                    // ওপরের স্থির লেয়ারে চতুর্দিকে রাউন্ডেড রানিং ইলেকট্রিক নিয়ন শক অ্যানিমেশন
+                    overlayContainer.innerHTML = `
+                        <div class="voltage-glow-ring"></div>
+                        <div class="bonus-multiplier-card">
+                            <span class="voltage-text">⚡ VOLTAGE BONUS ⚡</span>
+                            <span class="mult-value">${bonusData.multiplier || '10X'}</span>
+                        </div>
+                    `;
+                    overlayContainer.style.display = "flex";
+
+                    // চাকা থামার আগে ওপরের অ্যানিমেশন লেয়ারটি সুন্দরভাবে মেল্ট ডাউন (Fade out) হয়ে যাবে
+                    setTimeout(() => {
+                        overlayContainer.style.animation = "fadeOut 0.6s forwards";
+                        setTimeout(() => { overlayContainer.innerHTML = ""; overlayContainer.style.display = "none"; }, 600);
+                    }, 4000);
                 }
-            }, 2000);
-            // 📈 ৬. GPU Accelerated 14-Second Smooth CSS Transition
-            // কাস্টম কিউবিক-বেজিয়ার: শুরুতে স্লো, মাঝে তীব্র গতি, শেষ ৫ সেকেন্ডে মাখনের মতো নিখুঁতভাবে স্থির হবে
-            UI.wheel.style.transition = "transform 14s cubic-bezier(0.25, 1, 0.2, 1)";
+            }, 1000); // ⏱️ চাকা ঘোরার ঠিক ১ সেকেন্ড মাথায় ওপরে লাইট ব্লাস্ট হবে
+
+            // 📈 ৬. নিচের চাকার স্বাধীন আল্ট্রা-স্মুথ ঘূর্ণন (GPU Accelerated)
+            UI.wheel.style.transition = "transform 14s cubic-bezier(0.2, 1, 0.2, 1)";
             UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
 
-            // 🛑 ৭. ঠিক ১৪.২ সেকেন্ড পর চাকা পুরোপুরি স্থির হলে পে-আউট রিলিজ
+            // 🛑 ৭. ঠিক ১৪.২ সেকেন্ড পর চাকা পুরোপুরি স্থির হলে রেজাল্ট রিলিজ
             setTimeout(() => {
-                // সাউন্ড স্টপ
                 if (UI.spinSound) {
                     UI.spinSound.loop = false;
                     UI.spinSound.pause();
                     UI.spinSound.currentTime = 0;
                 }
 
-                // বর্তমান ফাইনাল ডিগ্রিটি ইঞ্জিনে সেভ রাখা
+                // বর্তমান ফাইনাল ডিগ্রিটি ইঞ্জিনে সেভ রাখা যাতে পরের রাউন্ডে চাকা ঝাঁকুনি না দেয়
                 GameEngine.setRotation(totalTargetRotation);
                 
-                // রেজাল্ট পে-আউট এবং ব্যালেন্স স্ক্রিনে আপডেট
+                // রেজাল্ট পে-আউট এবং ব্যালেন্স স্ক্রিনে নিখুঁত আপডেট
                 const payout = GameEngine.resolvePayout(winningSlot, bonusData);
                 updateBalance(payout.balance);
 
@@ -315,7 +328,7 @@
                     clearBoard();
                 }, 1500);
 
-            }, 14200); // ১৪ সেকেন্ড ঘূর্ণন + ০.২ সেকেন্ড সেটেলমেন্ট টাইম
+            }, 14200); 
         });
     }
     // ========================================================
