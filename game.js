@@ -282,27 +282,40 @@
             UI.wheel.style.transition = "transform 14s cubic-bezier(0.15, 0.85, 0.2, 1)";
             UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
 
-            // ৪. ১৪ সেকেন্ডে সাউন্ড ও গেম রিসেট
+            // 🛑 ৭. ঠিক ১৪ সেকেন্ড পর চাকা স্থির হবে, রেজাল্ট রিলিজ হবে এবং বোর্ড রিসেট হবে
             setTimeout(() => {
+                // সাউন্ড লুপ অফ
                 if (UI.spinSound) {
                     UI.spinSound.loop = false;
                     UI.spinSound.pause();
                     UI.spinSound.currentTime = 0;
                 }
+
+                // ইঞ্জিন আপডেট ও পে-আউট ক্যালকুলেশন
                 GameEngine.setRotation(totalTargetRotation);
                 const payout = GameEngine.resolvePayout(winningSlot, bonusData);
                 updateBalance(payout.balance);
 
+                // বোর্ড এবং ইউআই রিসেট (আপনার সিস্টেমের জন্য নিশ্চিত করা হলো)
                 setTimeout(() => {
                     GameEngine.unlock();
                     GameEngine.reset();
                     setButtonLockState(false);
+                    
+                    // বোর্ড ক্লিনআপ (আপনার SECTION 9 এর ফাংশনটি কল করা হচ্ছে)
+                    clearBoard(); 
+                    
+                    // ওভারলে ক্লিনআপ
                     const overlayContainer = document.getElementById("wheel-bonus-overlay");
-                    if (overlayContainer) overlayContainer.innerHTML = "";
+                    if (overlayContainer) {
+                        overlayContainer.innerHTML = "";
+                        overlayContainer.style.display = "none";
+                    }
+                    console.log("Game fully reset and board cleared.");
                 }, 1500);
-            }, 14000);
-        });
-    }
+            }, 14000); 
+        }); // এই ব্র্যাকেটটি bindSpin এর জন্য
+    } // এই ব্র্যাকেটটি bindSpin এর জন্য
     // ========================================================
     // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [END]
     // ========================================================
@@ -328,19 +341,33 @@
     // ========================================================
 
 
-    // ========================================================
-    // 🧮 SECTION 9: BALANCE & BOARD RESETS [START]
+   // ========================================================
+    // 🧮 SECTION 9: BALANCE & BOARD RESETS [UPDATED]
     // ========================================================
     function updateBalance(balance) {
         UI.balance.innerText = "$" + balance.toFixed(2);
     }
 
     function clearBoard() {
-        document.querySelectorAll(".bet-indicator").forEach(el => {
+        // ১. সব ধরনের বেট ইন্ডিকেটর সিলেক্ট করা (আপনার এলিমেন্টের ক্লাস অনুযায়ী)
+        const betIndicators = document.querySelectorAll(".bet-indicator");
+        
+        betIndicators.forEach(el => {
             el.innerText = "$0";
-            el.style.display = "none";
+            el.style.display = "none"; // বোর্ড থেকে হাইড করে দেওয়া
+            el.style.opacity = "0";    // অতিরিক্ত সুরক্ষা
         });
-        if (UI.totalBet) UI.totalBet.innerText = "$0.00";
+
+        // ২. যদি কোনো স্পেশাল বেট বা চিপ এলিমেন্ট থাকে তাও রিসেট করা
+        const activeChips = document.querySelectorAll(".placed-chip");
+        activeChips.forEach(chip => chip.remove());
+
+        // ৩. টোটাল বেট রিসেট
+        if (UI.totalBet) {
+            UI.totalBet.innerText = "$0.00";
+        }
+        
+        console.log("Board cleared successfully!");
     }
     // ========================================================
     // 🧮 SECTION 9: BALANCE & BOARD RESETS [END]
