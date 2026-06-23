@@ -245,16 +245,15 @@
             const bonusData = GameEngine.generateVoltageBonus(winningSlot);
             const currentRotation = state.rotation || 0;
 
-            const LOCAL_SEGMENTS = ["heart", "spade", "diamond", "club", "crown", "flag", "heart", "crown", "spade", "diamond", "flag", "club"];
-            const targetIndexes = [];
-            LOCAL_SEGMENTS.forEach((sym, idx) => { if (sym === winningSlot.symbol) targetIndexes.push(idx); });
-            const finalIndex = targetIndexes.length > 0 ? targetIndexes[Math.floor(Math.random() * targetIndexes.length)] : 0;
-            const segmentDegrees = 360 / LOCAL_SEGMENTS.length;
-            const targetSymbolAngle = (finalIndex * segmentDegrees) + (segmentDegrees / 2);
-            let correctedAngle = (360 - targetSymbolAngle) % 360;
-
+            // আপডেট লজিক: LOCAL_SEGMENTS এর পরিবর্তে WHEEL_SLOTS থেকে ডাটা নিচ্ছি
+            // আপনার ১৮টি স্লট অনুযায়ী প্রতি ঘরের মান ২০ ডিগ্রি (৩৬০ / ১৮ = ২০)
+            const segmentDegrees = 20; 
+            const targetIndex = winningSlot.index !== undefined ? winningSlot.index : (winningSlot.slot - 1);
+            const targetSymbolAngle = targetIndex * segmentDegrees;
+            
+            // চাকা ঘোরানোর হিসাব
             const extraSpins = 7920;
-            const totalTargetRotation = currentRotation + extraSpins + ((correctedAngle - (currentRotation % 360) + 360) % 360);
+            const totalTargetRotation = currentRotation + extraSpins + ((targetSymbolAngle - (currentRotation % 360) + 360) % 360);
 
             if (UI.spinSound) {
                 UI.spinSound.loop = true;
