@@ -210,7 +210,7 @@
     // ========================================================
 
 
-    // ========================================================
+  // ========================================================
     // 🎡 SECTION 7: CORE SPIN & 14-SECOND MOTION ENGINE [START]
     // ========================================================
     function bindSpin() {
@@ -233,22 +233,31 @@
 
             const duration = 14000; // পুরো ১৪ সেকেন্ড ঘূর্ণন
             
-            // 🎯 ফিক্স ১: আগের স্পিনের বর্তমান রোটেশন অ্যাঙ্গেল নিখুঁতভাবে রিকভার করা
+            // আগের স্পিনের বর্তমান রোটেশন অ্যাঙ্গেল রিকভার করা
             const currentRotation = state.rotation || 0;
 
-            // ৩. চাকার ১২টি ঘরের নিখুঁত ডিগ্রি ম্যাপিং (৩৬০ / ১২ = ৩০ ডিগ্রি প্রতি ঘর)
+            // 🎯 ফিক্স: SEGMENTS ভেরিয়েবলটি সরাসরি এখানে লোকাল হিসেবে ডিফাইন করা হলো, যাতে স্কোপ এরর না আসে
+            const LOCAL_SEGMENTS = [
+                "heart", "spade", "diamond", "club",
+                "crown", "flag", "heart", "crown",
+                "spade", "diamond", "flag", "club"
+            ];
+
+            // ৩. চাকার ১২টি ঘরের নিখুঁত ডিগ্রি ম্যাপিং (৩৬零 / ১২ = ৩০ ডিগ্রি প্রতি ঘর)
             const targetIndexes = [];
-            SEGMENTS.forEach((sym, idx) => {
+            LOCAL_SEGMENTS.forEach((sym, idx) => {
                 if (sym === winningSlot.symbol) targetIndexes.push(idx);
             });
-            const finalIndex = targetIndexes[Math.floor(Math.random() * targetIndexes.length)];
+            
+            // যদি কোনো কারণে ইনডেক্স খুঁজে না পায়, সেফটি ব্যাকআপ হিসেবে ০ সেট করা
+            const finalIndex = targetIndexes.length > 0 ? targetIndexes[Math.floor(Math.random() * targetIndexes.length)] : 0;
 
-            const segmentDegrees = 360 / SEGMENTS.length; // ৩০ ডিগ্রি
+            const segmentDegrees = 360 / LOCAL_SEGMENTS.length; // ৩০ ডিগ্রি
             
             // চাকার ভেতরের চিহ্নের কেন্দ্রবিন্দু (Center) বের করা
             const targetSymbolAngle = (finalIndex * segmentDegrees) + (segmentDegrees / 2);
             
-            // 🎯 ফিক্স ২: চাকা সবসময় ঘড়ির কাঁটার দিকেই (Right) ঘুরবে, কোনো ব্যাক-টার্ন বা ঝাঁকুনি দেবে না
+            // চাকা সবসময় ঘড়ির কাঁটার দিকেই (Right) ঘুরবে, কোনো ব্যাক-টার্ন বা ঝাঁকুনি দেবে না
             // ১৪ সেকেন্ডের জন্য চাকাটি ২২ বার ফুল চক্কর (৭৯২০ ডিগ্রি) দেবে
             const extraSpins = 7920; 
             const currentBaseRotation = currentRotation - (currentRotation % 360);
@@ -271,14 +280,14 @@
                 }
             }, 2000);
 
-            // 📈 ৬. পিওর গাণিতিক ১৪ সেকেন্ড কাস্টম স্মুথ অ্যানিমেশন (Quintic Ease-Out)
+            // 📈 六. পিওর গাণিতিক ১৪ সেকেন্ড কাস্টম স্মুথ অ্যানিমেশন (Quintic Ease-Out)
             const startTime = performance.now();
             UI.wheel.style.transition = "none"; // ব্রাউজার ট্রানজিশন অফ রেখে জেএস দিয়ে কন্ট্রোল
 
             function animate(now) {
                 const progress = Math.min((now - startTime) / duration, 1);
                 
-                // 🎯 ফিক্স ৩: মাখনের মতো স্মুথ স্টপ কার্ভ (Ease-Out) - শেষ ৫ সেকেন্ডে চাকা একদম রিয়েলস্টিক নিয়মে থামবে
+                // মাখনের মতো স্মুথ স্টপ কার্ভ (Ease-Out) - শেষ ৫ সেকেন্ডে চাকা একদম রিয়েলস্টিক নিয়মে থামবে
                 const easeOut = 1 - Math.pow(1 - progress, 5);
                 const currentAngle = currentRotation + (totalTargetRotation - currentRotation) * easeOut;
 
@@ -294,7 +303,7 @@
                         UI.spinSound.currentTime = 0;
                     }
 
-                    // 🎯 ফিক্স ৪: বর্তমান ডিগ্রিটি ইঞ্জিনে সেভ রাখা যাতে পরের স্পিন এখান থেকেই শুরু হয়
+                    // বর্তমান ডিগ্রিটি ইঞ্জিনে সেভ রাখা যাতে পরের স্পিন এখান থেকেই শুরু হয়
                     GameEngine.setRotation(totalTargetRotation);
                     
                     const payout = GameEngine.resolvePayout(winningSlot, bonusData);
