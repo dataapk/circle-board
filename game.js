@@ -227,6 +227,7 @@
 // ========================================================
     // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [START]
     // ========================================================
+    let correctedAngle = 0;
     function bindSpin() {
         UI.spinBtn.addEventListener("click", () => {
             if (typeof GameEngine === 'undefined') return;
@@ -304,10 +305,15 @@
                     UI.spinSound.currentTime = 0;
                 }
 
-                // ইঞ্জিন আপডেট ও পে-আউট ক্যালকুলেশন
-                GameEngine.setRotation(totalTargetRotation);
-                const payout = GameEngine.resolvePayout(winningSlot, bonusData);
-                updateBalance(payout.balance);
+               // ১. ইঞ্জিন থেকে রেজাল্ট নিন (এটি হয়তো শুধু স্লট নম্বর দিচ্ছে)
+const rawResult = GameEngine.generateResult(); 
+
+// ২. আমাদের কাছে থাকা মাস্টার লিস্ট (WHEEL_SLOTS) থেকে পুরো ডাটা বের করুন
+// যদি rawResult হয় ৩, তবে WHEEL_SLOTS থেকে ৩ নম্বর স্লটের সব তথ্য বের করবে
+const fullWinningData = WHEEL_SLOTS.find(s => s.slot === (rawResult.slot || rawResult));
+
+// ৩. এবার পেমেন্ট ফাংশনে এই পূর্ণাঙ্গ ডাটা পাঠান
+const payout = GameEngine.resolvePayout(fullWinningData, bonusData);
 
                 // বোর্ড এবং ইউআই রিসেট (আপনার সিস্টেমের জন্য নিশ্চিত করা হলো)
                 setTimeout(() => {
