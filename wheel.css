@@ -1540,23 +1540,65 @@ button,
 /* ========================================================
    🎬 ANIMATION KEYFRAMES (SMOOTH & ULTRA-FAST)
    ======================================================== */
-/* চারপাশের রাউন্ডেড নিয়ন লাইট ঘোরার ইফেক্ট */
-@keyframes rotateGlowRing {
-    from { transform: rotate(0deg); filter: hue-rotate(0deg); }
-    to { transform: rotate(360deg); filter: hue-rotate(360deg); }
+/* ৩ডি স্পেয়ার বা বলের মেইন কন্টেইনার */
+.central-3d-sphere {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff, #333);
+    box-shadow: inset -10px -10px 20px #000, 0 0 20px #00ffcc;
+    z-index: 1001;
+    animation: pulseGlow 1.5s infinite;
 }
 
-/* কার্ডটির বাউন্সি এন্ট্রি ইফেক্ট */
-@keyframes popBounce {
-    0% { transform: scale(0); opacity: 0; }
-    70% { transform: scale(1.12); }
-    100% { transform: scale(1); opacity: 1; }
+/* বলের ভেতর ডিসকো লাইটিং ইফেক্ট */
+.sphere-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(red, yellow, lime, aqua, blue, fuchsia, red);
+    animation: rotateHub 3s linear infinite;
+    opacity: 0.6;
 }
 
-/* ৩.৫ সেকেন্ড পর স্মুথলি মেল্ট ডাউন বা ভ্যানিশ হওয়ার ইফেক্ট */
-@keyframes fadeOut {
-    to { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
+/* বোনাস মাল্টিপ্লায়ার বল */
+.bonus-multiplier-ball {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 35px;
+    height: 35px;
+    background: #ffcc00;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #000;
+    box-shadow: 0 0 15px #ffcc00;
+    z-index: 1002;
+    animation: hubBlast 1s forwards, orbitRotation 2s linear infinite 1s;
 }
+
+/* ল্যান্ডিং স্টাইল */
+.bonus-multiplier-ball.lock-to-cell {
+    transition: all 1.5s ease-out;
+    animation: none;
+    box-shadow: 0 0 10px #fff;
+    border: 2px solid #fff;
+}
+
+/* ৩ডি বলের অ্যানিমেশনসমূহ */
+@keyframes pulseGlow { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } }
+@keyframes rotateHub { to { transform: rotate(360deg); } }
+@keyframes hubBlast { 0% { transform: translate(-50%, -50%) scale(0); } 100% { transform: translate(-50%, -50%) scale(1); } }
+@keyframes orbitRotation { from { transform: translate(-50%, -50%) rotate(0deg) translateY(-60px) rotate(0deg); }
+to { transform: translate(-50%, -50%) rotate(360deg) translateY(-60px) rotate(-360deg); } }
 
 /* ========================================================
    ⚡ SECTION 10: END OF VOLTAGE BONUS STYLES
