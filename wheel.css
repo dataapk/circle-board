@@ -1490,26 +1490,72 @@ button,
     pointer-events: none;
     border: 3px solid #fff;
 }
-
-#voltage-bonus-popup.active {
-    transform: translate(-50%, -50%) scale(1);
-    animation: pulseGlow 0.4s infinite alternate;
+.main-wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    backface-visibility: hidden;
+    will-change: transform;
+    /* এই প্রপার্টিগুলো ব্রাউজারের GPU ব্যবহার করায় চাকা ঝাঁকুনি বা উল্টো মোড় নেবে না */
+    transform-style: preserve-3d; 
+    transition: transform 14s cubic-bezier(0.2, 1, 0.2, 1);
+}
+#wheel-bonus-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 102%; /* মেইন হুইল থেকে সামান্য বড় যেন চারপাশটা বর্ডার দিয়ে মুড়িয়ে নেয় */
+    height: 102%;
+    pointer-events: none; /* চাকার ভেতরের ক্লিকে যাতে কোনো ডিস্টার্ব না হয় */
+    z-index: 999; /* চাকার ওপরে ভাসমান থাকবে */
+    display: none; /* জাভাস্ক্রিপ্ট ১ সেকেন্ড পর এটিকে 'flex' করবে */
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
-/* ⛈️ পয়েন্টার বক্সে বিজলি চমকানোর অ্যানিমেশন */
-.lightning-strike {
-    animation: lightningFlash 0.2s infinite alternate;
-    filter: drop-shadow(0 0 20px #ffcc00) brightness(1.5);
+.voltage-text {
+    display: block;
+    color: #ffcc00;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2.5px;
+    text-shadow: 0 0 8px #ffcc00;
+    text-transform: uppercase;
 }
 
-@keyframes lightningFlash {
-    from { opacity: 0.7; filter: drop-shadow(0 0 10px #ffcc00) brightness(1.2); }
-    to { opacity: 1; filter: drop-shadow(0 0 30px #ff0055) brightness(1.8); }
+.mult-value {
+    display: block;
+    color: #00ffcc;
+    font-size: 45px;
+    font-weight: 900;
+    text-shadow: 0 0 20px #00ffcc;
+    margin-top: 5px;
+    font-family: 'Arial Black', sans-serif;
 }
 
-@keyframes pulseGlow {
-    from { box-shadow: 0 0 20px #ffcc00, 0 0 40px #ff0055; }
-    to { box-shadow: 0 0 35px #ff0011, 0 0 60px #ffea00; }
+/* ========================================================
+   🎬 ANIMATION KEYFRAMES (SMOOTH & ULTRA-FAST)
+   ======================================================== */
+/* চারপাশের রাউন্ডেড নিয়ন লাইট ঘোরার ইফেক্ট */
+@keyframes rotateGlowRing {
+    from { transform: rotate(0deg); filter: hue-rotate(0deg); }
+    to { transform: rotate(360deg); filter: hue-rotate(360deg); }
+}
+
+/* কার্ডটির বাউন্সি এন্ট্রি ইফেক্ট */
+@keyframes popBounce {
+    0% { transform: scale(0); opacity: 0; }
+    70% { transform: scale(1.12); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ৩.৫ সেকেন্ড পর স্মুথলি মেল্ট ডাউন বা ভ্যানিশ হওয়ার ইফেক্ট */
+@keyframes fadeOut {
+    to { opacity: 0; transform: translate(-50%, -50%) scale(0.85); }
 }
 
 /* ========================================================
