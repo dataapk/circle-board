@@ -1515,7 +1515,22 @@ button,
 /* ========================================================
    ⚡ SECTION 10: END OF VOLTAGE BONUS STYLES
    ======================================================== */
-
+.bet-indicator {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(0, 0, 0, 0.85); /* ডার্ক ব্যাকগ্রাউন্ড */
+    color: #00ffcc; /* নিয়ন গ্রিন ডলার টেক্সট */
+    border: 1px solid #00ffcc;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
+    z-index: 10;
+    pointer-events: none; /* যাতে ক্লিকের ডিস্টার্ব না হয় */
+    font-family: monospace;
+}
 
 
 
