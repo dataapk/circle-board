@@ -227,6 +227,9 @@
 // ========================================================
 // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [UPDATED]
 // ========================================================
+// ========================================================
+// 🎡 SECTION 7: PRO-LEVEL WHEEL LOGIC [UPDATED]
+// ========================================================
 function bindSpin() {
     UI.spinBtn.addEventListener("click", () => {
         if (typeof GameEngine === 'undefined') return;
@@ -244,20 +247,20 @@ function bindSpin() {
         const bonusData = GameEngine.generateVoltageBonus(winningSlot);
         const currentRotation = state.rotation || 0;
 
-        // ১৮টি ঘরের জন্য সঠিক ম্যাপিং
-        const TOTAL_SEGMENTS = 18; 
+        // ১৮টি ঘর, প্রতি ঘর ২০ ডিগ্রি
+        const TOTAL_SEGMENTS = 18;
         const segmentDegrees = 360 / TOTAL_SEGMENTS;
 
-        // আপনার জেতা সিম্বলটি কোন ইনডেক্সে আছে তা বের করা
-        // নোট: যদি আপনার ১২টি আইটেম থাকে, তবে ১৮টির লজিক অনুযায়ী ইনডেক্স ঠিক করতে হবে
-        const winningIndex = winningSlot.index || 0; 
+        // র‍্যান্ডম অফসেট: এতে চাকা প্রতিবার একই জায়গায় থামবে না
+        const randomOffset = Math.random() * (segmentDegrees - 2); 
+        
+        // জেতা সিম্বলের ইনডেক্স থেকে টার্গেট অ্যাঙ্গেল বের করা
+        const targetAngle = (winningSlot.index * segmentDegrees) + randomOffset;
+        
+        // সর্বনিম্ন ৩ বার ঘোরানো + টার্গেট পজিশন
+        const extraSpins = 1080; 
+        const totalTargetRotation = currentRotation + extraSpins + (targetAngle - (currentRotation % 360));
 
-        // গাণিতিক ক্যালকুলেশন: একদম নিখুঁত পজিশনিং
-       
-const extraSpins = (Math.floor(Math.random() * 5) + 5) * 360; // ৫ থেকে ১০ বার ঘুরবে (র‍্যান্ডম)
-const targetAngle = winningIndex * segmentDegrees;
-// নিচের লাইনটি বর্তমান পজিশন থেকে হিসেব করে সঠিক গন্তব্যে নিয়ে যাবে
-const totalTargetRotation = currentRotation + extraSpins + (targetAngle - (currentRotation % 360));
         // সাউন্ড হ্যান্ডলিং
         if (UI.spinSound) {
             UI.spinSound.loop = true;
@@ -265,29 +268,11 @@ const totalTargetRotation = currentRotation + extraSpins + (targetAngle - (curre
             playSound(UI.spinSound);
         }
 
-        // ২. বোনাস ইঞ্জিন (টাইমলাইনড অ্যানিমেশন)
-        setTimeout(() => {
-            let overlayContainer = document.getElementById("wheel-bonus-overlay");
-            if (!overlayContainer) {
-                overlayContainer = document.createElement("div");
-                overlayContainer.id = "wheel-bonus-overlay";
-                UI.wheel.parentElement.appendChild(overlayContainer);
-            }
-            overlayContainer.innerHTML = `
-                <div class="central-3d-sphere">
-                    <div class="sphere-glow"></div>
-                    <div class="sphere-core"></div>
-                </div>
-                <div class="bonus-multiplier-ball" id="dynamic-bonus-card">${bonusData.multiplier || '3X'}</div>
-            `;
-            overlayContainer.style.display = "block";
-        }, 1000);
-
-        // ৩. চাকার ঘূর্ণন - স্মুথ এনিমেশন
+        // ২. এনিমেশন শুরু
         UI.wheel.style.transition = "transform 14s cubic-bezier(0.42, 0, 0.58, 1)";
         UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
 
-        // 🛑 ১৪ সেকেন্ড পর সব প্রসেস
+        // ৩. ১৪ সেকেন্ড পর রেজাল্ট রিলিজ
         setTimeout(() => {
             if (UI.spinSound) {
                 UI.spinSound.loop = false;
@@ -295,7 +280,7 @@ const totalTargetRotation = currentRotation + extraSpins + (targetAngle - (curre
                 UI.spinSound.currentTime = 0;
             }
 
-            // রেজাল্ট আপডেট
+            // ইঞ্জিন আপডেট
             GameEngine.setRotation(totalTargetRotation);
             const payout = GameEngine.resolvePayout(winningSlot, bonusData);
             updateBalance(payout.balance);
@@ -305,13 +290,10 @@ const totalTargetRotation = currentRotation + extraSpins + (targetAngle - (curre
                 GameEngine.unlock();
                 GameEngine.reset();
                 setButtonLockState(false);
-                clearBoard();
-                document.getElementById("wheel-bonus-overlay").style.display = "none";
-            }, 1000);
+            }, 500);
         }, 14000);
     });
 }
-// ========================================================
 
 
     // ========================================================
