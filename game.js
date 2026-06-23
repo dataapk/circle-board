@@ -253,10 +253,11 @@ function bindSpin() {
         const winningIndex = winningSlot.index || 0; 
 
         // গাণিতিক ক্যালকুলেশন: একদম নিখুঁত পজিশনিং
-        const extraSpins = 7200; // ২০ বার পূর্ণ ঘূর্ণন (৭২০০ ডিগ্রি)
-        const targetAngle = winningIndex * segmentDegrees;
-        const totalTargetRotation = currentRotation + extraSpins + (targetAngle - (currentRotation % 360));
-
+       
+const extraSpins = (Math.floor(Math.random() * 5) + 5) * 360; // ৫ থেকে ১০ বার ঘুরবে (র‍্যান্ডম)
+const targetAngle = winningIndex * segmentDegrees;
+// নিচের লাইনটি বর্তমান পজিশন থেকে হিসেব করে সঠিক গন্তব্যে নিয়ে যাবে
+const totalTargetRotation = currentRotation + extraSpins + (targetAngle - (currentRotation % 360));
         // সাউন্ড হ্যান্ডলিং
         if (UI.spinSound) {
             UI.spinSound.loop = true;
