@@ -1466,6 +1466,55 @@ button,
 /* ======================================================
    🧨 PERFORMANCE + Z-INDEX CONTROL END
 ====================================================== */
+/* ========================================================
+   ⚡ SECTION 10: VOLTAGE BONUS & LIGHTNING ANIMATION (NEW)
+   ======================================================== */
+
+/* ⚡ ভোল্টেজ বোনাস পপআপ বক্স স্টাইল */
+#voltage-bonus-popup {
+    position: absolute;
+    top: 35%; /* পয়েন্টার এবং হাবের মাঝামাঝি ভেসে উঠবে */
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, #ff0055, #ffcc00);
+    color: #fff;
+    padding: 10px 20px;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 15px;
+    box-shadow: 0 0 25px #ffcc00, 0 0 50px #ff0055;
+    text-align: center;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    border: 3px solid #fff;
+}
+
+#voltage-bonus-popup.active {
+    transform: translate(-50%, -50%) scale(1);
+    animation: pulseGlow 0.4s infinite alternate;
+}
+
+/* ⛈️ পয়েন্টার বক্সে বিজলি চমকানোর অ্যানিমেশন */
+.lightning-strike {
+    animation: lightningFlash 0.2s infinite alternate;
+    filter: drop-shadow(0 0 20px #ffcc00) brightness(1.5);
+}
+
+@keyframes lightningFlash {
+    from { opacity: 0.7; filter: drop-shadow(0 0 10px #ffcc00) brightness(1.2); }
+    to { opacity: 1; filter: drop-shadow(0 0 30px #ff0055) brightness(1.8); }
+}
+
+@keyframes pulseGlow {
+    from { box-shadow: 0 0 20px #ffcc00, 0 0 40px #ff0055; }
+    to { box-shadow: 0 0 35px #ff0011, 0 0 60px #ffea00; }
+}
+
+/* ========================================================
+   ⚡ SECTION 10: END OF VOLTAGE BONUS STYLES
+   ======================================================== */
 
 
 
