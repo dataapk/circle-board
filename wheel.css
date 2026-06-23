@@ -363,8 +363,8 @@ html, body {
 /* মেইন চিপস কন্টেইনার (ডিফল্ট অবস্থায় চিপগুলো একটার নিচে আরেকটা লুকিয়ে থাকবে) */
 .chips-container {
     position: relative;
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 60px;
 }
 .chip img {
     width: 100%;
@@ -404,19 +404,21 @@ html, body {
 /* 🪙 PRESTIGE 7-STATE SPRING CHIP FAN (TOTAL FIX)      */
 /* ==================================================== */
 
-/* ১. মেইন ডিফল্ট চিপ (সেন্টার / বেস পজিশন) */
+/* ২. চিপের ডিজাইন ও এনিমেশন */
 .chips-container .chip.default-chip,
 .chips-container.open .chip.default-chip {
+    width: 100%; /* কন্টেইনার অনুযায়ী সাইজ বড় হবে */
+    height: 100%;
     transform: translate(0, 0) rotate(0deg) !important;
     z-index: 10;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     
-    /* নতুন যোগ করা গোল্ডেন বর্ডার ও গ্লোইং ইফেক্ট */
-    outline: 3px solid gold;         /* আউটার গোল্ডেন বর্ডার */
-    outline-offset: -3px;            /* চিপের ভেতরে বর্ডার বসানোর জন্য */
-    border-radius: 50%;              /* চিপ গোল রাখার জন্য */
-    filter: drop-shadow(0px 0px 10px rgba(255, 215, 0, 0.7)); /* ড্রপ গ্লো */
-    animation: goldenPulse 2s infinite alternate; /* গ্লোইং এনিমেশন */
+    /* গোল্ডেন বর্ডার ও গ্লোইং ইফেক্ট */
+    outline: 2px solid gold;
+    outline-offset: -2px;
+    border-radius: 50%;
+    filter: drop-shadow(0px 0px 10px rgba(255, 215, 0, 0.7));
+    animation: goldenPulse 2s infinite alternate;
 }
 
 /* গোল্ডেন পালস এনিমেশন (একদম হালকা এবং প্রিমিয়াম লুক দেবে) */
