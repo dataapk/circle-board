@@ -148,8 +148,8 @@
     // ========================================================
 
 
-    // ========================================================
-    // 📊 SECTION 5: BOARD UI & BADGES UPDATE [START]
+   // ========================================================
+    // 📊 SECTION 5: BOARD UI & BADGES UPDATE [FINALIZED]
     // ========================================================
     function updateBoardUI(bets) {
         let totalBetCalculated = 0;
@@ -158,7 +158,7 @@
             const symbol = box.dataset.symbol;
             const betAmount = bets[symbol] || 0;
             
-            // 🎯 সেফটি ফিক্স: যদি HTML-এ .bet-indicator না থাকে, তবে কোড নিজে এটি তৈরি করে নেবে
+            // ১. সেফটি ফিক্স: এলিমেন্ট না থাকলে তৈরি করা
             let indicator = box.querySelector(".bet-indicator");
             if (!indicator) {
                 indicator = document.createElement("div");
@@ -166,25 +166,31 @@
                 box.appendChild(indicator);
             }
 
-            // প্রতিটি বক্সে রিলেティブ পজিশন দেওয়া যেন ব্যাজটি বাম-ওপরের কোণায় বসে
             box.style.position = "relative"; 
 
+            // ২. লজিক: যখনই বেট পড়বে, তখনই এলিমেন্টকে পুনরায় Active করা
             if (betAmount > 0) {
                 indicator.innerText = "$" + betAmount.toFixed(2);
-                indicator.style.display = "block";
+                
+                // 🔥 এই লাইনগুলো এলিমেন্টকে রিসেট-পরবর্তী অবস্থায় পুনরায় Active করবে
+                indicator.style.display = "block"; 
+                indicator.style.opacity = "1";     // রিসেট হলেও অপাসিটি ১ হবে
+                indicator.style.visibility = "visible"; // রিসেট হলেও ভিজিবিলিটি অন হবে
+                
                 totalBetCalculated += betAmount;
             } else {
+                // ৩. যখন বেট নেই: এলিমেন্ট হাইড রাখা
                 indicator.innerText = "$0";
                 indicator.style.display = "none";
+                indicator.style.opacity = "0"; 
+                indicator.style.visibility = "hidden";
             }
         });
 
-        // UI.totalBet অবজেক্টটি ডিফাইন করা থাকলে বা আইডি থাকলে টোটাল আপডেট হবে
-        if (UI.totalBet) {
-            UI.totalBet.innerText = "$" + totalBetCalculated.toFixed(2);
-        } else {
-            const totalBetEl = document.getElementById("totalBetAmount");
-            if (totalBetEl) totalBetEl.innerText = "$" + totalBetCalculated.toFixed(2);
+        // ৪. টোটাল বেট আপডেট
+        const totalBetEl = UI.totalBet || document.getElementById("totalBetAmount");
+        if (totalBetEl) {
+            totalBetEl.innerText = "$" + totalBetCalculated.toFixed(2);
         }
     }
     // ========================================================
@@ -347,6 +353,9 @@
     function updateBalance(balance) {
         UI.balance.innerText = "$" + balance.toFixed(2);
     }
+    // ========================================================
+    // 🧮 SECTION CLEAR BOARED RESET
+    // ========================================================
 
     function clearBoard() {
         // ১. সব ধরনের বেট ইন্ডিকেটর সিলেক্ট করা (আপনার এলিমেন্টের ক্লাস অনুযায়ী)
