@@ -310,7 +310,7 @@ const rawResult = GameEngine.generateResult();
 
 // ২. আমাদের কাছে থাকা মাস্টার লিস্ট (WHEEL_SLOTS) থেকে পুরো ডাটা বের করুন
 // যদি rawResult হয় ৩, তবে WHEEL_SLOTS থেকে ৩ নম্বর স্লটের সব তথ্য বের করবে
-const fullWinningData = WHEEL_SLOTS.find(s => s.slot === (rawResult.slot || rawResult));
+const fullWinningData = GameEngine.WHEEL_SLOTS.find(s => s.slot === (rawResult.slot || rawResult));
 
 // ৩. এবার পেমেন্ট ফাংশনে এই পূর্ণাঙ্গ ডাটা পাঠান
 const payout = GameEngine.resolvePayout(fullWinningData, bonusData);
