@@ -305,24 +305,24 @@
                     UI.spinSound.currentTime = 0;
                 }
 
-               // ১. ইঞ্জিন থেকে রেজাল্ট নিন (এটি হয়তো শুধু স্লট নম্বর দিচ্ছে)
-const rawResult = GameEngine.generateResult(); 
+               // ১. ইঞ্জিন থেকে রেজাল্ট নিন
+                const rawResult = GameEngine.generateResult(); 
 
-// ২. আমাদের কাছে থাকা মাস্টার লিস্ট (WHEEL_SLOTS) থেকে পুরো ডাটা বের করুন
-// যদি rawResult হয় ৩, তবে WHEEL_SLOTS থেকে ৩ নম্বর স্লটের সব তথ্য বের করবে
-// GameEngine.WHEEL_SLOTS এর পরিবর্তে শুধু WHEEL_SLOTS ব্যবহার করুন
-const fullWinningData = WHEEL_SLOTS.find(s => s.slot === (rawResult.slot || rawResult));
+                // ২. আমাদের কাছে থাকা মাস্টার লিস্ট (WHEEL_SLOTS) থেকে পুরো ডাটা বের করুন
+                // সরাসরি GameEngine থেকে WHEEL_SLOTS কল করছি যাতে ReferenceError না হয়
+                const fullWinningData = GameEngine.WHEEL_SLOTS.find(s => s.slot === (rawResult.slot || rawResult));
 
-// ৩. এবার পেমেন্ট ফাংশনে এই পূর্ণাঙ্গ ডাটা পাঠান
-const payout = GameEngine.resolvePayout(fullWinningData, bonusData);
+                // ৩. পেমেন্ট ফাংশনে এই পূর্ণাঙ্গ ডাটা পাঠান
+                const payout = GameEngine.resolvePayout(fullWinningData, bonusData);
+                updateBalance(payout.balance);
 
-                // বোর্ড এবং ইউআই রিসেট (আপনার সিস্টেমের জন্য নিশ্চিত করা হলো)
+                // বোর্ড এবং ইউআই রিসেট
                 setTimeout(() => {
                     GameEngine.unlock();
                     GameEngine.reset();
                     setButtonLockState(false);
                     
-                    // বোর্ড ক্লিনআপ (আপনার SECTION 9 এর ফাংশনটি কল করা হচ্ছে)
+                    // বোর্ড ক্লিনআপ
                     clearBoard(); 
                     
                     // ওভারলে ক্লিনআপ
@@ -334,11 +334,8 @@ const payout = GameEngine.resolvePayout(fullWinningData, bonusData);
                     console.log("Game fully reset and board cleared.");
                 }, 1500);
             }, 14000); 
-        }); // এই ব্র্যাকেটটি bindSpin এর জন্য
-    } // এই ব্র্যাকেটটি bindSpin এর জন্য
-    // ========================================================
-    // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [END]
-    // ========================================================
+        }); // bindSpin এর সমাপ্তি
+    } // bindSpin এর সমাপ্তি
 
 
     // ========================================================
