@@ -210,7 +210,7 @@
     // ========================================================
 
 
-  // ========================================================
+// ========================================================
     // 🎡 SECTION 7: CORE SPIN & 14-SECOND MOTION ENGINE [START]
     // ========================================================
     function bindSpin() {
@@ -227,41 +227,37 @@
             closeFanMenu(); 
             playSound(UI.spinBtnSound);
 
-            // ২. ব্যাকএন্ড ইঞ্জিন থেকে রেজাল্ট ও ভোল্টেজ বোনাস ডাটা জেনারেট
+            // ২. ব্যাকএন্ড ইঞ্জিন থেকে আসল উইনিং রেজাল্ট জেনারেট করা
             const winningSlot = GameEngine.generateResult(); 
             const bonusData = GameEngine.generateVoltageBonus(winningSlot);
 
-            const duration = 14000; // পুরো ১৪ সেকেন্ড ঘূর্ণন
-            
-            // আগের স্পিনের বর্তমান রোটেশন অ্যাঙ্গেল রিকভার করা
-            const currentRotation = state.rotation || 0;
-
-            // 🎯 ফিক্স: SEGMENTS ভেরিয়েবলটি সরাসরি এখানে লোকাল হিসেবে ডিফাইন করা হলো, যাতে স্কোপ এরর না আসে
+            // চাকার ১২টি ঘরের অরিজিনাল সিকোয়েন্স (HTML/CSS অনুযায়ী)
             const LOCAL_SEGMENTS = [
                 "heart", "spade", "diamond", "club",
                 "crown", "flag", "heart", "crown",
                 "spade", "diamond", "flag", "club"
             ];
 
-            // ৩. চাকার ১২টি ঘরের নিখুঁত ডিগ্রি ম্যাপিং (৩৬零 / ১২ = ৩০ ডিগ্রি প্রতি ঘর)
+            // ৩. চাকার ১২টি ঘরের নিখুঁত ডিগ্রি ম্যাপিং (৩৬০ / ১২ = ৩০ ডিগ্রি প্রতি ঘর)
             const targetIndexes = [];
             LOCAL_SEGMENTS.forEach((sym, idx) => {
                 if (sym === winningSlot.symbol) targetIndexes.push(idx);
             });
             
-            // যদি কোনো কারণে ইনডেক্স খুঁজে না পায়, সেফটি ব্যাকআপ হিসেবে ০ সেট করা
             const finalIndex = targetIndexes.length > 0 ? targetIndexes[Math.floor(Math.random() * targetIndexes.length)] : 0;
-
             const segmentDegrees = 360 / LOCAL_SEGMENTS.length; // ৩০ ডিগ্রি
-            
-            // চাকার ভেতরের চিহ্নের কেন্দ্রবিন্দু (Center) বের করা
+
+            // 🎯 ঘড়ির কাঁটার দিকে নিখুঁত অ্যাঙ্গেল ক্যালকুলেশন (সেন্টার করার জন্য ১৫ ডিগ্রি প্লাস)
             const targetSymbolAngle = (finalIndex * segmentDegrees) + (segmentDegrees / 2);
+            const correctedAngle = (360 - targetSymbolAngle) % 360;
             
-            // চাকা সবসময় ঘড়ির কাঁটার দিকেই (Right) ঘুরবে, কোনো ব্যাক-টার্ন বা ঝাঁকুনি দেবে না
-            // ১৪ সেকেন্ডের জন্য চাকাটি ২২ বার ফুল চক্কর (৭৯২০ ডিগ্রি) দেবে
-            const extraSpins = 7920; 
-            const currentBaseRotation = currentRotation - (currentRotation % 360);
-            const totalTargetRotation = currentBaseRotation + extraSpins + (360 - targetSymbolAngle);
+            // 🎯 আল্ট্রা-স্মুথ মেকানিজম: আগের রোটেশন ডাইরেক্ট যোগ করে প্রগতিশীলভাবে (Progressive) সামনে বাড়ানো
+            // এর ফলে চাকা সবসময় শুধু ডান দিকেই একমুখী ঘুরবে, কখনো এক ডিগ্রিও বামে ব্যাক করবে না।
+            const currentRotation = state.rotation || 0;
+            const extraSpins = 7920; // ১৪ সেকেন্ড মেইনটেইন করার জন্য ২২ বার ফুল রোটেশন
+            
+            // নতুন টার্গেট রোটেশন নির্ধারণ (আগের পজিশন থেকে সবসময় সামনে)
+            const totalTargetRotation = currentRotation + extraSpins + ((correctedAngle - (currentRotation % 360) + 360) % 360);
 
             // 🎵 ৪. সাউন্ড লুপ অন: চাকা ঘোরার সময় সাউন্ড একটানা লুপে বাজবে
             if (UI.spinSound) {
@@ -269,59 +265,45 @@
                 playSound(UI.spinSound);
             }
 
-            // 💥 ৫. বোনাস অ্যানিমেশন ট্রিগার: চাকা ঘোরার ঠিক ২ সেকেন্ডের মাথায় বোনাস বক্স লাফালাফি শুরু করবে
+            // 💥 ৫. বোনাস অ্যানিমেশন ট্রিগার (২ সেকেন্ডের মাথায়)
             setTimeout(() => {
                 if (typeof triggerVoltageAnimation === "function") {
                     triggerVoltageAnimation(bonusData, () => {
                         console.log("Voltage bonus locked!");
                     });
-                } else {
-                    console.error("triggerVoltageAnimation missing! check gameEngine.js");
                 }
             }, 2000);
 
-            // 📈 六. পিওর গাণিতিক ১৪ সেকেন্ড কাস্টম স্মুথ অ্যানিমেশন (Quintic Ease-Out)
-            const startTime = performance.now();
-            UI.wheel.style.transition = "none"; // ব্রাউজার ট্রানজিশন অফ রেখে জেএস দিয়ে কন্ট্রোল
+            // 📈 ৬. GPU Accelerated 14-Second Smooth CSS Transition
+            // কাস্টম কিউবিক-বেজিয়ার: শুরুতে স্লো, মাঝে তীব্র গতি, শেষ ৫ সেকেন্ডে মাখনের মতো নিখুঁতভাবে স্থির হবে
+            UI.wheel.style.transition = "transform 14s cubic-bezier(0.25, 1, 0.2, 1)";
+            UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
 
-            function animate(now) {
-                const progress = Math.min((now - startTime) / duration, 1);
-                
-                // মাখনের মতো স্মুথ স্টপ কার্ভ (Ease-Out) - শেষ ৫ সেকেন্ডে চাকা একদম রিয়েলস্টিক নিয়মে থামবে
-                const easeOut = 1 - Math.pow(1 - progress, 5);
-                const currentAngle = currentRotation + (totalTargetRotation - currentRotation) * easeOut;
-
-                UI.wheel.style.transform = `rotate(${currentAngle}deg)`;
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    // 🛑 চাকা পুরোপুরি স্থির হওয়ার পর (ঠিক ১৪ সেকেন্ড পর) রেজাল্ট প্রসেস
-                    if (UI.spinSound) {
-                        UI.spinSound.loop = false;
-                        UI.spinSound.pause();
-                        UI.spinSound.currentTime = 0;
-                    }
-
-                    // বর্তমান ডিগ্রিটি ইঞ্জিনে সেভ রাখা যাতে পরের স্পিন এখান থেকেই শুরু হয়
-                    GameEngine.setRotation(totalTargetRotation);
-                    
-                    const payout = GameEngine.resolvePayout(winningSlot, bonusData);
-                    
-                    // ব্যালেন্স আপডেট
-                    updateBalance(payout.balance);
-
-                    // গেম আনলক এবং বাটন রিসেট
-                    setTimeout(() => {
-                        GameEngine.unlock();
-                        GameEngine.reset();
-                        setButtonLockState(false);
-                        clearBoard();
-                    }, 1500);
+            // 🛑 ৭. ঠিক ১৪.২ সেকেন্ড পর চাকা পুরোপুরি স্থির হলে পে-আউট রিলিজ
+            setTimeout(() => {
+                // সাউন্ড স্টপ
+                if (UI.spinSound) {
+                    UI.spinSound.loop = false;
+                    UI.spinSound.pause();
+                    UI.spinSound.currentTime = 0;
                 }
-            }
 
-            requestAnimationFrame(animate);
+                // বর্তমান ফাইনাল ডিগ্রিটি ইঞ্জিনে সেভ রাখা
+                GameEngine.setRotation(totalTargetRotation);
+                
+                // রেজাল্ট পে-আউট এবং ব্যালেন্স স্ক্রিনে আপডেট
+                const payout = GameEngine.resolvePayout(winningSlot, bonusData);
+                updateBalance(payout.balance);
+
+                // গেম আনলক এবং বাটন রিসেট
+                setTimeout(() => {
+                    GameEngine.unlock();
+                    GameEngine.reset();
+                    setButtonLockState(false);
+                    clearBoard();
+                }, 1500);
+
+            }, 14200); // ১৪ সেকেন্ড ঘূর্ণন + ০.২ সেকেন্ড সেটেলমেন্ট টাইম
         });
     }
     // ========================================================
