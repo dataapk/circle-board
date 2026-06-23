@@ -157,7 +157,17 @@
         document.querySelectorAll(".symbol-box").forEach(box => {
             const symbol = box.dataset.symbol;
             const betAmount = bets[symbol] || 0;
-            const indicator = box.querySelector(".bet-indicator");
+            
+            // 🎯 সেফটি ফিক্স: যদি HTML-এ .bet-indicator না থাকে, তবে কোড নিজে এটি তৈরি করে নেবে
+            let indicator = box.querySelector(".bet-indicator");
+            if (!indicator) {
+                indicator = document.createElement("div");
+                indicator.className = "bet-indicator";
+                box.appendChild(indicator);
+            }
+
+            // প্রতিটি বক্সে রিলেティブ পজিশন দেওয়া যেন ব্যাজটি বাম-ওপরের কোণায় বসে
+            box.style.position = "relative"; 
 
             if (betAmount > 0) {
                 indicator.innerText = "$" + betAmount.toFixed(2);
@@ -169,7 +179,13 @@
             }
         });
 
-        UI.totalBet.innerText = "$" + totalBetCalculated.toFixed(2);
+        // UI.totalBet অবজেক্টটি ডিফাইন করা থাকলে বা আইডি থাকলে টোটাল আপডেট হবে
+        if (UI.totalBet) {
+            UI.totalBet.innerText = "$" + totalBetCalculated.toFixed(2);
+        } else {
+            const totalBetEl = document.getElementById("totalBetAmount");
+            if (totalBetEl) totalBetEl.innerText = "$" + totalBetCalculated.toFixed(2);
+        }
     }
     // ========================================================
     // 📊 SECTION 5: BOARD UI & BADGES UPDATE [END]
