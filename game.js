@@ -204,11 +204,19 @@
     // আপনার চাহিদা অনুযায়ী ইনস্ট্যান্ট বাটন লাল করা এবং LOCK টেক্সট বসানোর ফাংশন
     function setButtonLockState(isLocked) {
         if (isLocked) {
-            UI.spinBtn.classList.add("btn-locked"); // CSS এর মাধ্যমে রেড ব্যাকগ্রাউন্ড অ্যাক্টিভ হবে
+            // ১. লক মোড: রেড ব্যাকগ্রাউন্ড এবং টেক্সট আপডেট
+            UI.spinBtn.classList.add("btn-locked");
             if (UI.btnText) UI.btnText.innerText = "LOCKED";
+            
+            // স্পিন বাটনটি ডিজেবল করা যাতে ইউজার ক্লিক করতে না পারে
+            UI.spinBtn.style.pointerEvents = "none"; 
         } else {
+            // ২. আনলক মোড: রেড ব্যাকগ্রাউন্ড রিমুভ এবং আবার SPIN টেক্সট
             UI.spinBtn.classList.remove("btn-locked");
             if (UI.btnText) UI.btnText.innerText = "SPIN";
+            
+            // বাটনটি আবার ক্লিক করার যোগ্য করা
+            UI.spinBtn.style.pointerEvents = "auto";
         }
     }
     // ========================================================
