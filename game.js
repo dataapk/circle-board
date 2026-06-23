@@ -227,66 +227,223 @@
 // ========================================================
 // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [UPDATED]
 // ========================================================
-// ========================================================
-// 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [FULLY INTEGRATED]
-// ========================================================
-function bindSpin() {
-    UI.spinBtn.addEventListener("click", () => {
-        if (typeof GameEngine === 'undefined') return;
-        const state = GameEngine.getState();
-        if (state.isSpinning) return;
-        
-        // ১. ইঞ্জিন থেকে ডেটা নেওয়া
-        const winningSlotData = GameEngine.generateResult(); // {slot: 3, symbol: "flag", count: 3}
-        const bonusData = GameEngine.generateVoltageBonus(winningSlotData); // {multiplier: "10X"}
-        
-        const currentRotation = getCurrentRotation(UI.wheel);
-        const targetAngle = (winningSlotData.slot - 1) * 20; // প্রতি স্লট ২০ ডিগ্রি
-        const extraSpins = 1080;
-        const finalRotation = currentRotation + extraSpins + (targetAngle - (currentRotation % 360));
+// 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [START]
 
-        // ২. বোনাস ইঞ্জিন ওভারলে (সেই 3D স্ফিয়ার এবং মাল্টিপ্লায়ার)
-        showBonusOverlay(bonusData.multiplier);
+    // ========================================================
 
-        // ৩. চাকা ঘোরানো
-        UI.wheel.style.transition = "transform 14s cubic-bezier(0.42, 0, 0.58, 1)";
-        UI.wheel.style.transform = `rotate(${finalRotation}deg)`;
+    function bindSpin() {
 
-        // ৪. ১৪ সেকেন্ড পর রেজাল্ট ও বোনাস ল্যান্ডিং
-        setTimeout(() => {
-            // মাল্টিপ্লায়ার কার্ডটি নির্দিষ্ট স্লটে ল্যান্ড করানো
-            const bonusBall = document.getElementById("dynamic-bonus-card");
-            if (bonusBall) {
-                bonusBall.classList.add("lock-to-cell");
-                bonusBall.style.transform = `translate(-50%, -50%) rotate(${targetAngle}deg) translateY(-120px) rotate(-${targetAngle}deg)`;
+        UI.spinBtn.addEventListener("click", () => {
+
+            if (typeof GameEngine === 'undefined') return;
+
+            const state = GameEngine.getState();
+
+
+
+            if (state.isSpinning) return;
+
+            if (!state.bets || Object.keys(state.bets).length === 0) return;
+
+
+
+            // ১. লক এবং সাউন্ড
+
+            GameEngine.lock();
+
+            setButtonLockState(true);
+
+            closeFanMenu();
+
+            playSound(UI.spinBtnSound);
+
+
+
+            const winningSlot = GameEngine.generateResult();
+
+            const bonusData = GameEngine.generateVoltageBonus(winningSlot);
+
+            const currentRotation = state.rotation || 0;
+
+
+
+            const LOCAL_SEGMENTS = ["heart", "spade", "diamond", "club", "crown", "flag", "heart", "crown", "spade", "diamond", "flag", "club"];
+
+            const targetIndexes = [];
+
+            LOCAL_SEGMENTS.forEach((sym, idx) => { if (sym === winningSlot.symbol) targetIndexes.push(idx); });
+
+            const finalIndex = targetIndexes.length > 0 ? targetIndexes[Math.floor(Math.random() * targetIndexes.length)] : 0;
+
+            const segmentDegrees = 360 / LOCAL_SEGMENTS.length;
+
+            const targetSymbolAngle = (finalIndex * segmentDegrees) + (segmentDegrees / 2);
+
+            let correctedAngle = (360 - targetSymbolAngle) % 360;
+
+
+
+            const extraSpins = 7920;
+
+            const totalTargetRotation = currentRotation + extraSpins + ((correctedAngle - (currentRotation % 360) + 360) % 360);
+
+
+
+            if (UI.spinSound) {
+
+                UI.spinSound.loop = true;
+
+                UI.spinSound.currentTime = 0;
+
+                playSound(UI.spinSound);
+
             }
 
-            // পে-আউট ও রিসেট
-            const payout = GameEngine.resolvePayout(winningSlotData, bonusData);
-            updateBalance(payout.balance);
-            
-            setTimeout(() => {
-                GameEngine.unlock();
-                document.getElementById("wheel-bonus-overlay").style.display = "none";
-            }, 1500);
-        }, 14000);
-    });
-}
 
-// বোনাস ওভারলে দেখানোর ফাংশন
-function showBonusOverlay(multiplier) {
-    let overlay = document.getElementById("wheel-bonus-overlay");
-    if (!overlay) {
-        overlay = document.createElement("div");
-        overlay.id = "wheel-bonus-overlay";
-        UI.wheel.parentElement.appendChild(overlay);
-    }
-    overlay.innerHTML = `
-        <div class="central-3d-sphere"><div class="sphere-glow"></div><div class="sphere-core"></div></div>
-        <div class="bonus-multiplier-ball" id="dynamic-bonus-card">${multiplier}</div>
-    `;
-    overlay.style.display = "block";
-}
+
+            // ২. বোনাস ইঞ্জিন (টাইমলাইনড অ্যানিমেশন)
+
+            setTimeout(() => {
+
+                let overlayContainer = document.getElementById("wheel-bonus-overlay");
+
+                if (!overlayContainer) {
+
+                    overlayContainer = document.createElement("div");
+
+                    overlayContainer.id = "wheel-bonus-overlay";
+
+                    UI.wheel.parentElement.appendChild(overlayContainer);
+
+                }
+
+
+
+                overlayContainer.innerHTML = `
+
+                    <div class="central-3d-sphere">
+
+                        <div class="sphere-glow"></div>
+
+                        <div class="sphere-core"></div>
+
+                    </div>
+
+                    <div class="bonus-multiplier-ball" id="dynamic-bonus-card">
+
+                        ${bonusData.multiplier || '3X'}
+
+                    </div>
+
+                `;
+
+                overlayContainer.style.display = "block";
+
+
+
+                // অষ্টম সেকেন্ডে ল্যান্ডিং
+
+                setTimeout(() => {
+
+                    const bonusBall = document.getElementById("dynamic-bonus-card");
+
+                    if (bonusBall) {
+
+                        bonusBall.classList.add("lock-to-cell");
+
+                        bonusBall.style.transform = `translate(-50%, -50%) rotate(${correctedAngle}deg) translateY(-120px) rotate(-${correctedAngle}deg)`;
+
+                    }
+
+                }, 7000);
+
+            }, 1000);
+
+
+
+            // ৩. চাকার ঘূর্ণন
+
+            UI.wheel.style.transition = "transform 14s cubic-bezier(0.15, 0.85, 0.2, 1)";
+
+            UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
+
+
+
+            // 🛑 ৭. ঠিক ১৪ সেকেন্ড পর চাকা স্থির হবে, রেজাল্ট রিলিজ হবে এবং বোর্ড রিসেট হবে
+
+            setTimeout(() => {
+
+                // সাউন্ড লুপ অফ
+
+                if (UI.spinSound) {
+
+                    UI.spinSound.loop = false;
+
+                    UI.spinSound.pause();
+
+                    UI.spinSound.currentTime = 0;
+
+                }
+
+
+
+                // ইঞ্জিন আপডেট ও পে-আউট ক্যালকুলেশন
+
+                GameEngine.setRotation(totalTargetRotation);
+
+                const payout = GameEngine.resolvePayout(winningSlot, bonusData);
+
+                updateBalance(payout.balance);
+
+
+
+                // বোর্ড এবং ইউআই রিসেট (আপনার সিস্টেমের জন্য নিশ্চিত করা হলো)
+
+                setTimeout(() => {
+
+                    GameEngine.unlock();
+
+                    GameEngine.reset();
+
+                    setButtonLockState(false);
+
+                    
+
+                    // বোর্ড ক্লিনআপ (আপনার SECTION 9 এর ফাংশনটি কল করা হচ্ছে)
+
+                    clearBoard(); 
+
+                    
+
+                    // ওভারলে ক্লিনআপ
+
+                    const overlayContainer = document.getElementById("wheel-bonus-overlay");
+
+                    if (overlayContainer) {
+
+                        overlayContainer.innerHTML = "";
+
+                        overlayContainer.style.display = "none";
+
+                    }
+
+                    console.log("Game fully reset and board cleared.");
+
+                }, 1500);
+
+            }, 14000); 
+
+        }); // এই ব্র্যাকেটটি bindSpin এর জন্য
+
+    } // এই ব্র্যাকেটটি bindSpin এর জন্য
+
+    // ========================================================
+
+    // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [END]
+
+    // ======================================================== 
+
+
     // ========================================================
     // 🛠️ SECTION 8: ACTION HANDLERS [START]
     // ========================================================
