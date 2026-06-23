@@ -1,8 +1,11 @@
 // ======================================================
-// 🎮 CLEAN GAME UI V4 (Semi-Circle Fan & Audio Fixed)
+// 🎮 CLEAN GAME UI V5 (Instant Lock, 14s Motion & Bonus Engine)
 // ======================================================
 
 (() => {
+    // ========================================================
+    // 📂 SECTION 1: DOM ELEMENT SELECTION [START]
+    // ========================================================
     const UI = {
         balance: document.getElementById("balanceAmount"),
         totalBet: document.getElementById("totalBetAmount"),
@@ -13,6 +16,7 @@
         chips: document.querySelectorAll(".chip"),
         table: document.querySelector(".symbol-table"),
         defaultChip: document.querySelector(".default-chip"),
+        btnText: document.getElementById("spinBtn").querySelector(".btn-text"), // বাটন টেক্সটের জন্য
         
         // Sounds
         chipSound: document.getElementById("chipSound"),
@@ -21,14 +25,15 @@
         spinBtnSound: document.getElementById("spinButtonSound")
     };
 
-    const SEGMENTS = [
-        "heart", "spade", "diamond", "club",
-        "crown", "flag", "heart", "crown",
-        "spade", "diamond", "flag", "club"
-    ];
-
     let isAudioAllowed = false; // ব্রাউজার সাউন্ড অ্যাক্টিভেশন ফ্ল্যাগ
+    // ========================================================
+    // 📂 SECTION 1: DOM ELEMENT SELECTION [END]
+    // ========================================================
 
+
+    // ========================================================
+    // ⚙️ SECTION 2: INITIALIZATION [START]
+    // ========================================================
     function init() {
         bindChips();
         bindBoard();
@@ -37,52 +42,46 @@
         setDefaultChip();
         enableAudioOnFirstInteraction();
     }
+    // ========================================================
+    // ⚙️ SECTION 2: INITIALIZATION [END]
+    // ========================================================
 
-    // ====================================// 🪙 CHIP SYSTEM (SEMI-CIRCLE SPRING FAN) WITH SWAPPING
-    // ====================================================
+
+    // ========================================================
+    // 🪙 SECTION 3: CHIP SYSTEM (SEMI-CIRCLE SPRING FAN) [START]
+    // ========================================================
     function setDefaultChip() {
         if (typeof GameEngine !== 'undefined') {
-            // শুরুতে ডিফল্ট চিপের মান ০.১০ সেট করা হচ্ছে
             GameEngine.setSelectedChip({ value: 0.10 });
         }
         UI.defaultChip.classList.add("active");
     }
 
     function bindChips() {
-        // ডিফল্ট চিপে ক্লিক করলে সেমি-সার্কেল স্প্রিং ফ্যান খুলবে/বন্ধ হবে
         UI.defaultChip.addEventListener("click", (e) => {
             e.stopPropagation();
             playSound(UI.chipSound);
             toggleFanMenu();
         });
 
-        // ফ্যানের ভেতরের বাকি চিপগুলোর সিলেকশন লজিক
         UI.chips.forEach((chip) => {
-            // মেইন বা ডিফল্ট চিপের ক্লিকের লজিক উপরে আলাদা করা আছে, তাই এটিকে স্কিপ করা হলো
             if (chip.classList.contains("default-chip")) return;
 
             chip.addEventListener("click", (e) => {
                 e.stopPropagation();
                 
-                // ১. অদল-বদল (Swap) লজিক কল করা হচ্ছে
                 swapChipsData(chip);
-                
-                // ২. সোয়াপ হওয়ার পর সেন্টারে (Default) যে নতুন ভ্যালু আসলো, তা বের করা
                 const newValue = Number(UI.defaultChip.dataset.value);
 
-                // ৩. ব্যাকএন্ড বা গেম ইঞ্জিনের কাছে নতুন সিলেক্টেড ভ্যালু পাঠানো
                 if (typeof GameEngine !== 'undefined') {
                     GameEngine.setSelectedChip({ value: newValue });
                 }
 
                 playSound(UI.chipSound);
-                
-                // ৪. চিপ সিলেক্ট হওয়ার পর ফ্যান স্বয়ংক্রিয়ভাবে বন্ধ হয়ে যাবে
                 closeFanMenu();
             });
         });
 
-        // বোর্ডের বাইরে কোথাও ক্লিক করলে ফ্যান মেনু মিনিমাইজ হয়ে যাবে
         document.addEventListener("click", () => closeFanMenu());
     }
 
@@ -94,38 +93,36 @@
         UI.chipsContainer.classList.remove("open");
     }
 
-    // 🔄 এই ফাংশনটি চিপের ডাটা একে অপরের সাথে নিখুঁতভাবে অদল-বদল (Swap) করবে
     function swapChipsData(selectedChip) {
-        // ক) সেন্টারে থাকা মেইন ডিফল্ট চিপের বর্তমান ডাটা ব্যাকআপ বা সেভ রাখা হচ্ছে
         const oldDefaultValue = UI.defaultChip.dataset.value;
         const oldDefaultImg = UI.defaultChip.querySelector("img").src;
         const oldDefaultText = UI.defaultChip.querySelector("span").innerText;
 
-        // খ) নিচে ফ্যানের যে চিপটিতে ক্লিক করা হয়েছে, তার ডাটা সেভ রাখা হচ্ছে
         const clickedValue = selectedChip.dataset.value;
         const clickedImg = selectedChip.querySelector("img").src;
         const clickedText = selectedChip.querySelector("span") ? selectedChip.querySelector("span").innerText : "$" + clickedValue;
 
-        // গ) স্টেপ-১: ক্লিক করা চিপের সব ডাটা সেন্টারের মেইন চিপে বসিয়ে দেওয়া হলো
         UI.defaultChip.dataset.value = clickedValue;
         UI.defaultChip.querySelector("img").src = clickedImg;
         UI.defaultChip.querySelector("span").innerText = clickedText;
 
-        // ঘ) স্টেপ-২: সেন্টারের যে পুরনো ডাটা আমরা ব্যাকআপ রেখেছিলাম, তা নিচের ক্লিক করা চিপে পাঠিয়ে দেওয়া হলো
         selectedChip.dataset.value = oldDefaultValue;
         selectedChip.querySelector("img").src = oldDefaultImg;
         if (selectedChip.querySelector("span")) {
             selectedChip.querySelector("span").innerText = oldDefaultText;
         }
 
-        // ঙ) ভিজ্যুয়াল হাইলাইট আপডেট (সব চিপ থেকে অ্যাক্টিভ ক্লাস সরিয়ে শুধু মেইন চিপে রাখা)
         UI.chips.forEach(c => c.classList.remove("active"));
         UI.defaultChip.classList.add("active");
     }
+    // ========================================================
+    // 🪙 SECTION 3: CHIP SYSTEM (SEMI-CIRCLE SPRING FAN) [END]
+    // ========================================================
 
-    // ====================================
-    // 🎯 BOARD & BETTING SYSTEM
-    // ====================================
+
+    // ========================================================
+    // 🎯 SECTION 4: BOARD & BETTING SYSTEM [START]
+    // ========================================================
     function bindBoard() {
         UI.table.addEventListener("click", (e) => {
             const box = e.target.closest(".symbol-box");
@@ -135,9 +132,7 @@
             const state = GameEngine.getState();
             if (state.isSpinning) return;
 
-            // যদি কোনো চিপ আলাদা করে সিলেক্ট করা না থাকে, তবে ডিফল্ট চিপের ভ্যালু দিয়ে বেট হবে
             const currentChipValue = state.selectedChip ? state.selectedChip.value : 0.10;
-
             const symbol = box.dataset.symbol;
             const result = GameEngine.placeBet(symbol, currentChipValue);
 
@@ -148,10 +143,14 @@
             updateBoardUI(result.bets);
         });
     }
-    // ====================================
-    // 🎯 BOARD CALCULATION
-    // ====================================
+    // ========================================================
+    // 🎯 SECTION 4: BOARD & BETTING SYSTEM [END]
+    // ========================================================
 
+
+    // ========================================================
+    // 📊 SECTION 5: BOARD UI & BADGES UPDATE [START]
+    // ========================================================
     function updateBoardUI(bets) {
         let totalBetCalculated = 0;
 
@@ -172,10 +171,32 @@
 
         UI.totalBet.innerText = "$" + totalBetCalculated.toFixed(2);
     }
+    // ========================================================
+    // 📊 SECTION 5: BOARD UI & BADGES UPDATE [END]
+    // ========================================================
 
-    // ====================================
-    // 🎮 SPIN SYSTEM
-    // ====================================
+
+    // ========================================================
+    // 🛑 SECTION 6: SPIN BUTTON LOCK/UNLOCK STATE [START]
+    // ========================================================
+    // আপনার চাহিদা অনুযায়ী ইনস্ট্যান্ট বাটন লাল করা এবং LOCK টেক্সট বসানোর ফাংশন
+    function setButtonLockState(isLocked) {
+        if (isLocked) {
+            UI.spinBtn.classList.add("btn-locked"); // CSS এর মাধ্যমে রেড ব্যাকগ্রাউন্ড অ্যাক্টিভ হবে
+            if (UI.btnText) UI.btnText.innerText = "LOCK";
+        } else {
+            UI.spinBtn.classList.remove("btn-locked");
+            if (UI.btnText) UI.btnText.innerText = "SPIN";
+        }
+    }
+    // ========================================================
+    // 🛑 SECTION 6: SPIN BUTTON LOCK/UNLOCK STATE [END]
+    // ========================================================
+
+
+    // ========================================================
+    // 🎡 SECTION 7: CORE SPIN & 14-SECOND MOTION ENGINE [START]
+    // ========================================================
     function bindSpin() {
         UI.spinBtn.addEventListener("click", () => {
             if (typeof GameEngine === 'undefined') return;
@@ -184,65 +205,78 @@
             if (state.isSpinning) return;
             if (!state.bets || Object.keys(state.bets).length === 0) return;
 
-            closeFanMenu(); // স্পিন শুরু হলে চিপস মেনু খোলা থাকলে বন্ধ করে দেওয়া
-            playSound(UI.spinBtnSound);
+            // 🔥 ১. ইনস্ট্যান্ট লক: ক্লিক করার সাথে সাথেই (০ সেকেন্ডে) বাটন লাল এবং LOCK হবে
             GameEngine.lock();
+            setButtonLockState(true);
+            closeFanMenu(); 
+            playSound(UI.spinBtnSound);
+
+            // ২. ব্যাকএন্ড ইঞ্জিন থেকে ১৮ ঘরের র্যান্ডম স্লট এবং বোনাস জেনারেট করা
+            const winningSlot = GameEngine.generateResult(); // এটি এখন অবজেক্ট {slot, symbol, count}
+            const bonusData = GameEngine.generateVoltageBonus(winningSlot);
+
+            // ৩. চাকার নিখুঁত ডিগ্রি ম্যাপিং (১৮টি ঘর, প্রতি ঘর ২০ ডিগ্রি)
+            const targetDegrees = (18 - winningSlot.slot + 1) * 20;
+            const startAngle = state.rotation || 0;
             
-            const winningSymbol = GameEngine.generateResult();
-            spinWheel(winningSymbol);
-        });
-    }
-    // ====================================
-    // 🎮 SPIN WHEEL
-    // ====================================
+            // ১৪ সেকেন্ড ঘোরার জন্য চাকাটিকে ২২ বার ফুল রোটেশন (৭৯২০ ডিগ্রি) ট্রাভেল করানো হবে
+            const extraSpins = 7920; 
+            const totalTargetRotation = startAngle + extraSpins + targetDegrees - (startAngle % 360);
 
-    function spinWheel(winningSymbol) {
-        playSound(UI.spinSound);
+            // 🎵 ৪. সাউন্ড লুপ অন: চাকা ঘোরার সময় সাউন্ড একটানা লুপে বাজবে
+            if (UI.spinSound) {
+                UI.spinSound.loop = true;
+                playSound(UI.spinSound);
+            }
 
-        const duration = 6000; 
-        const state = GameEngine.getState();
-        const startAngle = state.rotation || 0;
+            // 📈 ৫. কাস্টম ১৪ সেকেন্ডের মোশন (শুরুতে স্লো, মাঝে রকেট স্পিড, শেষ ৫ সেকেন্ডে ধীরে থামা)
+            UI.wheel.style.transition = "transform 14s cubic-bezier(0.42, 0, 0.15, 1)";
+            UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
 
-        const targetIndexes = [];
-        SEGMENTS.forEach((sym, idx) => {
-            if (sym === winningSymbol) targetIndexes.push(idx);
-        });
-        const finalIndex = targetIndexes[Math.floor(Math.random() * targetIndexes.length)];
+            // চাকা ঘোরার ২ সেকেন্ডের মাথায় স্ক্রিনে ভোল্টেজ বোনাস অ্যানিমেশন পপ-আপ লাফানো শুরু করবে
+            setTimeout(() => {
+                if (typeof triggerVoltageAnimation === "function") {
+                    triggerVoltageAnimation(bonusData, () => {
+                        // চাকা থামার অনেক আগেই বোনাসটি নির্দিষ্ট ঘরে লক হয়ে থাকবে
+                    });
+                }
+            }, 2000);
 
-        const segmentDegrees = 360 / SEGMENTS.length;
-        const targetSymbolAngle = (finalIndex * segmentDegrees) + (segmentDegrees / 2);
-        const totalTargetRotation = startAngle + 1800 + (360 - targetSymbolAngle); 
+            // 🛑 ৬. ঠিক ১৪.২ সেকেন্ড পর চাকা স্থির হলে রেজাল্ট ও পে-আউট ডিক্লেয়ার করা
+            setTimeout(() => {
+                // চাকা থেমে গেছে, তাই সাউন্ডের লুপ বন্ধ এবং অডিও স্টপ
+                if (UI.spinSound) {
+                    UI.spinSound.loop = false;
+                    UI.spinSound.pause();
+                    UI.spinSound.currentTime = 0;
+                }
 
-        const startTime = performance.now();
-
-        function animate(now) {
-            const progress = Math.min((now - startTime) / duration, 1);
-            const easeOut = 1 - Math.pow(1 - progress, 3);
-            const currentAngle = startAngle + (totalTargetRotation - startAngle) * easeOut;
-
-            UI.wheel.style.transform = `rotate(${currentAngle}deg)`;
-
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            } else {
+                // ইঞ্জিনে ফাইনাল পে-আউট হ্যান্ডেল করা
                 GameEngine.setRotation(totalTargetRotation % 360);
-                const payout = GameEngine.resolvePayout(winningSymbol);
+                const payout = GameEngine.resolvePayout(winningSlot, bonusData);
+                
+                // ইউআই স্ক্রিনে ডাটা রিফ্রেশ
                 updateBalance(payout.balance);
 
+                // রেজাল্ট দেখানোর পর গেম আনলক এবং বাটন রিসেট করা
                 setTimeout(() => {
                     GameEngine.unlock();
                     GameEngine.reset();
+                    setButtonLockState(false);
                     clearBoard();
                 }, 1500);
-            }
-        }
 
-        requestAnimationFrame(animate);
+            }, 14200); // ১৪ সেকেন্ড স্পিন + ০.২ সেকেন্ড সেটেলমেন্ট টাইম
+        });
     }
+    // ========================================================
+    // 🎡 SECTION 7: CORE SPIN & 14-SECOND MOTION ENGINE [END]
+    // ========================================================
 
-    // ====================================
-    // 🛠️ ACTIONS, SOUND ENGINE & HELPERS
-    // ====================================
+
+    // ========================================================
+    // 🛠️ SECTION 8: ACTION HANDLERS [START]
+    // ========================================================
     function bindActions() {
         if (UI.clearBetBtn) {
             UI.clearBetBtn.addEventListener("click", () => {
@@ -255,10 +289,14 @@
             });
         }
     }
-    // ====================================
-    // 🎯 BALANCE CALCULATION
-    // ====================================
+    // ========================================================
+    // 🛠️ SECTION 8: ACTION HANDLERS [END]
+    // ========================================================
 
+
+    // ========================================================
+    // 🧮 SECTION 9: BALANCE & BOARD RESETS [START]
+    // ========================================================
     function updateBalance(balance) {
         UI.balance.innerText = "$" + balance.toFixed(2);
     }
@@ -270,16 +308,20 @@
         });
         if (UI.totalBet) UI.totalBet.innerText = "$0.00";
     }
+    // ========================================================
+    // 🧮 SECTION 9: BALANCE & BOARD RESETS [END]
+    // ========================================================
 
-    // ব্রাউজারের অডিও রেস্ট্রিকশন বাইপাস করার মেকানিজম
+
+    // ========================================================
+    // 🔊 SECTION 10: AUDIO ENHANCEMENTS & UTILS [START]
+    // ========================================================
     function enableAudioOnFirstInteraction() {
         const activateAudio = () => {
             isAudioAllowed = true;
-            // অডিও লোড নিশ্চিত করা
             [UI.chipSound, UI.spinSound, UI.tableSound, UI.spinBtnSound].forEach(audio => {
                 if(audio) audio.load();
             });
-            // একবার অ্যাক্টিভেট হয়ে গেলে ইভেন্ট রিমুভ করে দেওয়া
             document.removeEventListener("click", activateAudio);
             document.removeEventListener("touchstart", activateAudio);
         };
@@ -290,8 +332,11 @@
     function playSound(audioElement) {
         if (!audioElement || !isAudioAllowed) return;
         audioElement.currentTime = 0;
-        audioElement.play().catch(err => console.log("Audio playback delayed or blocked: ", err));
+        audioElement.play().catch(err => console.log("Audio playback delayed: ", err));
     }
+    // ========================================================
+    // 🔊 SECTION 10: AUDIO ENHANCEMENTS & UTILS [END]
+    // ========================================================
 
     init();
 })();
