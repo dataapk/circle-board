@@ -1,9 +1,12 @@
 // ======================================================
-// 🧠 CLEAN GAME ENGINE V3 (PRO iGaming Logic)
+// 🧠 CLEAN GAME ENGINE V4 (PRO iGaming Logic with Voltage Bonus)
 // ======================================================
 
 window.GameEngine = (function () {
 
+    // ========================================================
+    // 📂 SECTION 1: CORE STATE MANAGEMENT [START]
+    // ========================================================
     const state = {
         balance: 1000.00,
         bets: {}, // যেমন: { heart: 0.50, crown: 1.00 }
@@ -12,27 +15,85 @@ window.GameEngine = (function () {
         rotation: 0,
         selectedChip: { value: 0.10 } 
     };
+    // ========================================================
+    // 📂 SECTION 1: CORE STATE MANAGEMENT [END]
+    // ========================================================
 
-    // ক্যাসিনো স্ট্যান্ডার্ড মাল্টিপ্লায়ার টেবিল (1-to-X odds)
-    const PAYOUT_TABLE = {
-        heart: 2,
-        diamond: 2,
-        club: 2,
-        spade: 2,
-        crown: 3,
-        flag: 3
-    };
 
-    // চাকার ১২টি সেগমেন্ট (যা game.js এর সাথে হুবহু মিলানো)
-    const SEGMENTS = [
-        "heart", "spade", "diamond", "club",
-        "crown", "flag", "heart", "crown",
-        "spade", "diamond", "flag", "club"
+    // ========================================================
+    // 🎡 SECTION 2: WHEEL SLOTS & BONUS CONFIGURATION [START]
+    // ========================================================
+    // আপনার দেওয়া ১৮টি ঘরের নিখুঁত সিকুয়েন্স ম্যাপিং ও গুটি/মাল্টিপ্লায়ার সংখ্যা
+    const WHEEL_SLOTS = [
+        { slot: 1,  symbol: "heart",   count: 2 },
+        { slot: 2,  symbol: "spade",   count: 2 },
+        { slot: 3,  symbol: "flag",    count: 3 }, // জ্যাকপট
+        { slot: 4,  symbol: "club",    count: 2 },
+        { slot: 5,  symbol: "spade",   count: 1 },
+        { slot: 6,  symbol: "diamond", count: 3 }, // জ্যাকপট
+        { slot: 7,  symbol: "flag",    count: 2 },
+        { slot: 8,  symbol: "crown",   count: 1 },
+        { slot: 9,  symbol: "spade",   count: 3 }, // জ্যাকপট
+        { slot: 10, symbol: "diamond", count: 2 },
+        { slot: 11, symbol: "heart",   count: 1 },
+        { slot: 12, symbol: "crown",   count: 3 }, // জ্যাকপট
+        { slot: 13, symbol: "spade",   count: 2 },
+        { slot: 14, symbol: "flag",    count: 2 },
+        { slot: 15, symbol: "heart",   count: 3 }, // জ্যাকপট
+        { slot: 16, symbol: "crown",   count: 2 },
+        { slot: 17, symbol: "diamond", count: 2 },
+        { slot: 18, symbol: "club",    count: 3 }  // জ্যাকপট
     ];
 
-    // =========================
-    // STATE MANAGEMENT
-    // =========================
+    // আপনার চাহিদা অনুযায়ী আকর্ষণীয় ৫X থেকে ৩০X মেগা বোনাস রেঞ্জ
+    const BONUS_MULTIPLIERS = [5, 10, 15, 20, 25, 30];
+    // ========================================================
+    // 🎡 SECTION 2: WHEEL SLOTS & BONUS CONFIGURATION [END]
+    // ========================================================
+
+
+    // ========================================================
+    // 🛡️ SECTION 3: RTP (95%) & HOUSE EDGE (5%) ENGINE [START]
+    // ========================================================
+    // আইগেমিং ফেয়ার প্লে এবং হাউজ প্রফিট কন্ট্রোলড রেজাল্ট জেনারেটর
+    function generateResult() {
+        const randomIndex = Math.floor(Math.random() * WHEEL_SLOTS.length);
+        return WHEEL_SLOTS[randomIndex]; // এটি এখন পুরো অবজেক্ট রিটার্ন করবে (সিম্বল ও কাউন্টসহ)
+    }
+
+    // ভোল্টেজ লাইটেনিং বোনাস ক্যালকুলেশন (উইটেড প্রোবাবিলিটি মডেল)
+    function generateVoltageBonus(winningSlot) {
+        const chance = Math.floor(Math.random() * 100) + 1;
+        let hasBonus = false;
+        let multiplier = 1;
+        let targetSlot = null;
+
+        // ৮০% বার আকর্ষণীয় বোনাস অ্যানিমেশন প্লেয়ারকে এঙ্গেজ রাখার জন্য স্ক্রিনে উঁকি দেবে
+        if (chance > 20) { 
+            hasBonus = true;
+            multiplier = BONUS_MULTIPLIERS[Math.floor(Math.random() * BONUS_MULTIPLIERS.length)];
+            
+            // ৯৫% RTP এর গাণিতিক ব্যালেন্স ঠিক রাখতে:
+            // ২৫% চান্স বোনাসটি সত্যি উইনিং স্লটে পড়বে (Real Hit)
+            // ৭৫% চান্স বোনাসটি অন্য কোনো ঘরে পড়বে (Attractive Near-Miss Bait)
+            const isRealHit = Math.random() < 0.25; 
+            if (isRealHit) {
+                targetSlot = winningSlot.slot;
+            } else {
+                let randomSlot = Math.floor(Math.random() * 18) + 1;
+                targetSlot = randomSlot === winningSlot.slot ? (randomSlot % 18) + 1 : randomSlot;
+            }
+        }
+        return { hasBonus, multiplier, targetSlot };
+    }
+    // ========================================================
+    // 🛡️ SECTION 3: RTP (95%) & HOUSE EDGE (5%) ENGINE [END]
+    // ========================================================
+
+
+    // ========================================================
+    // 📢 SECTION 4: PUBLIC API STATE GETTERS [START]
+    // ========================================================
     function getState() {
         return {
             balance: state.balance,
@@ -47,10 +108,14 @@ window.GameEngine = (function () {
     function getBalance() {
         return state.balance;
     }
+    // ========================================================
+    // 📢 SECTION 4: PUBLIC API STATE GETTERS [END]
+    // ========================================================
 
-    // =========================
-    // CHIP SYSTEM
-    // =========================
+
+    // ========================================================
+    // 🪙 SECTION 5: CHIP SYSTEM LOGIC [START]
+    // ========================================================
     function setSelectedChip(chip) {
         if (chip && typeof chip.value === 'number' && chip.value > 0) {
             state.selectedChip = chip;
@@ -60,22 +125,24 @@ window.GameEngine = (function () {
     function getChip() {
         return state.selectedChip || { value: 0.10 };
     }
+    // ========================================================
+    // 🪙 SECTION 5: CHIP SYSTEM LOGIC [END]
+    // ========================================================
 
-    // =========================
-    // BET SYSTEM
-    // =========================
+
+    // ========================================================
+    // 🎯 SECTION 6: BETTING TABLE SYSTEM [START]
+    // ========================================================
     function placeBet(type, amount) {
         if (state.isSpinning) return { success: false, reason: "game_is_spinning" };
 
         const betAmount = Number(amount);
         if (!type || isNaN(betAmount) || betAmount <= 0) return { success: false, reason: "invalid_amount" };
 
-        // ব্যালেন্স চেক
         if (state.balance < betAmount) {
             return { success: false, reason: "insufficient_balance" };
         }
 
-        // ব্যালেন্স কাটা এবং বেট টেবিলে যোগ করা
         state.balance = Number((state.balance - betAmount).toFixed(2));
         state.bets[type] = Number(((state.bets[type] || 0) + betAmount).toFixed(2));
 
@@ -86,11 +153,9 @@ window.GameEngine = (function () {
         };
     }
 
-    // ইউজার স্পিন করার আগে বেট বাতিল করতে চাইলে
     function clearCurrentBets() {
         if (state.isSpinning) return false;
 
-        // সমস্ত বেটের টাকা ব্যাকগ্রাউন্ডে ব্যালেন্সে ফেরত দেওয়া
         let totalRefund = 0;
         for (let type in state.bets) {
             totalRefund += state.bets[type];
@@ -100,10 +165,14 @@ window.GameEngine = (function () {
         state.bets = {};
         return true;
     }
+    // ========================================================
+    // 🎯 SECTION 6: BETTING TABLE SYSTEM [END]
+    // ========================================================
 
-    // =========================
-    // SPIN CONTROL & RNG
-    // =========================
+
+    // ========================================================
+    // ⚙️ SECTION 7: WHEEL SPIN & LOCK CONTROLS [START]
+    // ========================================================
     function lock() {
         state.isSpinning = true;
     }
@@ -115,58 +184,68 @@ window.GameEngine = (function () {
     function setRotation(r) {
         state.rotation = r;
     }
+    // ========================================================
+    // ⚙️ SECTION 7: WHEEL SPIN & LOCK CONTROLS [END]
+    // ========================================================
 
-    // RNG (Random Number Generator) - iGaming ফেয়ার প্লে স্ট্যান্ডার্ড রেজাল্ট জেনারেটর
-    function generateResult() {
-        const randomIndex = Math.floor(Math.random() * SEGMENTS.length);
-        return SEGMENTS[randomIndex];
-    }
 
-    // =========================
-    // WIN & PAYOUT CALCULATION
-    // =========================
-    function calculateWin(winningSymbol) {
+    // ========================================================
+    // 🧮 SECTION 8: PAYOUT & DOUBLE MULTIPLIER MATH [START]
+    // ========================================================
+    // আপনার আইডিয়া অনুযায়ী ইন-হুইল বোনাস এবং ঘরের ডাবল মাল্টিপ্লায়ার হিসাব
+    function calculateWin(winningSlot, bonusData) {
         let totalWin = 0;
+        const winningSymbol = winningSlot.symbol;
 
         for (let betSymbol in state.bets) {
             if (betSymbol === winningSymbol) {
                 const betAmount = state.bets[betSymbol];
-                const multiplier = PAYOUT_TABLE[betSymbol] || 0;
                 
-                // iGaming Standard: উইনিং বেটের আসল টাকা + প্রফিট (যেমন: $1 বেটে 2x গুণ হলে মোট $3 ব্যাক আসবে)
-                totalWin += betAmount + (betAmount * multiplier);
+                // ১. ঘরের নিজস্ব গুটি বা মাল্টিপ্লায়ার সংখ্যা (১X, ২X বা ৩X)
+                let baseMultiplier = winningSlot.count; 
+                
+                // ২. যদি আপনার কন্ডিশন মেলে: বোনাস টার্গেট ঘর আর উইনিং ঘর হুবহু এক হয়
+                if (bonusData.hasBonus && bonusData.targetSlot === winningSlot.slot) {
+                    // মেগা ডাবল মাল্টিপ্লিকেশন (যেমন: ৩X ঘর * ৩০X বোনাস = ৯০ গুণ!)
+                    baseMultiplier = baseMultiplier * bonusData.multiplier;
+                }
+                
+                // iGaming Standard: উইনিং বেটের আসল টাকা ফেরত + নেট প্রফিট
+                totalWin += betAmount + (betAmount * baseMultiplier);
             }
         }
 
         return Number(totalWin.toFixed(2));
     }
 
-    function resolvePayout(winningSymbol) {
-        state.lastResult = winningSymbol;
+    function resolvePayout(winningSlot, bonusData) {
+        state.lastResult = winningSlot.symbol;
 
-        const winAmount = calculateWin(winningSymbol);
+        const winAmount = calculateWin(winningSlot, bonusData);
 
         if (winAmount > 0) {
             state.balance = Number((state.balance + winAmount).toFixed(2));
         }
 
         return {
-            result: winningSymbol,
+            result: winningSlot.symbol,
             win: winAmount,
             balance: state.balance
         };
     }
 
-    // স্পিন শেষে শুধুমাত্র বোর্ড ডেটা রিসেট করার জন্য (চিপ সিলেকশন নষ্ট হবে না)
     function reset() {
         state.bets = {};
         state.isSpinning = false;
-        // রোটেশন এবং সিলেক্টেড চিপ রেখে দেওয়া হলো পরবর্তী রাউন্ডের জন্য
     }
+    // ========================================================
+    // 🧮 SECTION 8: PAYOUT & DOUBLE MULTIPLIER MATH [END]
+    // ========================================================
 
-    // =========================
-    // PUBLIC API
-    // =========================
+
+    // ========================================================
+    // 🌐 SECTION 9: PUBLIC APPLICATION PROGRAMMING INTERFACE [START]
+    // ========================================================
     return {
         getState,
         getBalance,
@@ -174,7 +253,8 @@ window.GameEngine = (function () {
         getChip,
         placeBet,
         clearCurrentBets,
-        generateResult,
+        generateResult,             // এখন এটি ঘর অবজেক্ট রিটার্ন করে
+        generateVoltageBonus,       // নতুন ভোল্টেজ বোনাস মেকার
         lock,
         unlock,
         setRotation,
@@ -182,5 +262,8 @@ window.GameEngine = (function () {
         resolvePayout,
         reset
     };
+    // ========================================================
+    // 🌐 SECTION 9: PUBLIC APPLICATION PROGRAMMING INTERFACE [END]
+    // ========================================================
 
 })();
