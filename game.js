@@ -225,114 +225,92 @@
 
 
 // ========================================================
-    // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [START]
-    // ========================================================
-    function bindSpin() {
-        UI.spinBtn.addEventListener("click", () => {
-            if (typeof GameEngine === 'undefined') return;
-            const state = GameEngine.getState();
+// 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [UPDATED]
+// ========================================================
+function bindSpin() {
+    UI.spinBtn.addEventListener("click", () => {
+        if (typeof GameEngine === 'undefined') return;
+        const state = GameEngine.getState();
+        if (state.isSpinning) return;
+        if (!state.bets || Object.keys(state.bets).length === 0) return;
 
-            if (state.isSpinning) return;
-            if (!state.bets || Object.keys(state.bets).length === 0) return;
+        // ১. লক এবং সাউন্ড
+        GameEngine.lock();
+        setButtonLockState(true);
+        closeFanMenu();
+        playSound(UI.spinBtnSound);
 
-            // ১. লক এবং সাউন্ড
-            GameEngine.lock();
-            setButtonLockState(true);
-            closeFanMenu();
-            playSound(UI.spinBtnSound);
+        const winningSlot = GameEngine.generateResult();
+        const bonusData = GameEngine.generateVoltageBonus(winningSlot);
+        const currentRotation = state.rotation || 0;
 
-            const winningSlot = GameEngine.generateResult();
-            const bonusData = GameEngine.generateVoltageBonus(winningSlot);
-            const currentRotation = state.rotation || 0;
+        // ১৮টি ঘরের জন্য সঠিক ম্যাপিং
+        const TOTAL_SEGMENTS = 18; 
+        const segmentDegrees = 360 / TOTAL_SEGMENTS;
 
-            const LOCAL_SEGMENTS = ["heart", "spade", "diamond", "club", "crown", "flag", "heart", "crown", "spade", "diamond", "flag", "club"];
-            const targetIndexes = [];
-            LOCAL_SEGMENTS.forEach((sym, idx) => { if (sym === winningSlot.symbol) targetIndexes.push(idx); });
-            const finalIndex = targetIndexes.length > 0 ? targetIndexes[Math.floor(Math.random() * targetIndexes.length)] : 0;
-            const segmentDegrees = 360 / LOCAL_SEGMENTS.length;
-            const targetSymbolAngle = (finalIndex * segmentDegrees) + (segmentDegrees / 2);
-            let correctedAngle = (360 - targetSymbolAngle) % 360;
+        // আপনার জেতা সিম্বলটি কোন ইনডেক্সে আছে তা বের করা
+        // নোট: যদি আপনার ১২টি আইটেম থাকে, তবে ১৮টির লজিক অনুযায়ী ইনডেক্স ঠিক করতে হবে
+        const winningIndex = winningSlot.index || 0; 
 
-            const extraSpins = 7920;
-            const totalTargetRotation = currentRotation + extraSpins + ((correctedAngle - (currentRotation % 360) + 360) % 360);
+        // গাণিতিক ক্যালকুলেশন: একদম নিখুঁত পজিশনিং
+        const extraSpins = 7200; // ২০ বার পূর্ণ ঘূর্ণন (৭২০০ ডিগ্রি)
+        const targetAngle = winningIndex * segmentDegrees;
+        const totalTargetRotation = currentRotation + extraSpins + (targetAngle - (currentRotation % 360));
 
+        // সাউন্ড হ্যান্ডলিং
+        if (UI.spinSound) {
+            UI.spinSound.loop = true;
+            UI.spinSound.currentTime = 0;
+            playSound(UI.spinSound);
+        }
+
+        // ২. বোনাস ইঞ্জিন (টাইমলাইনড অ্যানিমেশন)
+        setTimeout(() => {
+            let overlayContainer = document.getElementById("wheel-bonus-overlay");
+            if (!overlayContainer) {
+                overlayContainer = document.createElement("div");
+                overlayContainer.id = "wheel-bonus-overlay";
+                UI.wheel.parentElement.appendChild(overlayContainer);
+            }
+            overlayContainer.innerHTML = `
+                <div class="central-3d-sphere">
+                    <div class="sphere-glow"></div>
+                    <div class="sphere-core"></div>
+                </div>
+                <div class="bonus-multiplier-ball" id="dynamic-bonus-card">${bonusData.multiplier || '3X'}</div>
+            `;
+            overlayContainer.style.display = "block";
+        }, 1000);
+
+        // ৩. চাকার ঘূর্ণন - স্মুথ এনিমেশন
+        UI.wheel.style.transition = "transform 14s cubic-bezier(0.42, 0, 0.58, 1)";
+        UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
+
+        // 🛑 ১৪ সেকেন্ড পর সব প্রসেস
+        setTimeout(() => {
             if (UI.spinSound) {
-                UI.spinSound.loop = true;
+                UI.spinSound.loop = false;
+                UI.spinSound.pause();
                 UI.spinSound.currentTime = 0;
-                playSound(UI.spinSound);
             }
 
-            // ২. বোনাস ইঞ্জিন (টাইমলাইনড অ্যানিমেশন)
+            // রেজাল্ট আপডেট
+            GameEngine.setRotation(totalTargetRotation);
+            const payout = GameEngine.resolvePayout(winningSlot, bonusData);
+            updateBalance(payout.balance);
+
+            // রিসেট ও ক্লিনআপ
             setTimeout(() => {
-                let overlayContainer = document.getElementById("wheel-bonus-overlay");
-                if (!overlayContainer) {
-                    overlayContainer = document.createElement("div");
-                    overlayContainer.id = "wheel-bonus-overlay";
-                    UI.wheel.parentElement.appendChild(overlayContainer);
-                }
-
-                overlayContainer.innerHTML = `
-                    <div class="central-3d-sphere">
-                        <div class="sphere-glow"></div>
-                        <div class="sphere-core"></div>
-                    </div>
-                    <div class="bonus-multiplier-ball" id="dynamic-bonus-card">
-                        ${bonusData.multiplier || '3X'}
-                    </div>
-                `;
-                overlayContainer.style.display = "block";
-
-                // অষ্টম সেকেন্ডে ল্যান্ডিং
-                setTimeout(() => {
-                    const bonusBall = document.getElementById("dynamic-bonus-card");
-                    if (bonusBall) {
-                        bonusBall.classList.add("lock-to-cell");
-                        bonusBall.style.transform = `translate(-50%, -50%) rotate(${correctedAngle}deg) translateY(-120px) rotate(-${correctedAngle}deg)`;
-                    }
-                }, 7000);
+                GameEngine.unlock();
+                GameEngine.reset();
+                setButtonLockState(false);
+                clearBoard();
+                document.getElementById("wheel-bonus-overlay").style.display = "none";
             }, 1000);
-
-            // ৩. চাকার ঘূর্ণন
-            UI.wheel.style.transition = "transform 14s cubic-bezier(0.15, 0.85, 0.2, 1)";
-            UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
-
-            // 🛑 ৭. ঠিক ১৪ সেকেন্ড পর চাকা স্থির হবে, রেজাল্ট রিলিজ হবে এবং বোর্ড রিসেট হবে
-            setTimeout(() => {
-                // সাউন্ড লুপ অফ
-                if (UI.spinSound) {
-                    UI.spinSound.loop = false;
-                    UI.spinSound.pause();
-                    UI.spinSound.currentTime = 0;
-                }
-
-                // ইঞ্জিন আপডেট ও পে-আউট ক্যালকুলেশন
-                GameEngine.setRotation(totalTargetRotation);
-                const payout = GameEngine.resolvePayout(winningSlot, bonusData);
-                updateBalance(payout.balance);
-
-                // বোর্ড এবং ইউআই রিসেট (আপনার সিস্টেমের জন্য নিশ্চিত করা হলো)
-                setTimeout(() => {
-                    GameEngine.unlock();
-                    GameEngine.reset();
-                    setButtonLockState(false);
-                    
-                    // বোর্ড ক্লিনআপ (আপনার SECTION 9 এর ফাংশনটি কল করা হচ্ছে)
-                    clearBoard(); 
-                    
-                    // ওভারলে ক্লিনআপ
-                    const overlayContainer = document.getElementById("wheel-bonus-overlay");
-                    if (overlayContainer) {
-                        overlayContainer.innerHTML = "";
-                        overlayContainer.style.display = "none";
-                    }
-                    console.log("Game fully reset and board cleared.");
-                }, 1500);
-            }, 14000); 
-        }); // এই ব্র্যাকেটটি bindSpin এর জন্য
-    } // এই ব্র্যাকেটটি bindSpin এর জন্য
-    // ========================================================
-    // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [END]
-    // ========================================================
+        }, 14000);
+    });
+}
+// ========================================================
 
 
     // ========================================================
