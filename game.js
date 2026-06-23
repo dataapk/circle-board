@@ -199,7 +199,7 @@
     function setButtonLockState(isLocked) {
         if (isLocked) {
             UI.spinBtn.classList.add("btn-locked"); // CSS এর মাধ্যমে রেড ব্যাকগ্রাউন্ড অ্যাক্টিভ হবে
-            if (UI.btnText) UI.btnText.innerText = "LOCK";
+            if (UI.btnText) UI.btnText.innerText = "LOCKED";
         } else {
             UI.spinBtn.classList.remove("btn-locked");
             if (UI.btnText) UI.btnText.innerText = "SPIN";
