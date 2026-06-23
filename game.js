@@ -211,7 +211,7 @@
 
 
 // ========================================================
-    // 🎡 SECTION 7: CORE SPIN & 14-SECOND MOTION ENGINE [START]
+    // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [START]
     // ========================================================
     function bindSpin() {
         UI.spinBtn.addEventListener("click", () => {
@@ -221,123 +221,90 @@
             if (state.isSpinning) return;
             if (!state.bets || Object.keys(state.bets).length === 0) return;
 
-            // 🔥 ১. ইনস্ট্যান্ট লক: ক্লিক করার সাথে সাথেই বাটন লাল এবং LOCK হবে (০ সেকেন্ডে)
+            // ১. লক এবং সাউন্ড
             GameEngine.lock();
             setButtonLockState(true);
-            closeFanMenu(); 
+            closeFanMenu();
             playSound(UI.spinBtnSound);
 
-            // ২. ব্যাকএন্ড ইঞ্জিন থেকে রেজাল্ট ও বোনাস ডাটা রিসিভ করা
-            const winningSlot = GameEngine.generateResult(); 
+            const winningSlot = GameEngine.generateResult();
             const bonusData = GameEngine.generateVoltageBonus(winningSlot);
-
-            const duration = 14000; // ঠিক ১৪ সেকেন্ড ঘূর্ণনকাল
             const currentRotation = state.rotation || 0;
 
-            // চাকার ১২টি ঘরের অরিজিনাল সিকোয়েন্স (কাঁটার হিসাব মেলাতে)
-            const LOCAL_SEGMENTS = [
-                "heart", "spade", "diamond", "club",
-                "crown", "flag", "heart", "crown",
-                "spade", "diamond", "flag", "club"
-            ];
-
-            // ৩. চাকার ১২টি ঘরের নিখুঁত ডিগ্রি ম্যাপিং (৩৬০ / ১২ = ৩০ ডিগ্রি প্রতি ঘর)
+            const LOCAL_SEGMENTS = ["heart", "spade", "diamond", "club", "crown", "flag", "heart", "crown", "spade", "diamond", "flag", "club"];
             const targetIndexes = [];
-            LOCAL_SEGMENTS.forEach((sym, idx) => {
-                if (sym === winningSlot.symbol) targetIndexes.push(idx);
-            });
-            
+            LOCAL_SEGMENTS.forEach((sym, idx) => { if (sym === winningSlot.symbol) targetIndexes.push(idx); });
             const finalIndex = targetIndexes.length > 0 ? targetIndexes[Math.floor(Math.random() * targetIndexes.length)] : 0;
-            const segmentDegrees = 360 / LOCAL_SEGMENTS.length; // ৩০ ডিগ্রি
-
-            // 🎯 জ্যামিতিক ফিক্স (কোনো দাগের ওপর থামবে না):
-            // প্রতি ঘরের একদম মাঝখানে (Center Zone) কাঁটা লক করার জন্য ঠিক ১৫ ডিগ্রি (৩০ / ২) যোগ করা হয়েছে।
-            // এর ফলে চাকা কোনো দাগের ওপর বা মাঝখানে আটকে থাকবে না, ১০০% ঘরের সেন্টারে থামবে।
+            const segmentDegrees = 360 / LOCAL_SEGMENTS.length;
             const targetSymbolAngle = (finalIndex * segmentDegrees) + (segmentDegrees / 2);
             let correctedAngle = (360 - targetSymbolAngle) % 360;
-            
-            const extraSpins = 7920; // ১৪ সেকেন্ড মেইনটেইন করার জন্য ২২ বার ফুল রোটেশন
-            
-            // নতুন টার্গেট রোটেশন (আগের পজিশন থেকে সবসময় শুধু সামনের দিকে বা ডানে প্রগ্রেসিভলি এগোবে)
+
+            const extraSpins = 7920;
             const totalTargetRotation = currentRotation + extraSpins + ((correctedAngle - (currentRotation % 360) + 360) % 360);
 
-            // 🎵 ৪. সাউন্ড লুপ অন
             if (UI.spinSound) {
                 UI.spinSound.loop = true;
+                UI.spinSound.currentTime = 0;
                 playSound(UI.spinSound);
             }
 
-            // 💥 ৫. আলাদা ওভারলে লেয়ারে রাউন্ডেড লাইটিং অ্যানিমেশন (ঠিক ১ সেকেন্ড পর)
-            // এটি মেইন হুইলের সিএসএস (Transition) বা পজিশনকে বিন্দুমাত্র স্পর্শ করবে না।
+            // ২. বোনাস ইঞ্জিন (টাইমলাইনড অ্যানিমেশন)
             setTimeout(() => {
-                const runBonusAnimation = window.triggerVoltageAnimation || (typeof triggerVoltageAnimation === "function" ? triggerVoltageAnimation : null);
-                
-                if (runBonusAnimation) {
-                    runBonusAnimation(bonusData, () => {});
-                } else {
-                    // সেফটি ফিক্স: চাকার প্যারেন্ট কন্টেইনারে ওভারলে লেয়ার তৈরি (চাকার বাইরে স্বাধীন)
-                    let overlayContainer = document.getElementById("wheel-bonus-overlay");
-                    if (!overlayContainer) {
-                        overlayContainer = document.createElement("div");
-                        overlayContainer.id = "wheel-bonus-overlay";
-                        UI.wheel.parentElement.appendChild(overlayContainer);
-                    }
-
-                    // ওপরের স্থির লেয়ারে চতুর্দিকে রাউন্ডেড রানিং ইলেকট্রিক নিয়ন শক অ্যানিমেশন
-                    overlayContainer.innerHTML = `
-                        <div class="voltage-glow-ring"></div>
-                        <div class="bonus-multiplier-card">
-                            <span class="voltage-text">⚡ VOLTAGE BONUS ⚡</span>
-                            <span class="mult-value">${bonusData.multiplier || '10X'}</span>
-                        </div>
-                    `;
-                    overlayContainer.style.display = "flex";
-
-                    // চাকা থামার আগে ওপরের অ্যানিমেশন লেয়ারটি সুন্দরভাবে মেল্ট ডাউন (Fade out) হয়ে যাবে
-                    setTimeout(() => {
-                        overlayContainer.style.animation = "fadeOut 0.6s forwards";
-                        setTimeout(() => { overlayContainer.innerHTML = ""; overlayContainer.style.display = "none"; }, 600);
-                    }, 4000);
+                let overlayContainer = document.getElementById("wheel-bonus-overlay");
+                if (!overlayContainer) {
+                    overlayContainer = document.createElement("div");
+                    overlayContainer.id = "wheel-bonus-overlay";
+                    UI.wheel.parentElement.appendChild(overlayContainer);
                 }
-            }, 1000); // ⏱️ চাকা ঘোরার ঠিক ১ সেকেন্ড মাথায় ওপরে লাইট ব্লাস্ট হবে
 
-            // 📈 ৬. নিচের চাকার স্বাধীন আল্ট্রা-স্মুথ ঘূর্ণন (GPU Accelerated)
-            UI.wheel.style.transition = "transform 14s cubic-bezier(0.2, 1, 0.2, 1)";
+                overlayContainer.innerHTML = `
+                    <div class="central-3d-sphere">
+                        <div class="sphere-glow"></div>
+                        <div class="sphere-core"></div>
+                    </div>
+                    <div class="bonus-multiplier-ball" id="dynamic-bonus-card">
+                        ${bonusData.multiplier || '3X'}
+                    </div>
+                `;
+                overlayContainer.style.display = "block";
+
+                // অষ্টম সেকেন্ডে ল্যান্ডিং
+                setTimeout(() => {
+                    const bonusBall = document.getElementById("dynamic-bonus-card");
+                    if (bonusBall) {
+                        bonusBall.classList.add("lock-to-cell");
+                        bonusBall.style.transform = `translate(-50%, -50%) rotate(${correctedAngle}deg) translateY(-120px) rotate(-${correctedAngle}deg)`;
+                    }
+                }, 7000);
+            }, 1000);
+
+            // ৩. চাকার ঘূর্ণন
+            UI.wheel.style.transition = "transform 14s cubic-bezier(0.15, 0.85, 0.2, 1)";
             UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
 
-            // 🛑 ৭. ঠিক ১৪.২ সেকেন্ড পর চাকা পুরোপুরি স্থির হলে রেজাল্ট রিলিজ
-            
-setTimeout(() => {
-    let overlayContainer = document.getElementById("wheel-bonus-overlay");
-    if (!overlayContainer) {
-        overlayContainer = document.createElement("div");
-        overlayContainer.id = "wheel-bonus-overlay";
-        UI.wheel.parentElement.appendChild(overlayContainer);
+            // ৪. ১৪ সেকেন্ডে সাউন্ড ও গেম রিসেট
+            setTimeout(() => {
+                if (UI.spinSound) {
+                    UI.spinSound.loop = false;
+                    UI.spinSound.pause();
+                    UI.spinSound.currentTime = 0;
+                }
+                GameEngine.setRotation(totalTargetRotation);
+                const payout = GameEngine.resolvePayout(winningSlot, bonusData);
+                updateBalance(payout.balance);
+
+                setTimeout(() => {
+                    GameEngine.unlock();
+                    GameEngine.reset();
+                    setButtonLockState(false);
+                    const overlayContainer = document.getElementById("wheel-bonus-overlay");
+                    if (overlayContainer) overlayContainer.innerHTML = "";
+                }, 1500);
+            }, 14000);
+        });
     }
-
-    // ৩ডি স্পেয়ার হাব এবং সেখান থেকে বোনাস রিলিজ
-    overlayContainer.innerHTML = `
-        <div class="central-3d-sphere">
-            <div class="sphere-glow"></div>
-            <div class="sphere-core"></div>
-        </div>
-        <div class="bonus-multiplier-ball" id="dynamic-bonus-card">
-            ${bonusData.multiplier || '3X'}
-        </div>
-    `;
-    overlayContainer.style.display = "block";
-
-    // ৮ম সেকেন্ডে বোনাসটি নির্দিষ্ট সেগমেন্টে ল্যান্ড করবে
-    setTimeout(() => {
-        const bonusBall = document.getElementById("dynamic-bonus-card");
-        if (bonusBall) {
-            bonusBall.classList.add("lock-to-cell");
-            bonusBall.style.transform = `translate(-50%, -50%) rotate(${correctedAngle}deg) translateY(-120px) rotate(-${correctedAngle}deg)`;
-        }
-    }, 7000); 
-}, 1000);
     // ========================================================
-    // 🎡 SECTION 7: CORE SPIN & 14-SECOND MOTION ENGINE [END]
+    // 🎡 SECTION 7: CENTRAL HUB BONUS BLAST ENGINE [END]
     // ========================================================
 
 
