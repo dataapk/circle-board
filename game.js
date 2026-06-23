@@ -306,31 +306,36 @@
             UI.wheel.style.transform = `rotate(${totalTargetRotation}deg)`;
 
             // 🛑 ৭. ঠিক ১৪.২ সেকেন্ড পর চাকা পুরোপুরি স্থির হলে রেজাল্ট রিলিজ
-            setTimeout(() => {
-                if (UI.spinSound) {
-                    UI.spinSound.loop = false;
-                    UI.spinSound.pause();
-                    UI.spinSound.currentTime = 0;
-                }
-
-                // বর্তমান ফাইনাল ডিগ্রিটি ইঞ্জিনে সেভ রাখা যাতে পরের রাউন্ডে চাকা ঝাঁকুনি না দেয়
-                GameEngine.setRotation(totalTargetRotation);
-                
-                // রেজাল্ট পে-আউট এবং ব্যালেন্স স্ক্রিনে নিখুঁত আপডেট
-                const payout = GameEngine.resolvePayout(winningSlot, bonusData);
-                updateBalance(payout.balance);
-
-                // গেম আনলক এবং বাটন রিসেট
-                setTimeout(() => {
-                    GameEngine.unlock();
-                    GameEngine.reset();
-                    setButtonLockState(false);
-                    clearBoard();
-                }, 1500);
-
-            }, 14200); 
-        });
+            
+setTimeout(() => {
+    let overlayContainer = document.getElementById("wheel-bonus-overlay");
+    if (!overlayContainer) {
+        overlayContainer = document.createElement("div");
+        overlayContainer.id = "wheel-bonus-overlay";
+        UI.wheel.parentElement.appendChild(overlayContainer);
     }
+
+    // ৩ডি স্পেয়ার হাব এবং সেখান থেকে বোনাস রিলিজ
+    overlayContainer.innerHTML = `
+        <div class="central-3d-sphere">
+            <div class="sphere-glow"></div>
+            <div class="sphere-core"></div>
+        </div>
+        <div class="bonus-multiplier-ball" id="dynamic-bonus-card">
+            ${bonusData.multiplier || '3X'}
+        </div>
+    `;
+    overlayContainer.style.display = "block";
+
+    // ৮ম সেকেন্ডে বোনাসটি নির্দিষ্ট সেগমেন্টে ল্যান্ড করবে
+    setTimeout(() => {
+        const bonusBall = document.getElementById("dynamic-bonus-card");
+        if (bonusBall) {
+            bonusBall.classList.add("lock-to-cell");
+            bonusBall.style.transform = `translate(-50%, -50%) rotate(${correctedAngle}deg) translateY(-120px) rotate(-${correctedAngle}deg)`;
+        }
+    }, 7000); 
+}, 1000);
     // ========================================================
     // 🎡 SECTION 7: CORE SPIN & 14-SECOND MOTION ENGINE [END]
     // ========================================================
