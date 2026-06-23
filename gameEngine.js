@@ -219,20 +219,31 @@ window.GameEngine = (function () {
     }
 
     function resolvePayout(winningSlot, bonusData) {
-        state.lastResult = winningSlot.symbol;
+    // ১. রেজাল্ট সেট করা
+    state.lastResult = winningSlot.symbol;
 
-        const winAmount = calculateWin(winningSlot, bonusData);
-
-        if (winAmount > 0) {
-            state.balance = Number((state.balance + winAmount).toFixed(2));
-        }
-
-        return {
-            result: winningSlot.symbol,
-            win: winAmount,
-            balance: state.balance
-        };
+    // ২. মাল্টিপ্লায়ার হ্যান্ডেল করা
+    // যদি বোনাস ডেটাতে মাল্টিপ্লায়ার থাকে, তবে সেটি ব্যবহার হবে, না থাকলে ১x বা ডিফল্ট হিসাব
+    const multiplier = bonusData && bonusData.multiplier ? parseFloat(bonusData.multiplier) : 1;
+    
+    // ৩. উইন ক্যালকুলেশন
+    // আমরা winningSlot অবজেক্টটি পাঠাচ্ছি যাতে calculateWin ফাংশনটি 
+    // সিম্বল এবং কাউন্ট (count) দুইটাই রিড করতে পারে
+    let winAmount = calculateWin(winningSlot, bonusData);
+    
+    // ৪. ব্যালেন্স আপডেট
+    if (winAmount > 0) {
+        state.balance = Number((state.balance + winAmount).toFixed(2));
     }
+
+    return {
+        result: winningSlot.symbol,
+        count: winningSlot.count, // অতিরিক্ত তথ্য হিসেবে কাউন্ট রাখলাম
+        multiplier: multiplier,   // কোন এক্স এ পড়েছে তা রিটার্ন করা
+        win: winAmount,
+        balance: state.balance
+    };
+}
 
     function reset() {
         state.bets = {};
