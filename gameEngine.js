@@ -980,6 +980,15 @@ function isRoundActive() {
         
         getBalance,
         getCurrentBalance,
+        getBalance,
+        getSelectedChip,
+        selectChip,
+        placeBet,
+
+        getCurrentBalance,
+        getCurrentBets,
+
+        getGameState,
         
         resetBoard 
         
