@@ -11,6 +11,8 @@ const state = {
 
     selectedChip: 0.10,
 
+
+
     bets: {
         heart: 0,
         diamond: 0,
@@ -20,28 +22,75 @@ const state = {
         flag: 0
     },
 
+
+
     totalBet: 0,
 
+
+
     wheelRotation: 0,
+
+
 
     currentResult: null,
 
     winningSlot: null,
 
+
+
     lastWin: 0,
 
     lastResult: null,
 
+
+
     isSpinning: false,
 
-    isBetLocked: false
+    isBetLocked: false,
+
+
+
+    // =========================
+    // 🧠 ROUND CONTROL (NEW)
+    // =========================
+
+    currentRoundId: 0,
+
+    lastRoundBets: null,
+
+
+
+    // =========================
+    // 🎡 WHEEL RESULT DATA (NEW)
+    // =========================
+
+    finalIndex: null,
+
+    finalSymbols: [],
+
+    bonusMultiplier: 1,
+
+
+
+    // =========================
+    // 🧩 UI CONTROL STATE (NEW)
+    // =========================
+
+    ui: {
+
+        chipPanelOpen: false,
+
+        controlsLocked: false,
+
+        lastAction: null
+
+    }
 
 };
 
 // ======================================================
 // 🔒 END: PRIVATE GAME STATE
 // ======================================================
-
 // ======================================================
 // 🔊 START: INITIAL AUDIO SYSTEM
 // ======================================================
@@ -169,14 +218,26 @@ function hasSelectedChip() {
 
 
 // ======================================================
-// 🎯 START: INITIAL BET SYSTEM
+// 🎯 START: INITIAL BET SYSTEM (UPGRADED)
 // ======================================================
 
 function placeBet(symbol) {
 
-    if (state.isBetLocked) return false;
+    console.log("[BET] placeBet called:", symbol);
 
-    if (!hasEnoughBalance(state.selectedChip)) return false;
+    if (state.isBetLocked) {
+        console.log("[BET] BLOCKED: Bet Locked");
+        return false;
+    }
+
+    if (!hasEnoughBalance(state.selectedChip)) {
+        console.log("[BET] BLOCKED: Not enough balance");
+        return false;
+    }
+
+    // =========================
+    // 💰 APPLY BET
+    // =========================
 
     state.bets[symbol] += state.selectedChip;
 
@@ -184,9 +245,23 @@ function placeBet(symbol) {
 
     subtractBalance(state.selectedChip);
 
-    return true;
+    console.log("[BET] PLACED:", symbol, state.selectedChip);
 
+    // =========================
+    // 🧩 UI HOOK (SAFE)
+    // =========================
+
+    if (typeof refreshGameUI === "function") {
+        refreshGameUI();
+    }
+
+    return true;
 }
+
+
+// ======================================================
+// 🎯 GET BET SYSTEM
+// ======================================================
 
 function getBet(symbol) {
 
@@ -206,22 +281,40 @@ function getTotalBet() {
 
 }
 
+
+// ======================================================
+// 🧹 CLEAR BET SYSTEM (ROUND RESET READY)
+// ======================================================
+
 function clearBets() {
 
-    state.bets = {
+    console.log("[BET] Clearing all bets");
 
+    state.bets = {
         heart: 0,
         diamond: 0,
         club: 0,
         spade: 0,
         crown: 0,
         flag: 0
-
     };
 
     state.totalBet = 0;
 
+    // =========================
+    // 🧩 UI HOOK
+    // =========================
+
+    if (typeof refreshGameUI === "function") {
+        refreshGameUI();
+    }
+
 }
+
+
+// ======================================================
+// 🔁 HAS BET CHECK
+// ======================================================
 
 function hasBets() {
 
@@ -229,14 +322,78 @@ function hasBets() {
 
 }
 
+
 // ======================================================
-// 🎯 END: INITIAL BET SYSTEM
+// ⚡ REBET SYSTEM (NEW - IMPORTANT)
+// ======================================================
+
+function rebetLastRound() {
+
+    console.log("[BET] Rebet called");
+
+    if (state.isBetLocked) return false;
+
+    if (!state.lastRoundBets) {
+        console.log("[BET] No last round bets found");
+        return false;
+    }
+
+    clearBets();
+
+    let totalRequired = 0;
+
+    for (let symbol in state.lastRoundBets) {
+
+        let amount = state.lastRoundBets[symbol];
+
+        if (amount > 0) {
+
+            state.bets[symbol] = amount;
+
+            totalRequired += amount;
+
+        }
+
+    }
+
+    if (!hasEnoughBalance(totalRequired)) {
+        console.log("[BET] Rebet failed: Not enough balance");
+        return false;
+    }
+
+    state.totalBet = totalRequired;
+
+    subtractBalance(totalRequired);
+
+    refreshGameUI();
+
+    console.log("[BET] Rebet success");
+
+    return true;
+
+}
+
+
+// ======================================================
+// 💾 SAVE ROUND BETS (NEW)
+// ======================================================
+
+function saveLastRoundBets() {
+
+    state.lastRoundBets = JSON.parse(JSON.stringify(state.bets));
+
+    console.log("[BET] Last round bets saved:", state.lastRoundBets);
+
+}
+
+// ======================================================
+// 🎯 END: INITIAL BET SYSTEM (UPGRADED)
 // ======================================================
 
 
 
 // ======================================================
-// 🎡 START: INITIAL WHEEL SYSTEM
+// 🎡 START: INITIAL WHEEL SYSTEM (UPGRADED)
 // ======================================================
 
 const wheelSlots = [
@@ -264,11 +421,21 @@ const wheelSlots = [
 
 ];
 
+
+// ======================================================
+// 🎯 GET WHEEL DATA
+// ======================================================
+
 function getWheelSlots() {
 
     return wheelSlots;
 
 }
+
+
+// ======================================================
+// 🎡 ROTATION CONTROL
+// ======================================================
 
 function getWheelRotation() {
 
@@ -280,64 +447,170 @@ function setWheelRotation(angle) {
 
     state.wheelRotation = angle;
 
-}
-
-// ======================================================
-// 🎡 END: INITIAL WHEEL SYSTEM
-// ======================================================
-
-
-// ======================================================
-// 🎲 START: INITIAL RESULT SYSTEM
-// ======================================================
-
-function calculateResult(slotData) {
-
-    setResult(
-        slotData.slot,
-        slotData.symbol
-    );
-
-    setSymbolCount(
-        slotData.symbolCount
-    );
-
-    setBonusMultiplier(
-        slotData.bonusMultiplier
-    );
-
-    return {
-
-        slot: slotData.slot,
-
-        symbol: slotData.symbol,
-
-        symbolCount: slotData.symbolCount,
-
-        bonusMultiplier: slotData.bonusMultiplier
-
-    };
+    console.log("[WHEEL] Rotation set:", angle);
 
 }
 
-function getCurrentResult() {
 
-    return {
+// ======================================================
+// 🎯 NEW: RESULT INDEX RESOLVER (IMPORTANT)
+// ======================================================
 
-        slot: state.winningSlot,
+function getSlotByIndex(index) {
 
-        symbol: state.currentResult,
+    if (index < 0 || index >= wheelSlots.length) {
+        console.log("[WHEEL] Invalid index:", index);
+        return null;
+    }
 
-        symbolCount: getSymbolCount(),
-
-        bonusMultiplier: getBonusMultiplier()
-
-    };
+    return wheelSlots[index];
 
 }
 
+
 // ======================================================
-// 🎲 END: INITIAL RESULT SYSTEM
+// 🎡 NEW: FINAL SLOT SETTER (RESULT ENGINE HOOK)
+// ======================================================
+
+function setFinalWheelResult(index) {
+
+    console.log("[WHEEL] Final result index:", index);
+
+    state.finalIndex = index;
+
+    state.finalSymbols = getWheelSlots().slice(index, index + 3);
+
+    state.currentResult = state.finalSymbols;
+
+    state.winningSlot = wheelSlots[index];
+
+}
+
+
+// ======================================================
+// 🧠 NEW: SYMBOL EXTRACTOR (SAFE HELP)
+// ======================================================
+
+function getSymbolsAt(index) {
+
+    return wheelSlots[index] || null;
+
+}
+
+
+// ======================================================
+// 🎡 END: INITIAL WHEEL SYSTEM (UPGRADED)
+// ======================================================
+
+
+// ======================================================
+// 🎡 START: INITIAL WHEEL SYSTEM (UPGRADED)
+// ======================================================
+
+const wheelSlots = [
+
+    "heart",
+    "diamond",
+    "club",
+    "spade",
+    "crown",
+    "flag",
+
+    "heart",
+    "diamond",
+    "club",
+    "spade",
+    "crown",
+    "flag",
+
+    "heart",
+    "diamond",
+    "club",
+    "spade",
+    "crown",
+    "flag"
+
+];
+
+
+// ======================================================
+// 🎯 GET WHEEL DATA
+// ======================================================
+
+function getWheelSlots() {
+
+    return wheelSlots;
+
+}
+
+
+// ======================================================
+// 🎡 ROTATION CONTROL
+// ======================================================
+
+function getWheelRotation() {
+
+    return state.wheelRotation;
+
+}
+
+function setWheelRotation(angle) {
+
+    state.wheelRotation = angle;
+
+    console.log("[WHEEL] Rotation set:", angle);
+
+}
+
+
+// ======================================================
+// 🎯 NEW: RESULT INDEX RESOLVER (IMPORTANT)
+// ======================================================
+
+function getSlotByIndex(index) {
+
+    if (index < 0 || index >= wheelSlots.length) {
+        console.log("[WHEEL] Invalid index:", index);
+        return null;
+    }
+
+    return wheelSlots[index];
+
+}
+
+
+// ======================================================
+// 🎡 NEW: FINAL SLOT SETTER (RESULT ENGINE HOOK)
+// ======================================================
+
+function setFinalWheelResult(index) {
+
+    console.log("[WHEEL] Final result index:", index);
+
+    state.finalIndex = index;
+
+    state.finalSymbols = getWheelSlots().slice(index, index + 3);
+
+    state.currentResult = state.finalSymbols;
+
+    state.winningSlot = wheelSlots[index];
+
+}
+
+
+// ======================================================
+// 🧠 NEW: SYMBOL EXTRACTOR (SAFE HELP)
+// ======================================================
+
+function getSymbolsAt(index) {
+
+    return wheelSlots[index] || null;
+
+}
+
+
+// ======================================================
+// 🎡 END: INITIAL WHEEL SYSTEM (UPGRADED)
 // ======================================================
 
 
@@ -380,6 +653,168 @@ function payWin(amount) {
 
 // ======================================================
 // 🏆 END: INITIAL PAYOUT SYSTEM
+// ======================================================
+// ======================================================
+// 🎡 START: RESULT ENGINE CORE
+// ======================================================
+
+
+// =========================
+// 🧠 MAIN RESULT TRIGGER
+// =========================
+
+function runResultEngine(finalIndex) {
+
+    console.log("[RESULT] Engine started with index:", finalIndex);
+
+    if (state.isSpinning === false) {
+        console.log("[RESULT] BLOCKED: Not spinning");
+        return;
+    }
+
+    // lock betting
+    state.isBetLocked = true;
+
+
+
+    // =========================
+    // 🎯 GET WHEEL RESULT
+    // =========================
+
+    setFinalWheelResult(finalIndex);
+
+    const resultSymbols = state.finalSymbols;
+
+    console.log("[RESULT] Symbols:", resultSymbols);
+
+
+
+    // =========================
+    // 🧠 COUNT SYMBOLS
+    // =========================
+
+    const symbolCountMap = {};
+
+    resultSymbols.forEach(symbol => {
+
+        symbolCountMap[symbol] =
+            (symbolCountMap[symbol] || 0) + 1;
+
+    });
+
+    console.log("[RESULT] Count Map:", symbolCountMap);
+
+
+
+    // =========================
+    // 🎲 BONUS MULTIPLIER (2X - 5X)
+    // =========================
+
+    const bonusPool = [2, 3, 4, 5];
+
+    const bonusMultiplier =
+        bonusPool[Math.floor(Math.random() * bonusPool.length)];
+
+    state.bonusMultiplier = bonusMultiplier;
+
+    console.log("[RESULT] Bonus Multiplier:", bonusMultiplier);
+
+
+
+    // =========================
+    // 💰 CALCULATE PAYOUT
+    // =========================
+
+    let totalWin = 0;
+
+    for (let symbol in state.bets) {
+
+        let betAmount = state.bets[symbol];
+
+        if (betAmount <= 0) continue;
+
+        let count = symbolCountMap[symbol] || 0;
+
+
+
+        // ❌ RULE: single symbol = loss
+        if (count < 2) {
+
+            console.log("[RESULT] LOSS:", symbol);
+
+            continue;
+
+        }
+
+
+
+        // 🧮 SYMBOL MULTIPLIER
+        let symbolMultiplier = count;
+
+
+
+        // 💰 FINAL CALCULATION
+        let win =
+            (betAmount * symbolMultiplier * bonusMultiplier) + betAmount;
+
+
+
+        console.log("[RESULT] WIN:", symbol, win);
+
+
+
+        totalWin += win;
+
+    }
+
+
+
+    // =========================
+    // 💳 BALANCE UPDATE
+    // =========================
+
+    state.balance += totalWin;
+
+    state.lastWin = totalWin;
+
+    state.lastResult = resultSymbols;
+
+
+
+    console.log("[RESULT] TOTAL WIN:", totalWin);
+    console.log("[RESULT] NEW BALANCE:", state.balance);
+
+
+
+    // =========================
+    // 🔄 ROUND RESET
+    // =========================
+
+    saveLastRoundBets();
+    clearBets();
+
+
+
+    state.isBetLocked = false;
+    state.isSpinning = false;
+
+
+
+    // =========================
+    // 🧩 UI UPDATE HOOK
+    // =========================
+
+    if (typeof refreshGameUI === "function") {
+        refreshGameUI();
+    }
+
+    console.log("[RESULT] Engine finished");
+
+}
+
+
+// ======================================================
+// 🎡 END: RESULT ENGINE CORE
 // ======================================================
 
 
