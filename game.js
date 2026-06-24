@@ -386,52 +386,17 @@ function startWheelSpin() {
 
     console.log("[SPIN] START");
 
+    GameEngine.lockBets();
+
+    playSpinAudio();
+
     GameEngine.startSpin();
 
     wheel.style.transition = "transform 4s ease-out";
     wheel.style.transform = "rotate(1800deg)";
 
-}
-
-
-    // =========================
-    // 🔒 UI + ENGINE LOCK
-    // =========================
-
-    GameEngine.lockBets();
-
-    // =========================
-    // 🔊 AUDIO
-    // =========================
-
-    playSpinAudio();
-
-
-
-    // =========================
-    // 🎡 START ENGINE SPIN
-    // =========================
-
-    if (typeof GameEngine.startSpin === "function") {
-
-        GameEngine.startSpin();
-
-    } else {
-
-        console.error("[SPIN] Engine startSpin NOT FOUND");
-
-    }
-
-
-
-    // =========================
-    // 🎬 UI VISUAL STATE (OPTIONAL HOOK)
-    // =========================
-
     spinBtn.classList.add("spinning");
-
 }
-
 // ======================================================
 // 🎡 END: INITIAL WHEEL EVENTS
 // ======================================================
