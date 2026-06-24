@@ -979,9 +979,6 @@ function isRoundActive() {
     return {
         
         getBalance,
-        selectedChip,
-        placeBet,
-        clearBets,
         resetBoard     
                     // এখন এটি ঘর অবজেক্ট রিটার্ন করে
                // নতুন ভোল্টেজ বোনাস মেকার
