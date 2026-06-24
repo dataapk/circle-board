@@ -973,6 +973,9 @@ function isRoundActive() {
     return !state.isBetLocked && !state.isSpinning;
 
 }
+    };
+
+})();
 
 // ======================================================
 // 📊 END: GAME DATA SYSTEM (UPGRADED)
