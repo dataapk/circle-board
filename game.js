@@ -386,6 +386,12 @@ function startWheelSpin() {
 
     console.log("[SPIN] START");
 
+    GameEngine.startSpin();
+
+    wheel.style.transition = "transform 4s ease-out";
+    wheel.style.transform = "rotate(1800deg)";
+
+}
 
 
     // =========================
