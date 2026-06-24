@@ -349,21 +349,20 @@ function initializeWheelSystem() {
         // 🚫 SAFETY CHECKS
         // =========================
 
-        if (GameEngine.isBetLocked() || isSpinningUI) {
-            console.log("[SPIN] BLOCKED (UI LOCKED)");
-            return;
-        }
+              if (
+    GameEngine.isBetLocked() ||
+    GameEngine.getCurrentSpinStatus()
+) {
+    console.log("[SPIN] BLOCKED");
+    return;
+}
 
+if (!GameEngine.hasBets()) {
+    console.log("[SPIN] NO BETS");
+    return;
+}
 
-
-        if (!GameEngine.hasBets()) {
-            console.log("[SPIN] NO BETS");
-            return;
-        }
-
-
-
-        console.log("[SPIN] BUTTON CLICK");
+console.log("[SPIN] BUTTON CLICK");
 
 
 
