@@ -5,10 +5,11 @@ const App = {
 
     init: function() {
         document.getElementById('spinBtn').addEventListener('click', () => this.handleSpin());
+        
         document.querySelectorAll('.chip').forEach(c => {
             c.addEventListener('click', (e) => {
                 this.currentBet = parseFloat(e.currentTarget.dataset.value);
-                document.getElementById('chipSound').play();
+                this.engine.playSound('chip'); // ইঞ্জিন থেকে অডিও কল
             });
         });
     },
@@ -18,8 +19,10 @@ const App = {
 
         this.engine.state.isSpinning = true;
         document.getElementById('spinBtn').disabled = true;
-        document.getElementById('spinButtonSound').play();
-        document.getElementById('spinSound').play();
+
+        // ইঞ্জিন থেকে অডিও কল
+        this.engine.playSound('spinBtn');
+        this.engine.playSound('spin');
 
         const rotation = Math.floor(Math.random() * 360) + 1800;
         const wheel = document.getElementById('wheel');
@@ -35,12 +38,13 @@ const App = {
             
             this.engine.state.isSpinning = false;
             document.getElementById('spinBtn').disabled = false;
-            document.getElementById('tableSound').play();
+            
+            // রেজাল্ট আসার পর সাউন্ড
+            this.engine.playSound('table');
         }, 4000);
     }
 };
 
-// গেম শুরু
 document.addEventListener("DOMContentLoaded", () => App.init());
 
 
