@@ -1035,7 +1035,7 @@ function isRoundActive() {
         getWheelRotation,
        setWheelRotation,
        getWheelSlots,
-
+        getFinalIndex,
         getGameState,
         playChipSound,
        playTableSound,
