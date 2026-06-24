@@ -33,6 +33,7 @@ const symbolBoxes = document.querySelectorAll(".symbol-box");
 
 const pointer = document.getElementById("pointer");
 
+
 // ======================================================
 // 📦 END: DOM CACHE
 // ======================================================
@@ -262,10 +263,10 @@ function initializeBetSystem() {
             // 🚫 UI LOCK CHECK
             // =========================
 
-            if (uiLocked) {
-                console.log("[BET] UI LOCKED");
-                return;
-            }
+            if (GameEngine.isBetLocked()) {
+             console.log("[BET] UI LOCKED");
+            return;
+           }
 
 
 
@@ -348,7 +349,7 @@ function initializeWheelSystem() {
         // 🚫 SAFETY CHECKS
         // =========================
 
-        if (uiLocked || isSpinningUI) {
+        if (GameEngine.isBetLocked() || isSpinningUI) {
             console.log("[SPIN] BLOCKED (UI LOCKED)");
             return;
         }
