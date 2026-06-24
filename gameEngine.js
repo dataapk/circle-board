@@ -977,21 +977,15 @@ function isRoundActive() {
     // 🌐 SECTION 9: PUBLIC APPLICATION PROGRAMMING INTERFACE [START]
     // ========================================================
     return {
-        getState,
+        
         getBalance,
-        setSelectedChip,
-        getChip,
+        selectedChip,
         placeBet,
-        clearCurrentBets,
-        generateResult,             // এখন এটি ঘর অবজেক্ট রিটার্ন করে
-        generateVoltageBonus,       // নতুন ভোল্টেজ বোনাস মেকার
-        lock,
-        unlock,
-        setRotation,
-        calculateWin,
-        resolvePayout,
-        reset
-    };
+        clearBets,
+        resetBoard     
+                    // এখন এটি ঘর অবজেক্ট রিটার্ন করে
+               // নতুন ভোল্টেজ বোনাস মেকার
+           };
     // ========================================================
     // 🌐 SECTION 9: PUBLIC APPLICATION PROGRAMMING INTERFACE [END]
     // ========================================================
