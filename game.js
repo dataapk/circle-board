@@ -386,6 +386,24 @@ function lockBoardUI() {
 
     spinBtn.disabled = true;
 
+
+
+    chips.forEach(chip => {
+
+        chip.style.pointerEvents = "none";
+
+    });
+
+
+
+    symbolBoxes.forEach(box => {
+
+        box.style.pointerEvents = "none";
+
+    });
+
+
+
     console.log(
         "[UI] BOARD LOCKED"
     );
@@ -398,6 +416,24 @@ function unlockBoardUI() {
 
     spinBtn.disabled = false;
 
+
+
+    chips.forEach(chip => {
+
+        chip.style.pointerEvents = "auto";
+
+    });
+
+
+
+    symbolBoxes.forEach(box => {
+
+        box.style.pointerEvents = "auto";
+
+    });
+
+
+
     console.log(
         "[UI] BOARD UNLOCKED"
     );
@@ -407,6 +443,38 @@ function unlockBoardUI() {
 
 
 function resetBoardUI() {
+
+
+
+    chipsContainer.classList.add(
+        "closed"
+    );
+
+
+
+    chips.forEach(chip => {
+
+        chip.classList.remove(
+            "active"
+        );
+
+    });
+
+
+
+    symbolBoxes.forEach(box => {
+
+        box.classList.remove(
+            "active"
+        );
+
+        box.classList.remove(
+            "winner"
+        );
+
+    });
+
+
 
     console.log(
         "[UI] BOARD RESET"
