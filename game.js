@@ -39,45 +39,45 @@ document.addEventListener("DOMContentLoaded", () => App.init());
 
 
 // ========================================================
-// SECTION 2: INITIAL CHIP SYSTEM
-// ========================================================
-// ========================================================
-// SECTION 2: INITIAL CHIP SYSTEM
+// SECTION 2: INITIAL CHIP SYSTEM (Updated & Engine Integrated)
 // ========================================================
 App.initChipSystem = function() {
     console.log("%c[Initial Chip System] Initializing...", "color: #ff9800; font-weight: bold;");
 
-    // চিপস এবং ফ্যান সিস্টেমের জন্য একটি কমন হ্যান্ডলার
-    const chipElements = document.querySelectorAll(".chip, .fan-item"); 
+    // HTML-এ থাকা .chip এলিমেন্টগুলো সিলেক্ট করা
+    const chipElements = document.querySelectorAll(".chip"); 
 
     chipElements.forEach(item => {
         item.addEventListener("click", (e) => {
-            // চিপ বা ফ্যান থেকে ভ্যালু নেওয়া (HTML-এ data-value থাকা আবশ্যক)
-            const value = parseFloat(e.target.getAttribute("data-value"));
+            // ক্লিক করা এলিমেন্ট বা তার প্যারেন্ট থেকে ডেটা-ভ্যালু নেওয়া
+            const chipElement = e.target.closest('.chip');
+            if (!chipElement) return;
+
+            const value = parseFloat(chipElement.getAttribute("data-value"));
             
+            // ইঞ্জিন লজিক দিয়ে ভ্যালিডেশন করা
             if (isNaN(value)) return;
 
-            // গ্লোবাল স্টেটে সিলেক্টেড ভ্যালু সেভ করা
-            this.selectedChip = value;
-            
-            // কনসোল ট্র্যাকিং (যাতে বোঝা যায় কী সিলেক্ট হয়েছে)
-            console.log(`%c[Initial Chip System] Active Selection: ${value}`, "color: #4caf50; font-weight: bold;");
+            // ১. গেম ইঞ্জিনে সিলেকশন পাঠানো ও সেভ করা
+            if (App.engine.chipManager.setSelection(value)) {
+                
+                // ২. অডিও প্লে করা
+                if (this.audio.chipSound) {
+                    this.audio.chipSound.currentTime = 0;
+                    this.audio.chipSound.play().catch(err => console.warn("[Audio] Sound blocked"));
+                }
 
-            // অডিও প্লে করা (যদি অডিও সিস্টেম সক্রিয় থাকে)
-            if (this.audio.chipSound) {
-                this.audio.chipSound.currentTime = 0;
-                this.audio.chipSound.play().catch(err => console.warn("[Audio] Sound blocked by browser"));
+                // ৩. UI আপডেট (Active Class যোগ করা)
+                chipElements.forEach(el => el.classList.remove("active"));
+                chipElement.classList.add("active");
+
+                console.log(`%c[Initial Chip System] Successfully Selected: $${value}`, "color: #4caf50; font-weight: bold;");
             }
-
-            // এখানে UI আপডেট (যেমন চিপটি সিলেক্ট হয়েছে তা হাইলাইট করা)
-            chipElements.forEach(el => el.classList.remove("active"));
-            e.target.classList.add("active");
         });
     });
 
     console.log("[Initial Chip System] Ready for user interaction.");
 };
-
 // ========================================================
 // SECTION 3: INITIAL WHEEL SYSTEM
 // ========================================================
