@@ -151,22 +151,25 @@
    // ========================================================
     // 📊 SECTION 5: BOARD UI & BADGES UPDATE [FINALIZED]
     // ========================================================
-    function updateBoardUI(bets) {
-        let totalBetCalculated = 0;
+    function updateBoardUI() {
+    const gameState = GameEngine.getState();
+    const bets = gameState.bets || {}; // নিরাপদ চেক
 
-        document.querySelectorAll(".symbol-box").forEach(box => {
-            const symbol = box.dataset.symbol;
-            const betAmount = bets[symbol] || 0;
-            
-            // ১. সেফটি ফিক্স: এলিমেন্ট না থাকলে তৈরি করা
-            let indicator = box.querySelector(".bet-indicator");
-            if (!indicator) {
-                indicator = document.createElement("div");
-                indicator.className = "bet-indicator";
-                box.appendChild(indicator);
-            }
-
-            box.style.position = "relative"; 
+    // সব বেট এলিমেন্ট আপডেট করুন
+    document.querySelectorAll('.bet-item').forEach(element => {
+        const symbol = element.getAttribute('data-symbol');
+        
+        // এখানে Optional Chaining ব্যবহার করা হয়েছে
+        const betValue = bets[symbol] || 0; 
+        
+        if (element.querySelector('.bet-amount')) {
+            element.querySelector('.bet-amount').innerText = betValue > 0 ? betValue : "";
+        }
+        
+        // অপাসিটি কন্ট্রোল
+        element.style.opacity = betValue > 0 ? 1 : 0.5;
+    });
+}
 
             // ২. লজিক: যখনই বেট পড়বে, তখনই এলিমেন্টকে পুনরায় Active করা
             if (betAmount > 0) {
