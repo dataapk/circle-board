@@ -61,11 +61,15 @@ window.GameEngine = (function () {
     // ========================================================
     // আইগেমিং ফেয়ার প্লে এবং হাউজ প্রফিট কন্ট্রোলড রেজাল্ট জেনারেটর
     generateResult: function() {
-        // এখানে সরাসরি WHEEL_SLOTS না লিখে 'this.WHEEL_SLOTS' ব্যবহার করুন
         const randomIndex = Math.floor(Math.random() * this.WHEEL_SLOTS.length);
         return this.WHEEL_SLOTS[randomIndex];
-    }
+    },
 
+    // অন্য ফাংশনগুলোও এভাবে লিখুন
+    unlock: function() {
+        // ... কোড
+    }
+};
     // ভোল্টেজ লাইটেনিং বোনাস ক্যালকুলেশন (উইটেড প্রোবাবিলিটি মডেল)
     function generateVoltageBonus(winningSlot) {
         const chance = Math.floor(Math.random() * 100) + 1;
