@@ -25,7 +25,8 @@ window.GameEngine = (function () {
     // ========================================================
     // আপনার দেওয়া ১৮টি ঘরের নিখুঁত সিকুয়েন্স ম্যাপিং ও গুটি/মাল্টিপ্লায়ার সংখ্যা
    const GameEngine = {
-    // অন্যান্য ফাংশন
+    // অন্যান্য ফাংশনগুলো এখানে আছে...
+
     WHEEL_SLOTS: [
         { slot: 1,  symbol: "heart",   count: 2 },
         { slot: 2,  symbol: "spade",   count: 2 },
@@ -45,8 +46,8 @@ window.GameEngine = (function () {
         { slot: 16, symbol: "crown",   count: 2 },
         { slot: 17, symbol: "diamond", count: 2 },
         { slot: 18, symbol: "club",    count: 3 }  // জ্যাকপট
-        
-    ]; 
+    ] // খেয়াল করুন: এখানে কোনো সেমিকোলন হবে না, বরং কমা হতে পারে যদি এর নিচে আরও প্রপার্টি থাকে
+};
 
     // আপনার চাহিদা অনুযায়ী আকর্ষণীয় ৫X থেকে ৩০X মেগা বোনাস রেঞ্জ
     const BONUS_MULTIPLIERS = [5, 10, 15, 20, 25, 30];
