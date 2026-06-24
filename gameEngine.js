@@ -96,26 +96,43 @@ window.GameEngine = (function () {
     }
 
     // ⚙️ SECTION 9: PUBLIC API
+   // 🌐 SECTION 9: PUBLIC APPLICATION PROGRAMMING INTERFACE
     return {
         getState: () => ({ ...state, bets: { ...state.bets } }),
         getBalance: () => state.balance,
+        
+        // চিপ সিস্টেম
+        setSelectedChip: (chip) => { if (chip && chip.value > 0) state.selectedChip = chip; },
+        getChip: () => state.selectedChip || { value: 0.10 },
+        
+        // বেটিং সিস্টেম
         placeBet: (type, amount) => {
             if (state.isSpinning || state.balance < amount) return { success: false };
-            state.balance -= amount;
-            state.bets[type] = (state.bets[type] || 0) + amount;
+            state.balance = Number((state.balance - amount).toFixed(2));
+            state.bets[type] = Number(((state.bets[type] || 0) + amount).toFixed(2));
             return { success: true, balance: state.balance };
         },
         clearCurrentBets: () => {
             if (state.isSpinning) return;
             let refund = Object.values(state.bets).reduce((a, b) => a + b, 0);
-            state.balance += refund;
+            state.balance = Number((state.balance + refund).toFixed(2));
             state.bets = {};
         },
+        
+        // কোর গেম লজিক
         generateResult,
         generateVoltageBonus,
+        calculateWin, // এটিও যুক্ত করা হয়েছে যদি বাইরে প্রয়োজন হয়
+        
+        // কন্ট্রোল সিস্টেম
         lock: () => state.isSpinning = true,
         unlock: () => state.isSpinning = false,
+        setRotation: (r) => state.rotation = r,
         resolvePayout,
-        reset: () => { state.bets = {}; state.isSpinning = false; }
+        reset: () => { 
+            state.bets = {}; 
+            state.isSpinning = false; 
+            console.log("Game Engine Reset");
+        }
     };
 })();
