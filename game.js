@@ -310,7 +310,7 @@
 
                 // ২. আমাদের কাছে থাকা মাস্টার লিস্ট (WHEEL_SLOTS) থেকে পুরো ডাটা বের করুন
                 // সরাসরি GameEngine থেকে WHEEL_SLOTS কল করছি যাতে ReferenceError না হয়
-                const fullWinningData = GameEngine.WHEEL_SLOTS.find(s => s.slot === (rawResult.slot || rawResult));
+                const fullWinningData = window.WHEEL_SLOTS.find(s => s.slot === (rawResult.slot || rawResult));
 
                 // ৩. পেমেন্ট ফাংশনে এই পূর্ণাঙ্গ ডাটা পাঠান
                 const payout = GameEngine.resolvePayout(fullWinningData, bonusData);
