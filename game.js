@@ -443,6 +443,11 @@ function startWheelSpin() {
 // 💰 START: INITIAL UI UPDATE SYSTEM
 // ======================================================
 
+
+// =========================
+// 💰 BALANCE UI
+// =========================
+
 function updateBalanceUI() {
 
     const balance =
@@ -451,46 +456,49 @@ function updateBalanceUI() {
     balanceAmount.textContent =
         `$${balance.toFixed(2)}`;
 
-    console.log(
-        "[UI] BALANCE UPDATED:",
-        balance
-    );
+    console.log("[UI] BALANCE UPDATED:", balance);
 
 }
 
 
+// =========================
+// 🎯 BET UI (VISUAL ONLY)
+// =========================
 
 function updateBetUI() {
 
     const bets =
         GameEngine.getCurrentBets();
 
-    console.log(
-        "[UI] BET UPDATED:",
-        bets
-    );
+
+
+    // 👉 OPTIONAL: future DOM render hook
+    console.log("[UI] BET UPDATED:", bets);
 
 }
 
 
+// =========================
+// 🪙 CHIP UI
+// =========================
 
 function updateChipUI() {
 
     const selectedChip =
         GameEngine.getCurrentChip();
 
-    console.log(
-        "[UI] CHIP UPDATED:",
-        selectedChip
-    );
+    console.log("[UI] CHIP UPDATED:", selectedChip);
 
 }
 
 
+// ======================================================
+// 🔒 BOARD UI LOCK (VISUAL ONLY)
+// ======================================================
 
 function lockBoardUI() {
 
-    spinBtn.disabled = true;
+    if (spinBtn) spinBtn.disabled = true;
 
 
 
@@ -510,17 +518,18 @@ function lockBoardUI() {
 
 
 
-    console.log(
-        "[UI] BOARD LOCKED"
-    );
+    console.log("[UI] BOARD LOCKED");
 
 }
 
 
+// ======================================================
+// 🔓 BOARD UI UNLOCK (VISUAL ONLY)
+// ======================================================
 
 function unlockBoardUI() {
 
-    spinBtn.disabled = false;
+    if (spinBtn) spinBtn.disabled = false;
 
 
 
@@ -540,29 +549,24 @@ function unlockBoardUI() {
 
 
 
-    console.log(
-        "[UI] BOARD UNLOCKED"
-    );
+    console.log("[UI] BOARD UNLOCKED");
 
 }
 
 
+// ======================================================
+// 🔄 BOARD VISUAL RESET
+// ======================================================
 
 function resetBoardUI() {
 
-
-
-    chipsContainer.classList.add(
-        "closed"
-    );
+    chipsContainer?.classList.add("closed");
 
 
 
     chips.forEach(chip => {
 
-        chip.classList.remove(
-            "active"
-        );
+        chip.classList.remove("active");
 
     });
 
@@ -570,25 +574,21 @@ function resetBoardUI() {
 
     symbolBoxes.forEach(box => {
 
-        box.classList.remove(
-            "active"
-        );
-
-        box.classList.remove(
-            "winner"
-        );
+        box.classList.remove("active");
+        box.classList.remove("winner");
 
     });
 
 
 
-    console.log(
-        "[UI] BOARD RESET"
-    );
+    console.log("[UI] BOARD RESET");
 
 }
 
 
+// ======================================================
+// 🔁 FULL UI REFRESH
+// ======================================================
 
 function refreshGameUI() {
 
@@ -598,9 +598,7 @@ function refreshGameUI() {
 
     updateChipUI();
 
-    console.log(
-        "[UI] REFRESH COMPLETE"
-    );
+    console.log("[UI] REFRESH COMPLETE");
 
 }
 
@@ -615,11 +613,27 @@ function refreshGameUI() {
 
 function startGameUI() {
 
-    console.log(
-        "[GAME UI] STARTING"
-    );
+    console.log("[GAME UI] STARTING");
 
 
+
+    // =========================
+    // 🧠 ENGINE SAFETY CHECK
+    // =========================
+
+    if (typeof GameEngine === "undefined") {
+
+        console.error("[GAME UI] GameEngine NOT FOUND");
+
+        return;
+
+    }
+
+
+
+    // =========================
+    // 🎮 INITIALIZE SYSTEMS
+    // =========================
 
     initializeChipSystem();
 
@@ -629,20 +643,37 @@ function startGameUI() {
 
 
 
+    // =========================
+    // 🔄 INITIAL UI SYNC
+    // =========================
+
     refreshGameUI();
 
 
 
-    console.log(
-        "[GAME UI] READY"
-    );
+    // =========================
+    // 🧠 READY STATE
+    // =========================
+
+    console.log("[GAME UI] READY");
+
+
+
+    // =========================
+    // 🚀 FUTURE HOOK
+    // =========================
+
+    if (typeof onGameUIReady === "function") {
+
+        onGameUIReady();
+
+    }
 
 }
 
 // ======================================================
 // 🚀 END: START GAME UI
 // ======================================================
-
 
 
 // ======================================================
