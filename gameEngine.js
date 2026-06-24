@@ -1015,6 +1015,7 @@ function isRoundActive() {
         selectChip,
         placeBet,
         startSpin,
+        endSpin,
         getCurrentChip,
         getCurrentSpinStatus,
         hasBets,
