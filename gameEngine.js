@@ -971,16 +971,118 @@ function isRoundActive() {
 
     return !state.isBetLocked && !state.isSpinning;
 
-}
-
-
+};
 
 // ======================================================
 // 📊 END: GAME DATA SYSTEM (UPGRADED)
 // ======================================================
+// ======================================================
+// 🌍 START: PUBLIC GAME API
+// ======================================================
+
+return {
+
+    // =========================
+    // 🔊 AUDIO
+    // =========================
+
+    playChipSound,
+    playTableSound,
+    playSpinSound,
+    playSpinButtonSound,
+
+
+    // =========================
+    // 💰 BALANCE
+    // =========================
+
+    getBalance,
+    setBalance,
+    addBalance,
+    subtractBalance,
+    hasEnoughBalance,
+
+
+    // =========================
+    // 🪙 CHIP SYSTEM
+    // =========================
+
+    getSelectedChip,
+    selectChip,
+    hasSelectedChip,
+
+
+    // =========================
+    // 🎯 BET SYSTEM
+    // =========================
+
+    placeBet,
+    getBet,
+    getAllBets,
+    getTotalBet,
+    clearBets,
+    hasBets,
+
+
+    // =========================
+    // 🎡 WHEEL SYSTEM
+    // =========================
+
+    getWheelSlots,
+    getWheelRotation,
+    setWheelRotation,
+
+
+    // =========================
+    // 🧠 RESULT ENGINE
+    // =========================
+
+    getCurrentResult,
+    getWinningSlot,
+    getSymbolCount,
+    getBonusMultiplier,
+    getFinalIndex,
+    getFinalSymbols,
+
+
+    // =========================
+    // 💰 PAYOUT
+    // =========================
+
+    getFinalMultiplier,
+    getLastWin,
+
+
+    // =========================
+    // 🔄 ROUND CONTROL
+    // =========================
+
+    startNewRound,
+    endRound,
+    resetRoundData,
+    lockBets,
+    unlockBets,
+    resetBoard,
+
+
+    // =========================
+    // 📊 DATA LAYER
+    // =========================
+
+    getGameState,
+    getCurrentBalance,
+    getCurrentBets,
+    getCurrentTotalBet,
+    getCurrentChip,
+    getCurrentWheelRotation,
+    getCurrentLastWin,
+    getCurrentLastResult,
+    getCurrentSpinStatus
+
+})()
 
 // ======================================================
-// 🌍 START: PUBLIC GAME API (CLEAN v2)
+// 🌍 END: PUBLIC GAME API
 // ======================================================
 
 
