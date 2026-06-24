@@ -194,8 +194,8 @@
         const totalBetEl = UI.totalBet || document.getElementById("totalBetAmount");
         if (totalBetEl) {
             totalBetEl.innerText = "$" + totalBetCalculated.toFixed(2);
-        }
-    }
+        };
+
     // ========================================================
     // 📊 SECTION 5: BOARD UI & BADGES UPDATE [END]
     // ========================================================
