@@ -781,65 +781,131 @@ function runResultEngine(finalIndex) {
 
 
 // ======================================================
-// 🔄 START: INITIAL NEW ROUND SYSTEM
+// 🔄 START: INITIAL NEW ROUND SYSTEM (UPGRADED)
 // ======================================================
 
-function lockBets() {
+
+// =========================
+// 🔒 ROUND LOCK CONTROL
+// =========================
+
+function lockRound() {
 
     state.isBetLocked = true;
+    state.ui.controlsLocked = true;
+
+    console.log("[ROUND] LOCKED");
 
 }
 
-function unlockBets() {
+function unlockRound() {
 
     state.isBetLocked = false;
+    state.ui.controlsLocked = false;
+
+    console.log("[ROUND] UNLOCKED");
 
 }
 
-function startNewRound() {
+
+// =========================
+// 🔄 ROUND RESET CORE
+// =========================
+
+function resetRoundData() {
+
+    console.log("[ROUND] Resetting round data");
 
     state.currentResult = null;
-
     state.winningSlot = null;
 
     state.symbolCount = 0;
-
     state.bonusMultiplier = 1;
 
     state.lastWin = 0;
 
-    state.isSpinning = false;
+    state.finalIndex = null;
+    state.finalSymbols = [];
 
-    unlockBets();
+    state.totalBet = 0;
 
 }
+
+
+// =========================
+// 🚀 START NEW ROUND (MAIN ENTRY)
+// =========================
+
+function startNewRound() {
+
+    console.log("[ROUND] Starting new round");
+
+    resetRoundData();
+
+    unlockRound();
+
+    state.isSpinning = false;
+
+    // UI refresh hook
+    if (typeof refreshGameUI === "function") {
+        refreshGameUI();
+    }
+
+}
+
+
+// =========================
+// 🛑 END ROUND (AFTER RESULT)
+// =========================
 
 function endRound() {
 
+    console.log("[ROUND] Ending round");
+
+    lockRound();
+
     state.isSpinning = false;
 
 }
 
-function resetRoundData() {
 
-    state.currentResult = null;
+// =========================
+// 🔁 SAFE RESET (FULL CLEAN)
+// =========================
 
-    state.winningSlot = null;
+function hardResetRound() {
 
-    state.symbolCount = 0;
+    console.log("[ROUND] Hard reset");
 
-    state.bonusMultiplier = 1;
+    resetRoundData();
+
+    unlockRound();
+
+    clearBets();
+
+    if (typeof refreshGameUI === "function") {
+        refreshGameUI();
+    }
 
 }
 
+
 // ======================================================
-// 🔄 END: INITIAL NEW ROUND SYSTEM
+// 🔄 END: INITIAL NEW ROUND SYSTEM (UPGRADED)
 // ======================================================
 // ======================================================
-// 🔄 START: BOARD RESET SYSTEM
+// 🔄 START: BOARD RESET SYSTEM (UPGRADED)
 // ======================================================
 
 function resetBoard() {
+
+    console.log("[BOARD] Reset started");
+
+
+
+    // =========================
+    // 🎯 CLEAR ALL BETS
+    // =========================
 
     state.bets = {
 
@@ -852,20 +918,60 @@ function resetBoard() {
 
     };
 
+
+
+    // =========================
+    // 💰 RESET BET VALUES
+    // =========================
+
     state.totalBet = 0;
+
+
+
+    // =========================
+    // 🪙 RESET CHIP (DEFAULT)
+    // =========================
 
     state.selectedChip = 0.10;
 
+
+
+    // =========================
+    // 🧠 UI STATE RESET (NEW)
+    // =========================
+
+    state.ui.lastAction = "board_reset";
+
+
+
+    // =========================
+    // 🧩 UI UPDATE HOOK
+    // =========================
+
+    if (typeof refreshGameUI === "function") {
+        refreshGameUI();
+    }
+
+
+
+    console.log("[BOARD] Reset complete");
+
 }
 
+
 // ======================================================
-// 🔄 END: BOARD RESET SYSTEM
+// 🔄 END: BOARD RESET SYSTEM (UPGRADED)
 // ======================================================
 
 
 // ======================================================
-// 📊 START: GAME DATA SYSTEM
+// 📊 START: GAME DATA SYSTEM (UPGRADED)
 // ======================================================
+
+
+// =========================
+// 🧠 FULL STATE ACCESS
+// =========================
 
 function getGameState() {
 
@@ -873,11 +979,23 @@ function getGameState() {
 
 }
 
+
+
+// =========================
+// 💰 BALANCE
+// =========================
+
 function getCurrentBalance() {
 
     return state.balance;
 
 }
+
+
+
+// =========================
+// 🎯 BET DATA
+// =========================
 
 function getCurrentBets() {
 
@@ -891,17 +1009,35 @@ function getCurrentTotalBet() {
 
 }
 
+
+
+// =========================
+// 🪙 CHIP DATA
+// =========================
+
 function getCurrentChip() {
 
     return state.selectedChip;
 
 }
 
+
+
+// =========================
+// 🎡 WHEEL DATA
+// =========================
+
 function getCurrentWheelRotation() {
 
     return state.wheelRotation;
 
 }
+
+
+
+// =========================
+// 🧠 RESULT DATA (NEW IMPORTANT)
+// =========================
 
 function getCurrentLastWin() {
 
@@ -921,31 +1057,82 @@ function getCurrentSpinStatus() {
 
 }
 
+
+
+// =========================
+// 🎯 NEW: ENGINE DEBUG HELPERS
+// =========================
+
+function getFinalIndex() {
+
+    return state.finalIndex ?? null;
+
+}
+
+function getFinalSymbols() {
+
+    return state.finalSymbols ?? [];
+
+}
+
+function isBetLocked() {
+
+    return state.isBetLocked;
+
+}
+
+function isRoundActive() {
+
+    return !state.isBetLocked && !state.isSpinning;
+
+}
+
+
+
 // ======================================================
-// 🌍 START: PUBLIC GAME API
+// 📊 END: GAME DATA SYSTEM (UPGRADED)
+// ======================================================
+
+// ======================================================
+// 🌍 START: PUBLIC GAME API (CLEAN v2)
 // ======================================================
 
 return {
 
-    // AUDIO
+    // =========================
+    // 🔊 AUDIO
+    // =========================
+
     playChipSound,
     playTableSound,
     playSpinSound,
     playSpinButtonSound,
 
-    // BALANCE
+
+    // =========================
+    // 💰 BALANCE
+    // =========================
+
     getBalance,
     setBalance,
     addBalance,
     subtractBalance,
     hasEnoughBalance,
 
-    // CHIP
+
+    // =========================
+    // 🪙 CHIP SYSTEM
+    // =========================
+
     getSelectedChip,
     selectChip,
     hasSelectedChip,
 
-    // BET
+
+    // =========================
+    // 🎯 BET SYSTEM
+    // =========================
+
     placeBet,
     getBet,
     getAllBets,
@@ -953,27 +1140,40 @@ return {
     clearBets,
     hasBets,
 
-    // WHEEL
+
+    // =========================
+    // 🎡 WHEEL SYSTEM
+    // =========================
+
     getWheelSlots,
     getWheelRotation,
     setWheelRotation,
 
-    // RESULT
-    calculateResult,
+
+    // =========================
+    // 🧠 RESULT ENGINE (ONLY READ API)
+    // =========================
+
     getCurrentResult,
-    getResult,
     getWinningSlot,
     getSymbolCount,
     getBonusMultiplier,
+    getFinalIndex,
+    getFinalSymbols,
 
-    // PAYOUT
+
+    // =========================
+    // 💰 PAYOUT (READ ONLY NOW)
+    // =========================
+
     getFinalMultiplier,
-    calculateWinAmount,
-    setLastWin,
     getLastWin,
-    payWin,
 
-    // ROUND
+
+    // =========================
+    // 🔄 ROUND CONTROL
+    // =========================
+
     startNewRound,
     endRound,
     resetRoundData,
@@ -981,7 +1181,11 @@ return {
     unlockBets,
     resetBoard,
 
-    // DATA
+
+    // =========================
+    // 📊 DATA LAYER
+    // =========================
+
     getGameState,
     getCurrentBalance,
     getCurrentBets,
@@ -995,7 +1199,7 @@ return {
 };
 
 // ======================================================
-// 🌍 END: PUBLIC GAME API
+// 🌍 END: PUBLIC GAME API (CLEAN v2)
 // ======================================================
 
 
