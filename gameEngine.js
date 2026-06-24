@@ -6,6 +6,22 @@ const GameEngine = {
         currentLandedIndex: null
     },
 
+    // অডিও এলিমেন্টগুলোর রেফারেন্স ইঞ্জিনের ভেতরে
+    audio: {
+        chip: document.getElementById('chipSound'),
+        spin: document.getElementById('spinSound'),
+        table: document.getElementById('tableSound'),
+        spinBtn: document.getElementById('spinButtonSound')
+    },
+
+    // অডিও প্লে করার ফাংশন ইঞ্জিনের ভেতরেই
+    playSound: function(soundName) {
+        if (this.audio[soundName]) {
+            this.audio[soundName].currentTime = 0;
+            this.audio[soundName].play().catch(e => console.log("Audio Error:", e));
+        }
+    },
+
     config: {
         wheelSequence: [
             ['heart', 'heart', 'crown'], ['spade', 'spade', 'diamond'], ['flag', 'flag', 'flag'], 
@@ -25,6 +41,9 @@ const GameEngine = {
         return group[Math.floor(Math.random() * group.length)];
     }
 };
+// ========================================================
+// INPUT AND AUDIO SECTION STATE END 
+// ========================================================
 
     // ৩. কোর ক্যালকুলেশন ইঞ্জিন
     wheelManager: {
