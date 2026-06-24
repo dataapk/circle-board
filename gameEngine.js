@@ -615,47 +615,9 @@ function getSymbolsAt(index) {
 
 
 
-// ======================================================
-// 🏆 START: INITIAL PAYOUT SYSTEM
-// ======================================================
-
-function getFinalMultiplier() {
-
-    return getSymbolCount() * getBonusMultiplier();
-
-}
-
-function calculateWinAmount(betAmount) {
-
-    return betAmount * getFinalMultiplier();
-
-}
-
-function setLastWin(amount) {
-
-    state.lastWin = amount;
-
-}
-
-function getLastWin() {
-
-    return state.lastWin;
-
-}
-
-function payWin(amount) {
-
-    state.balance += amount;
-
-    state.lastWin = amount;
-
-}
 
 // ======================================================
-// 🏆 END: INITIAL PAYOUT SYSTEM
-// ======================================================
-// ======================================================
-// 🎡 START: RESULT ENGINE CORE
+// 🎡 START: RESULT PAYOUT ENGINE CORE
 // ======================================================
 
 
