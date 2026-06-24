@@ -387,28 +387,27 @@ function startWheelSpin() {
     console.log("[SPIN] START");
 
     GameEngine.lockBets();
+    GameEngine.startSpin();
 
     playSpinAudio();
 
-    GameEngine.startSpin();
+    const finalIndex = GameEngine.getFinalIndex();
+    const anglePerSlot = 360 / 18;
 
-    wheel.style.transition = "transform 4s ease-out";
-    wheel.style.transform = "rotate(1800deg)";
+    const finalAngle = (finalIndex * anglePerSlot) + (1440); // 4 full spins
+
+    wheel.style.transition = "transform 14s cubic-bezier(0.12, 0.85, 0.25, 1)";
+    wheel.style.transform = `rotate(${finalAngle}deg)`;
 
     spinBtn.classList.add("spinning");
 
-    // =========================
-    // ⏱️ SPIN END TRIGGER
-    // =========================
     setTimeout(() => {
-
-        const finalIndex = Math.floor(Math.random() * 18); // test index
 
         GameEngine.endSpin(finalIndex);
 
         spinBtn.classList.remove("spinning");
 
-    }, 4000);
+    }, 14000);
 }
 // ======================================================
 // 🎡 END: INITIAL WHEEL EVENTS
