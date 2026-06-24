@@ -985,6 +985,7 @@ function isRoundActive() {
         selectChip,
         placeBet,
         getCurrentChip,
+        getCurrentSpinStatus,
 
         getCurrentBalance,
         getCurrentBets,
