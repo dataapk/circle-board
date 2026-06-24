@@ -979,7 +979,10 @@ function isRoundActive() {
     return {
         
         getBalance,
-        resetBoard     
+        getCurrentBalance,
+        
+        resetBoard 
+        
                     // এখন এটি ঘর অবজেক্ট রিটার্ন করে
                // নতুন ভোল্টেজ বোনাস মেকার
            };
