@@ -24,7 +24,9 @@ window.GameEngine = (function () {
     // 🎡 SECTION 2: WHEEL SLOTS & BONUS CONFIGURATION [START]
     // ========================================================
     // আপনার দেওয়া ১৮টি ঘরের নিখুঁত সিকুয়েন্স ম্যাপিং ও গুটি/মাল্টিপ্লায়ার সংখ্যা
-    const WHEEL_SLOTS = [
+   const GameEngine = {
+    // অন্যান্য ফাংশন
+    WHEEL_SLOTS: [
         { slot: 1,  symbol: "heart",   count: 2 },
         { slot: 2,  symbol: "spade",   count: 2 },
         { slot: 3,  symbol: "flag",    count: 3 }, // জ্যাকপট
@@ -44,8 +46,7 @@ window.GameEngine = (function () {
         { slot: 17, symbol: "diamond", count: 2 },
         { slot: 18, symbol: "club",    count: 3 }  // জ্যাকপট
         
-    ]; // ব্র্যাকেটের বাইরে এখানে রাখুন
-         window.WHEEL_SLOTS = WHEEL_SLOTS;
+    ]; 
 
     // আপনার চাহিদা অনুযায়ী আকর্ষণীয় ৫X থেকে ৩০X মেগা বোনাস রেঞ্জ
     const BONUS_MULTIPLIERS = [5, 10, 15, 20, 25, 30];
