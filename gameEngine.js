@@ -235,14 +235,7 @@ function placeBet(symbol) {
         console.log("[BET] BLOCKED: Not enough balance");
         return false;
     }
-    function startSpin() {
-
-    state.isSpinning = true;
-
-    console.log("[ENGINE] SPIN STARTED");
-
-}
-
+    
     // =========================
     // 💰 APPLY BET
     // =========================
@@ -265,7 +258,19 @@ function placeBet(symbol) {
 
     return true;
 }
+// ======================================================
+// 🎯 START STARTGAME 
+// ======================================================
+function startSpin() {
 
+    state.isSpinning = true;
+
+    console.log("[ENGINE] SPIN STARTED");
+
+}
+ // ======================================================
+// 🎯 END STARTGAME 
+// ======================================================
 
 // ======================================================
 // 🎯 GET BET SYSTEM
