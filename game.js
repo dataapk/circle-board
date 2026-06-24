@@ -197,6 +197,35 @@
     // 📊 SECTION 5: BOARD UI & BADGES UPDATE [END]
     // ========================================================
 
+    // ========================================================
+    // 📊 SECTION 5:ONSPIN SECTION রেজাল্ট এবং বোনাস জেনারেট করা
+    // ========================================================
+    // আপনার game.js এ এটি যুক্ত করুন (যদি onSpin না থাকে তবে নতুন করে দিন, আর থাকলে পুরনোটি মুছে এটি বসান)
+async function onSpin() {
+    // ১. গেম লক করা যাতে স্পিন চলাকালীন কেউ আবার ক্লিক না করে
+    GameEngine.lock();
+    
+    // ২. রেজাল্ট এবং বোনাস জেনারেট করা
+    const result = GameEngine.generateResult();
+    const bonus = GameEngine.generateVoltageBonus(result);
+    
+    // ৩. UI-তে স্পিন অ্যানিমেশন বা অন্যান্য কাজ (আপনার বর্তমান সিস্টেম অনুযায়ী)
+    // উদাহরণ: rotateWheelTo(result.slot); 
+    
+    // ৪. ২ সেকেন্ড পর রেজাল্ট সেটেল করা (অ্যানিমেশন সময়ের সাথে মিল রাখুন)
+    setTimeout(() => {
+        // ৫. ইঞ্জিন থেকে পেমেন্ট ক্যালকুলেশন এবং ব্যালেন্স আপডেট
+        const payout = GameEngine.resolvePayout(result, bonus);
+        
+        // ৬. UI আপডেট (আপনার বর্তমান ফাংশনগুলো এখানে কল করুন)
+        updateBoardUI(); 
+        console.log("Spin Result:", payout.result, "Win:", payout.win);
+        
+        // ৭. গেম আনলক করা
+        GameEngine.unlock();
+    }, 2000); 
+}
+
 
     // ========================================================
     // 🛑 SECTION 6: SPIN BUTTON LOCK/UNLOCK STATE [START]
