@@ -392,15 +392,7 @@ function startWheelSpin() {
     // 🔒 UI + ENGINE LOCK
     // =========================
 
-    uiLocked = true;
-
-    isSpinningUI = true;
-
-
-
     GameEngine.lockBets();
-
-
 
     // =========================
     // 🔊 AUDIO
