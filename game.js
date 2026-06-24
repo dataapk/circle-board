@@ -567,11 +567,29 @@ function resetBoardUI() {
 
 function refreshGameUI() {
 
+    // =========================
+    // 💰 BALANCE
+    // =========================
+
     updateBalanceUI();
+
+    // =========================
+    // 🎯 BETS
+    // =========================
 
     updateBetUI();
 
+    // =========================
+    // 🪙 CHIP
+    // =========================
+
     updateChipUI();
+
+    // =========================
+    // 🏆 RESULT
+    // =========================
+
+    updateResultUI();
 
     console.log("[UI] REFRESH COMPLETE");
 
