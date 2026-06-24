@@ -980,15 +980,28 @@ function isRoundActive() {
         
         getBalance,
         getCurrentBalance,
-        getBalance,
         getSelectedChip,
         selectChip,
         placeBet,
         getCurrentChip,
         getCurrentSpinStatus,
+        hasBets,
+        getBet,
+        getAllBets,
+        getTotalBet,
+        clearBets,
+        startNewRound,
+       endRound,
+        resetRoundData,
 
         getCurrentBalance,
         getCurrentBets,
+        getWheelRotation,
+        setWheelRotation,
+        getWheelSlots,
+        getWheelRotation,
+       setWheelRotation,
+       getWheelSlots,
 
         getGameState,
         playChipSound,
@@ -996,6 +1009,11 @@ function isRoundActive() {
        playSpinSound,
        playSpinButtonSound,
         isBetLocked,
+       lockBets,
+       unlockBets,
+       getCurrentTotalBet,
+       getCurrentLastWin,
+       getCurrentLastResult,
         
         resetBoard 
         
