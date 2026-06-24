@@ -1,40 +1,46 @@
-// ========================================================
-// SECTION 1: CORE & DOM INITIALIZATION
-// ========================================================
-// এখানে সব DOM এলিমেন্ট ম্যাপিং এবং গেমের শুরুতে যা যা প্রয়োজন তা থাকবে।
-// ========================================================
-// SECTION 1: CORE & DOM INITIALIZATION
-// ========================================================
+// game.js
 const App = {
-    // এখানে সমস্ত DOM এলিমেন্ট এবং অডিও রেফারেন্স রাখা হলো
-    ui: {
-        spinBtn: document.getElementById("spin-button"),
-        resetBtn: document.getElementById("reset-button"),
-        balanceDisplay: document.getElementById("balance-display"),
-        betDisplay: document.getElementById("bet-display"),
-        chips: document.querySelectorAll(".chip"), // সব চিপস একসাথে
-        boardCells: document.querySelectorAll(".board-cell") // বোর্ডের সেলগুলো
-    },
-    
-    audio: {
-        chipSound: document.getElementById("chipSound"),
-        spinSound: document.getElementById("spinSound"),
-        winSound: document.getElementById("winSound")
-    },
+    engine: GameEngine,
+    currentBet: 0.10,
 
     init: function() {
-        console.log("%c[System] Initializing Game & Mapping DOM...", "color: blue; font-weight: bold;");
-        
-        // এখানে কনসোল চেক করা যে DOM এলিমেন্টগুলো ঠিকঠাক পেয়েছে কি না
-        console.log("[System] DOM Mapped:", this.ui);
-        console.log("[System] Audio Mapped:", this.audio);
-        
-        // পরবর্তীতে আমরা এখানে অন্য সেকশনগুলো কল করব
-        // যেমন: this.initChipSystem();
-        // যেমন: this.initWheelSystem();
+        document.getElementById('spinBtn').addEventListener('click', () => this.handleSpin());
+        document.querySelectorAll('.chip').forEach(c => {
+            c.addEventListener('click', (e) => {
+                this.currentBet = parseFloat(e.currentTarget.dataset.value);
+                document.getElementById('chipSound').play();
+            });
+        });
+    },
+
+    handleSpin: function() {
+        if (this.engine.state.isSpinning) return;
+
+        this.engine.state.isSpinning = true;
+        document.getElementById('spinBtn').disabled = true;
+        document.getElementById('spinButtonSound').play();
+        document.getElementById('spinSound').play();
+
+        const rotation = Math.floor(Math.random() * 360) + 1800;
+        const wheel = document.getElementById('wheel');
+        wheel.style.transition = "transform 4s ease-out";
+        wheel.style.transform = `rotate(${rotation}deg)`;
+
+        setTimeout(() => {
+            const result = this.engine.calculateResult(rotation);
+            const win = this.engine.config.payoutTable[result] * this.currentBet;
+            
+            this.engine.state.currentBalance += win;
+            document.getElementById('balanceAmount').innerText = `$${this.engine.state.currentBalance.toFixed(2)}`;
+            
+            this.engine.state.isSpinning = false;
+            document.getElementById('spinBtn').disabled = false;
+            document.getElementById('tableSound').play();
+        }, 4000);
     }
 };
 
+// গেম শুরু
 document.addEventListener("DOMContentLoaded", () => App.init());
 
 
@@ -78,13 +84,7 @@ App.initChipSystem = function() {
 
     console.log("[Initial Chip System] Ready for user interaction.");
 };
-// ========================================================
-// SECTION 3: INITIAL WHEEL SYSTEM
-// ========================================================
 
-// ========================================================
-// SECTION 3: INITIAL WHEEL SYSTEM (Update)
-// ========================================================
 // ========================================================
 // SECTION 3: INITIAL WHEEL SYSTEM (Updated)
 // ========================================================
