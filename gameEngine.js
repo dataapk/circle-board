@@ -1,88 +1,607 @@
-// ========================================================
-// GAME ENGINE - CENTRAL LOGIC & STATE MANAGEMENT
-// ========================================================
-const GameEngine = {
-    // সেকশন ১: স্টেট ম্যানেজমেন্ট (গেমের ডাটা)
-    state: {
-        currentBalance: 1000.00,
-        currentBet: 0.10,
-        isSpinning: false,
-        history: [] // সর্বশেষ রেজাল্ট ট্র্যাক করার জন্য
+// ======================================================
+// 🧠 START: GAME ENGINE
+// ======================================================
+// ======================================================
+// 🔒 START: PRIVATE GAME STATE
+// ======================================================
+
+const state = {
+
+    balance: 1000,
+
+    selectedChip: 0.10,
+
+    bets: {
+        heart: 0,
+        diamond: 0,
+        club: 0,
+        spade: 0,
+        crown: 0,
+        flag: 0
     },
 
-    // সেকশন ২: গেম কনফিগারেশন
-    config: {
-        payoutTable: { 
-            "heart": 10, "diamond": 20, "club": 30, 
-            "spade": 40, "crown": 50, "flag": 60 
-        }
-    },
+    totalBet: 0,
 
-    // সেকশন ৩: চিপ সিস্টেম লজিক
-    chipManager: {
-        setSelection: function(value) {
-            if (value > 0) {
-                GameEngine.state.currentBet = value;
-                return true;
-            }
-            return false;
-        }
-    },
+    wheelRotation: 0,
 
-    // সেকশন ৪: হুইল ক্যালকুলেশন লজিক
-    calculateResult: function(rotation) {
-        const symbols = Object.keys(this.config.payoutTable);
-        const index = Math.floor((rotation % 360) / 60); 
-        const result = symbols[index];
-        
-        // রেজাল্ট হিস্ট্রিতে পুশ করা (বোনাস লজিকের জন্য)
-        this.state.history.unshift(result);
-        if (this.state.history.length > 3) this.state.history.pop();
-        
-        return { 
-            symbol: result, 
-            value: this.config.payoutTable[result] 
-        };
-    },
+    currentResult: null,
 
-    // সেকশন ৫: রেজাল্ট ও বোনাস লজিক
-    processPayout: function(symbolValue) {
-        let win = this.state.currentBet * symbolValue;
-        let bonus = 0;
+    winningSlot: null,
 
-        // বোনাস লজিক: টানা ৩ বার একই সিম্বল আসলে ১০ ডলার বোনাস
-        if (this.state.history.length === 3 && 
-            this.state.history[0] === this.state.history[1] && 
-            this.state.history[1] === this.state.history[2]) {
-            bonus = 10;
-        }
+    lastWin: 0,
 
-        const totalPayout = win + bonus;
-        this.state.currentBalance += totalPayout;
-        
-        return { totalPayout, bonus };
-    },
+    lastResult: null,
 
-    // সেকশন ৬: ব্যালেন্স আপডেট
-    updateBalance: function(amount) {
-        this.state.currentBalance += amount;
-        return this.state.currentBalance;
-    },
+    isSpinning: false,
 
-    // সেকশন ৭: রিসেট লজিক
-    resetSystem: function() {
-        this.state.isSpinning = false;
-        console.log("[Engine] Round reset complete.");
-    },
+    isBetLocked: false
 
-    // সেকশন ৮: অডিও হ্যান্ডলিং
-    audio: {
-        playSound: function(name) {
-            const sound = document.getElementById(name + 'Sound');
-            if (sound) {
-                sound.currentTime = 0;
-                sound.play().catch(e => console.warn("Audio block:", e));
-            }
-        }
-    }
 };
+
+// ======================================================
+// 🔒 END: PRIVATE GAME STATE
+// ======================================================
+
+// ======================================================
+// 🔊 START: INITIAL AUDIO SYSTEM
+// ======================================================
+
+const audio = {
+
+    chip: null,
+
+    table: null,
+
+    spin: null,
+
+    spinButton: null
+
+};
+
+function playChipSound() {
+
+    if (!audio.chip) return;
+
+    audio.chip.currentTime = 0;
+    audio.chip.play();
+
+}
+
+function playTableSound() {
+
+    if (!audio.table) return;
+
+    audio.table.currentTime = 0;
+    audio.table.play();
+
+}
+
+function playSpinSound() {
+
+    if (!audio.spin) return;
+
+    audio.spin.currentTime = 0;
+    audio.spin.play();
+
+}
+
+function playSpinButtonSound() {
+
+    if (!audio.spinButton) return;
+
+    audio.spinButton.currentTime = 0;
+    audio.spinButton.play();
+
+}
+
+// ======================================================
+// 🔊 END: INITIAL AUDIO SYSTEM
+// ======================================================
+
+
+
+// ======================================================
+// 💰 START: INITIAL BALANCE SYSTEM
+// ======================================================
+
+function getBalance() {
+
+    return state.balance;
+
+}
+
+function setBalance(amount) {
+
+    state.balance = amount;
+
+}
+
+function addBalance(amount) {
+
+    state.balance += amount;
+
+}
+
+function subtractBalance(amount) {
+
+    state.balance -= amount;
+
+}
+
+function hasEnoughBalance(amount) {
+
+    return state.balance >= amount;
+
+}
+
+// ======================================================
+// 💰 END: INITIAL BALANCE SYSTEM
+// ======================================================
+
+
+
+// ======================================================
+// 🪙 START: INITIAL CHIP SYSTEM
+// ======================================================
+
+function getSelectedChip() {
+
+    return state.selectedChip;
+
+}
+
+function selectChip(value) {
+
+    state.selectedChip = Number(value);
+
+}
+
+function hasSelectedChip() {
+
+    return state.selectedChip > 0;
+
+}
+
+// ======================================================
+// 🪙 END: INITIAL CHIP SYSTEM
+// ======================================================
+
+
+
+// ======================================================
+// 🎯 START: INITIAL BET SYSTEM
+// ======================================================
+
+function placeBet(symbol) {
+
+    if (state.isBetLocked) return false;
+
+    if (!hasEnoughBalance(state.selectedChip)) return false;
+
+    state.bets[symbol] += state.selectedChip;
+
+    state.totalBet += state.selectedChip;
+
+    subtractBalance(state.selectedChip);
+
+    return true;
+
+}
+
+function getBet(symbol) {
+
+    return state.bets[symbol] || 0;
+
+}
+
+function getAllBets() {
+
+    return state.bets;
+
+}
+
+function getTotalBet() {
+
+    return state.totalBet;
+
+}
+
+function clearBets() {
+
+    state.bets = {
+
+        heart: 0,
+        diamond: 0,
+        club: 0,
+        spade: 0,
+        crown: 0,
+        flag: 0
+
+    };
+
+    state.totalBet = 0;
+
+}
+
+function hasBets() {
+
+    return state.totalBet > 0;
+
+}
+
+// ======================================================
+// 🎯 END: INITIAL BET SYSTEM
+// ======================================================
+
+
+
+// ======================================================
+// 🎡 START: INITIAL WHEEL SYSTEM
+// ======================================================
+
+const wheelSlots = [
+
+    "heart",
+    "diamond",
+    "club",
+    "spade",
+    "crown",
+    "flag",
+
+    "heart",
+    "diamond",
+    "club",
+    "spade",
+    "crown",
+    "flag",
+
+    "heart",
+    "diamond",
+    "club",
+    "spade",
+    "crown",
+    "flag"
+
+];
+
+function getWheelSlots() {
+
+    return wheelSlots;
+
+}
+
+function getWheelRotation() {
+
+    return state.wheelRotation;
+
+}
+
+function setWheelRotation(angle) {
+
+    state.wheelRotation = angle;
+
+}
+
+// ======================================================
+// 🎡 END: INITIAL WHEEL SYSTEM
+// ======================================================
+
+
+// ======================================================
+// 🎲 START: INITIAL RESULT SYSTEM
+// ======================================================
+
+function calculateResult(slotData) {
+
+    setResult(
+        slotData.slot,
+        slotData.symbol
+    );
+
+    setSymbolCount(
+        slotData.symbolCount
+    );
+
+    setBonusMultiplier(
+        slotData.bonusMultiplier
+    );
+
+    return {
+
+        slot: slotData.slot,
+
+        symbol: slotData.symbol,
+
+        symbolCount: slotData.symbolCount,
+
+        bonusMultiplier: slotData.bonusMultiplier
+
+    };
+
+}
+
+function getCurrentResult() {
+
+    return {
+
+        slot: state.winningSlot,
+
+        symbol: state.currentResult,
+
+        symbolCount: getSymbolCount(),
+
+        bonusMultiplier: getBonusMultiplier()
+
+    };
+
+}
+
+// ======================================================
+// 🎲 END: INITIAL RESULT SYSTEM
+// ======================================================
+
+
+
+// ======================================================
+// 🏆 START: INITIAL PAYOUT SYSTEM
+// ======================================================
+
+function getFinalMultiplier() {
+
+    return getSymbolCount() * getBonusMultiplier();
+
+}
+
+function calculateWinAmount(betAmount) {
+
+    return betAmount * getFinalMultiplier();
+
+}
+
+function setLastWin(amount) {
+
+    state.lastWin = amount;
+
+}
+
+function getLastWin() {
+
+    return state.lastWin;
+
+}
+
+function payWin(amount) {
+
+    state.balance += amount;
+
+    state.lastWin = amount;
+
+}
+
+// ======================================================
+// 🏆 END: INITIAL PAYOUT SYSTEM
+// ======================================================
+
+
+// ======================================================
+// 🔄 START: INITIAL NEW ROUND SYSTEM
+// ======================================================
+
+function lockBets() {
+
+    state.isBetLocked = true;
+
+}
+
+function unlockBets() {
+
+    state.isBetLocked = false;
+
+}
+
+function startNewRound() {
+
+    state.currentResult = null;
+
+    state.winningSlot = null;
+
+    state.symbolCount = 0;
+
+    state.bonusMultiplier = 1;
+
+    state.lastWin = 0;
+
+    state.isSpinning = false;
+
+    unlockBets();
+
+}
+
+function endRound() {
+
+    state.isSpinning = false;
+
+}
+
+function resetRoundData() {
+
+    state.currentResult = null;
+
+    state.winningSlot = null;
+
+    state.symbolCount = 0;
+
+    state.bonusMultiplier = 1;
+
+}
+
+// ======================================================
+// 🔄 END: INITIAL NEW ROUND SYSTEM
+// ======================================================
+// ======================================================
+// 🔄 START: BOARD RESET SYSTEM
+// ======================================================
+
+function resetBoard() {
+
+    state.bets = {
+
+        heart: 0,
+        diamond: 0,
+        club: 0,
+        spade: 0,
+        crown: 0,
+        flag: 0
+
+    };
+
+    state.totalBet = 0;
+
+    state.selectedChip = 0.10;
+
+}
+
+// ======================================================
+// 🔄 END: BOARD RESET SYSTEM
+// ======================================================
+
+
+// ======================================================
+// 📊 START: GAME DATA SYSTEM
+// ======================================================
+
+function getGameState() {
+
+    return state;
+
+}
+
+function getCurrentBalance() {
+
+    return state.balance;
+
+}
+
+function getCurrentBets() {
+
+    return state.bets;
+
+}
+
+function getCurrentTotalBet() {
+
+    return state.totalBet;
+
+}
+
+function getCurrentChip() {
+
+    return state.selectedChip;
+
+}
+
+function getCurrentWheelRotation() {
+
+    return state.wheelRotation;
+
+}
+
+function getCurrentLastWin() {
+
+    return state.lastWin;
+
+}
+
+function getCurrentLastResult() {
+
+    return state.lastResult;
+
+}
+
+function getCurrentSpinStatus() {
+
+    return state.isSpinning;
+
+}
+
+// ======================================================
+// 🌍 START: PUBLIC GAME API
+// ======================================================
+
+return {
+
+    // AUDIO
+    playChipSound,
+    playTableSound,
+    playSpinSound,
+    playSpinButtonSound,
+
+    // BALANCE
+    getBalance,
+    setBalance,
+    addBalance,
+    subtractBalance,
+    hasEnoughBalance,
+
+    // CHIP
+    getSelectedChip,
+    selectChip,
+    hasSelectedChip,
+
+    // BET
+    placeBet,
+    getBet,
+    getAllBets,
+    getTotalBet,
+    clearBets,
+    hasBets,
+
+    // WHEEL
+    getWheelSlots,
+    getWheelRotation,
+    setWheelRotation,
+
+    // RESULT
+    calculateResult,
+    getCurrentResult,
+    getResult,
+    getWinningSlot,
+    getSymbolCount,
+    getBonusMultiplier,
+
+    // PAYOUT
+    getFinalMultiplier,
+    calculateWinAmount,
+    setLastWin,
+    getLastWin,
+    payWin,
+
+    // ROUND
+    startNewRound,
+    endRound,
+    resetRoundData,
+    lockBets,
+    unlockBets,
+    resetBoard,
+
+    // DATA
+    getGameState,
+    getCurrentBalance,
+    getCurrentBets,
+    getCurrentTotalBet,
+    getCurrentChip,
+    getCurrentWheelRotation,
+    getCurrentLastWin,
+    getCurrentLastResult,
+    getCurrentSpinStatus
+
+};
+
+// ======================================================
+// 🌍 END: PUBLIC GAME API
+// ======================================================
+
+
+// ======================================================
+// 🧠 END: GAME ENGINE
+// ======================================================
