@@ -1,91 +1,58 @@
-// ======================================================
+// ========================================================
 // 🧠 CLEAN GAME ENGINE V4 (PRO iGaming Logic with Voltage Bonus)
-// ======================================================
+// ========================================================
 
-window.GameEngine = (function () {
-
-    // ========================================================
-    // 📂 SECTION 1: CORE STATE MANAGEMENT [START]
-    // ========================================================
-    const state = {
+window.GameEngine = {
+    // 📂 SECTION 1: CORE STATE MANAGEMENT
+    state: {
         balance: 1000.00,
-        bets: {}, // যেমন: { heart: 0.50, crown: 1.00 }
+        bets: {},
         isSpinning: false,
         lastResult: null,
-        rotation: 0,
-        selectedChip: { value: 0.10 } 
-    };
-    // ========================================================
-    // 📂 SECTION 1: CORE STATE MANAGEMENT [END]
-    // ========================================================
+        selectedChip: { value: 0.10 }
+    },
 
-
-    // ========================================================
-    // 🎡 SECTION 2: WHEEL SLOTS & BONUS CONFIGURATION [START]
-    // ========================================================
-    // আপনার দেওয়া ১৮টি ঘরের নিখুঁত সিকুয়েন্স ম্যাপিং ও গুটি/মাল্টিপ্লায়ার সংখ্যা
-   const GameEngine = {
-    // অন্যান্য ফাংশনগুলো এখানে আছে...
-
+    // 🎡 SECTION 2: WHEEL SLOTS & BONUS CONFIGURATION
     WHEEL_SLOTS: [
         { slot: 1,  symbol: "heart",   count: 2 },
         { slot: 2,  symbol: "spade",   count: 2 },
-        { slot: 3,  symbol: "flag",    count: 3 }, // জ্যাকপট
+        { slot: 3,  symbol: "flag",    count: 3 },
         { slot: 4,  symbol: "club",    count: 2 },
         { slot: 5,  symbol: "spade",   count: 1 },
-        { slot: 6,  symbol: "diamond", count: 3 }, // জ্যাকপট
+        { slot: 6,  symbol: "diamond", count: 3 },
         { slot: 7,  symbol: "flag",    count: 2 },
         { slot: 8,  symbol: "crown",   count: 1 },
-        { slot: 9,  symbol: "spade",   count: 3 }, // জ্যাকপট
+        { slot: 9,  symbol: "spade",   count: 3 },
         { slot: 10, symbol: "diamond", count: 2 },
         { slot: 11, symbol: "heart",   count: 1 },
-        { slot: 12, symbol: "crown",   count: 3 }, // জ্যাকপট
+        { slot: 12, symbol: "crown",   count: 3 },
         { slot: 13, symbol: "spade",   count: 2 },
         { slot: 14, symbol: "flag",    count: 2 },
-        { slot: 15, symbol: "heart",   count: 3 }, // জ্যাকপট
+        { slot: 15, symbol: "heart",   count: 3 },
         { slot: 16, symbol: "crown",   count: 2 },
         { slot: 17, symbol: "diamond", count: 2 },
-        { slot: 18, symbol: "club",    count: 3 }  // জ্যাকপট
-    ] // খেয়াল করুন: এখানে কোনো সেমিকোলন হবে না, বরং কমা হতে পারে যদি এর নিচে আরও প্রপার্টি থাকে
-};
+        { slot: 18, symbol: "club",    count: 3 }
+    ],
 
-    // আপনার চাহিদা অনুযায়ী আকর্ষণীয় ৫X থেকে ৩০X মেগা বোনাস রেঞ্জ
-    const BONUS_MULTIPLIERS = [5, 10, 15, 20, 25, 30];
-    // ========================================================
-    // 🎡 SECTION 2: WHEEL SLOTS & BONUS CONFIGURATION [END]
-    // ========================================================
+    BONUS_MULTIPLIERS: [5, 10, 15, 20, 25, 30],
 
-
-    // ========================================================
-    // 🛡️ SECTION 3: RTP (95%) & HOUSE EDGE (5%) ENGINE [START]
-    // ========================================================
-    // আইগেমিং ফেয়ার প্লে এবং হাউজ প্রফিট কন্ট্রোলড রেজাল্ট জেনারেটর
+    // 🛡️ SECTION 3: RTP & HOUSE EDGE ENGINE
     generateResult: function() {
         const randomIndex = Math.floor(Math.random() * this.WHEEL_SLOTS.length);
         return this.WHEEL_SLOTS[randomIndex];
     },
 
-    // অন্য ফাংশনগুলোও এভাবে লিখুন
-    unlock: function() {
-        // ... কোড
-    }
-};
-    // ভোল্টেজ লাইটেনিং বোনাস ক্যালকুলেশন (উইটেড প্রোবাবিলিটি মডেল)
-    function generateVoltageBonus(winningSlot) {
+    generateVoltageBonus: function(winningSlot) {
         const chance = Math.floor(Math.random() * 100) + 1;
         let hasBonus = false;
         let multiplier = 1;
         let targetSlot = null;
 
-        // ৮০% বার আকর্ষণীয় বোনাস অ্যানিমেশন প্লেয়ারকে এঙ্গেজ রাখার জন্য স্ক্রিনে উঁকি দেবে
-        if (chance > 20) { 
+        if (chance > 20) {
             hasBonus = true;
-            multiplier = BONUS_MULTIPLIERS[Math.floor(Math.random() * BONUS_MULTIPLIERS.length)];
+            multiplier = this.BONUS_MULTIPLIERS[Math.floor(Math.random() * this.BONUS_MULTIPLIERS.length)];
             
-            // ৯৫% RTP এর গাণিতিক ব্যালেন্স ঠিক রাখতে:
-            // ২৫% চান্স বোনাসটি সত্যি উইনিং স্লটে পড়বে (Real Hit)
-            // ৭৫% চান্স বোনাসটি অন্য কোনো ঘরে পড়বে (Attractive Near-Miss Bait)
-            const isRealHit = Math.random() < 0.25; 
+            const isRealHit = Math.random() < 0.25;
             if (isRealHit) {
                 targetSlot = winningSlot.slot;
             } else {
@@ -94,7 +61,22 @@ window.GameEngine = (function () {
             }
         }
         return { hasBonus, multiplier, targetSlot };
+    },
+
+    unlock: function() {
+        this.state.isSpinning = false;
+    },
+
+    reset: function() {
+        this.state.lastResult = null;
+    },
+
+    resolvePayout: function(winningData, bonusData) {
+        // এখানে আপনার পে-আউট লজিক যোগ করুন
+        console.log("Payout calculated for:", winningData, bonusData);
+        return { balance: this.state.balance }; 
     }
+};
     // ========================================================
     // 🛡️ SECTION 3: RTP (95%) & HOUSE EDGE (5%) ENGINE [END]
     // ========================================================
