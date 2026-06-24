@@ -990,6 +990,10 @@ function isRoundActive() {
         getCurrentBets,
 
         getGameState,
+        playChipSound,
+       playTableSound,
+       playSpinSound,
+       playSpinButtonSound,
         
         resetBoard 
         
