@@ -983,63 +983,7 @@ function isRoundActive() {
 // 🌍 START: PUBLIC GAME API
 // ======================================================
 
-return {
 
-    // 🔊 AUDIO
-    playChipSound,
-    playTableSound,
-    playSpinSound,
-    playSpinButtonSound,
-
-    // 💰 BALANCE
-    getBalance,
-    setBalance,
-    addBalance,
-    subtractBalance,
-    hasEnoughBalance,
-
-    // 🪙 CHIP SYSTEM
-    getSelectedChip,
-    selectChip,
-    hasSelectedChip,
-
-    // 🎯 BET SYSTEM
-    placeBet,
-    getBet,
-    getAllBets,
-    getTotalBet,
-    clearBets,
-    hasBets,
-
-    // 🎡 WHEEL SYSTEM
-    getWheelSlots,
-    getWheelRotation,
-    setWheelRotation,
-
-    // 🧠 RESULT ENGINE
-    getCurrentResult,
-    getWinningSlot,
-    getSymbolCount,
-    getBonusMultiplier,
-    getFinalIndex,
-    getFinalSymbols,
-
-    // 💰 PAYOUT
-    getFinalMultiplier,
-    getLastWin,
-
-    // 🔄 ROUND CONTROL
-    startNewRound,
-    endRound,
-    resetRoundData,
-    lockBets,
-    unlockBets,
-    resetBoard,
-
-   
-};
-
-})(); // ✅ ONLY ONE CLOSURE
 
 // ======================================================
 // 🧠 END: GAME ENGINE
