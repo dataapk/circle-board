@@ -994,6 +994,7 @@ function isRoundActive() {
        playTableSound,
        playSpinSound,
        playSpinButtonSound,
+        isBetLocked,
         
         resetBoard 
         
