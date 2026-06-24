@@ -1035,16 +1035,7 @@ return {
     unlockBets,
     resetBoard,
 
-    // 📊 DATA LAYER
-    getGameState,
-    getCurrentBalance,
-    getCurrentBets,
-    getCurrentTotalBet,
-    getCurrentChip,
-    getCurrentWheelRotation,
-    getCurrentLastWin,
-    getCurrentLastResult,
-    getCurrentSpinStatus
+   
 };
 
 })(); // ✅ ONLY ONE CLOSURE
