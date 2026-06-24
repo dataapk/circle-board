@@ -973,21 +973,27 @@ function isRoundActive() {
     return !state.isBetLocked && !state.isSpinning;
 
 }
+    // ========================================================
+    // 🌐 SECTION 9: PUBLIC APPLICATION PROGRAMMING INTERFACE [START]
+    // ========================================================
+    return {
+        getState,
+        getBalance,
+        setSelectedChip,
+        getChip,
+        placeBet,
+        clearCurrentBets,
+        generateResult,             // এখন এটি ঘর অবজেক্ট রিটার্ন করে
+        generateVoltageBonus,       // নতুন ভোল্টেজ বোনাস মেকার
+        lock,
+        unlock,
+        setRotation,
+        calculateWin,
+        resolvePayout,
+        reset
     };
+    // ========================================================
+    // 🌐 SECTION 9: PUBLIC APPLICATION PROGRAMMING INTERFACE [END]
+    // ========================================================
 
 })();
-
-// ======================================================
-// 📊 END: GAME DATA SYSTEM (UPGRADED)
-// ======================================================
-
-
-// ======================================================
-// 🌍 START: PUBLIC GAME API
-// ======================================================
-
-
-
-// ======================================================
-// 🧠 END: GAME ENGINE
-// ======================================================
