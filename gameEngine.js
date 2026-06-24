@@ -271,6 +271,25 @@ function startSpin() {
  // ======================================================
 // 🎯 END STARTGAME 
 // ======================================================
+    // ======================================================
+// 🎯 START END SPIN
+// ======================================================
+    function endSpin(finalIndex) {
+
+    console.log("[ENGINE] SPIN END");
+
+    // result resolve
+    runResultEngine(finalIndex);
+
+    // unlock round
+    state.isBetLocked = false;
+    state.isSpinning = false;
+
+    console.log("[ENGINE] UNLOCKED");
+}
+    // ======================================================
+// 🎯  END SPIN
+// ======================================================
 
 // ======================================================
 // 🎯 GET BET SYSTEM
