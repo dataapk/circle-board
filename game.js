@@ -47,41 +47,52 @@ function playChipAudio() {
 
     console.log("[AUDIO] CHIP");
 
-    GameEngine.playChipSound();
+    if (typeof GameEngine !== "undefined") {
+        GameEngine.playChipSound();
+    }
 
 }
+
 
 function playTableAudio() {
 
     console.log("[AUDIO] TABLE");
 
-    GameEngine.playTableSound();
+    if (typeof GameEngine !== "undefined") {
+        GameEngine.playTableSound();
+    }
 
 }
+
 
 function playSpinButtonAudio() {
 
     console.log("[AUDIO] SPIN BUTTON");
 
-    GameEngine.playSpinButtonSound();
+    if (typeof GameEngine !== "undefined") {
+        GameEngine.playSpinButtonSound();
+    }
 
 }
+
 
 function playSpinAudio() {
 
     console.log("[AUDIO] SPIN");
 
-    GameEngine.playSpinSound();
+    if (typeof GameEngine !== "undefined") {
+        GameEngine.playSpinSound();
+    }
 
 }
 
 // ======================================================
 // 🔊 END: INITIAL AUDIO EVENTS
-// ======================================================
+// =======================================================
 
 
 // ======================================================
-// 🪙 START: INITIAL CHIP EVENTS
+// 🪙 START: INITIAL CHIP SYSTEM
 // ======================================================
 
 function initializeChipSystem() {
@@ -90,9 +101,13 @@ function initializeChipSystem() {
 
 
 
+    // =========================
+    // 🎯 TOGGLE CHIP PANEL (CSS CONTROL ONLY)
+    // =========================
+
     defaultChip.addEventListener("click", () => {
 
-        console.log("[CHIP] FAN TOGGLE");
+        console.log("[CHIP] PANEL TOGGLE");
 
         chipsContainer.classList.toggle("closed");
 
@@ -102,24 +117,28 @@ function initializeChipSystem() {
 
 
 
+    // =========================
+    // 🪙 CHIP SELECTION
+    // =========================
+
     chips.forEach(chip => {
 
         chip.addEventListener("click", () => {
 
-            const chipValue = Number(
-                chip.dataset.value
-            );
-
-            console.log(
-                "[CHIP] SELECTED:",
-                chipValue
-            );
+            const chipValue =
+                Number(chip.dataset.value);
 
 
 
-            GameEngine.selectChip(
-                chipValue
-            );
+            console.log("[CHIP] SELECTED:", chipValue);
+
+
+
+            // =========================
+            // 🎯 ENGINE SYNC
+            // =========================
+
+            GameEngine.selectChip(chipValue);
 
 
 
@@ -127,15 +146,15 @@ function initializeChipSystem() {
 
 
 
-            swapDefaultChip(
-                chip
-            );
+            // =========================
+            // 🔄 SWAP UI STATE
+            // =========================
+
+            swapDefaultChip(chip);
 
 
 
-            chipsContainer.classList.add(
-                "closed"
-            );
+            chipsContainer.classList.add("closed");
 
         });
 
@@ -146,7 +165,24 @@ function initializeChipSystem() {
 
 
 // ======================================================
-// 🪙 START: SWAP DEFAULT CHIP
+// 🪙 DEFAULT CHIP FALLBACK LOGIC
+// ======================================================
+
+function getActiveChipValue() {
+
+    // যদি কেউ select না করে → default chip use হবে
+
+    const value =
+        Number(defaultChip.dataset.value);
+
+    return value || 0.10; // safety fallback
+
+}
+
+
+
+// ======================================================
+// 🪙 SWAP DEFAULT CHIP UI
 // ======================================================
 
 function swapDefaultChip(selectedChip) {
@@ -200,10 +236,11 @@ function swapDefaultChip(selectedChip) {
 
 }
 
-// ======================================================
-// 🪙 END: CHIPSECTION
-// ======================================================
 
+
+// ======================================================
+// 🪙 END: INITIAL CHIP SYSTEM
+// ======================================================
 
 // ======================================================
 // 🎯 START: INITIAL BET EVENTS
@@ -219,30 +256,40 @@ function initializeBetSystem() {
 
         symbolBox.addEventListener("click", () => {
 
+
+
+            // =========================
+            // 🚫 UI LOCK CHECK
+            // =========================
+
+            if (uiLocked) {
+                console.log("[BET] UI LOCKED");
+                return;
+            }
+
+
+
             const symbol =
                 symbolBox.dataset.symbol;
 
 
 
-            console.log(
-                "[BET] CLICK:",
-                symbol
-            );
+            console.log("[BET] CLICK:", symbol);
 
 
+
+            // =========================
+            // 🎯 PLACE BET (ENGINE)
+            // =========================
 
             const success =
-                GameEngine.placeBet(
-                    symbol
-                );
+                GameEngine.placeBet(symbol);
 
 
 
             if (!success) {
 
-                console.log(
-                    "[BET] FAILED"
-                );
+                console.log("[BET] FAILED");
 
                 return;
 
@@ -250,22 +297,27 @@ function initializeBetSystem() {
 
 
 
-            console.log(
-                "[BET] PLACED:",
-                symbol
-            );
+            console.log("[BET] PLACED:", symbol);
 
 
+
+            // =========================
+            // 🔊 AUDIO
+            // =========================
 
             playTableAudio();
 
 
 
+            // =========================
+            // 💰 UI UPDATE
+            // =========================
+
             updateBalanceUI();
 
-
-
             updateBetUI();
+
+            updateChipUI();
 
         });
 
@@ -290,6 +342,26 @@ function initializeWheelSystem() {
 
     spinBtn.addEventListener("click", () => {
 
+
+
+        // =========================
+        // 🚫 SAFETY CHECKS
+        // =========================
+
+        if (uiLocked || isSpinningUI) {
+            console.log("[SPIN] BLOCKED (UI LOCKED)");
+            return;
+        }
+
+
+
+        if (!GameEngine.hasBets()) {
+            console.log("[SPIN] NO BETS");
+            return;
+        }
+
+
+
         console.log("[SPIN] BUTTON CLICK");
 
 
@@ -306,9 +378,23 @@ function initializeWheelSystem() {
 
 
 
+// ======================================================
+// 🎡 SPIN FLOW CONTROLLER
+// ======================================================
+
 function startWheelSpin() {
 
     console.log("[SPIN] START");
+
+
+
+    // =========================
+    // 🔒 UI + ENGINE LOCK
+    // =========================
+
+    uiLocked = true;
+
+    isSpinningUI = true;
 
 
 
@@ -316,15 +402,35 @@ function startWheelSpin() {
 
 
 
+    // =========================
+    // 🔊 AUDIO
+    // =========================
+
     playSpinAudio();
 
 
 
-    // Wheel Animation
-    // Result Calculation
-    // Payout Calculation
-    // Board Reset
-    // New Round
+    // =========================
+    // 🎡 START ENGINE SPIN
+    // =========================
+
+    if (typeof GameEngine.startSpin === "function") {
+
+        GameEngine.startSpin();
+
+    } else {
+
+        console.error("[SPIN] Engine startSpin NOT FOUND");
+
+    }
+
+
+
+    // =========================
+    // 🎬 UI VISUAL STATE (OPTIONAL HOOK)
+    // =========================
+
+    spinBtn.classList.add("spinning");
 
 }
 
