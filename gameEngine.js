@@ -971,51 +971,38 @@ function isRoundActive() {
 
     return !state.isBetLocked && !state.isSpinning;
 
-};
+}
 
 // ======================================================
 // 📊 END: GAME DATA SYSTEM (UPGRADED)
 // ======================================================
+
+
 // ======================================================
 // 🌍 START: PUBLIC GAME API
 // ======================================================
 
 return {
 
-    // =========================
     // 🔊 AUDIO
-    // =========================
-
     playChipSound,
     playTableSound,
     playSpinSound,
     playSpinButtonSound,
 
-
-    // =========================
     // 💰 BALANCE
-    // =========================
-
     getBalance,
     setBalance,
     addBalance,
     subtractBalance,
     hasEnoughBalance,
 
-
-    // =========================
     // 🪙 CHIP SYSTEM
-    // =========================
-
     getSelectedChip,
     selectChip,
     hasSelectedChip,
 
-
-    // =========================
     // 🎯 BET SYSTEM
-    // =========================
-
     placeBet,
     getBet,
     getAllBets,
@@ -1023,20 +1010,12 @@ return {
     clearBets,
     hasBets,
 
-
-    // =========================
     // 🎡 WHEEL SYSTEM
-    // =========================
-
     getWheelSlots,
     getWheelRotation,
     setWheelRotation,
 
-
-    // =========================
     // 🧠 RESULT ENGINE
-    // =========================
-
     getCurrentResult,
     getWinningSlot,
     getSymbolCount,
@@ -1044,19 +1023,11 @@ return {
     getFinalIndex,
     getFinalSymbols,
 
-
-    // =========================
     // 💰 PAYOUT
-    // =========================
-
     getFinalMultiplier,
     getLastWin,
 
-
-    // =========================
     // 🔄 ROUND CONTROL
-    // =========================
-
     startNewRound,
     endRound,
     resetRoundData,
@@ -1064,11 +1035,7 @@ return {
     unlockBets,
     resetBoard,
 
-
-    // =========================
     // 📊 DATA LAYER
-    // =========================
-
     getGameState,
     getCurrentBalance,
     getCurrentBets,
@@ -1078,11 +1045,9 @@ return {
     getCurrentLastWin,
     getCurrentLastResult,
     getCurrentSpinStatus
-
 };
 
-})();   
-
+})(); // ✅ ONLY ONE CLOSURE
 
 // ======================================================
 // 🧠 END: GAME ENGINE
