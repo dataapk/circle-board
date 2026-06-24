@@ -43,7 +43,9 @@ window.GameEngine = (function () {
         { slot: 16, symbol: "crown",   count: 2 },
         { slot: 17, symbol: "diamond", count: 2 },
         { slot: 18, symbol: "club",    count: 3 }  // জ্যাকপট
-    ];
+        
+    ]; // ব্র্যাকেটের বাইরে এখানে রাখুন
+         window.WHEEL_SLOTS = WHEEL_SLOTS;
 
     // আপনার চাহিদা অনুযায়ী আকর্ষণীয় ৫X থেকে ৩০X মেগা বোনাস রেঞ্জ
     const BONUS_MULTIPLIERS = [5, 10, 15, 20, 25, 30];
