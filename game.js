@@ -396,6 +396,19 @@ function startWheelSpin() {
     wheel.style.transform = "rotate(1800deg)";
 
     spinBtn.classList.add("spinning");
+
+    // =========================
+    // ⏱️ SPIN END TRIGGER
+    // =========================
+    setTimeout(() => {
+
+        const finalIndex = Math.floor(Math.random() * 18); // test index
+
+        GameEngine.endSpin(finalIndex);
+
+        spinBtn.classList.remove("spinning");
+
+    }, 4000);
 }
 // ======================================================
 // 🎡 END: INITIAL WHEEL EVENTS
