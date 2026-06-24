@@ -235,6 +235,13 @@ function placeBet(symbol) {
         console.log("[BET] BLOCKED: Not enough balance");
         return false;
     }
+    function startSpin() {
+
+    state.isSpinning = true;
+
+    console.log("[ENGINE] SPIN STARTED");
+
+}
 
     // =========================
     // 💰 APPLY BET
@@ -983,6 +990,7 @@ function isRoundActive() {
         getSelectedChip,
         selectChip,
         placeBet,
+        startSpin,
         getCurrentChip,
         getCurrentSpinStatus,
         hasBets,
