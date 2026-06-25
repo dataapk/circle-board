@@ -8,7 +8,7 @@ const GameEngine = (() => {
 
 const state = {
 
-    // 💰 MONEY SYSTEM
+    // 💰 BALANCE SYSTEM
     balance: 1000,
     selectedChip: 0.10,
 
@@ -24,16 +24,16 @@ const state = {
 
     totalBet: 0,
 
-    // 🎡 WHEEL SYSTEM (IMPORTANT)
-    wheelRotation: 0,        // current rotation angle
-    currentIndex: null,      // current landing index (live)
-    finalIndex: null,        // final stop index
-    finalSymbols: [],        // sector result
+    // 🎡 WHEEL SYSTEM
+    wheelRotation: 0,
+    currentIndex: null,
+    finalIndex: null,
+    finalSymbols: [],
 
     // 🧠 RESULT SYSTEM
     symbolCountMap: {},
 
-    // 💥 WIN SYSTEM
+    // 💰 WIN SYSTEM
     lastWin: 0,
     lastResult: null,
 
@@ -43,48 +43,27 @@ const state = {
 
     // 🔒 GAME CONTROL
     isSpinning: false,
-    isBetLocked: false
-};
-
+    isBetLocked: false,
 
     // =========================
-    // 🧠 ROUND CONTROL (NEW)
+    // 🧠 ROUND CONTROL
     // =========================
-
     currentRoundId: 0,
-
     lastRoundBets: null,
 
-
-
     // =========================
-    // 🎡 WHEEL RESULT DATA (NEW)
+    // 🧩 UI CONTROL STATE
     // =========================
-
-    finalIndex: null,
-
-    finalSymbols: [],
-
-    bonusMultiplier: 1,
-
-
-
-    // =========================
-    // 🧩 UI CONTROL STATE (NEW)
-    // =========================
-
     ui: {
 
         chipPanelOpen: false,
-
         controlsLocked: false,
-
         lastAction: null
 
     }
 
 };
-
+    
 // ======================================================
 // 🔒 END: PRIVATE GAME STATE
 // ======================================================
