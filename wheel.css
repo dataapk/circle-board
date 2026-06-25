@@ -754,14 +754,15 @@ html, body {
 
     z-index:999;
 }
-.bonus-ring{
+.bonus-ring {
 
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
 
-    border:4px solid yellow;
+    border: 4px solid yellow;
+    border-radius: 50%;
 
-    border-radius:50%;
+    animation: bonusSpin 2s linear infinite;
 }
 .bonus-multiplier{
 
@@ -776,6 +777,35 @@ html, body {
     font-weight:bold;
 
     color:white;
+}
+.bonus-glow {
+
+    position: absolute;
+
+    width: 80px;
+    height: 80px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background: rgba(255,255,0,.25);
+
+    filter: blur(15px);
+}
+@keyframes bonusSpin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
 }
 
 /* =========================
