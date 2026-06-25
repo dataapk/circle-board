@@ -459,7 +459,9 @@ function updateBetUI() {
             if (!amountEl) return;
 
             amountEl.textContent =
-                amount > 0 ? amount : "";
+    amount > 0
+        ? parseFloat(amount.toFixed(2))
+        : "";
 
         });
 
