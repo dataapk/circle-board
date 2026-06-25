@@ -756,7 +756,14 @@ html, body {
 .bonus-ball-layer {
 
     position: absolute;
-    inset: 0;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 120px;
+    height: 120px;
 
     display: flex;
     align-items: center;
@@ -766,7 +773,6 @@ html, body {
 
     pointer-events: none;
 }
-
 /* =========================
    BONUS BALL (FULL DESIGN)
 ========================= */
