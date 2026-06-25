@@ -735,10 +735,10 @@ html, body {
 }
 
 /* =========================
-   🎁 BONUS CORE multiply
+   🎁 BONUS BALL
 ========================= */
 
-.bonus-layer{
+.bonus-ball{
 
     position:absolute;
 
@@ -747,67 +747,111 @@ html, body {
 
     transform:translate(-50%,-50%);
 
-    width:120px;
-    height:120px;
+    width:90px;
+    height:90px;
 
-    border:3px solid red;
+    border-radius:50%;
 
-    z-index:999;
+    background:
+    conic-gradient(
+        #8a2be2,
+        #ff0080,
+        #ffd700,
+        #00e5ff,
+        #8a2be2
+    );
+
+    box-shadow:
+    0 0 10px #8a2be2,
+    0 0 20px #ff0080,
+    0 0 30px #00e5ff;
+
+    overflow:hidden;
+
+    animation:
+    bonusBallRotate 4s linear infinite;
+
 }
-.bonus-ring {
+.bonus-ball::before{
 
-    width: 100%;
-    height: 100%;
-
-    border: 4px solid yellow;
-    border-radius: 50%;
-
-    animation: bonusSpin 2s linear infinite;
-}
-.bonus-multiplier{
+    content:"";
 
     position:absolute;
 
-    left:50%;
-    top:50%;
+    inset:8px;
 
-    transform:translate(-50%,-50%);
+    border-radius:50%;
 
-    font-size:24px;
-    font-weight:bold;
+    background:
+    conic-gradient(
+        from 90deg,
+        #ff0080,
+        #8a2be2,
+        #00e5ff,
+        #ffd700,
+        #ff0080
+    );
 
-    color:white;
+    opacity:.9;
+
+    animation:
+    bonusBallRotateReverse 2.5s linear infinite;
+
 }
-.bonus-glow {
+.bonus-ball::after{
 
-    position: absolute;
+    content:"";
 
-    width: 80px;
-    height: 80px;
+    position:absolute;
 
-    left: 50%;
-    top: 50%;
+    width:35px;
+    height:18px;
 
-    transform: translate(-50%, -50%);
+    top:12px;
+    left:18px;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    background: rgba(255,255,0,.25);
+    background:
+    rgba(255,255,255,.8);
 
-    filter: blur(15px);
+    filter:blur(4px);
+
 }
-@keyframes bonusSpin {
+@keyframes bonusBallRotate{
 
-    from {
-        transform: rotate(0deg);
+    from{
+
+        transform:
+        translate(-50%,-50%)
+        rotate(0deg);
+
     }
 
-    to {
-        transform: rotate(360deg);
+    to{
+
+        transform:
+        translate(-50%,-50%)
+        rotate(360deg);
+
     }
 
 }
+@keyframes bonusBallRotateReverse{
 
+    from{
+
+        transform:rotate(360deg);
+
+    }
+
+    to{
+
+        transform:rotate(0deg);
+
+    }
+
+}
 /* =========================
    🎯 POINTER (CASINO INDICATOR FIXED)
 ========================= */
