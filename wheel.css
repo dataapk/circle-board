@@ -839,6 +839,72 @@ html, body {
     }
 
 }
+.bonus-ball-multiplier{
+
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%) scale(.3);
+
+    font-size:34px;
+    font-weight:900;
+
+    color:#fff;
+
+    text-shadow:
+    0 0 10px #ffd700,
+    0 0 20px #ffd700,
+    0 0 35px #ff8800;
+
+    opacity:0;
+
+    z-index:120;
+
+    pointer-events:none;
+
+}
+@keyframes multiplierPop{
+
+    0%{
+
+        opacity:0;
+
+        transform:
+        translate(-50%,-50%)
+        scale(.3);
+
+    }
+
+    60%{
+
+        opacity:1;
+
+        transform:
+        translate(-50%,-80%)
+        scale(1.4);
+
+    }
+
+    100%{
+
+        opacity:1;
+
+        transform:
+        translate(-50%,-100%)
+        scale(1);
+
+    }
+
+}
+.multiplier-show{
+
+    animation:
+    multiplierPop .8s ease-out forwards;
+
+}
+
 /* =========================
    🎁 BONUS BALL (FIXED VERSION)
 ========================= */
