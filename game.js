@@ -98,6 +98,28 @@ function playSpinAudio() {
 // 🔊 END: INITIAL AUDIO EVENTS
 // =======================================================
 
+//======================================================
+// BONUS MULTPLY SECTION START
+// =======================================================
+function showBonusMultiplier(value){
+
+    bonusBallMultiplier.textContent = value;
+
+    bonusBallMultiplier.classList.remove(
+        "multiplier-show"
+    );
+
+    void bonusBallMultiplier.offsetWidth;
+
+    bonusBallMultiplier.classList.add(
+        "multiplier-show"
+    );
+
+}
+//======================================================
+// BONUS MULTPLY SECTION END
+// =======================================================
+
 
 // ======================================================
 // 🪙 START: INITIAL CHIP SYSTEM
