@@ -32,6 +32,13 @@ const chips = document.querySelectorAll(".chip");
 const symbolBoxes = document.querySelectorAll(".symbol-box");
 
 const pointer = document.getElementById("pointer");
+const bonusCore = document.getElementById("bonusCore");
+
+const bonusRing = document.getElementById("bonusRing");
+
+const bonusGlow = document.getElementById("bonusGlow");
+
+const bonusMultiplier = document.getElementById("bonusMultiplier");
 
 
 // ======================================================
