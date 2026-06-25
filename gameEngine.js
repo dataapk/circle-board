@@ -430,28 +430,24 @@ function saveLastRoundBets() {
 // ======================================================
 
 const wheelSlots = [
-
-    "heart",
-    "diamond",
-    "club",
-    "spade",
-    "crown",
-    "flag",
-
-    "heart",
-    "diamond",
-    "club",
-    "spade",
-    "crown",
-    "flag",
-
-    "heart",
-    "diamond",
-    "club",
-    "spade",
-    "crown",
-    "flag"
-
+    ["heart","heart","crown"],
+    ["spade","spaded","diamond"],
+    ["crown","crown","crown"],
+    ["spade","spade","heart"],
+    ["flag","flag","diamond"],
+    ["club","club","crown"],
+    ["heart","diamond","club"],
+    ["spade","crown","flag"],
+    ["heart","heart","diamond"],
+    ["club","flag","spade"],
+    ["crown","heart","club"],
+    ["diamond","spade","flag"],
+    ["heart","crown","diamond"],
+    ["club","club","flag"],
+    ["spade","spade","crown"],
+    ["flag","heart","diamond"],
+    ["crown","club","spade"],
+    ["diamond","diamond","heart"]
 ];
 
 
@@ -505,18 +501,18 @@ function getSlotByIndex(index) {
 // 🎡 NEW: FINAL SLOT SETTER (RESULT ENGINE HOOK)
 // ======================================================
 
-function setFinalWheelResult(index) {
+function setFinalWheelResult(finalIndex) {
 
-    console.log("[WHEEL] Final result index:", index);
+    state.finalIndex = finalIndex;
 
-    state.finalIndex = index;
+    state.finalSymbols =
+        wheelSlots[finalIndex];
 
-    state.finalSymbols = getWheelSlots().slice(index, index + 3);
-
-    state.currentResult = state.finalSymbols;
-
-    state.winningSlot = wheelSlots[index];
-
+    console.log(
+        "[RESULT] INDEX:",
+        finalIndex,
+        state.finalSymbols
+    );
 }
 
 
