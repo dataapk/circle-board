@@ -32,18 +32,14 @@ const chips = document.querySelectorAll(".chip");
 const symbolBoxes = document.querySelectorAll(".symbol-box");
 
 const pointer = document.getElementById("pointer");
-const bonusLayer =
-    document.querySelector(".bonus-layer");
+const bonusBallLayer =
+    document.querySelector(".bonus-ball-layer");
 
-const bonusGlow =
-    document.querySelector(".bonus-glow");
+const bonusBall =
+    document.querySelector(".bonus-ball");
 
-const bonusRing =
-    document.querySelector(".bonus-ring");
-
-const bonusMultiplier =
-    document.querySelector(".bonus-multiplier");
-
+const bonusBallMultiplier =
+    document.querySelector(".bonus-ball-multiplier");
 
 // ======================================================
 // 📦 END: DOM CACHE
