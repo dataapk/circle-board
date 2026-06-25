@@ -904,6 +904,23 @@ html, body {
     multiplierPop .8s ease-out forwards;
 
 }
+.bonus-fly{
+
+    position:absolute;
+
+    display:none;
+
+    font-size:32px;
+
+    font-weight:bold;
+
+    color:#ffd700;
+
+    text-shadow:
+    0 0 10px #ffd700,
+    0 0 20px #ff0080;
+
+}
 
 /* =========================
    🎁 BONUS BALL (FIXED VERSION)
