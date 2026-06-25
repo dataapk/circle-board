@@ -108,7 +108,7 @@ const audio = {
 
 };
    audio.chip = new Audio("assets/chip.mp3");
- audio.table = new Audio("assets/chip.mp3");
+ audio.table = new Audio("assets/table.mp3");
   audio.spin = new Audio("assets/spin.mp3");
   audio.spinButton = new Audio("assets/spinbutton.mp3");
 
