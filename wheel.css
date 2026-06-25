@@ -738,22 +738,49 @@ html, body {
    🎁 BONUS BALL
 ========================= */
 
-.bonus-ball{
+/* =========================
+   🎁 BONUS BALL (FIXED VERSION)
+========================= */
+/* =========================
+   WHEEL WRAPPER
+========================= */
 
-    position:absolute;
+.wheel-wrapper {
+    position: relative;
+}
 
-    left:50%;
-    top:50%;
+/* =========================
+   BONUS BALL LAYER (POSITION ONLY)
+========================= */
 
-    transform:translate(-50%,-50%);
+.bonus-ball-layer {
 
-    width:90px;
-    height:90px;
+    position: absolute;
+    inset: 0;
 
-    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    background:
-    conic-gradient(
+    z-index: 100;
+
+    pointer-events: none;
+}
+
+/* =========================
+   BONUS BALL (FULL DESIGN)
+========================= */
+
+.bonus-ball {
+
+    position: relative;
+
+    width: 90px;
+    height: 90px;
+
+    border-radius: 50%;
+
+    background: conic-gradient(
         #8a2be2,
         #ff0080,
         #ffd700,
@@ -762,28 +789,30 @@ html, body {
     );
 
     box-shadow:
-    0 0 10px #8a2be2,
-    0 0 20px #ff0080,
-    0 0 30px #00e5ff;
+        0 0 10px #8a2be2,
+        0 0 20px #ff0080,
+        0 0 30px #00e5ff;
 
-    overflow:hidden;
+    overflow: hidden;
 
-    animation:
-    bonusBallRotate 4s linear infinite;
-
+    animation: bonusBallRotate 4s linear infinite;
 }
-.bonus-ball::before{
 
-    content:"";
+/* =========================
+   INNER LAYER EFFECT (::before)
+========================= */
 
-    position:absolute;
+.bonus-ball::before {
 
-    inset:8px;
+    content: "";
 
-    border-radius:50%;
+    position: absolute;
 
-    background:
-    conic-gradient(
+    inset: 8px;
+
+    border-radius: 50%;
+
+    background: conic-gradient(
         from 90deg,
         #ff0080,
         #8a2be2,
@@ -792,31 +821,32 @@ html, body {
         #ff0080
     );
 
-    opacity:.9;
+    opacity: 0.9;
 
-    animation:
-    bonusBallRotateReverse 2.5s linear infinite;
-
+    animation: bonusBallRotateReverse 2.5s linear infinite;
 }
-.bonus-ball::after{
 
-    content:"";
+/* =========================
+   HIGHLIGHT LIGHT SPOT
+========================= */
 
-    position:absolute;
+.bonus-ball::after {
 
-    width:35px;
-    height:18px;
+    content: "";
 
-    top:12px;
-    left:18px;
+    position: absolute;
 
-    border-radius:50%;
+    width: 35px;
+    height: 18px;
 
-    background:
-    rgba(255,255,255,.8);
+    top: 12px;
+    left: 18px;
 
-    filter:blur(4px);
+    border-radius: 50%;
 
+    background: rgba(255, 255, 255, 0.8);
+
+    filter: blur(4px);
 }
 @keyframes bonusBallRotate{
 
