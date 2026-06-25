@@ -40,8 +40,7 @@ const bonusBall =
 
 const bonusMultiplier =
         document.querySelector(".bonus-ball-multiplier");
-const bonusMultiplier =
-    document.querySelector(".bonus-ball-multiplier");
+
 
 // ======================================================
 // 📦 END: DOM CACHE
