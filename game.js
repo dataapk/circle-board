@@ -698,18 +698,22 @@ function startGameUI() {
 // ======================================================
 function testBonus() {
 
-    const bonusFly =
+    const bonusMultiplier =
         document.querySelector(".bonus-ball-multiplier");
 
-    if (!bonusFly) return;
+    if (!bonusMultiplier) {
 
-    bonusFly.style.display = "block";
+        console.log("BONUS MULTIPLIER NOT FOUND");
 
-    bonusFly.textContent = "10X";
+        return;
+
+    }
+
+    bonusMultiplier.textContent = "10X";
+
+    bonusMultiplier.style.display = "block";
 
 }
-
-
 // ======================================================
 // 🎮 END: GAME UI
 // ======================================================
