@@ -589,7 +589,15 @@ function refreshGameUI() {
     // 🏆 RESULT
     // =========================
 
-    updateResultUI();
+   function refreshGameUI() {
+
+    updateBalanceUI();
+
+    updateBetUI();
+
+    updateChipUI();
+
+    // updateResultUI();
 
     console.log("[UI] REFRESH COMPLETE");
 
