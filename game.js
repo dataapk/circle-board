@@ -38,8 +38,8 @@ const bonusBallLayer =
 const bonusBall =
     document.querySelector(".bonus-ball");
 
-const bonusBallMultiplier =
-    document.querySelector(".bonus-ball-multiplier");
+const bonusMultiplier =
+        document.querySelector(".bonus-ball-multiplier");
 
 // ======================================================
 // 📦 END: DOM CACHE
