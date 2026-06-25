@@ -107,6 +107,10 @@ const audio = {
     spinButton: null
 
 };
+    audio.chip = new Audio("assets/audio/chip.mp3");
+audio.table = new Audio("assets/audio/table.mp3");
+audio.spin = new Audio("assets/audio/spin.mp3");
+audio.spinButton = new Audio("assets/audio/spinButton.mp3");
 
 function playChipSound() {
 
