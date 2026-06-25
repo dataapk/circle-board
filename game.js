@@ -442,16 +442,30 @@ function updateBalanceUI() {
 
 function updateBetUI() {
 
-    const bets =
-        GameEngine.getCurrentBets();
+    const bets = GameEngine.getCurrentBets();
 
+    document.querySelectorAll(".symbol-box")
+        .forEach(box => {
 
+            const symbol =
+                box.dataset.symbol;
 
-    // 👉 OPTIONAL: future DOM render hook
+            const amount =
+                bets[symbol] || 0;
+
+            const amountEl =
+                box.querySelector(".bet-amount");
+
+            if (!amountEl) return;
+
+            amountEl.textContent =
+                amount > 0 ? amount : "";
+
+        });
+
     console.log("[UI] BET UPDATED:", bets);
 
 }
-
 
 // =========================
 // 🪙 CHIP UI
