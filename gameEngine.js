@@ -8,12 +8,11 @@ const GameEngine = (() => {
 
 const state = {
 
+    // 💰 MONEY SYSTEM
     balance: 1000,
-
     selectedChip: 0.10,
 
-
-
+    // 🎲 BET SYSTEM
     bets: {
         heart: 0,
         diamond: 0,
@@ -23,32 +22,29 @@ const state = {
         flag: 0
     },
 
-
-
     totalBet: 0,
 
+    // 🎡 WHEEL SYSTEM (IMPORTANT)
+    wheelRotation: 0,        // current rotation angle
+    currentIndex: null,      // current landing index (live)
+    finalIndex: null,        // final stop index
+    finalSymbols: [],        // sector result
 
+    // 🧠 RESULT SYSTEM
+    symbolCountMap: {},
 
-    wheelRotation: 0,
-
-
-
-    currentResult: null,
-
-    winningSlot: null,
-
-
-
+    // 💥 WIN SYSTEM
     lastWin: 0,
-
     lastResult: null,
 
+    // 🎁 BONUS SYSTEM
+    bonusMultiplier: 1,
+    bonusTargetSymbol: null,
 
-
+    // 🔒 GAME CONTROL
     isSpinning: false,
-
-    isBetLocked: false,
-
+    isBetLocked: false
+};
 
 
     // =========================
@@ -432,22 +428,22 @@ function saveLastRoundBets() {
 const wheelSlots = [
     ["heart","heart","crown"],
     ["spade","spaded","diamond"],
+    ["flag","flag","flag"],
+    ["club","club","heart"],
+    ["spade","crown","crown"],
+    ["diamond","diamond","diamond"],
+    ["club","flag","flag"],
+    ["heart","heart","crown"],
+    ["spade","spade","spade"],
+    ["diamond","diamond","flag"]
+    ["heart","club","club"],
     ["crown","crown","crown"],
-    ["spade","spade","heart"],
-    ["flag","flag","diamond"],
-    ["club","club","crown"],
-    ["heart","diamond","club"],
-    ["spade","crown","flag"],
-    ["heart","heart","diamond"],
-    ["club","flag","spade"],
-    ["crown","heart","club"],
-    ["diamond","spade","flag"],
-    ["heart","crown","diamond"],
-    ["club","club","flag"],
-    ["spade","spade","crown"],
-    ["flag","heart","diamond"],
-    ["crown","club","spade"],
-    ["diamond","diamond","heart"]
+    ["spade","spade","diamond"],
+    ["flag","flag","club"],
+    ["heart","heart","heart"],
+    ["crown","crown","spade"],
+    ["diamond","diamond","flag"]
+    ["club","club","club"],
 ];
 
 
