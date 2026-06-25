@@ -661,6 +661,7 @@ function startGameUI() {
     initializeBetSystem();
 
     initializeWheelSystem();
+    testBonus();
 
 
 
@@ -695,6 +696,18 @@ function startGameUI() {
 // ======================================================
 // 🚀 END: START GAME UI
 // ======================================================
+function testBonus() {
+
+    const bonusFly =
+        document.querySelector(".bonus-ball-multiplier");
+
+    if (!bonusFly) return;
+
+    bonusFly.style.display = "block";
+
+    bonusFly.textContent = "10X";
+
+}
 
 
 // ======================================================
