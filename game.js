@@ -40,6 +40,8 @@ const bonusBall =
 
 const bonusMultiplier =
         document.querySelector(".bonus-ball-multiplier");
+const bonusMultiplier =
+    document.querySelector(".bonus-ball-multiplier");
 
 // ======================================================
 // 📦 END: DOM CACHE
@@ -101,21 +103,7 @@ function playSpinAudio() {
 //======================================================
 // BONUS MULTPLY SECTION START
 // =======================================================
-function showBonusMultiplier(value){
 
-    bonusBallMultiplier.textContent = value;
-
-    bonusBallMultiplier.classList.remove(
-        "multiplier-show"
-    );
-
-    void bonusBallMultiplier.offsetWidth;
-
-    bonusBallMultiplier.classList.add(
-        "multiplier-show"
-    );
-
-}
 //======================================================
 // BONUS MULTPLY SECTION END
 // =======================================================
