@@ -257,10 +257,27 @@ function startSpin() {
 
     console.log("[ENGINE] SPIN END");
 
-    // result resolve
-    runResultEngine(finalIndex);
+    // 🧠 SAFETY: ensure index exists
+    if (finalIndex === null || finalIndex === undefined) {
+        finalIndex = Math.floor(Math.random() * 18);
+        console.warn("[FIX] Generated missing finalIndex:", finalIndex);
+    }
 
-    // unlock round
+    // 🎯 LOCK STATE FIRST (avoid race condition)
+    state.isSpinning = true;
+    state.isBetLocked = true;
+
+    // 🎡 SET RESULT FIRST (IMPORTANT ORDER)
+    setFinalWheelResult(finalIndex);
+
+    // 💰 RUN RESULT ENGINE SAFELY
+    try {
+        runResultEngine(finalIndex);
+    } catch (err) {
+        console.error("[ENGINE ERROR]", err);
+    }
+
+    // 🔓 NOW UNLOCK ROUND
     state.isBetLocked = false;
     state.isSpinning = false;
 
