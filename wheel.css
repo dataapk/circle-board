@@ -704,54 +704,9 @@ html, body {
     transition: none;
 }
 /* =========================
-   🎯 WWEEL SECTION)
-========================= */
-
-.wheel-center-hub {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: 70px;
-    height: 70px;
-
-    border-radius: 50%;
-
-    background: #111827;
-
-    border: 3px solid var(--gold);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 12px;
-
-    z-index: var(--z-ui);
-
-    box-shadow: 0 0 15px var(--glow-gold-mid);
-}
-
-/* =========================
-   🎁 BONUS BALL
-========================= */
-
-/* =========================
    🎁 BONUS BALL (FIXED VERSION)
 ========================= */
-/* =========================
-   WHEEL WRAPPER
-========================= */
 
-.wheel-wrapper {
-    position: relative;
-}
-
-/* =========================
-   BONUS BALL LAYER (POSITION ONLY)
-========================= */
 
 .bonus-ball-layer {
 
@@ -764,10 +719,6 @@ html, body {
 
     width: 120px;
     height: 120px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     z-index: 100;
 
@@ -888,6 +839,42 @@ html, body {
     }
 
 }
+/* =========================
+   🎁 BONUS BALL (FIXED VERSION)
+========================= */
+/* =========================
+   🎯 WWEEL SECTION)
+========================= */
+
+.wheel-center-hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    background: #111827;
+
+    border: 3px solid var(--gold);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 12px;
+
+    z-index: var(--z-ui);
+
+    box-shadow: 0 0 15px var(--glow-gold-mid);
+}
+
+
+
 /* =========================
    🎯 POINTER (CASINO INDICATOR FIXED)
 ========================= */
