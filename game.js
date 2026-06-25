@@ -32,13 +32,17 @@ const chips = document.querySelectorAll(".chip");
 const symbolBoxes = document.querySelectorAll(".symbol-box");
 
 const pointer = document.getElementById("pointer");
-const bonusCore = document.getElementById("bonusCore");
+const bonusLayer =
+    document.querySelector(".bonus-layer");
 
-const bonusRing = document.getElementById("bonusRing");
+const bonusGlow =
+    document.querySelector(".bonus-glow");
 
-const bonusGlow = document.getElementById("bonusGlow");
+const bonusRing =
+    document.querySelector(".bonus-ring");
 
-const bonusMultiplier = document.getElementById("bonusMultiplier");
+const bonusMultiplier =
+    document.querySelector(".bonus-multiplier");
 
 
 // ======================================================
