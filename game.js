@@ -359,30 +359,18 @@ function animateWheelSpin(startAngle, endAngle) {
     const duration = 14000;
     const startTime = performance.now();
 
+    function easeInOut(t) {
+        return t < 0.5
+            ? 2 * t * t
+            : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+
     function frame(now) {
 
         let t = (now - startTime) / duration;
         if (t > 1) t = 1;
 
-        let eased;
-
-        // ⚡ QUICK START (1 SECOND MAX)
-        if (t < 0.07) {
-            const p = t / 0.07;
-            eased = 0.07 * (1 - Math.pow(1 - p, 3));
-        }
-
-        // 🚀 FULL SPEED ZONE (smooth constant spin)
-        else if (t < 0.85) {
-            const p = (t - 0.07) / 0.78;
-            eased = 0.07 + p * 0.78;
-        }
-
-        // 🛑 SMOOTH BRAKE (no sudden stop)
-        else {
-            const p = (t - 0.85) / 0.15;
-            eased = 0.85 + (1 - Math.pow(1 - p, 4)) * 0.15;
-        }
+        const eased = easeInOut(t);
 
         const angle =
             startAngle +
