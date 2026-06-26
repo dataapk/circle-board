@@ -200,7 +200,7 @@ html, body {
 }
 
 /* =========================
-   🎲 CASINO BET BOX CORE
+   🎲 TABLE ESCTION
 ========================= */
 
 .symbol-box {
@@ -1269,9 +1269,9 @@ body {
     overflow-x: hidden;
 }
 
-/* =========================
+/* ====================================
    🧱 SAFE GAME SCALING (ANDROID CHROME)
-========================= */
+====================================== */
 
 .game-container {
 
@@ -1287,6 +1287,7 @@ body {
     box-sizing: border-box;
 
     overflow: hidden;
+   gap: 2px;   /* 🔥 THIS IS THE CORRECT PLACE */
 
     transform: translateZ(0);
 }
