@@ -706,106 +706,6 @@ html, body {
 /* =========================
    🎁 BONUS BALL (FIXED VERSION)
 =========================*/
-.wheel-wrapper {
-    position: relative;
-
-
-.bonus-overlay {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-
-    width: 100% !important;
-    height: 100% !important;
-
-    pointer-events: none;
-    z-index: 1000;
-}
-.bonus-balloon {
-
-    position: absolute;
-    left: 50%;
-    top: 50%;
-
-    width: 40px;
-    height: 50px;
-
-    border-radius: 50%;
-
-    transform: translate(-50%, -50%) scale(0);
-
-    opacity: 0;
-
-    z-index: 9999;
-}
-
-/* SHOW */
-
-.bonus-balloon.show {
-
-    opacity: 1;
-
-    animation:
-        balloonInflate 1200ms ease-out forwards;
-}
-
-/* REALISTIC INFLATE */
-
-@keyframes balloonInflate {
-
-    0% {
-        transform:
-            translate(-50%, -50%)
-            scale(0.1);
-    }
-
-    20% {
-        transform:
-            translate(-50%, -50%)
-            scale(0.4);
-    }
-
-    40% {
-        transform:
-            translate(-50%, -50%)
-            scale(0.8);
-    }
-
-    60% {
-        transform:
-            translate(-50%, -50%)
-            scale(1.1);
-    }
-
-    80% {
-        transform:
-            translate(-50%, -50%)
-            scale(0.95);
-    }
-
-    100% {
-        transform:
-            translate(-50%, -50%)
-            scale(1);
-    }
-}
-
-.bonus-multiplier {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 20px;
-    font-weight: bold;
-    color: gold;
-    z-index: 10000;
-    opacity: 0;
-    transition: all 0.4s ease-out;
-}
-
-.bonus-multiplier.show {
-    opacity: 1;
-}
 
 /* =========================
    🎁 BONUS BALL (FIXED VERSION)
@@ -1539,9 +1439,6 @@ button,
    🧨 PERFORMANCE + Z-INDEX CONTROL SYSTEM
 ====================================================== */
 
-/* =========================
-   📊 Z-INDEX SCALE SYSTEM
-========================= */
 
 :root {
 
@@ -1553,9 +1450,6 @@ button,
     --z-max: 9999;
 }
 
-/* =========================
-   ⚡ GPU PERFORMANCE BOOST
-========================= */
 
 /* =========================
    ⚡ GPU PERFORMANCE BOOST
@@ -1596,26 +1490,7 @@ button,
    ⚡ SECTION 10: VOLTAGE BONUS & LIGHTNING ANIMATION (NEW)
    ======================================================== */
 
-/* ⚡ ভোল্টেজ বোনাস পপআপ বক্স স্টাইল */
-#voltage-bonus-popup {
-    position: absolute;
-    top: 35%; /* পয়েন্টার এবং হাবের মাঝামাঝি ভেসে উঠবে */
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    background: linear-gradient(135deg, #ff0055, #ffcc00);
-    color: #fff;
-    padding: 10px 20px;
-    font-family: 'Arial Black', sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 15px;
-    box-shadow: 0 0 25px #ffcc00, 0 0 50px #ff0055;
-    text-align: center;
-    z-index: 100;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    pointer-events: none;
-    border: 3px solid #fff;
-}
+
 .main-wheel {
     width: 100%;
     height: 100%;
@@ -1626,129 +1501,3 @@ button,
     transform-style: preserve-3d; 
     transition: transform 14s cubic-bezier(0.2, 1, 0.2, 1);
 }
-#wheel-bonus-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 102%; /* মেইন হুইল থেকে সামান্য বড় যেন চারপাশটা বর্ডার দিয়ে মুড়িয়ে নেয় */
-    height: 102%;
-    pointer-events: none; /* চাকার ভেতরের ক্লিকে যাতে কোনো ডিস্টার্ব না হয় */
-    z-index: 999; /* চাকার ওপরে ভাসমান থাকবে */
-    display: none; /* জাভাস্ক্রিপ্ট ১ সেকেন্ড পর এটিকে 'flex' করবে */
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-.voltage-text {
-    display: block;
-    color: #ffcc00;
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 2.5px;
-    text-shadow: 0 0 8px #ffcc00;
-    text-transform: uppercase;
-}
-
-.mult-value {
-    display: block;
-    color: #00ffcc;
-    font-size: 45px;
-    font-weight: 900;
-    text-shadow: 0 0 20px #00ffcc;
-    margin-top: 5px;
-    font-family: 'Arial Black', sans-serif;
-}
-
-/* ========================================================
-   🎬 ANIMATION KEYFRAMES (SMOOTH & ULTRA-FAST)
-   ======================================================== */
-/* ৩ডি স্পেয়ার বা বলের মেইন কন্টেইনার */
-.central-3d-sphere {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #fff, #333);
-    box-shadow: inset -10px -10px 20px #000, 0 0 20px #00ffcc;
-    z-index: 1001;
-    animation: pulseGlow 1.5s infinite;
-}
-
-/* বলের ভেতর ডিসকো লাইটিং ইফেক্ট */
-.sphere-glow {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: conic-gradient(red, yellow, lime, aqua, blue, fuchsia, red);
-    animation: rotateHub 3s linear infinite;
-    opacity: 0.6;
-}
-
-/* বোনাস মাল্টিপ্লায়ার বল */
-.bonus-multiplier-ball {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 35px;
-    height: 35px;
-    background: #ffcc00;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: #000;
-    box-shadow: 0 0 15px #ffcc00;
-    z-index: 1002;
-    animation: hubBlast 1s forwards, orbitRotation 2s linear infinite 1s;
-}
-
-/* ল্যান্ডিং স্টাইল */
-.bonus-multiplier-ball.lock-to-cell {
-    transition: all 1.5s ease-out;
-    animation: none;
-    box-shadow: 0 0 10px #fff;
-    border: 2px solid #fff;
-}
-
-/* ৩ডি বলের অ্যানিমেশনসমূহ */
-@keyframes pulseGlow { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } }
-@keyframes rotateHub { to { transform: rotate(360deg); } }
-@keyframes hubBlast { 0% { transform: translate(-50%, -50%) scale(0); } 100% { transform: translate(-50%, -50%) scale(1); } }
-@keyframes orbitRotation { from { transform: translate(-50%, -50%) rotate(0deg) translateY(-60px) rotate(0deg); }
-to { transform: translate(-50%, -50%) rotate(360deg) translateY(-60px) rotate(-360deg); } }
-
-/* ========================================================
-   ⚡ SECTION 10: END OF VOLTAGE BONUS STYLES
-   ======================================================== */
-.bet-indicator {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    background: rgba(0, 0, 0, 0.85); /* ডার্ক ব্যাকগ্রাউন্ড */
-    color: #00ffcc; /* নিয়ন গ্রিন ডলার টেক্সট */
-    border: 1px solid #00ffcc;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 4px;
-    box-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
-    z-index: 10;
-    pointer-events: none; /* যাতে ক্লিকের ডিস্টার্ব না হয় */
-    font-family: monospace;
-}
-
-
-
-
-/* ======================================================
-   🏁 END: CASINO UI ARCHITECTURE
-   ====================================================== */
