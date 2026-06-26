@@ -356,35 +356,26 @@ function animateWheelSpin(startAngle, endAngle) {
         cancelAnimationFrame(wheelAnimationFrame);
     }
 
-    const duration = 14000;
+    const totalDuration = 14000;
     const startTime = performance.now();
 
     function frame(now) {
 
-        let t = (now - startTime) / duration;
+        let elapsed = now - startTime;
+        let t = elapsed / totalDuration;
+
         if (t > 1) t = 1;
 
-        let eased;
+        // ⛔ 1 second delay (NO movement at start)
+        let effectiveT = 0;
 
-        // ⚡ 0 → 1 sec (slow smooth start)
-        if (t < 0.07) {
-            const p = t / 0.07;
-            eased = (p * p) * 0.07;
+        if (elapsed > 1000) {
+            effectiveT = (elapsed - 1000) / (totalDuration - 1000);
+            if (effectiveT > 1) effectiveT = 1;
         }
 
-        // 🚀 1 sec → 12 sec (fast smooth spin)
-        else if (t < 0.85) {
-            const p = (t - 0.07) / 0.78;
-            eased = 0.07 + p * 0.78;
-        }
-
-        // 🛑 last (smooth brake)
-        else {
-            const p = (t - 0.85) / 0.15;
-            eased =
-                0.85 +
-                (1 - (1 - p) * (1 - p) * (1 - p)) * 0.15;
-        }
+        // 🚀 SINGLE SMOOTH CURVE (NO PHASE BREAK)
+        const eased = effectiveT * effectiveT * (3 - 2 * effectiveT);
 
         const angle =
             startAngle +
