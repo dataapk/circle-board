@@ -706,11 +706,7 @@ html, body {
 /* =========================
    🎁 BONUS BALL (FIXED VERSION)
 ========================= *
-.wheel-wrapper {
-    position: relative;
 
-    width: fit-content;
-}
 
 .bonus-overlay {
     position: absolute !important;
@@ -744,8 +740,8 @@ html, body {
     circle at 30% 30%,
     #ffb3b3,
     #ff0000 60%,
-    #990000
-);
+    #990000);
+
 }
 
 .balloon-blue {
