@@ -673,6 +673,7 @@ html, body {
 
     width: 320px;
     height: 320px;   /* 🔥 FIXED HEIGHT */
+   border: none;
 
   margin-bottom: 0;
 padding-bottom: 0;
