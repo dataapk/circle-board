@@ -691,18 +691,21 @@ html, body {
    🎡 WHEEL IMAGE CORE
 ========================= */
 .wheel-img {
-    width: 100%;
-    height: auto;
+
+    width: 320px;
+    height: 320px;
 
     display: block;
 
-    transform-origin: center center;
+    object-fit: contain;
 
-    will-change: transform;
+    transform-origin: center center;
 
     backface-visibility: hidden;
 
     transition: none;
+
+    will-change: transform;
 }
 
 
@@ -1449,12 +1452,6 @@ button,
    ⚡ GPU PERFORMANCE BOOST
 ========================= */
 
-.wheel-img,
-.spin-section button,
-.chip {
-
-    will-change: transform;
-}
 
 /* =========================
    🧊 ANTI-FLICKER FIX
