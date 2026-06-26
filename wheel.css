@@ -726,6 +726,12 @@ html, body {
     pointer-events: none;
 }
 
+
+.bonus-overlay {
+    position: absolute;
+    inset: 0;
+}
+
 /* Color Variants */
 
 .balloon-red {
