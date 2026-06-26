@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ======================================================
 // 📦 START: DOM CACHE
 // ======================================================
+let wheelAnimationFrame = null;
 
 const wheel = document.getElementById("wheel");
 
@@ -346,6 +347,92 @@ function initializeBetSystem() {
 // 🎯 END: INITIAL BET EVENTS
 // ======================================================
 
+// ======================================================
+// 🎯 START WHEEL ANIMATION FRAME
+// ======================================================
+function animateWheelSpin(startAngle, endAngle) {
+
+    if (wheelAnimationFrame) {
+
+        cancelAnimationFrame(
+            wheelAnimationFrame
+        );
+
+    }
+
+    const duration = 14000;
+
+    ...
+}
+
+    const startTime = performance.now();
+
+    function frame(now) {
+
+        let t = (now - startTime) / duration;
+
+        if (t > 1) t = 1;
+
+        let eased;
+
+        if (t < 0.10) {
+
+            // START ACCELERATION
+
+            const p = t / 0.10;
+
+            eased = p * p * 0.10;
+
+        }
+
+        else if (t < 0.85) {
+
+            // FULL SPEED
+
+            eased =
+                0.10 +
+                ((t - 0.10) / 0.75) * 0.75;
+
+        }
+
+        else {
+
+            // FINAL BRAKE
+
+            const p =
+                (t - 0.85) / 0.15;
+
+            eased =
+                0.85 +
+                (1 - Math.pow(1 - p, 3))
+                * 0.15;
+
+        }
+
+        const angle =
+            startAngle +
+            (endAngle - startAngle) * eased;
+
+        wheel.style.transform =
+            `rotate(${angle}deg)`;
+
+        if (t < 1) {
+
+            wheelAnimationFrame =
+                requestAnimationFrame(frame);
+
+        }
+
+    }
+
+    wheelAnimationFrame =
+        requestAnimationFrame(frame);
+
+}
+// ======================================================
+// 🎯 END WHEEL ANIMATION FRAME
+// ======================================================
+
 
 // ======================================================
 // 🎡 START: INITIAL WHEEL EVENTS
@@ -421,13 +508,10 @@ const finalAngle =
 
 GameEngine.setWheelRotation(finalAngle);
 
-    wheel.style.transition = "none";
-
-wheel.offsetWidth;
-
-wheel.style.transition =
-    "transform 14s cubic-bezier(0.10, 0.90, 0.30, 1)";
-    wheel.style.transform = `rotate(${finalAngle}deg)`;
+    animateWheelSpin(
+    currentRotation,
+    finalAngle
+);
 
     spinBtn.classList.add("spinning");
 
