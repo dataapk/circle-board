@@ -41,8 +41,6 @@ const bonusBall =
 
 const bonusMultiplier =
         document.querySelector(".bonus-ball-multiplier");
-const balloon =
-    document.getElementById("bonusBalloon");
 
 
 // ======================================================
