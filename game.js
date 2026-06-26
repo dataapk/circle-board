@@ -359,10 +359,9 @@ function animateWheelSpin(startAngle, endAngle) {
     const duration = 14000; // ✅ FIXED 14 SEC
     const startTime = performance.now();
 
-    function easeSmooth(t) {
-        // smooth acceleration + smooth deceleration (no jerk)
-        return t * t * (3 - 2 * t); // smoothstep
-    }
+    function easeFast(t) {
+    return 1 - Math.pow(1 - t, 2.2);
+}
 
     function frame(now) {
 
