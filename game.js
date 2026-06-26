@@ -755,3 +755,51 @@ function testBonus() {
 // ======================================================
 // 🎮 END: GAME UI
 // ======================================================
+function spawnBalloon() {
+
+    const colors = ["red", "blue", "purple", "gold"];
+
+    const balloon = document.createElement("div");
+    balloon.className = "bonus-balloon";
+
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    balloon.style.background = color;
+
+    balloon.style.left = "50%";
+    balloon.style.top = "50%";
+
+    document.body.appendChild(balloon);
+
+    return balloon;
+}
+// ======================================================
+function testBonusBalloon() {
+
+    const balloon = document.getElementById("bonusBalloon");
+    const text = document.getElementById("bonusMultiplier");
+
+    if (!balloon || !text) return;
+
+    // reset
+    balloon.classList.remove("active");
+    text.classList.remove("show");
+
+    // STEP 1: balloon appear
+    setTimeout(() => {
+        balloon.classList.add("active");
+    }, 50);
+
+    // STEP 2: burst → show multiplier
+    setTimeout(() => {
+        balloon.style.background = "transparent";
+        text.textContent = Math.random() < 0.5 ? "2X" : "3X";
+        text.classList.add("show");
+    }, 700);
+
+    // STEP 3: cleanup
+    setTimeout(() => {
+        balloon.classList.remove("active");
+        text.classList.remove("show");
+    }, 1500);
+}
