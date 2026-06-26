@@ -680,7 +680,7 @@ html, body {
     width: 320px;
     height: 320px;   /* 🔥 FIXED HEIGHT */
 
-    margin: 20px auto 0 auto;
+   margin: 0 auto 2px auto;
 
     display: flex;
     justify-content: center;
