@@ -708,21 +708,59 @@ html, body {
 ========================= *
 .bonus-balloon {
     position: absolute;
+
     left: 50%;
     top: 50%;
-    width: 20px;
-    height: 20px;
+
+    width: 16px;
+    height: 16px;
+
     border-radius: 50%;
-    transform: translate(-50%, -50%);
-    background: red;
-    z-index: 9999;
+
+    transform: translate(-50%, -50%) scale(0);
+
     opacity: 0;
-    transition: all 0.6s ease-out;
+
+    z-index: 1000;
+
+    pointer-events: none;
 }
 
-.bonus-balloon.active {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.8);
+/* Color Variants */
+
+.balloon-red {
+    background: radial-gradient(circle at 30% 30%,
+        #ffb3b3,
+        #ff0000 60%,
+        #990000);
+}
+
+.balloon-blue {
+    background: radial-gradient(circle at 30% 30%,
+        #b3d9ff,
+        #0080ff 60%,
+        #003d99);
+}
+
+.balloon-yellow {
+    background: radial-gradient(circle at 30% 30%,
+        #fff7b3,
+        #ffd400 60%,
+        #b38f00);
+}
+
+.balloon-green {
+    background: radial-gradient(circle at 30% 30%,
+        #b3ffcc,
+        #00cc66 60%,
+        #006633);
+}
+
+.balloon-purple {
+    background: radial-gradient(circle at 30% 30%,
+        #e0b3ff,
+        #9933ff 60%,
+        #4d0099);
 }
 
 .bonus-multiplier {
