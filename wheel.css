@@ -728,9 +728,9 @@ html, body {
 
     border-radius: 50% 50% 48% 48%;
 
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%) scale(1);
 
-    opacity: 0;
+    opacity: 1;
 
     z-index: 1000;
 }
@@ -738,10 +738,12 @@ html, body {
 /* Color Variants */
 
 .balloon-red {
-    background: radial-gradient(circle at 30% 30%,
-        #ffb3b3,
-        #ff0000 60%,
-        #990000);
+    background: radial-gradient(
+    circle at 30% 30%,
+    #ffb3b3,
+    #ff0000 60%,
+    #990000
+);
 }
 
 .balloon-blue {
