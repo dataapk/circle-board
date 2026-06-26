@@ -356,7 +356,7 @@ function animateWheelSpin(startAngle, endAngle) {
         cancelAnimationFrame(wheelAnimationFrame);
     }
 
-    const duration = 14000;
+    const duration = 16000;
     const startTime = performance.now();
 
     function frame(now) {
