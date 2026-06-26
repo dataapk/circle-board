@@ -356,26 +356,16 @@ function animateWheelSpin(startAngle, endAngle) {
         cancelAnimationFrame(wheelAnimationFrame);
     }
 
-    const totalDuration = 14000;
+    const duration = 14000;
     const startTime = performance.now();
 
     function frame(now) {
 
-        let elapsed = now - startTime;
-        let t = elapsed / totalDuration;
-
+        let t = (now - startTime) / duration;
         if (t > 1) t = 1;
 
-        // ⛔ 1 second delay (NO movement at start)
-        let effectiveT = 0;
-
-        if (elapsed > 1000) {
-            effectiveT = (elapsed - 1000) / (totalDuration - 1000);
-            if (effectiveT > 1) effectiveT = 1;
-        }
-
-        // 🚀 SINGLE SMOOTH CURVE (NO PHASE BREAK)
-        const eased = effectiveT * effectiveT * (3 - 2 * effectiveT);
+        // ⚡ smooth continuous curve (no phase system)
+        const eased = t * t * (3 - 2 * t);
 
         const angle =
             startAngle +
