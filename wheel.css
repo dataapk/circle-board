@@ -1367,21 +1367,17 @@ button,
 
 @media (max-width: 320px) {
 
-    .wheel-wrapper {
-
-        width: 250px;
+    .game-wrapper {
+        gap: 0;
     }
 
-    .balance-box {
-
-        min-width: 120px;
-
-        font-size: 13px;
+    .wheel-wrapper {
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
 
     .symbol-table {
-
-        gap: 5px;
+        margin-top: -8px;
     }
 }
 
