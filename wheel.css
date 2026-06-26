@@ -256,8 +256,8 @@ html, body {
 ========================= */
 
 .symbol-box img {
-    width: 42px;
-    height: 42px;
+    width: 50px;
+    height: 50px;
 
     object-fit: contain;
 
@@ -1387,8 +1387,12 @@ button,
         margin-top: -20px;
     }
 }
-* {
-    outline: 1px solid red;
+/* =========================
+   LAYOUT CHECKER
+========================= */
+
+* {                        
+    outline: none;   
 }
 
 /* =========================
