@@ -426,7 +426,7 @@ GameEngine.setWheelRotation(finalAngle);
 wheel.offsetWidth;
 
 wheel.style.transition =
-    "transform 14s cubic-bezier(0.12, 0.80, 0.38, 1)";
+    "transform 14s cubic-bezier(0.10, 0.90, 0.30, 1)";
     wheel.style.transform = `rotate(${finalAngle}deg)`;
 
     spinBtn.classList.add("spinning");
