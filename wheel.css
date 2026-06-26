@@ -718,21 +718,24 @@ html, body {
 }
 
 .bonus-balloon {
+
     position: absolute;
 
     left: 50%;
     top: 50%;
 
-    width: 24px;
-    height: 32px;
+    width: 40px;
+    height: 50px;
 
-    border-radius: 50% 50% 48% 48%;
-
-    transform: translate(-50%, -50%) scale(1);
+    border-radius: 50%;
 
     opacity: 1;
 
-    z-index: 1000;
+    transform: translate(-50%, -50%);
+
+    background: red;
+
+    z-index: 9999;
 }
 
 /* Color Variants */
