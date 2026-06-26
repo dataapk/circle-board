@@ -774,32 +774,12 @@ function spawnBalloon() {
     return balloon;
 }
 // ======================================================
-function testBonusBalloon() {
+function testBalloon() {
 
-    const balloon = document.getElementById("bonusBalloon");
-    const text = document.getElementById("bonusMultiplier");
+    const balloon =
+        document.getElementById("bonusBalloon");
 
-    if (!balloon || !text) return;
+    balloon.className =
+        "bonus-balloon balloon-red show";
 
-    // reset
-    balloon.classList.remove("active");
-    text.classList.remove("show");
-
-    // STEP 1: balloon appear
-    setTimeout(() => {
-        balloon.classList.add("active");
-    }, 50);
-
-    // STEP 2: burst → show multiplier
-    setTimeout(() => {
-        balloon.style.background = "transparent";
-        text.textContent = Math.random() < 0.5 ? "2X" : "3X";
-        text.classList.add("show");
-    }, 700);
-
-    // STEP 3: cleanup
-    setTimeout(() => {
-        balloon.classList.remove("active");
-        text.classList.remove("show");
-    }, 1500);
 }
