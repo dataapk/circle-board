@@ -361,8 +361,6 @@ function animateWheelSpin(startAngle, endAngle) {
     }
 
     const duration = 14000;
-
-    ...
 }
 
     const startTime = performance.now();
