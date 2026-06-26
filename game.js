@@ -361,13 +361,13 @@ function animateWheelSpin(startAngle, endAngle) {
     }
 
     const duration = 14000;
-}
 
     const startTime = performance.now();
 
     function frame(now) {
 
-        let t = (now - startTime) / duration;
+        let t =
+            (now - startTime) / duration;
 
         if (t > 1) t = 1;
 
@@ -416,7 +416,14 @@ function animateWheelSpin(startAngle, endAngle) {
 
         if (t < 1) {
 
-             wheelAnimationFrame =
+            wheelAnimationFrame =
+                requestAnimationFrame(frame);
+
+        }
+
+    }
+
+    wheelAnimationFrame =
         requestAnimationFrame(frame);
 
 }
