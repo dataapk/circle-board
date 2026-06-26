@@ -706,6 +706,8 @@ html, body {
 /* =========================
    🎁 BONUS BALL (FIXED VERSION)
 =========================*/
+.wheel-wrapper {
+    position: relative;
 
 
 .bonus-overlay {
