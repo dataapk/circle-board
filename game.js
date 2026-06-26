@@ -371,40 +371,47 @@ function animateWheelSpin(startAngle, endAngle) {
 
         if (t > 1) t = 1;
 
-       let eased;
+        let eased;
 
-if (t < 0.08) {
+        // 1 second slow start
+        if (t < 0.07) {
 
-    const p = t / 0.08;
+            const p = t / 0.07;
 
-    eased = 0.08 * p * p;
+            eased =
+                0.07 * p * p;
 
-}
+        }
 
-else if (t < 0.85) {
+        // 11.5 second constant speed
+        else if (t < 0.90) {
 
-    eased =
-        0.08 +
-        ((t - 0.08) / 0.77) * 0.77;
+            eased =
+                0.07 +
+                ((t - 0.07) / 0.83) * 0.83;
 
-}
+        }
 
-else {
+        // last 1.5 second smooth brake
+        else {
 
-    const p =
-        (t - 0.85) / 0.15;
+            const p =
+                (t - 0.90) / 0.10;
 
-    eased =
-        0.85 +
-        (1 - Math.pow(1 - p, 2)) * 0.15;
+            eased =
+                0.90 +
+                (1 - Math.pow(1 - p, 3))
+                * 0.10;
 
-}
+        }
+
         const angle =
-    startAngle +
-    (endAngle - startAngle) * eased;
+            startAngle +
+            (endAngle - startAngle) * eased;
 
-wheel.style.transform =
-    `rotate(${angle}deg)`;
+        wheel.style.transform =
+            `rotate(${angle}deg)`;
+
         if (t < 1) {
 
             wheelAnimationFrame =
