@@ -364,8 +364,8 @@ function animateWheelSpin(startAngle, endAngle) {
         let t = (now - startTime) / duration;
         if (t > 1) t = 1;
 
-        // ⚡ smooth continuous curve (no phase system)
-        const eased = t * t * (3 - 2 * t);
+        // ⚡ smooth continuous curve (speed  system)
+        const eased = 1 - Math.pow(1 - t, 2.2);
 
         const angle =
             startAngle +
