@@ -416,14 +416,7 @@ function animateWheelSpin(startAngle, endAngle) {
 
         if (t < 1) {
 
-            wheelAnimationFrame =
-                requestAnimationFrame(frame);
-
-        }
-
-    }
-
-    wheelAnimationFrame =
+             wheelAnimationFrame =
         requestAnimationFrame(frame);
 
 }
