@@ -399,9 +399,12 @@ else {
         (1 - Math.pow(1 - p, 2)) * 0.15;
 
 }
-        wheel.style.transform =
-            `rotate(${angle}deg)`;
+        const angle =
+    startAngle +
+    (endAngle - startAngle) * eased;
 
+wheel.style.transform =
+    `rotate(${angle}deg)`;
         if (t < 1) {
 
             wheelAnimationFrame =
