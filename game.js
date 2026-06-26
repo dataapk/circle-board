@@ -407,10 +407,19 @@ function startWheelSpin() {
 
     playSpinAudio();
 
-    const finalIndex = GameEngine.getFinalIndex();
-    const anglePerSlot = 360 / 18;
+    const finalIndex = Math.floor(Math.random() * 18);
 
-    const finalAngle = (finalIndex * anglePerSlot) + (1440); // 4 full spins
+const anglePerSlot = 360 / 18;
+
+const currentRotation =
+    GameEngine.getWheelRotation();
+
+const finalAngle =
+    currentRotation +
+    2160 +
+    (finalIndex * anglePerSlot);
+
+GameEngine.setWheelRotation(finalAngle);
 
     wheel.style.transition = "transform 14s cubic-bezier(0.08, 0.82, 0.17, 1)";
     wheel.style.transform = `rotate(${finalAngle}deg)`;
