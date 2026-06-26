@@ -762,6 +762,22 @@ html, body {
         #9933ff 60%,
         #4d0099);
 }
+.bonus-balloon.show {
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(4);
+
+    transition:
+        transform 800ms ease-out,
+        opacity 200ms linear;
+
+    filter:
+        drop-shadow(0 0 8px rgba(255,255,255,.8))
+        drop-shadow(0 0 20px currentColor);
+}
 
 .bonus-multiplier {
     position: absolute;
