@@ -722,6 +722,7 @@ html, body {
     z-index: 1000;
 }
 .bonus-balloon {
+
     position: absolute;
     left: 50%;
     top: 50%;
@@ -729,65 +730,64 @@ html, body {
     width: 40px;
     height: 50px;
 
-    background: red;
     border-radius: 50%;
 
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0);
+
+    opacity: 0;
+
     z-index: 9999;
 }
-/* Color Variants */
 
-.balloon-red {
-    background: radial-gradient(
-    circle at 30% 30%,
-    #ffb3b3,
-    #ff0000 60%,
-    #990000);
+/* SHOW */
 
-}
-
-.balloon-blue {
-    background: radial-gradient(circle at 30% 30%,
-        #b3d9ff,
-        #0080ff 60%,
-        #003d99);
-}
-
-.balloon-yellow {
-    background: radial-gradient(circle at 30% 30%,
-        #fff7b3,
-        #ffd400 60%,
-        #b38f00);
-}
-
-.balloon-green {
-    background: radial-gradient(circle at 30% 30%,
-        #b3ffcc,
-        #00cc66 60%,
-        #006633);
-}
-
-.balloon-purple {
-    background: radial-gradient(circle at 30% 30%,
-        #e0b3ff,
-        #9933ff 60%,
-        #4d0099);
-}
 .bonus-balloon.show {
 
     opacity: 1;
 
-    transform:
-        translate(-50%, -50%)
-        scale(4);
+    animation:
+        balloonInflate 1200ms ease-out forwards;
+}
 
-    transition:
-        transform 800ms ease-out,
-        opacity 200ms linear;
+/* REALISTIC INFLATE */
 
-    filter:
-        drop-shadow(0 0 8px rgba(255,255,255,.8))
-        drop-shadow(0 0 20px currentColor);
+@keyframes balloonInflate {
+
+    0% {
+        transform:
+            translate(-50%, -50%)
+            scale(0.1);
+    }
+
+    20% {
+        transform:
+            translate(-50%, -50%)
+            scale(0.4);
+    }
+
+    40% {
+        transform:
+            translate(-50%, -50%)
+            scale(0.8);
+    }
+
+    60% {
+        transform:
+            translate(-50%, -50%)
+            scale(1.1);
+    }
+
+    80% {
+        transform:
+            translate(-50%, -50%)
+            scale(0.95);
+    }
+
+    100% {
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
 }
 
 .bonus-multiplier {
