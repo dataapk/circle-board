@@ -706,30 +706,33 @@ html, body {
 /* =========================
    🎁 BONUS BALL (FIXED VERSION)
 ========================= *
+.wheel-wrapper {
+    position: relative;
+}
+
+.bonus-overlay {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+}
+
 .bonus-balloon {
     position: absolute;
 
     left: 50%;
     top: 50%;
 
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 32px;
 
-    border-radius: 50%;
+    border-radius: 50% 50% 48% 48%;
 
     transform: translate(-50%, -50%) scale(0);
 
     opacity: 0;
 
     z-index: 1000;
-
-    pointer-events: none;
-}
-
-
-.bonus-overlay {
-    position: absolute;
-    inset: 0;
 }
 
 /* Color Variants */
