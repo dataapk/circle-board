@@ -812,7 +812,7 @@ html, body {
     min-width: 50px;
     height: 26px;
 
-    padding: 0 10px;
+    padding: 0 2px;
 
     display: flex;
     align-items: center;
