@@ -725,7 +725,7 @@ function startGameUI() {
     initializeBetSystem();
 
     initializeWheelSystem();
-    testBonus();
+    
 
 
 
