@@ -927,9 +927,7 @@ function spawnBubbleWave() {
 function flyWinningBubble() {
 
     const bubble =
-        document.querySelector(
-            '.bonus-bubble[data-survivor="true"]'
-        );
+        document.querySelector('.bonus-bubble[data-survivor="true"]');
 
     if (!bubble) {
         console.warn("[BUBBLE] Survivor not found");
@@ -937,57 +935,77 @@ function flyWinningBubble() {
     }
 
     const target =
-        document.querySelector(
-            '[data-symbol="' +
-            activeBubbleSymbol +
-            '"]'
-        );
+        document.querySelector('[data-symbol="' + activeBubbleSymbol + '"]');
 
     if (!target) {
-
-        console.error(
-            "[BUBBLE] Missing Symbol:",
-            activeBubbleSymbol
-        );
-
+        console.error("[BUBBLE] Missing Symbol:", activeBubbleSymbol);
         return;
     }
 
     const targetRect =
         target.getBoundingClientRect();
 
-    bubble.classList.add(
-        "bubble-flying"
-    );
+    const layer =
+        document.getElementById("bonusBubbleLayer");
 
-    bubble.style.position =
-        "fixed";
+    // 🔥 MOVE TO OVERLAY LAYER (IMPORTANT)
+    layer.appendChild(bubble);
 
+    bubble.style.position = "absolute";
+
+    // 🎧 SOUND: FLY START
+    const flySound = new Audio("bubblebox.mp3");
+    flySound.volume = 0.6;
+    flySound.play();
+
+    // start position (center of screen)
+    const startX = window.innerWidth / 2;
+    const startY = window.innerHeight / 2;
+
+    bubble.style.left = startX + "px";
+    bubble.style.top = startY + "px";
+
+    // force reflow
+    bubble.getBoundingClientRect();
+
+    // 🎬 trigger animation class
+    bubble.classList.add("bubble-flying");
+
+    // smooth casino easing
+    bubble.style.transition =
+        "all 1.2s cubic-bezier(0.25, 1, 0.5, 1)";
+
+    // 🎯 LAND POSITION (top-right feel)
     bubble.style.left =
-        (
-            targetRect.left +
-            targetRect.width / 2
-        ) + "px";
+        (targetRect.left + targetRect.width - 10) + "px";
 
     bubble.style.top =
-        (
-            targetRect.top +
-            targetRect.height / 2
-        ) + "px";
+        (targetRect.top + 10) + "px";
 
     setTimeout(() => {
 
-        bubble.classList.add(
-            "bubble-landed"
-        );
+        // 🎧 LAND SOUND
+        const landSound = new Audio("bubble.mp3");
+        landSound.volume = 0.7;
+        landSound.play();
 
-        attachBubbleToSymbol(
-            bubble,
-            target
-        );
+        bubble.classList.add("bubble-landed");
+
+        // 🎯 ATTACH VISUAL (optional highlight only)
+        target.classList.add("symbol-hit");
+
+        setTimeout(() => {
+
+            target.classList.remove("symbol-hit");
+
+        }, 500);
+
+        // 🎧 WIN SOUND (final result)
+        const winSound = new Audio("bubblewin.mp3");
+        winSound.volume = 0.9;
+        winSound.play();
 
     }, 1200);
-
 }
 // ======================================
 // ATTACH TO SYMBOL
