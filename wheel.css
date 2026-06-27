@@ -671,8 +671,7 @@ html, body {
 .wheel-wrapper {
     position: relative;
 
-    width: 320px;
-    height: 320px;   /* 🔥 FIXED HEIGHT */
+    height: auto;   /* 🔥 FIXED HEIGHT */
    border: none;
 
   margin-bottom: 0;
