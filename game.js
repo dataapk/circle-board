@@ -824,126 +824,43 @@ function selectBubbleTarget() {
 
 function spawnBubbleWave() {
 
-    const layer =
-        document.getElementById(
-            "bonusBubbleLayer"
-        );
-
+    const layer = document.getElementById("bonusBubbleLayer");
     if (!layer) return;
 
     layer.innerHTML = "";
 
-    const colors = [
-        "#ff4444",
-        "#00ccff",
-        "#ffcc00",
-        "#00ff66",
-        "#cc66ff"
-    ];
-
-    const multipliers = [
-        2,
-        3,
-        4,
-        5
-    ];
-
     const bubbleCount = 8;
+    const survivorIndex = Math.floor(Math.random() * bubbleCount);
 
-    const survivorIndex =
-        Math.floor(
-            Math.random() *
-            bubbleCount
-        );
+    for (let i = 0; i < bubbleCount; i++) {
 
-    for (
-        let i = 0;
-        i < bubbleCount;
-        i++
-    ) {
+        const bubble = document.createElement("div");
 
-        const bubble =
-            document.createElement("div");
+        bubble.className = "bonus-bubble";
 
-        bubble.className =
-            "bonus-bubble";
+        bubble.style.left = (140 + Math.random() * 40) + "px";
+        bubble.style.top = (140 + Math.random() * 40) + "px";
 
-        const multiplier =
-            multipliers[
-                Math.floor(
-                    Math.random() *
-                    multipliers.length
-                )
-            ];
+        layer.appendChild(bubble);
 
-        const color =
-            colors[
-                Math.floor(
-                    Math.random() *
-                    colors.length
-                )
-            ];
-
-        bubble.dataset.multiplier =
-            multiplier;
-
-        bubble.style.background =
-            color;
-
-        bubble.innerHTML =
-            multiplier + "X";
-
-        bubble.style.left =
-            (140 + Math.random() * 40)
-            + "px";
-
-        bubble.style.top =
-            (140 + Math.random() * 40)
-            + "px";
-
-        layer.appendChild(
-            bubble
-        );
+        // FORCE start state
+        bubble.style.opacity = "0";
+        bubble.style.width = "1px";
+        bubble.style.height = "1px";
+        bubble.style.transform = "translate(-50%, -50%) scale(0)";
 
         requestAnimationFrame(() => {
-
-            bubble.classList.add(
-                "bubble-grow"
-            );
-
+            bubble.classList.add("bubble-grow");
         });
 
-        if (
-            i !== survivorIndex
-        ) {
-
-            setTimeout(() => {
-
-                bubble.classList.add(
-                    "bubble-explode"
-                );
-
-            }, 4000);
-
+        if (i !== survivorIndex) {
+            setTimeout(() => bubble.classList.add("bubble-explode"), 4000);
         } else {
-
-            bubble.classList.add(
-                "bubble-survivor"
-            );
-
-            bubble.dataset.survivor =
-                "true";
-
+            bubble.dataset.survivor = "true";
         }
-
     }
 
-    setTimeout(() => {
-
-        flyWinningBubble();
-
-    }, 4500);
-
+    setTimeout(flyWinningBubble, 4500);
 }
 // ======================================
 // FLY WINNING BUBBLE
@@ -959,58 +876,25 @@ function flyWinningBubble() {
 
     if (!bubble || !target) return;
 
-    // 🔥 ONLY CLASS TRIGGER
-    bubble.classList.add("fly-to-target");
+    const rect = target.getBoundingClientRect();
+
+    bubble.classList.add("bubble-flying");
+
+    bubble.style.left = rect.right - 10 + "px";
+    bubble.style.top = rect.top + 10 + "px";
 
     target.classList.add("symbol-hit");
 
     setTimeout(() => {
         target.classList.remove("symbol-hit");
-        bubble.classList.add("landed");
+        bubble.classList.add("bubble-landed");
     }, 1200);
 }
 // ======================================
 // ATTACH TO SYMBOL
 // ======================================
 
-function attachBubbleToSymbol(
-    bubble,
-    target
-) {
 
-    target.style.position =
-        "relative";
-
-    bubble.style.position =
-        "absolute";
-
-    bubble.style.left =
-        "50%";
-
-    bubble.style.top =
-        "8px";
-
-    bubble.style.transform =
-        "translateX(-50%)";
-
-    bubble.innerHTML =
-        activeBubbleMultiplier +
-        "X";
-
-    target.appendChild(
-        bubble
-    );
-
-    target.classList.add(
-        "multiplier-hit"
-    );
-
-    console.log(
-        "[LOCKED]",
-        activeBubbleMultiplier + "X",
-        activeBubbleSymbol
-    );
-}
 // ======================================
 // START BONUS BUBBLE SHOW
 // ======================================
