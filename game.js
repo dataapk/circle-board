@@ -850,9 +850,11 @@ function spawnBubbleWave() {
     const colors = ["#ff4444","#00ccff","#ffcc00","#00ff66","#cc66ff"];
     const multipliers = [2,3,4,5];
 
+    const bubbleCount = 120; // ⚠️ 600 DOM NOT SAFE
+
     const bubbles = [];
 
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < bubbleCount; i++) {
 
         const bubble = document.createElement("div");
         bubble.className = "bonus-bubble";
@@ -863,9 +865,9 @@ function spawnBubbleWave() {
         bubble.style.background =
             colors[Math.floor(Math.random()*colors.length)];
 
-        // 🎯 IMPORTANT: spawn from wheel center
-        bubble.style.left = center.x + "px";
-        bubble.style.top = center.y + "px";
+        // 🎯 wheel center spawn + small scatter
+        bubble.style.left = (center.x + (Math.random()*120 - 60)) + "px";
+        bubble.style.top = (center.y + (Math.random()*120 - 60)) + "px";
 
         layer.appendChild(bubble);
         bubbles.push(bubble);
