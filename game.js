@@ -927,3 +927,110 @@ function spawnBubbleWave() {
     }, 4500);
 
 }
+// ======================================
+// FLY WINNING BUBBLE
+// ======================================
+
+function flyWinningBubble() {
+
+    const bubble =
+        document.querySelector(
+            '.bonus-bubble[data-survivor="true"]'
+        );
+
+    if (!bubble) {
+        console.warn(
+            "[BUBBLE] Survivor not found"
+        );
+        return;
+    }
+
+    const target =
+        document.querySelector(
+            `.symbol-box[data-symbol="${activeBubbleSymbol}"]`
+        );
+
+    if (!target) {
+        console.warn(
+            "[BUBBLE] Target symbol not found"
+        );
+        return;
+    }
+
+    const bubbleRect =
+        bubble.getBoundingClientRect();
+
+    const targetRect =
+        target.getBoundingClientRect();
+
+    const targetX =
+        targetRect.left +
+        targetRect.width / 2;
+
+    const targetY =
+        targetRect.top +
+        targetRect.height / 2;
+
+    bubble.classList.add(
+        "bubble-flying"
+    );
+
+    bubble.style.position = "fixed";
+
+    bubble.style.left =
+        targetX + "px";
+
+    bubble.style.top =
+        targetY + "px";
+
+    setTimeout(() => {
+
+        bubble.classList.add(
+            "bubble-landed"
+        );
+
+        target.classList.add(
+            "multiplier-hit"
+        );
+
+        attachBubbleToSymbol(
+            bubble,
+            target
+        );
+
+    }, 1300);
+
+}
+// ======================================
+// ATTACH TO SYMBOL
+// ======================================
+
+function attachBubbleToSymbol(
+    bubble,
+    target
+) {
+
+    target.appendChild(
+        bubble
+    );
+
+    bubble.style.position =
+        "absolute";
+
+    bubble.style.left = "50%";
+
+    bubble.style.top = "12px";
+
+    bubble.style.transform =
+        "translateX(-50%)";
+
+    bubble.innerHTML =
+        activeBubbleMultiplier + "X";
+
+    console.log(
+        "[BUBBLE LOCKED]",
+        activeBubbleMultiplier + "X",
+        activeBubbleSymbol
+    );
+
+}
