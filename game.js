@@ -845,53 +845,40 @@ function spawnBubbleWave() {
 
     layer.innerHTML = "";
 
-    const colors = [
-        "#ff4444",
-        "#00ccff",
-        "#ffcc00",
-        "#00ff66",
-        "#cc66ff"
-    ];
+    const center = getWheelCenter();
 
-    const multipliers = [2, 3, 4, 5];
+    const colors = ["#ff4444","#00ccff","#ffcc00","#00ff66","#cc66ff"];
+    const multipliers = [2,3,4,5];
 
-    const bubbleCount = 8;
     const bubbles = [];
 
-    // 🎯 wheel center (adjust if needed)
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-
-    for (let i = 0; i < bubbleCount; i++) {
+    for (let i = 0; i < 8; i++) {
 
         const bubble = document.createElement("div");
         bubble.className = "bonus-bubble";
 
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const text = multipliers[Math.floor(Math.random() * multipliers.length)] + "X";
+        bubble.innerHTML =
+            multipliers[Math.floor(Math.random()*multipliers.length)] + "X";
 
-        bubble.style.background = color;
-        bubble.innerHTML = text;
+        bubble.style.background =
+            colors[Math.floor(Math.random()*colors.length)];
 
-        // 📍 center spawn
-        bubble.style.left = centerX + "px";
-        bubble.style.top = centerY + "px";
+        // 🎯 IMPORTANT: spawn from wheel center
+        bubble.style.left = center.x + "px";
+        bubble.style.top = center.y + "px";
 
         layer.appendChild(bubble);
         bubbles.push(bubble);
 
-        // 🌱 smooth grow
         requestAnimationFrame(() => {
             bubble.classList.add("bubble-grow");
         });
     }
 
-    // ⏱ after 7–8 sec → next phase
     setTimeout(() => {
         flyWinningBubble(bubbles);
     }, 7500);
 }
-
 // ======================================================
 // 🎯 FLY WINNING BUBBLE
 // ======================================================
