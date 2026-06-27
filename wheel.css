@@ -214,7 +214,8 @@ html, body {
     text-align: center;
     cursor: pointer;
 
-    overflow: hidden;
+    overflow: visible;
+    isolation: isolate;
 
     transition: all var(--normal) ease;
 
