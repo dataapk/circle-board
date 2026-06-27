@@ -889,25 +889,50 @@ function flyWinningBubble(bubbles) {
 
     const targets = document.querySelectorAll(".symbol-box");
 
-    if (!targets.length || !bubbles.length) return;
+    if (!targets.length) {
+        console.error("[BUBBLE] No symbol-box found");
+        return;
+    }
 
-    const target = targets[Math.floor(Math.random() * targets.length)];
-    const winner = bubbles[Math.floor(Math.random() * bubbles.length)];
+    if (!bubbles || !bubbles.length) {
+        console.error("[BUBBLE] No bubbles passed");
+        return;
+    }
+
+    const target =
+        targets[Math.floor(Math.random() * targets.length)];
+
+    const winner =
+        bubbles[Math.floor(Math.random() * bubbles.length)];
+
+    if (!winner || !target) {
+        console.error("[BUBBLE] Missing fly target");
+        return;
+    }
 
     const rect = target.getBoundingClientRect();
 
-    // IMPORTANT: keep in same layer
+    // 🎯 ensure overlay behavior
     winner.style.position = "fixed";
+    winner.style.zIndex = "999999";
+
+    // 🎯 perfect center landing
     winner.style.left = (rect.left + rect.width / 2) + "px";
     winner.style.top = (rect.top + rect.height / 2) + "px";
 
-    winner.style.zIndex = "99999";
+    winner.style.transform = "translate(-50%, -50%)";
 
+    // ✨ smooth fly class
     winner.classList.add("bubble-flying");
 
+    // ✨ symbol highlight
     target.classList.add("symbol-hit");
 
-    // ❌ NO appendChild anywhere
+    // 💡 optional: remove highlight after animation
+    setTimeout(() => {
+        target.classList.remove("symbol-hit");
+        winner.classList.add("bubble-landed");
+    }, 1200);
 }
 function getWheelCenter() {
 
