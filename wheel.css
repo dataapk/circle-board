@@ -1492,34 +1492,18 @@ button,
 
     position: absolute;
 
-    width: 42px;
-    height: 42px;
+    width: 1px;
+    height: 1px;
 
     border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    color: #fff;
-
-    /* ❌ remove strong white wash */
-    text-shadow: none;
-
-    /* ❌ remove white override glow */
-    box-shadow:
-        inset 0 0 10px rgba(0,0,0,.4);
 
     transform: translate(-50%, -50%) scale(0);
 
     opacity: 0;
 
-    will-change: transform, left, top;
+    will-change: transform;
 
-    pointer-events: none;
+    transition: transform 7.5s linear, opacity 7.5s linear;
 }
 
 /* ========================================================
@@ -1527,7 +1511,13 @@ button,
 ======================================================== */
 
 .bubble-grow {
-    animation: bubbleGrow 0.8s ease-out forwards;
+
+    width: 32px;
+    height: 32px;
+
+    opacity: 1;
+
+    transform: translate(-50%, -50%) scale(1);
 }
 
 @keyframes bubbleGrow {
