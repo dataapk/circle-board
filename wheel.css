@@ -350,7 +350,7 @@ html, body {
     position: relative;
     display: flex;
     justify-content: center;
-    margin-top: 8px;
+    margin-top: 35px;
 }
 
 /* মেইন চিপস কন্টেইনার (ডিফল্ট অবস্থায় চিপগুলো একটার নিচে আরেকটা লুকিয়ে থাকবে) */
