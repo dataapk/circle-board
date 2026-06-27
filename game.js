@@ -468,6 +468,11 @@ GameEngine.setWheelRotation(finalAngle);
 
     spinBtn.classList.add("spinning");
 
+    // 🎈 START BUBBLES AFTER 1 SECOND
+    setTimeout(() => {
+        startBonusBubbleShow();
+    }, 1000);
+
     setTimeout(() => {
 
         GameEngine.endSpin(finalIndex);
