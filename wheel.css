@@ -1819,3 +1819,8 @@ button,
         transform: scale(1);
     }
 }
+.bonus-overlay,
+.bubble-trail-layer,
+.landing-multiplier {
+    display: none !important;
+}
