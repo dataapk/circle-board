@@ -887,35 +887,47 @@ function spawnBubbleWave() {
 // 🎯 FLY WINNING BUBBLE
 // ======================================================
 
-function flyWinningBubble(target) {
+function flyWinningBubble(bubbles) {
 
-    const bubble =
-        document.querySelector('.bonus-bubble[data-survivor="true"]');
+    const symbolBoxes = document.querySelectorAll(".symbol-box");
 
-    if (!bubble || !target) {
-        console.error("[BUBBLE] Missing fly target");
-        bubbleAnimationRunning = false;
+    if (!symbolBoxes.length) {
+        console.error("[BUBBLE] No symbol boxes found");
         return;
     }
 
-    const rect =
-        target.getBoundingClientRect();
+    if (!bubbles || !bubbles.length) {
+        console.error("[BUBBLE] No bubbles passed");
+        return;
+    }
 
-    bubble.classList.add("bubble-flying");
+    const targetIndex =
+        Math.floor(Math.random() * symbolBoxes.length);
 
-    bubble.style.left = (rect.right - 10) + "px";
-    bubble.style.top = (rect.top + 10) + "px";
+    const target = symbolBoxes[targetIndex];
+
+    const winnerIndex =
+        Math.floor(Math.random() * bubbles.length);
+
+    const winner = bubbles[winnerIndex];
+
+    if (!winner || !target) {
+        console.error("[BUBBLE] Missing fly target");
+        return;
+    }
+
+    const rect = target.getBoundingClientRect();
+
+    winner.classList.add("bubble-flying");
+
+    winner.style.left = (rect.left + rect.width / 2) + "px";
+    winner.style.top = (rect.top + rect.height / 2) + "px";
 
     target.classList.add("symbol-hit");
 
     setTimeout(() => {
-
         target.classList.remove("symbol-hit");
-
-        bubble.classList.add("bubble-landed");
-
-        bubbleAnimationRunning = false;
-
+        winner.classList.add("bubble-landed");
     }, 1200);
 }
 
