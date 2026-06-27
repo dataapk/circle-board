@@ -116,6 +116,31 @@ function playSpinAudio() {
     }
 
 }
+function playBubbleFlyAudio() {
+
+    console.log("[AUDIO] BUBBLE FLY");
+
+    if (typeof GameEngine !== "undefined") {
+        GameEngine.playBubbleFlySound();
+    }
+}
+function playBubbleLandAudio() {
+
+    console.log("[AUDIO] BUBBLE LAND");
+
+    if (typeof GameEngine !== "undefined") {
+        GameEngine.playBubbleLandSound();
+    }
+}
+function playBubbleWinAudio() {
+
+    console.log("[AUDIO] BUBBLE WIN");
+
+    if (typeof GameEngine !== "undefined") {
+        GameEngine.playBubbleWinSound();
+    }
+}
+
 
 // ======================================================
 // 🔊 END: INITIAL AUDIO EVENTS
