@@ -1062,3 +1062,26 @@ function spawnBubbleWave() {
     }, 4500);
 
 }
+// ======================================
+// CLEAR BONUS BUBBLES
+// ======================================
+
+function clearBonusBubbleSystem() {
+
+    document
+        .querySelectorAll(
+            ".bonus-bubble"
+        )
+        .forEach(el => el.remove());
+
+    currentBubbleElement = null;
+
+    activeBubbleMultiplier = null;
+
+    activeBubbleSymbol = null;
+
+    bubbleAnimationRunning = false;
+
+    bubbleTargetLocked = false;
+
+}
