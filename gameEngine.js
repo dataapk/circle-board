@@ -74,18 +74,24 @@ const state = {
 const audio = {
 
     chip: null,
-
     table: null,
-
     spin: null,
+    spinButton: null,
 
-    spinButton: null
-
+    // 🎯 ADD BUBBLE SOUNDS
+    bubbleFly: null,
+    bubbleLand: null,
+    bubbleWin: null
 };
+    
    audio.chip = new Audio("assets/chip.mp3");
  audio.table = new Audio("assets/table.mp3");
   audio.spin = new Audio("assets/spin.mp3");
   audio.spinButton = new Audio("assets/spinbutton.mp3");
+    // 🎯 BUBBLE SOUNDS
+audio.bubbleFly = new Audio("assets/bubblebox.mp3");
+audio.bubbleLand = new Audio("assets/bubble.mp3");
+audio.bubbleWin = new Audio("assets/bubblewin.mp3");
 
 function playChipSound() {
 
@@ -122,6 +128,31 @@ function playSpinButtonSound() {
     audio.spinButton.play();
 
 }
+    function playBubbleFlySound() {
+
+    if (!audio.bubbleFly) return;
+
+    audio.bubbleFly.currentTime = 0;
+    audio.bubbleFly.volume = 0.6;
+    audio.bubbleFly.play();
+}
+    function playBubbleLandSound() {
+
+    if (!audio.bubbleLand) return;
+
+    audio.bubbleLand.currentTime = 0;
+    audio.bubbleLand.volume = 0.7;
+    audio.bubbleLand.play();
+}
+    function playBubbleWinSound() {
+
+    if (!audio.bubbleWin) return;
+
+    audio.bubbleWin.currentTime = 0;
+    audio.bubbleWin.volume = 0.9;
+    audio.bubbleWin.play();
+}
+    
 
 // ======================================================
 // 🔊 END: INITIAL AUDIO SYSTEM
