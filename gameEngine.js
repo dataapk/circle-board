@@ -1,3 +1,4 @@
+
 // ======================================================
 // 🧠 START: GAME ENGINE
 // ======================================================
@@ -1116,6 +1117,9 @@ function isRoundActive() {
        playTableSound,
        playSpinSound,
        playSpinButtonSound,
+        playBubbleFlySound,
+        playBubbleLandSound,
+        playBubbleWinSound,
         isBetLocked,
        lockBets: lockRound,
        unlockBets: unlockRound,
