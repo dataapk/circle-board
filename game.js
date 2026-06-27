@@ -764,18 +764,6 @@ function startGameUI() {
 // ======================================================
 // 🎮 BUBBLE BALL BONUS SECTION
 // ======================================================
-function startBonusBubbleShow() {
-
-    if (bubbleAnimationRunning) return;
-
-    bubbleAnimationRunning = true;
-
-    activeBubbleMultiplier = null;
-    activeBubbleSymbol = null;
-    bubbleTargetLocked = false;
-
-    spawnBubbleWave();
-}
 function selectBubbleTarget() {
 
     activeBubbleMultiplier =
@@ -797,6 +785,11 @@ function selectBubbleTarget() {
     console.log(
         "[BUBBLE]",
         activeBubbleMultiplier + "X",
+        activeBubbleSymbol
+    );
+
+    console.log(
+        "[TARGET SYMBOL]",
         activeBubbleSymbol
     );
 }
