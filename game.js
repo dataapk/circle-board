@@ -959,31 +959,15 @@ function flyWinningBubble() {
 
     if (!bubble || !target) return;
 
-    const rect = target.getBoundingClientRect();
+    // 🔥 ONLY CLASS TRIGGER
+    bubble.classList.add("fly-to-target");
 
-    const layer = document.getElementById("bonusBubbleLayer");
-    layer.appendChild(bubble);
+    target.classList.add("symbol-hit");
 
-    bubble.style.position = "absolute";
-
-    // 🔥 STEP 1: START POSITION (must)
-    bubble.style.left = (window.innerWidth / 2) + "px";
-    bubble.style.top = (window.innerHeight / 2) + "px";
-
-    bubble.style.transition = "none";
-
-    // force reflow
-    bubble.getBoundingClientRect();
-
-    // 🎬 STEP 2: enable animation
-    bubble.style.transition = "all 1.2s cubic-bezier(0.25, 1, 0.5, 1)";
-
-    // 🔥 STEP 3: MOVE TO TARGET
-    bubble.style.left =
-        (rect.left + rect.width / 2) + "px";
-
-    bubble.style.top =
-        (rect.top + rect.height / 2) + "px";
+    setTimeout(() => {
+        target.classList.remove("symbol-hit");
+        bubble.classList.add("landed");
+    }, 1200);
 }
 // ======================================
 // ATTACH TO SYMBOL
