@@ -33,14 +33,35 @@ const chips = document.querySelectorAll(".chip");
 const symbolBoxes = document.querySelectorAll(".symbol-box");
 
 const pointer = document.getElementById("pointer");
-const bonusBallLayer =
-    document.querySelector(".bonus-ball-layer");
+// ======================================
+// BONUS BUBBLE SYSTEM
+// ======================================
 
-const bonusBall =
-    document.querySelector(".bonus-ball");
+let activeBubbleMultiplier = null;
 
-const bonusMultiplier =
-        document.querySelector(".bonus-ball-multiplier");
+let activeBubbleSymbol = null;
+
+let bubbleAnimationRunning = false;
+
+let bubbleTargetLocked = false;
+
+let currentBubbleElement = null;
+
+const BUBBLE_MULTIPLIERS = [
+    2,
+    3,
+    4,
+    5
+];
+
+const BUBBLE_SYMBOLS = [
+    "heart",
+    "diamond",
+    "spade",
+    "crown",
+    "club",
+    "flag"
+];
 
 
 // ======================================================
@@ -739,52 +760,170 @@ function startGameUI() {
 // ======================================================
 // 🚀 END: START GAME UI
 // ======================================================
-function testBonus() {
 
-    const bonusMultiplier =
-        document.querySelector(".bonus-ball-multiplier");
+// ======================================================
+// 🎮 BUBBLE BALL BONUS SECTION
+// ======================================================
+function startBonusBubbleShow() {
 
-    if (!bonusMultiplier) {
+    if (bubbleAnimationRunning) return;
 
-        console.log("BONUS MULTIPLIER NOT FOUND");
+    bubbleAnimationRunning = true;
 
-        return;
+    activeBubbleMultiplier = null;
+    activeBubbleSymbol = null;
+    bubbleTargetLocked = false;
+
+    spawnBubbleWave();
+}
+function selectBubbleTarget() {
+
+    activeBubbleMultiplier =
+        BUBBLE_MULTIPLIERS[
+            Math.floor(
+                Math.random() *
+                BUBBLE_MULTIPLIERS.length
+            )
+        ];
+
+    activeBubbleSymbol =
+        BUBBLE_SYMBOLS[
+            Math.floor(
+                Math.random() *
+                BUBBLE_SYMBOLS.length
+            )
+        ];
+
+    console.log(
+        "[BUBBLE]",
+        activeBubbleMultiplier + "X",
+        activeBubbleSymbol
+    );
+}
+// ======================================
+// SPAWN BUBBLE WAVE
+// ======================================
+
+function spawnBubbleWave() {
+
+    const layer =
+        document.getElementById(
+            "bonusBubbleLayer"
+        );
+
+    if (!layer) return;
+
+    layer.innerHTML = "";
+
+    const colors = [
+        "#ff4444",
+        "#00ccff",
+        "#ffcc00",
+        "#00ff66",
+        "#cc66ff"
+    ];
+
+    const multipliers = [
+        2,
+        3,
+        4,
+        5
+    ];
+
+    const bubbleCount = 8;
+
+    const survivorIndex =
+        Math.floor(
+            Math.random() *
+            bubbleCount
+        );
+
+    for (
+        let i = 0;
+        i < bubbleCount;
+        i++
+    ) {
+
+        const bubble =
+            document.createElement("div");
+
+        bubble.className =
+            "bonus-bubble";
+
+        const multiplier =
+            multipliers[
+                Math.floor(
+                    Math.random() *
+                    multipliers.length
+                )
+            ];
+
+        const color =
+            colors[
+                Math.floor(
+                    Math.random() *
+                    colors.length
+                )
+            ];
+
+        bubble.dataset.multiplier =
+            multiplier;
+
+        bubble.style.background =
+            color;
+
+        bubble.innerHTML =
+            multiplier + "X";
+
+        bubble.style.left =
+            (140 + Math.random() * 40)
+            + "px";
+
+        bubble.style.top =
+            (140 + Math.random() * 40)
+            + "px";
+
+        layer.appendChild(
+            bubble
+        );
+
+        requestAnimationFrame(() => {
+
+            bubble.classList.add(
+                "bubble-grow"
+            );
+
+        });
+
+        if (
+            i !== survivorIndex
+        ) {
+
+            setTimeout(() => {
+
+                bubble.classList.add(
+                    "bubble-explode"
+                );
+
+            }, 4000);
+
+        } else {
+
+            bubble.classList.add(
+                "bubble-survivor"
+            );
+
+            bubble.dataset.survivor =
+                "true";
+
+        }
 
     }
 
-    bonusMultiplier.textContent = "10X";
+    setTimeout(() => {
 
-    bonusMultiplier.style.display = "block";
+        flyWinningBubble();
 
-}
-// ======================================================
-// 🎮 END: GAME UI
-// ======================================================
-function spawnBalloon() {
-
-    const colors = ["red", "blue", "purple", "gold"];
-
-    const balloon = document.createElement("div");
-    balloon.className = "bonus-balloon";
-
-    const color = colors[Math.floor(Math.random() * colors.length)];
-
-    balloon.style.background = color;
-
-    balloon.style.left = "50%";
-    balloon.style.top = "50%";
-
-    document.body.appendChild(balloon);
-
-    return balloon;
-}
-// ======================================================
-function testBalloon() {
-
-    const balloon =
-        document.getElementById("bonusBalloon");
-
-    balloon.className =
-        "bonus-balloon balloon-red show";
+    }, 4500);
 
 }
