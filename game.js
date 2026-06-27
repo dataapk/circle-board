@@ -697,15 +697,16 @@ function resetBoardUI() {
 // ======================================================
 // 🔁 FULL UI REFRESH
 // ======================================================
-   function refreshGameUI() {
+
+function refreshGameUI() {
+
+    clearBonusBubbleSystem();
 
     updateBalanceUI();
 
     updateBetUI();
 
     updateChipUI();
-
-    // updateResultUI();
 
     console.log("[UI] REFRESH COMPLETE");
 
