@@ -838,73 +838,49 @@ function startBonusBubbleShow() {
 // 🎯 SPAWN BUBBLE WAVE
 // ======================================================
 
-function spawnBubbleWave(target) {
+function spawnBubbleWave() {
 
-    const layer =
-        document.getElementById("bonusBubbleLayer");
-
-    if (!layer) {
-        console.error("[BUBBLE] Layer missing");
-        return;
-    }
+    const layer = document.getElementById("bonusBubbleLayer");
+    if (!layer) return;
 
     layer.innerHTML = "";
 
     const bubbleCount = 8;
+    const multipliers = [2, 3, 4, 5];
 
-    const survivorIndex =
-        Math.floor(Math.random() * bubbleCount);
+    let bubbles = [];
 
     for (let i = 0; i < bubbleCount; i++) {
 
-        const bubble =
-            document.createElement("div");
-
+        const bubble = document.createElement("div");
         bubble.className = "bonus-bubble";
 
-        const multiplier =
-            BUBBLE_MULTIPLIERS[
-                Math.floor(Math.random() * BUBBLE_MULTIPLIERS.length)
-            ];
+        // 🎯 2X / 3X text
+        bubble.innerHTML =
+            multipliers[Math.floor(Math.random() * multipliers.length)] + "X";
 
-        bubble.dataset.multiplier = multiplier;
+        // 📍 random start position (wheel area feel)
+        bubble.style.left = (120 + Math.random() * 80) + "px";
+        bubble.style.top = (120 + Math.random() * 80) + "px";
 
-        bubble.innerHTML = multiplier + "X";
-
-        bubble.style.left = (120 + Math.random() * 60) + "px";
-        bubble.style.top = (120 + Math.random() * 60) + "px";
-
-        layer.appendChild(bubble);
-
-        // FORCE INITIAL STATE
-        bubble.style.width = "1px";
-        bubble.style.height = "1px";
+        // start hidden state
         bubble.style.opacity = "0";
         bubble.style.transform = "translate(-50%, -50%) scale(0)";
 
-        // GROW
+        layer.appendChild(bubble);
+
+        bubbles.push(bubble);
+
+        // 🌱 smooth grow (CSS controlled)
         requestAnimationFrame(() => {
             bubble.classList.add("bubble-grow");
         });
-
-        // EXPLODE OR SURVIVE
-        if (i !== survivorIndex) {
-
-            setTimeout(() => {
-                bubble.classList.add("bubble-explode");
-            }, 3500);
-
-        } else {
-
-            bubble.dataset.survivor = "true";
-            currentBubbleElement = bubble;
-        }
     }
 
-    // MOVE SURVIVOR AFTER DELAY
+    // ⏱ after 7.5 sec → go to landing phase (NO triggerLanding)
     setTimeout(() => {
-        flyWinningBubble(target);
-    }, 4200);
+        flyWinningBubble(bubbles);
+    }, 7500);
 }
 
 // ======================================================
