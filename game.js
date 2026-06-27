@@ -1031,3 +1031,23 @@ function attachBubbleToSymbol(
         activeBubbleSymbol
     );
 }
+// ======================================
+// START BONUS BUBBLE SHOW
+// ======================================
+
+function startBonusBubbleShow() {
+
+    if (bubbleAnimationRunning) return;
+
+    bubbleAnimationRunning = true;
+
+    activeBubbleMultiplier = null;
+    activeBubbleSymbol = null;
+
+    bubbleTargetLocked = false;
+
+    selectBubbleTarget();
+
+    spawnBubbleWave();
+
+}
