@@ -898,48 +898,28 @@ function spawnBubbleWave() {
 
 function flyWinningBubble(bubbles) {
 
-    const symbolBoxes = document.querySelectorAll(".symbol-box");
+    const targets = document.querySelectorAll(".symbol-box");
 
-    if (!symbolBoxes.length) {
-        console.error("[BUBBLE] No symbol boxes found");
-        return;
-    }
+    if (!targets.length || !bubbles.length) return;
 
-    if (!bubbles || !bubbles.length) {
-        console.error("[BUBBLE] No bubbles passed");
-        return;
-    }
-
-    const targetIndex =
-        Math.floor(Math.random() * symbolBoxes.length);
-
-    const target = symbolBoxes[targetIndex];
-
-    const winnerIndex =
-        Math.floor(Math.random() * bubbles.length);
-
-    const winner = bubbles[winnerIndex];
-
-    if (!winner || !target) {
-        console.error("[BUBBLE] Missing fly target");
-        return;
-    }
+    const target = targets[Math.floor(Math.random() * targets.length)];
+    const winner = bubbles[Math.floor(Math.random() * bubbles.length)];
 
     const rect = target.getBoundingClientRect();
 
-    winner.classList.add("bubble-flying");
-
+    // IMPORTANT: keep in same layer
+    winner.style.position = "fixed";
     winner.style.left = (rect.left + rect.width / 2) + "px";
     winner.style.top = (rect.top + rect.height / 2) + "px";
 
+    winner.style.zIndex = "99999";
+
+    winner.classList.add("bubble-flying");
+
     target.classList.add("symbol-hit");
 
-    setTimeout(() => {
-        target.classList.remove("symbol-hit");
-        winner.classList.add("bubble-landed");
-    }, 1200);
+    // ❌ NO appendChild anywhere
 }
-
 // ======================================================
 // 🎯 RESET SYSTEM (optional use before spin)
 // ======================================================
