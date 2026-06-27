@@ -789,135 +789,174 @@ function startGameUI() {
 // ======================================================
 // 🎮 BUBBLE BALL BONUS SECTION
 // ======================================================
+// ======================================================
+// 🎯 SELECT RANDOM TARGET SYMBOL
+// ======================================================
+
 function selectBubbleTarget() {
 
-    activeBubbleMultiplier =
-        BUBBLE_MULTIPLIERS[
-            Math.floor(
-                Math.random() *
-                BUBBLE_MULTIPLIERS.length
-            )
-        ];
+    const symbolBoxes =
+        document.querySelectorAll(".symbol-box");
 
-    activeBubbleSymbol =
-        BUBBLE_SYMBOLS[
-            Math.floor(
-                Math.random() *
-                BUBBLE_SYMBOLS.length
-            )
-        ];
-
-    console.log(
-        "[BUBBLE]",
-        activeBubbleMultiplier + "X",
-        activeBubbleSymbol
-    );
-
-    console.log(
-        "[TARGET SYMBOL]",
-        activeBubbleSymbol
-    );
-}
-// ======================================
-// SPAWN BUBBLE WAVE
-// ======================================
-
-function spawnBubbleWave() {
-
-    const layer = document.getElementById("bonusBubbleLayer");
-    if (!layer) return;
-
-    layer.innerHTML = "";
-
-    const bubbleCount = 8;
-    const survivorIndex = Math.floor(Math.random() * bubbleCount);
-
-    for (let i = 0; i < bubbleCount; i++) {
-
-        const bubble = document.createElement("div");
-
-        bubble.className = "bonus-bubble";
-
-        bubble.style.left = (140 + Math.random() * 40) + "px";
-        bubble.style.top = (140 + Math.random() * 40) + "px";
-
-        layer.appendChild(bubble);
-
-        // FORCE start state
-        bubble.style.opacity = "0";
-        bubble.style.width = "1px";
-        bubble.style.height = "1px";
-        bubble.style.transform = "translate(-50%, -50%) scale(0)";
-
-        requestAnimationFrame(() => {
-            bubble.classList.add("bubble-grow");
-        });
-
-        if (i !== survivorIndex) {
-            setTimeout(() => bubble.classList.add("bubble-explode"), 4000);
-        } else {
-            bubble.dataset.survivor = "true";
-        }
+    if (!symbolBoxes.length) {
+        console.error("[BUBBLE] No symbol boxes found");
+        return;
     }
 
-    setTimeout(flyWinningBubble, 4500);
-}
-// ======================================
-// FLY WINNING BUBBLE
-// ======================================
-
-function flyWinningBubble() {
-
-    const bubble =
-        document.querySelector('.bonus-bubble[data-survivor="true"]');
+    const randomIndex =
+        Math.floor(Math.random() * symbolBoxes.length);
 
     const target =
-        document.querySelector('[data-symbol="' + activeBubbleSymbol + '"]');
+        symbolBoxes[randomIndex];
 
-    if (!bubble || !target) return;
+    activeBubbleSymbol =
+        target.dataset.symbol || null;
 
-    const rect = target.getBoundingClientRect();
+    console.log("[TARGET SYMBOL]", activeBubbleSymbol);
 
-    bubble.classList.add("bubble-flying");
-
-    bubble.style.left = rect.right - 10 + "px";
-    bubble.style.top = rect.top + 10 + "px";
-
-    target.classList.add("symbol-hit");
-
-    setTimeout(() => {
-        target.classList.remove("symbol-hit");
-        bubble.classList.add("bubble-landed");
-    }, 1200);
+    return target;
 }
-// ======================================
-// ATTACH TO SYMBOL
-// ======================================
 
-
-// ======================================
-// START BONUS BUBBLE SHOW
-// ======================================
+// ======================================================
+// 🎯 START BUBBLE ROUND
+// ======================================================
 
 function startBonusBubbleShow() {
 
     if (bubbleAnimationRunning) return;
 
-    // RESET STATE
     bubbleAnimationRunning = true;
 
     activeBubbleMultiplier = null;
     activeBubbleSymbol = null;
 
-    bubbleTargetLocked = false;
+    const target = selectBubbleTarget();
 
-    // 🧹 CLEAN OLD BUBBLES FIRST (IMPORTANT)
+    spawnBubbleWave(target);
+}
+
+// ======================================================
+// 🎯 SPAWN BUBBLE WAVE
+// ======================================================
+
+function spawnBubbleWave(target) {
+
+    const layer =
+        document.getElementById("bonusBubbleLayer");
+
+    if (!layer) {
+        console.error("[BUBBLE] Layer missing");
+        return;
+    }
+
+    layer.innerHTML = "";
+
+    const bubbleCount = 8;
+
+    const survivorIndex =
+        Math.floor(Math.random() * bubbleCount);
+
+    for (let i = 0; i < bubbleCount; i++) {
+
+        const bubble =
+            document.createElement("div");
+
+        bubble.className = "bonus-bubble";
+
+        const multiplier =
+            BUBBLE_MULTIPLIERS[
+                Math.floor(Math.random() * BUBBLE_MULTIPLIERS.length)
+            ];
+
+        bubble.dataset.multiplier = multiplier;
+
+        bubble.innerHTML = multiplier + "X";
+
+        bubble.style.left = (120 + Math.random() * 60) + "px";
+        bubble.style.top = (120 + Math.random() * 60) + "px";
+
+        layer.appendChild(bubble);
+
+        // FORCE INITIAL STATE
+        bubble.style.width = "1px";
+        bubble.style.height = "1px";
+        bubble.style.opacity = "0";
+        bubble.style.transform = "translate(-50%, -50%) scale(0)";
+
+        // GROW
+        requestAnimationFrame(() => {
+            bubble.classList.add("bubble-grow");
+        });
+
+        // EXPLODE OR SURVIVE
+        if (i !== survivorIndex) {
+
+            setTimeout(() => {
+                bubble.classList.add("bubble-explode");
+            }, 3500);
+
+        } else {
+
+            bubble.dataset.survivor = "true";
+            currentBubbleElement = bubble;
+        }
+    }
+
+    // MOVE SURVIVOR AFTER DELAY
+    setTimeout(() => {
+        flyWinningBubble(target);
+    }, 4200);
+}
+
+// ======================================================
+// 🎯 FLY WINNING BUBBLE
+// ======================================================
+
+function flyWinningBubble(target) {
+
+    const bubble =
+        document.querySelector('.bonus-bubble[data-survivor="true"]');
+
+    if (!bubble || !target) {
+        console.error("[BUBBLE] Missing fly target");
+        bubbleAnimationRunning = false;
+        return;
+    }
+
+    const rect =
+        target.getBoundingClientRect();
+
+    bubble.classList.add("bubble-flying");
+
+    bubble.style.left = (rect.right - 10) + "px";
+    bubble.style.top = (rect.top + 10) + "px";
+
+    target.classList.add("symbol-hit");
+
+    setTimeout(() => {
+
+        target.classList.remove("symbol-hit");
+
+        bubble.classList.add("bubble-landed");
+
+        bubbleAnimationRunning = false;
+
+    }, 1200);
+}
+
+// ======================================================
+// 🎯 RESET SYSTEM (optional use before spin)
+// ======================================================
+
+function resetBubbleSystem() {
+
+    bubbleAnimationRunning = false;
+
+    activeBubbleMultiplier = null;
+    activeBubbleSymbol = null;
+    currentBubbleElement = null;
+
     const layer = document.getElementById("bonusBubbleLayer");
+
     if (layer) layer.innerHTML = "";
-
-    // SELECT NEW TARGET
-    selectBubbleTarget();
-
-    // START ROUND
-    spawnBubbleWave();
 }
