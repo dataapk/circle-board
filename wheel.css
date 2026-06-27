@@ -1472,36 +1472,27 @@ button,
     transition: transform 14s cubic-bezier(0.2, 1, 0.2, 1);
 }
 /* ========================================================
-   ⚡ bonus ball section
-   ======================================================== */
+   ⚡ BONUS BUBBLE SYSTEM (CLEAN VERSION)
+======================================================== */
 
-
-/* =====================================
-   BONUS BUBBLE SYSTEM
-===================================== */
-
+/* OVERLAY LAYER */
 .bonus-overlay {
-
-    position: absolute;
+    position: fixed;
     inset: 0;
-
     pointer-events: none;
-
     overflow: visible;
-
-    z-index: 1000;
+    z-index: 999999;
 }
 
-/* =====================================
-   BUBBLE
-===================================== */
+/* ========================================================
+   BUBBLE BASE
+======================================================== */
 
 .bonus-bubble {
-
     position: absolute;
 
-    width: 1px;
-    height: 1px;
+    width: 42px;
+    height: 42px;
 
     border-radius: 50%;
 
@@ -1509,185 +1500,100 @@ button,
     align-items: center;
     justify-content: center;
 
-    font-size: 0;
-
+    font-size: 13px;
     font-weight: 700;
 
     color: #ffffff;
 
-    text-shadow:
-        0 0 4px rgba(255,255,255,.8);
+    text-shadow: 0 0 4px rgba(255,255,255,.8);
 
     box-shadow:
         0 0 8px rgba(255,255,255,.5),
         inset 0 0 8px rgba(255,255,255,.3);
 
-    transform:
-        translate(-50%, -50%)
-        scale(0);
+    transform: translate(-50%, -50%) scale(1);
 
-    opacity: 0;
+    opacity: 1;
 
-    will-change:
-        transform,
-        opacity;
+    will-change: left, top, transform;
 
     pointer-events: none;
+
+    z-index: 99999;
 }
 
-/* =====================================
-   GROW
-===================================== */
+/* ========================================================
+   GROW EFFECT (OPTIONAL SPAWN)
+======================================================== */
 
 .bubble-grow {
-
-    animation:
-        bubbleGrow 4s ease-out forwards;
+    animation: bubbleGrow 0.8s ease-out forwards;
 }
 
 @keyframes bubbleGrow {
-
     0% {
-
-        width: 1px;
-        height: 1px;
-
+        transform: translate(-50%, -50%) scale(0.2);
         opacity: 0;
-
-        font-size: 0;
-
-        transform:
-            translate(-50%, -50%)
-            scale(.2);
     }
-
-    25% {
-
-        width: 8px;
-        height: 8px;
-
-        opacity: 1;
-    }
-
-    50% {
-
-        width: 16px;
-        height: 16px;
-    }
-
-    75% {
-
-        width: 24px;
-        height: 24px;
-    }
-
     100% {
-
-        width: 32px;
-        height: 32px;
-
+        transform: translate(-50%, -50%) scale(1);
         opacity: 1;
-
-        font-size: 12px;
-
-        transform:
-            translate(-50%, -50%)
-            scale(1);
     }
 }
 
-/* =====================================
-   SURVIVOR
-===================================== */
+/* ========================================================
+   SURVIVOR PULSE
+======================================================== */
 
 .bubble-survivor {
-
-    animation:
-        bubbleGrow 4s ease-out forwards,
-        survivorPulse 1.2s infinite;
+    animation: survivorPulse 1.2s infinite;
 }
 
 @keyframes survivorPulse {
-
-    0% {
-
-        filter:
-            brightness(1);
-
-    }
-
-    50% {
-
-        filter:
-            brightness(1.4);
-
-    }
-
-    100% {
-
-        filter:
-            brightness(1);
-
-    }
+    0% { filter: brightness(1); }
+    50% { filter: brightness(1.4); }
+    100% { filter: brightness(1); }
 }
 
-/* =====================================
+/* ========================================================
    EXPLODE
-===================================== */
+======================================================== */
 
 .bubble-explode {
-
-    animation:
-        bubbleBlast .5s ease-out forwards !important;
+    animation: bubbleBlast 0.4s ease-out forwards !important;
 }
 
 @keyframes bubbleBlast {
-
     0% {
-
         opacity: 1;
-
-        transform:
-            translate(-50%, -50%)
-            scale(1);
+        transform: translate(-50%, -50%) scale(1);
     }
-
     100% {
-
         opacity: 0;
-
-        transform:
-            translate(-50%, -50%)
-            scale(2.5);
+        transform: translate(-50%, -50%) scale(2);
     }
 }
 
-/* =====================================
-   FLYING
-===================================== */
+/* ========================================================
+   FLYING (MAIN MOTION ENGINE)
+======================================================== */
 
 .bubble-flying {
-
     transition:
-        left 1.2s ease,
-        top 1.2s ease,
-        transform 1.2s ease;
+        left 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+        top 1.2s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
 
-    z-index: 2000;
+    will-change: left, top, transform;
+
+    z-index: 999999;
 }
 
-/* =====================================
-   LANDED
-===================================== */
-
-
-
-/* =====================================
+/* ========================================================
    MULTIPLIER BADGE
-===================================== */
+======================================================== */
 
 .landing-multiplier {
-
     position: absolute;
 
     width: 34px;
@@ -1714,73 +1620,47 @@ button,
 }
 
 .landing-active {
-
     opacity: 1;
-
     transform: scale(1);
 
-    transition:
-        transform .3s ease,
-        opacity .3s ease;
+    transition: transform .3s ease, opacity .3s ease;
 }
 
-/* =====================================
-   TRAIL
-===================================== */
+/* ========================================================
+   TRAIL SYSTEM
+======================================================== */
 
 .bubble-trail-layer {
-
-    position: absolute;
-
+    position: fixed;
     inset: 0;
-
     pointer-events: none;
-
     overflow: visible;
-
     z-index: 999;
 }
 
 .bubble-trail {
-
     position: absolute;
-
     width: 8px;
     height: 8px;
-
     border-radius: 50%;
-
     opacity: .8;
-
-    animation:
-        trailFade .6s linear forwards;
+    animation: trailFade .6s linear forwards;
 }
 
 @keyframes trailFade {
-
     from {
-
         opacity: .8;
-
-        transform:
-            translate(-50%, -50%)
-            scale(1);
+        transform: translate(-50%, -50%) scale(1);
     }
-
     to {
-
         opacity: 0;
-
-        transform:
-            translate(-50%, -50%)
-            scale(.2);
+        transform: translate(-50%, -50%) scale(.2);
     }
 }
 
-/* =====================================
-   SYMBOL TARGET EFFECT
-===================================== */
-
+/* ========================================================
+   SYMBOL HIT EFFECT
+======================================================== */
 
 .symbol-hit {
     animation: hitPulse 0.5s ease;
