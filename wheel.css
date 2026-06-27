@@ -1339,7 +1339,8 @@ button,
 
     .wheel-wrapper {
 
-        width: 280px;
+        width: 320px;
+       height: 320px;
     }
 
     .spin-section button {
