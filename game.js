@@ -1009,8 +1009,23 @@ function spawnBubbleWave() {
                 )
             ];
 
-        bubble.style.left = "50%";
-        bubble.style.top = "50%";
+        const angle =
+    (Math.PI * 2 / bubbleCount) * i;
+
+const distance =
+    12 + Math.random() * 18;
+
+const offsetX =
+    Math.cos(angle) * distance;
+
+const offsetY =
+    Math.sin(angle) * distance;
+
+bubble.style.left =
+    `calc(50% + ${offsetX}px)`;
+
+bubble.style.top =
+    `calc(50% + ${offsetY}px)`;
 
         layer.appendChild(
             bubble
