@@ -1580,4 +1580,347 @@ button,
         opacity: 0;
     }
 }
+/* =====================================
+   BONUS BUBBLE SYSTEM
+===================================== */
 
+.bonus-overlay {
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    overflow: visible;
+
+    z-index: 1000;
+}
+
+/* =====================================
+   BUBBLE
+===================================== */
+
+.bonus-bubble {
+
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0;
+
+    font-weight: 700;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 0 4px rgba(255,255,255,.8);
+
+    box-shadow:
+        0 0 8px rgba(255,255,255,.5),
+        inset 0 0 8px rgba(255,255,255,.3);
+
+    transform:
+        translate(-50%, -50%)
+        scale(0);
+
+    opacity: 0;
+
+    will-change:
+        transform,
+        opacity;
+
+    pointer-events: none;
+}
+
+/* =====================================
+   GROW
+===================================== */
+
+.bubble-grow {
+
+    animation:
+        bubbleGrow 4s ease-out forwards;
+}
+
+@keyframes bubbleGrow {
+
+    0% {
+
+        width: 1px;
+        height: 1px;
+
+        opacity: 0;
+
+        font-size: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.2);
+    }
+
+    25% {
+
+        width: 8px;
+        height: 8px;
+
+        opacity: 1;
+    }
+
+    50% {
+
+        width: 16px;
+        height: 16px;
+    }
+
+    75% {
+
+        width: 24px;
+        height: 24px;
+    }
+
+    100% {
+
+        width: 32px;
+        height: 32px;
+
+        opacity: 1;
+
+        font-size: 12px;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+}
+
+/* =====================================
+   SURVIVOR
+===================================== */
+
+.bubble-survivor {
+
+    animation:
+        bubbleGrow 4s ease-out forwards,
+        survivorPulse 1.2s infinite;
+}
+
+@keyframes survivorPulse {
+
+    0% {
+
+        filter:
+            brightness(1);
+
+    }
+
+    50% {
+
+        filter:
+            brightness(1.4);
+
+    }
+
+    100% {
+
+        filter:
+            brightness(1);
+
+    }
+}
+
+/* =====================================
+   EXPLODE
+===================================== */
+
+.bubble-explode {
+
+    animation:
+        bubbleBlast .5s ease-out forwards !important;
+}
+
+@keyframes bubbleBlast {
+
+    0% {
+
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(2.5);
+    }
+}
+
+/* =====================================
+   FLYING
+===================================== */
+
+.bubble-flying {
+
+    transition:
+        left 1.2s ease,
+        top 1.2s ease,
+        transform 1.2s ease;
+
+    z-index: 2000;
+}
+
+/* =====================================
+   LANDED
+===================================== */
+
+.bubble-landed {
+
+    width: 34px;
+    height: 34px;
+
+    font-size: 13px;
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.8),
+        0 0 25px rgba(255,255,255,.6);
+}
+
+/* =====================================
+   MULTIPLIER BADGE
+===================================== */
+
+.landing-multiplier {
+
+    position: absolute;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    color: #fff;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transform: scale(.5);
+
+    z-index: 3000;
+}
+
+.landing-active {
+
+    opacity: 1;
+
+    transform: scale(1);
+
+    transition:
+        transform .3s ease,
+        opacity .3s ease;
+}
+
+/* =====================================
+   TRAIL
+===================================== */
+
+.bubble-trail-layer {
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    overflow: visible;
+
+    z-index: 999;
+}
+
+.bubble-trail {
+
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    opacity: .8;
+
+    animation:
+        trailFade .6s linear forwards;
+}
+
+@keyframes trailFade {
+
+    from {
+
+        opacity: .8;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1);
+    }
+
+    to {
+
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.2);
+    }
+}
+
+/* =====================================
+   SYMBOL TARGET EFFECT
+===================================== */
+
+.symbol-box.multiplier-hit {
+
+    animation:
+        multiplierHit .8s ease;
+}
+
+@keyframes multiplierHit {
+
+    0% {
+
+        transform: scale(1);
+    }
+
+    50% {
+
+        transform: scale(1.08);
+    }
+
+    100% {
+
+        transform: scale(1);
+    }
+}
