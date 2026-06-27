@@ -953,15 +953,112 @@ function startBonusBubbleShow() {
 // 🎯 RESET SYSTEM (optional use before spin)
 // ======================================================
 
-function resetBubbleSystem() {
+// ======================================
+// SPAWN BUBBLE WAVE
+// ======================================
 
-    bubbleAnimationRunning = false;
+function spawnBubbleWave() {
 
-    activeBubbleMultiplier = null;
-    activeBubbleSymbol = null;
-    currentBubbleElement = null;
+    const layer =
+        document.getElementById(
+            "bonusBubbleLayer"
+        );
 
-    const layer = document.getElementById("bonusBubbleLayer");
+    if (!layer) return;
 
-    if (layer) layer.innerHTML = "";
+    layer.innerHTML = "";
+
+    const bubbleCount = 8;
+
+    const survivorIndex =
+        Math.floor(
+            Math.random() * bubbleCount
+        );
+
+    const colors = [
+
+        "#ff4757",
+        "#3742fa",
+        "#2ed573",
+        "#ffa502",
+        "#a55eea",
+        "#00d2d3"
+
+    ];
+
+    for (
+        let i = 0;
+        i < bubbleCount;
+        i++
+    ) {
+
+        const bubble =
+            document.createElement(
+                "div"
+            );
+
+        bubble.className =
+            "bonus-bubble";
+
+        bubble.style.background =
+            colors[
+                Math.floor(
+                    Math.random() *
+                    colors.length
+                )
+            ];
+
+        bubble.style.left = "50%";
+        bubble.style.top = "50%";
+
+        layer.appendChild(
+            bubble
+        );
+
+        requestAnimationFrame(() => {
+
+            bubble.classList.add(
+                i === survivorIndex
+                    ? "bubble-survivor"
+                    : "bubble-grow"
+            );
+
+        });
+
+        if (
+            i === survivorIndex
+        ) {
+
+            bubble.dataset.survivor =
+                "true";
+
+            currentBubbleElement =
+                bubble;
+
+        } else {
+
+            setTimeout(() => {
+
+                bubble.classList.add(
+                    "bubble-explode"
+                );
+
+                setTimeout(() => {
+
+                    bubble.remove();
+
+                }, 500);
+
+            }, 4000);
+
+        }
+
+    }
+
+    setTimeout(() => {
+
+        flyWinningBubble();
+
+    }, 4500);
+
 }
