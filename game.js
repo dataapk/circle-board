@@ -903,6 +903,7 @@ function startBonusBubbleShow() {
 
     if (bubbleAnimationRunning) return;
 
+    // RESET STATE
     bubbleAnimationRunning = true;
 
     activeBubbleMultiplier = null;
@@ -910,8 +911,13 @@ function startBonusBubbleShow() {
 
     bubbleTargetLocked = false;
 
+    // 🧹 CLEAN OLD BUBBLES FIRST (IMPORTANT)
+    const layer = document.getElementById("bonusBubbleLayer");
+    if (layer) layer.innerHTML = "";
+
+    // SELECT NEW TARGET
     selectBubbleTarget();
 
+    // START ROUND
     spawnBubbleWave();
-
 }
