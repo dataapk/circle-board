@@ -907,6 +907,17 @@ function flyWinningBubble(bubbles) {
 
     // ❌ NO appendChild anywhere
 }
+function getWheelCenter() {
+
+    const wheel = document.getElementById("wheel");
+
+    const rect = wheel.getBoundingClientRect();
+
+    return {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2
+    };
+}
 // ======================================================
 // 🎯 RESET SYSTEM (optional use before spin)
 // ======================================================
