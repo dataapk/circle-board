@@ -194,7 +194,7 @@ html, body {
     margin-top: 0;
     margin-bottom: 0;
 
-    padding: var(--space-xs);
+    padding-top: 0;
 }
 
 .symbol-box {
