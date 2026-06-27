@@ -1010,22 +1010,27 @@ function spawnBubbleWave() {
             ];
 
         const angle =
-    (Math.PI * 2 / bubbleCount) * i;
+            (Math.PI * 2 / bubbleCount) * i;
 
-const distance =
-    12 + Math.random() * 18;
+        const distance =
+            8 + Math.random() * 20;
 
-const offsetX =
-    Math.cos(angle) * distance;
+        const offsetX =
+            Math.cos(angle) * distance;
 
-const offsetY =
-    Math.sin(angle) * distance;
+        const offsetY =
+            Math.sin(angle) * distance;
 
-bubble.style.left =
-    `calc(50% + ${offsetX}px)`;
+        bubble.style.left =
+            `calc(50% + ${offsetX}px)`;
 
-bubble.style.top =
-    `calc(50% + ${offsetY}px)`;
+        bubble.style.top =
+            `calc(50% + ${offsetY}px)`;
+
+        bubble.innerHTML =
+            `<span class="bubble-text">
+                ${activeBubbleMultiplier}X
+            </span>`;
 
         layer.appendChild(
             bubble
@@ -1047,6 +1052,10 @@ bubble.style.top =
 
             bubble.dataset.survivor =
                 "true";
+
+            bubble.classList.add(
+                "bubble-winner"
+            );
 
             currentBubbleElement =
                 bubble;
