@@ -788,37 +788,150 @@ function startGameUI() {
 // ======================================================
 // 🎮 BUBBLE BALL BONUS SECTION
 // ======================================================
+
 // ======================================================
-// 🎯 SELECT RANDOM TARGET SYMBOL
+// 🎯 FLY WINNING BUBBLE
 // ======================================================
 
-function selectBubbleTarget() {
+function flyWinningBubble() {
 
-    const symbolBoxes =
-        document.querySelectorAll(".symbol-box");
+    const bubble =
+        document.querySelector(
+            '.bonus-bubble[data-survivor="true"]'
+        );
 
-    if (!symbolBoxes.length) {
-        console.error("[BUBBLE] No symbol boxes found");
+    if (!bubble) {
+        console.warn("[BUBBLE] Survivor not found");
         return;
     }
 
-    const randomIndex =
-        Math.floor(Math.random() * symbolBoxes.length);
-
     const target =
-        symbolBoxes[randomIndex];
+        document.querySelector(
+            '[data-symbol="' +
+            activeBubbleSymbol +
+            '"]'
+        );
+
+    if (!target) {
+
+        console.error(
+            "[BUBBLE] Missing Symbol:",
+            activeBubbleSymbol
+        );
+
+        return;
+    }
+
+    const targetRect =
+        target.getBoundingClientRect();
+
+    bubble.classList.add(
+        "bubble-flying"
+    );
+
+    bubble.style.position =
+        "fixed";
+
+    bubble.style.left =
+        (
+            targetRect.left +
+            targetRect.width / 2
+        ) + "px";
+
+    bubble.style.top =
+        (
+            targetRect.top +
+            targetRect.height / 2
+        ) + "px";
+
+    setTimeout(() => {
+
+        bubble.classList.add(
+            "bubble-landed"
+        );
+
+        attachBubbleToSymbol(
+            bubble,
+            target
+        );
+
+    }, 1200);
+
+}
+// ======================================
+// ATTACH TO SYMBOL
+// ======================================
+
+function attachBubbleToSymbol(
+    bubble,
+    target
+) {
+
+    target.style.position =
+        "relative";
+
+    bubble.style.position =
+        "absolute";
+
+    bubble.style.left =
+        "50%";
+
+    bubble.style.top =
+        "8px";
+
+    bubble.style.transform =
+        "translateX(-50%)";
+
+    bubble.innerHTML =
+        activeBubbleMultiplier +
+        "X";
+
+    target.appendChild(
+        bubble
+    );
+
+    target.classList.add(
+        "multiplier-hit"
+    );
+
+    console.log(
+        "[LOCKED]",
+        activeBubbleMultiplier + "X",
+        activeBubbleSymbol
+    );
+}
+function selectBubbleTarget() {
+
+    activeBubbleMultiplier =
+        BUBBLE_MULTIPLIERS[
+            Math.floor(
+                Math.random() *
+                BUBBLE_MULTIPLIERS.length
+            )
+        ];
 
     activeBubbleSymbol =
-        target.dataset.symbol || null;
+        BUBBLE_SYMBOLS[
+            Math.floor(
+                Math.random() *
+                BUBBLE_SYMBOLS.length
+            )
+        ];
 
-    console.log("[TARGET SYMBOL]", activeBubbleSymbol);
+    console.log(
+        "[BUBBLE]",
+        activeBubbleMultiplier + "X",
+        activeBubbleSymbol
+    );
 
-    return target;
+    console.log(
+        "[TARGET SYMBOL]",
+        activeBubbleSymbol
+    );
 }
-
-// ======================================================
-// 🎯 START BUBBLE ROUND
-// ======================================================
+// ======================================
+// START BONUS BUBBLE SHOW
+// ======================================
 
 function startBonusBubbleShow() {
 
@@ -829,121 +942,12 @@ function startBonusBubbleShow() {
     activeBubbleMultiplier = null;
     activeBubbleSymbol = null;
 
-    const target = selectBubbleTarget();
+    bubbleTargetLocked = false;
 
-    spawnBubbleWave(target);
-}
+    selectBubbleTarget();
 
-// ======================================================
-// 🎯 SPAWN BUBBLE WAVE
-// ======================================================
+    spawnBubbleWave();
 
-function spawnBubbleWave() {
-
-    const layer = document.getElementById("bonusBubbleLayer");
-    if (!layer) return;
-
-    layer.innerHTML = "";
-
-    const center = getWheelCenter();
-
-    const colors = ["#ff4444","#00ccff","#ffcc00","#00ff66","#cc66ff"];
-    const multipliers = [2,3,4,5];
-
-    const bubbleCount = 120; // ⚠️ 600 DOM NOT SAFE
-
-    const bubbles = [];
-
-    for (let i = 0; i < bubbleCount; i++) {
-
-        const bubble = document.createElement("div");
-        bubble.className = "bonus-bubble";
-
-        bubble.innerHTML =
-            multipliers[Math.floor(Math.random()*multipliers.length)] + "X";
-
-        bubble.style.background =
-            colors[Math.floor(Math.random()*colors.length)];
-
-        // 🎯 wheel center spawn + small scatter
-        bubble.style.left = (center.x + (Math.random()*120 - 60)) + "px";
-        bubble.style.top = (center.y + (Math.random()*120 - 60)) + "px";
-
-        layer.appendChild(bubble);
-        bubbles.push(bubble);
-
-        requestAnimationFrame(() => {
-            bubble.classList.add("bubble-grow");
-        });
-    }
-
-    setTimeout(() => {
-        flyWinningBubble(bubbles);
-    }, 7500);
-}
-// ======================================================
-// 🎯 FLY WINNING BUBBLE
-// ======================================================
-
-function flyWinningBubble(bubbles) {
-
-    const targets = document.querySelectorAll(".symbol-box");
-
-    if (!targets.length) {
-        console.error("[BUBBLE] No symbol-box found");
-        return;
-    }
-
-    if (!bubbles || !bubbles.length) {
-        console.error("[BUBBLE] No bubbles passed");
-        return;
-    }
-
-    const target =
-        targets[Math.floor(Math.random() * targets.length)];
-
-    const winner =
-        bubbles[Math.floor(Math.random() * bubbles.length)];
-
-    if (!winner || !target) {
-        console.error("[BUBBLE] Missing fly target");
-        return;
-    }
-
-    const rect = target.getBoundingClientRect();
-
-    // 🎯 ensure overlay behavior
-    winner.style.position = "fixed";
-    winner.style.zIndex = "999999";
-
-    // 🎯 perfect center landing
-    winner.style.left = (rect.left + rect.width / 2) + "px";
-    winner.style.top = (rect.top + rect.height / 2) + "px";
-
-    winner.style.transform = "translate(-50%, -50%)";
-
-    // ✨ smooth fly class
-    winner.classList.add("bubble-flying");
-
-    // ✨ symbol highlight
-    target.classList.add("symbol-hit");
-
-    // 💡 optional: remove highlight after animation
-    setTimeout(() => {
-        target.classList.remove("symbol-hit");
-        winner.classList.add("bubble-landed");
-    }, 1200);
-}
-function getWheelCenter() {
-
-    const wheel = document.getElementById("wheel");
-
-    const rect = wheel.getBoundingClientRect();
-
-    return {
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2
-    };
 }
 // ======================================================
 // 🎯 RESET SYSTEM (optional use before spin)
