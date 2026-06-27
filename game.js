@@ -939,49 +939,48 @@ function flyWinningBubble() {
         );
 
     if (!bubble) {
-        console.warn(
-            "[BUBBLE] Survivor not found"
-        );
+        console.warn("[BUBBLE] Survivor not found");
         return;
     }
 
     const target =
         document.querySelector(
-            `.symbol-box[data-symbol="${activeBubbleSymbol}"]`
+            '[data-symbol="' +
+            activeBubbleSymbol +
+            '"]'
         );
 
     if (!target) {
-        console.warn(
-            "[BUBBLE] Target symbol not found"
+
+        console.error(
+            "[BUBBLE] Missing Symbol:",
+            activeBubbleSymbol
         );
+
         return;
     }
 
-    const bubbleRect =
-        bubble.getBoundingClientRect();
-
     const targetRect =
         target.getBoundingClientRect();
-
-    const targetX =
-        targetRect.left +
-        targetRect.width / 2;
-
-    const targetY =
-        targetRect.top +
-        targetRect.height / 2;
 
     bubble.classList.add(
         "bubble-flying"
     );
 
-    bubble.style.position = "fixed";
+    bubble.style.position =
+        "fixed";
 
     bubble.style.left =
-        targetX + "px";
+        (
+            targetRect.left +
+            targetRect.width / 2
+        ) + "px";
 
     bubble.style.top =
-        targetY + "px";
+        (
+            targetRect.top +
+            targetRect.height / 2
+        ) + "px";
 
     setTimeout(() => {
 
@@ -989,16 +988,12 @@ function flyWinningBubble() {
             "bubble-landed"
         );
 
-        target.classList.add(
-            "multiplier-hit"
-        );
-
         attachBubbleToSymbol(
             bubble,
             target
         );
 
-    }, 1300);
+    }, 1200);
 
 }
 // ======================================
@@ -1010,27 +1005,36 @@ function attachBubbleToSymbol(
     target
 ) {
 
-    target.appendChild(
-        bubble
-    );
+    target.style.position =
+        "relative";
 
     bubble.style.position =
         "absolute";
 
-    bubble.style.left = "50%";
+    bubble.style.left =
+        "50%";
 
-    bubble.style.top = "12px";
+    bubble.style.top =
+        "8px";
 
     bubble.style.transform =
         "translateX(-50%)";
 
     bubble.innerHTML =
-        activeBubbleMultiplier + "X";
+        activeBubbleMultiplier +
+        "X";
+
+    target.appendChild(
+        bubble
+    );
+
+    target.classList.add(
+        "multiplier-hit"
+    );
 
     console.log(
-        "[BUBBLE LOCKED]",
+        "[LOCKED]",
         activeBubbleMultiplier + "X",
         activeBubbleSymbol
     );
-
 }
