@@ -512,13 +512,12 @@ GameEngine.setWheelRotation(finalAngle);
     finalAngle
 );
 
-    spinBtn.classList.add("spinning");
+   spinBtn.classList.add("spinning");
 
-    // 🎈 START BUBBLES AFTER 1 SECOND
-    setTimeout(() => {
-        startBonusBubbleShow();
-    }, 1000);
+    // 🎈 bubble starts instantly
+    startBonusBubbleShow();
 
+    // ⏱️ end spin after 14s
     setTimeout(() => {
 
         GameEngine.endSpin(finalIndex);
