@@ -872,6 +872,56 @@ function resetBoard() {
 // ======================================================
 // 🔄 END: BOARD RESET SYSTEM (UPGRADED)
 // ======================================================
+    // ======================================
+// BONUS BUBBLE SYSTEM
+// ======================================
+
+let activeBubbleMultiplier = null;
+let activeBubbleSymbol = null;
+
+const BUBBLE_MULTIPLIERS = [2,3,4,5];
+
+const BUBBLE_SYMBOLS = [
+    "heart",
+    "diamond",
+    "spade",
+    "crown",
+    "club",
+    "flag"
+];
+
+function selectBubbleTarget() {
+
+    activeBubbleMultiplier =
+        BUBBLE_MULTIPLIERS[
+            Math.floor(
+                Math.random() *
+                BUBBLE_MULTIPLIERS.length
+            )
+        ];
+
+    activeBubbleSymbol =
+        BUBBLE_SYMBOLS[
+            Math.floor(
+                Math.random() *
+                BUBBLE_SYMBOLS.length
+            )
+        ];
+
+    console.log(
+        "[BUBBLE]",
+        activeBubbleMultiplier + "X",
+        activeBubbleSymbol
+    );
+}
+
+function startBonusBubbleShow() {
+
+    selectBubbleTarget();
+
+    // next
+    spawnBubbleWave();
+}
 
 
 // ======================================================
@@ -1018,6 +1068,8 @@ function isRoundActive() {
         startNewRound,
        endRound,
         resetRoundData,
+        activeBubbleMultiplier,
+        activeBubbleSymbol,
 
         getCurrentBalance,
         getCurrentBets,
