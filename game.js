@@ -984,7 +984,7 @@ function spawnBubbleWave() {
         "#ffa502",
         "#a55eea",
         "#00d2d3"
-        "#ffff00"
+        "#FFFF00"
         "#FF0000"
 
     ];
