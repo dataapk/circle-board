@@ -533,10 +533,15 @@ function setFinalWheelResult(finalIndex) {
         wheelSlots[finalIndex];
 
     console.log(
-        "[RESULT] INDEX:",
-        finalIndex,
+        "INDEX:",
+        finalIndex
+    );
+
+    console.log(
+        "SYMBOL:",
         state.finalSymbols
     );
+
 }
 
 
