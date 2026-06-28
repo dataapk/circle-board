@@ -496,8 +496,7 @@ function startWheelSpin() {
 
     playSpinAudio();
 
-    const finalIndex = 0;
-
+    const finalIndex = 1;
 const anglePerSlot =
     360 / 18;
 
