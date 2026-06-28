@@ -398,43 +398,41 @@ function initializeBetSystem() {
 // ======================================================
 
 function animateWheelSpin(startAngle, endAngle, finalIndex) {
-    // আগের কোনো অ্যানিমেশন রানিং থাকলে তা বন্ধ করা
-    if (wheelAnimationFrame) {
-        cancelAnimationFrame(wheelAnimationFrame);
-    }
+    if (wheelAnimationFrame) cancelAnimationFrame(wheelAnimationFrame);
 
-    const duration = 16000; // ১৬ সেকেন্ড
+    const duration = 16000;
     const startTime = performance.now();
 
     function frame(now) {
         let t = (now - startTime) / duration;
-        
-        // ১. অ্যানিমেশনের শেষ মুহূর্ত চেক (এখানেই আমরা রেজাল্ট সিঙ্ক করছি)
+
+        // ১. অ্যানিমেশনের শেষ মুহূর্ত (এখানেই রেজাল্ট সিঙ্ক হবে)
         if (t >= 0.995) {
             t = 1;
             wheel.style.transform = `rotate(${endAngle}deg)`;
-            
-            // ইঞ্জিন থেকে রেজাল্ট নিয়ে আপডেট করুন
+
+            // রেজাল্ট সিঙ্ক করার জন্য ডেটা নিন
             const finalSymbols = GameEngine.getWheelSlots()[finalIndex];
+            
+            // UI আপডেট করুন
             updateUI(finalSymbols);
-            
-            // সবশেষে স্টেট আনলক করুন
-            state.isBetLocked = false;
+
+            // সব শেষে গেম ইঞ্জিনকে জানান কাজ শেষ এবং আনলক করুন
+            GameEngine.endSpin(finalIndex); // ইঞ্জিন ক্যালকুলেশন করবে
+            state.isBetLocked = false;      // এখন আনলক করুন
             state.isSpinning = false;
-            if (spinBtn) spinBtn.classList.remove("spinning");
             
-            return; // অ্যানিমেশন এখানেই শেষ
+            if (spinBtn) spinBtn.classList.remove("spinning");
+            console.log("[SYNC] Final UI update and State unlocked.");
+            return;
         }
 
-       // ২. স্মুথ অ্যানিমেশন লজিক
+        // ২. স্মুথ অ্যানিমেশন লজিক
         const eased = 1 - Math.pow(1 - t, 2.2);
         const angle = startAngle + (endAngle - startAngle) * eased;
         wheel.style.transform = `rotate(${angle}deg)`;
 
-        // ৩. অ্যানিমেশন চলতে থাকুক
-        if (t < 1) {
-            wheelAnimationFrame = requestAnimationFrame(frame);
-        }
+        wheelAnimationFrame = requestAnimationFrame(frame);
     }
 
     wheelAnimationFrame = requestAnimationFrame(frame);
@@ -446,7 +444,7 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
 // animateWheelSpin-এর শেষ অংশে:
 
     // ১. UI আপডেট শেষ
-    updateUI(resultSymbols);
+    updateUI(finalSymbols);
 
     // ২. এবার গেমকে আনলক করুন
     // গেম ইঞ্জিন যে গ্লোবাল বা লোকাল state ব্যবহার করে, সেটি এখানে এক্সেস করুন
