@@ -506,7 +506,8 @@ const currentRotation =
 const finalAngle =
     currentRotation +
     2160 +
-    (finalIndex * anglePerSlot);
+    (finalIndex * anglePerSlot) -
+    70;
 
 GameEngine.setWheelRotation(finalAngle);
 
