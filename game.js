@@ -504,39 +504,29 @@ const currentRotation =
     GameEngine.getWheelRotation();
 
 const normalizedRotation =
-    currentRotation % 360;
-
-const finalAngle =
-    currentRotation +
-    2160 +
     (
-        (finalIndex * anglePerSlot)
-        - normalizedRotation
+        state.wheelRotation % 360 +
+        360
+    ) % 360;
+
+const detectedSlot =
+    Math.floor(
+        normalizedRotation / 20
     );
 
-GameEngine.setWheelRotation(
-    finalAngle
-);
-
-animateWheelSpin(
-    currentRotation,
-    finalAngle
-);
-
-// 🔍 DEBUG
 console.log(
-    "[SPIN] INDEX:",
+    "[WHEEL ROT]",
+    normalizedRotation
+);
+
+console.log(
+    "[EXPECTED]",
     finalIndex
 );
 
 console.log(
-    "[SPIN] CURRENT:",
-    currentRotation % 360
-);
-
-console.log(
-    "[SPIN] TARGET:",
-    finalAngle % 360
+    "[DETECTED]",
+    detectedSlot
 );
 
    spinBtn.classList.add("spinning");
