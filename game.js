@@ -409,37 +409,29 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
     function frame(now) {
         let t = (now - startTime) / duration;
         
-        // অ্যানিমেশনের শেষ মুহূর্ত (৯৯.৫% শেষ হলে ফোর্সড ল্যান্ডিং)
-        if (t >= 0.995) { 
+        // ১. অ্যানিমেশনের শেষ মুহূর্ত চেক (এখানেই আমরা রেজাল্ট সিঙ্ক করছি)
+        if (t >= 0.995) {
             t = 1;
             wheel.style.transform = `rotate(${endAngle}deg)`;
             
-            console.log("[ANIMATION END] Finalizing with index:", finalIndex);
-            
-            // ১. গেম ইঞ্জিনের এন্ড স্পিন কল করা
-            GameEngine.endSpin(finalIndex);
-            
-            // ২. UI আপডেট করার জন্য ডাটা নেওয়া
+            // ইঞ্জিন থেকে রেজাল্ট নিয়ে আপডেট করুন
             const finalSymbols = GameEngine.getWheelSlots()[finalIndex];
+            updateUI(finalSymbols);
             
-            // ৩. UI আপডেট করা
-           updateUI(resultSymbols);
+            // সবশেষে স্টেট আনলক করুন
+            state.isBetLocked = false;
+            state.isSpinning = false;
+            if (spinBtn) spinBtn.classList.remove("spinning");
             
-            // ৪. বাটন ঠিক করা
-            if (spinBtn) {
-                spinBtn.classList.remove("spinning");
-            }
-            
-            return; // এখানেই লুপ বন্ধ
+            return; // অ্যানিমেশন এখানেই শেষ
         }
 
-        // স্মুথ কার্ভ বা স্পিড সিস্টেম
+       // ২. স্মুথ অ্যানিমেশন লজিক
         const eased = 1 - Math.pow(1 - t, 2.2);
         const angle = startAngle + (endAngle - startAngle) * eased;
-
         wheel.style.transform = `rotate(${angle}deg)`;
 
-        // অ্যানিমেশন চলমান রাখা
+        // ৩. অ্যানিমেশন চলতে থাকুক
         if (t < 1) {
             wheelAnimationFrame = requestAnimationFrame(frame);
         }
