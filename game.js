@@ -427,6 +427,10 @@ if (t >= 0.995) {
         const eased = 1 - Math.pow(1 - t, 2.2);
         const angle = startAngle + (endAngle - startAngle) * eased;
         wheel.style.transform = `rotate(${angle}deg)`;
+        console.log(
+    "[ANIMATION END]",
+    finalIndex
+);
 
         wheelAnimationFrame = requestAnimationFrame(frame);
     }
@@ -501,7 +505,10 @@ console.log("[SPIN] BUTTON CLICK");
 // ======================================================
 
 function startWheelSpin() {
-    console.log("[SPIN] START");
+    console.log(
+    "[START INDEX]",
+    finalIndex
+);
 
     GameEngine.lockBets();
     GameEngine.startSpin();
