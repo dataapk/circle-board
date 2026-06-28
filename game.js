@@ -503,15 +503,22 @@ const anglePerSlot = 360 / 18;
 const currentRotation =
     GameEngine.getWheelRotation();
 
+const normalizedRotation =
+    currentRotation % 360;
+
 const finalAngle =
     currentRotation +
     2160 +
-    (finalIndex * anglePerSlot) -
-    70;
+    (
+        (finalIndex * anglePerSlot)
+        - normalizedRotation
+    );
 
-GameEngine.setWheelRotation(finalAngle);
+GameEngine.setWheelRotation(
+    finalAngle
+);
 
-    animateWheelSpin(
+animateWheelSpin(
     currentRotation,
     finalAngle
 );
