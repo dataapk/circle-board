@@ -437,15 +437,17 @@ if (t >= 0.995) {
 // ======================================================
 // 🎯 END WHEEL ANIMATION FRAME
 // ======================================================
-function updateUI(finalSymbols) {
-    // symbols হলো ["heart", "heart", "crown"] এই টাইপের এরে
+function updateUI(resultSymbols) { // প্যারামিটার নাম যেটা দিবেন, ভেতরে সেটাই ব্যবহার করবেন
+    console.log("[UI] Updating with:", resultSymbols);
+    
     symbolBoxes.forEach((box, i) => {
-        // এখানে আপনার ঘর অনুযায়ী ক্লাস আপডেট হবে
-        box.className = "symbol-box " + symbols[i]; 
+        box.className = "symbol-box"; // আগে ক্লাস ক্লিয়ার করুন
+        // এখানে 'symbols' এর বদলে 'resultSymbols' ব্যবহার করুন
+        if (resultSymbols && resultSymbols[i]) {
+            box.classList.add(resultSymbols[i]);
+        }
     });
-    console.log("[UI UPDATE] Symbols rendered:", symbols);
 }
-
 
 // ======================================================
 // 🎡 START: INITIAL WHEEL EVENTS
