@@ -977,6 +977,10 @@ function attachBubbleToSymbol(
         activeBubbleSymbol
     );
 }
+// ==================================================
+// START SELECT BUBBLE TARGET
+// ==================================================
+
 function selectBubbleTarget() {
 
     activeBubbleMultiplier =
