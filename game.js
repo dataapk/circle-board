@@ -396,31 +396,53 @@ function initializeBetSystem() {
 // ======================================================
 // 🎯 START WHEEL ANIMATION FRAME
 // ======================================================
-function animateWheelSpin(currentRotation, finalAngle) {
-    const startTime = performance.now();
+
+function animateWheelSpin(startAngle, endAngle, finalIndex) {
+    // আগের কোনো অ্যানিমেশন রানিং থাকলে তা বন্ধ করা
+    if (wheelAnimationFrame) {
+        cancelAnimationFrame(wheelAnimationFrame);
+    }
+
     const duration = 16000; // ১৬ সেকেন্ড
+    const startTime = performance.now();
 
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+    function frame(now) {
+        let t = (now - startTime) / duration;
         
-        // easeOutQuart এর মতো একটি ইজ ফাংশন ব্যবহার করুন যাতে হুইলটি ন্যাচারালি থামে
-        const easeProgress = 1 - Math.pow(1 - progress, 4);
-        const currentAngle = currentRotation + (finalAngle - currentRotation) * easeProgress;
+        // অ্যানিমেশনের শেষ মুহূর্ত (৯৯.৫% শেষ হলে ফোর্সড ল্যান্ডিং)
+        if (t >= 0.995) { 
+            t = 1;
+            wheel.style.transform = `rotate(${endAngle}deg)`;
+            
+            console.log("[ANIMATION END] Finalizing with index:", finalIndex);
+            
+            // গেম ইঞ্জিনের এন্ড স্পিন কল করা
+            GameEngine.endSpin(finalIndex);
+            
+            // রেজাল্ট UI আপডেট করা
+            updateUI(GameEngine.getWheelSlots()[finalIndex]);
+            
+            // স্পিন বাটন থেকে স্পিনিং ক্লাস সরিয়ে দেওয়া
+            if (spinBtn) {
+                spinBtn.classList.remove("spinning");
+            }
+            
+            return; // এখানেই লুপ বন্ধ
+        }
 
-        // হুইল ঘোরান
-        GameEngine.setWheelRotation(currentAngle);
+        // স্মুথ কার্ভ বা স্পিড সিস্টেম
+        const eased = 1 - Math.pow(1 - t, 2.2);
+        const angle = startAngle + (endAngle - startAngle) * eased;
 
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            // এনিমেশন যখন শেষ, ঠিক তখনই রেজাল্ট কল করুন
-            // এখানে কোনো জাম্প হবে না কারণ হুইল আগেই ফাইনাল অ্যাঙ্গেলে পৌঁছে গেছে
-            finishSpin();
+        wheel.style.transform = `rotate(${angle}deg)`;
+
+        // অ্যানিমেশন চলমান রাখা
+        if (t < 1) {
+            wheelAnimationFrame = requestAnimationFrame(frame);
         }
     }
 
-    requestAnimationFrame(update);
+    wheelAnimationFrame = requestAnimationFrame(frame);
 }
 
 function finishSpin() {
@@ -489,94 +511,61 @@ console.log("[SPIN] BUTTON CLICK");
 // ======================================================
 
 function startWheelSpin() {
-
     console.log("[SPIN] START");
 
     GameEngine.lockBets();
     GameEngine.startSpin();
-
     playSpinAudio();
 
-    const finalIndex =
-    Math.floor(Math.random() * 18);
-const anglePerSlot =
-    360 / 18;
+    const finalIndex = Math.floor(Math.random() * 18);
+    const anglePerSlot = 360 / 18;
+    const currentRotation = GameEngine.getWheelRotation();
+    const normalizedRotation = (currentRotation % 360 + 360) % 360;
 
-    const currentRotation =
-        GameEngine.getWheelRotation();
+    const finalAngle = currentRotation + 2160 + ((finalIndex * anglePerSlot) - normalizedRotation);
 
-    const normalizedRotation =
-        (
-            currentRotation % 360 +
-            360
-        ) % 360;
-
-    const finalAngle =
-    currentRotation +
-    2160 +
-    (
-        (finalIndex * anglePerSlot)
-        - normalizedRotation
-    );
-
-    GameEngine.setWheelRotation(
-        finalAngle
-    );
-
-    animateWheelSpin(
-        currentRotation,
-        finalAngle
-    );
-
-    spinBtn.classList.add(
-        "spinning"
-    );
-
+    GameEngine.setWheelRotation(finalAngle);
     startBonusBubbleShow();
 
-    setTimeout(() => {
+    // অ্যানিমেশন শুরু করছি এবং finalIndex পাস করছি
+    animateWheelSpin(currentRotation, finalAngle, finalIndex);
+}
 
-        const wheelRot =
-            (
-                GameEngine.getWheelRotation() % 360 +
-                360
-            ) % 360;
+function animateWheelSpin(startAngle, endAngle, finalIndex) {
+    if (wheelAnimationFrame) {
+        cancelAnimationFrame(wheelAnimationFrame);
+    }
 
-        const detectedSlot =
-            Math.floor(
-                wheelRot / 20
-            );
+    const duration = 16000;
+    const startTime = performance.now();
 
-       console.log(
-    "[FINAL INDEX]",
-    finalIndex
-);
+    function frame(now) {
+        let t = (now - startTime) / duration;
 
-console.log(
-    "[FINAL SYMBOL]",
-    GameEngine.getWheelSlots()[finalIndex]
-);
+        // ৯৯.৫% শেষ হলে ফোর্সড ল্যান্ডিং
+        if (t >= 0.995) {
+            t = 1;
+            wheel.style.transform = `rotate(${endAngle}deg)`;
+            
+            // সরাসরি গেম ইঞ্জিনের সাথে সিঙ্ক করা
+            GameEngine.endSpin(finalIndex);
+            
+            spinBtn.classList.remove("spinning");
+            return;
+        }
 
-console.log(
-    "[CURRENT ROT]",
-    currentRotation
-);
+        // স্মুথ কার্ভ (আপনার দেওয়া স্পিড সিস্টেম)
+        const eased = 1 - Math.pow(1 - t, 2.2);
+        const angle = startAngle + (endAngle - startAngle) * eased;
 
-console.log(
-    "[FINAL ANGLE]",
-    finalAngle
-);
+        wheel.style.transform = `rotate(${angle}deg)`;
 
-        GameEngine.endSpin(
-            finalIndex
-        );
+        if (t < 1) {
+            wheelAnimationFrame = requestAnimationFrame(frame);
+        }
+    }
 
-        spinBtn.classList.remove(
-            "spinning"
-        );
-
-    }, 16000);
-
+    wheelAnimationFrame = requestAnimationFrame(frame);
 }
 // ======================================================
 // 🎡 END: INITIAL WHEEL EVENTS
