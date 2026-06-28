@@ -397,37 +397,78 @@ function initializeBetSystem() {
 // 🎯 START WHEEL ANIMATION FRAME
 // ======================================================
 
-function animateWheelSpin(startAngle, endAngle, finalIndex) {
-    if (wheelAnimationFrame) cancelAnimationFrame(wheelAnimationFrame);
+function animateWheelSpin(
+    startAngle,
+    endAngle,
+    finalIndex
+) {
+
+    if (wheelAnimationFrame) {
+        cancelAnimationFrame(
+            wheelAnimationFrame
+        );
+    }
 
     const duration = 16000;
-    const startTime = performance.now();
+    const startTime =
+        performance.now();
 
     function frame(now) {
-        let t = (now - startTime) / duration;
 
-        // ১. অ্যানিমেশনের শেষ মুহূর্ত (এখানেই রেজাল্ট সিঙ্ক হবে)
-        // অ্যানিমেশন ফ্রেমের ভেতরে:
-if (t >= 0.995) {
+        let t =
+            (now - startTime) /
+            duration;
 
-    t = 1;
+        if (t >= 0.995) {
 
-    wheel.style.transform =
-        `rotate(${endAngle}deg)`;
+            t = 1;
 
-    GameEngine.setWheelRotation(endAngle);
+            wheel.style.transform =
+                `rotate(${endAngle}deg)`;
 
-    GameEngine.endSpin(finalIndex);
+            GameEngine.setWheelRotation(
+                endAngle
+            );
 
-     updateUI(resultSymbols);
+            GameEngine.endSpin(
+                finalIndex
+            );
 
-     spinBtn.classList.remove("spinning");
+            spinBtn.classList.remove(
+                "spinning"
+            );
 
-   return;
+            return;
+        }
+
+        const eased =
+            1 -
+            Math.pow(
+                1 - t,
+                2.2
+            );
+
+        const angle =
+            startAngle +
+            (
+                endAngle -
+                startAngle
+            ) * eased;
+
+        wheel.style.transform =
+            `rotate(${angle}deg)`;
+
+        wheelAnimationFrame =
+            requestAnimationFrame(
+                frame
+            );
+    }
+
+    wheelAnimationFrame =
+        requestAnimationFrame(
+            frame
+        );
 }
-
-wheelAnimationFrame =
-    requestAnimationFrame(frame);
 
 // ======================================================
 // 🎯 END WHEEL ANIMATION FRAME
