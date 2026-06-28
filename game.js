@@ -517,14 +517,14 @@ GameEngine.setWheelRotation(finalAngle);
     // 🎈 bubble starts instantly
     startBonusBubbleShow();
 
-    // ⏱️ end spin after 14s
+    // ⏱️ end spin after 16s
     setTimeout(() => {
 
         GameEngine.endSpin(finalIndex);
 
         spinBtn.classList.remove("spinning");
 
-    }, 14000);
+    }, 16000);
 }
 // ======================================================
 // 🎡 END: INITIAL WHEEL EVENTS
