@@ -451,15 +451,20 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
 // ======================================================
 // 🎯 END WHEEL ANIMATION FRAME
 // ======================================================
-function updateUI(symbols) {
-    // এই লাইনটি আমাদের বলে দেবে কে এই ফাংশনটি কল করছে
-    console.trace("[UI SOURCE TRACE] Who called updateUI?"); 
-    
-    // আপনার আগের আপডেট লজিক...
-    symbolBoxes.forEach((box, i) => {
-        box.className = "symbol-box " + symbols[i];
-    });
-}
+// animateWheelSpin-এর শেষ অংশে:
+
+    // ১. UI আপডেট শেষ
+    updateUI(resultSymbols);
+
+    // ২. এবার গেমকে আনলক করুন
+    // গেম ইঞ্জিন যে গ্লোবাল বা লোকাল state ব্যবহার করে, সেটি এখানে এক্সেস করুন
+    if (typeof GameEngine !== 'undefined') {
+        GameEngine.state.isBetLocked = false;
+        GameEngine.state.isSpinning = false;
+    }
+
+    // ৩. বাটন ঠিক করুন
+    if (spinBtn) spinBtn.classList.remove("spinning");
 
 
 // ======================================================
