@@ -441,7 +441,7 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
 // ======================================================
 // 🎯 END WHEEL ANIMATION FRAME
 // ======================================================
-function updateUI(symbols) {
+function updateUI(finalSymbols) {
     // symbols হলো ["heart", "heart", "crown"] এই টাইপের এরে
     symbolBoxes.forEach((box, i) => {
         // এখানে আপনার ঘর অনুযায়ী ক্লাস আপডেট হবে
