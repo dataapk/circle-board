@@ -419,9 +419,11 @@ if (t >= 0.995) {
 
     GameEngine.endSpin(finalIndex);
 
-    spinBtn.classList.remove("spinning");
+     updateUI(resultSymbols);
 
-    return;
+     spinBtn.classList.remove("spinning");
+
+   return;
 }
 
 wheelAnimationFrame =
