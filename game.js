@@ -503,31 +503,31 @@ const anglePerSlot = 360 / 18;
 const currentRotation =
     GameEngine.getWheelRotation();
 
-const normalizedRotation =
-    (
-        state.wheelRotation % 360 +
-        360
-    ) % 360;
+   const normalizedRotation =
+        (
+            GameEngine.getWheelRotation() % 360 +
+            360
+        ) % 360;
 
-const detectedSlot =
-    Math.floor(
-        normalizedRotation / 20
+    const detectedSlot =
+        Math.floor(
+            normalizedRotation / 20
+        );
+
+    console.log(
+        "[WHEEL ROT]",
+        normalizedRotation
     );
 
-console.log(
-    "[WHEEL ROT]",
-    normalizedRotation
-);
+    console.log(
+        "[EXPECTED]",
+        finalIndex
+    );
 
-console.log(
-    "[EXPECTED]",
-    finalIndex
-);
-
-console.log(
-    "[DETECTED]",
-    detectedSlot
-);
+    console.log(
+        "[DETECTED]",
+        detectedSlot
+    );
 
    spinBtn.classList.add("spinning");
 
