@@ -505,10 +505,8 @@ console.log("[SPIN] BUTTON CLICK");
 // ======================================================
 
 function startWheelSpin() {
-    console.log(
-    "[START INDEX]",
-    finalIndex
-);
+    console.log("[SPIN] START");
+   
 
     GameEngine.lockBets();
     GameEngine.startSpin();
