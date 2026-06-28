@@ -285,8 +285,10 @@ function startSpin() {
     // ======================================================
 // 🎯 START END SPIN
 // ======================================================
-    function endSpin(finalIndex) {
-
+   // ======================================================
+// 🎯 START: END SPIN (গেম ইঞ্জিন শুধু রেজাল্ট প্রসেস করবে)
+// ======================================================
+function endSpin(finalIndex) {
     console.log("[ENGINE] SPIN END");
 
     // 🧠 SAFETY: ensure index exists
@@ -295,25 +297,22 @@ function startSpin() {
         console.warn("[FIX] Generated missing finalIndex:", finalIndex);
     }
 
-    // 🎯 LOCK STATE FIRST (avoid race condition)
+    // 🎯 LOCK STATE (এটা লক থাকবেই যতক্ষণ না অ্যানিমেশন শেষ হয়)
     state.isSpinning = true;
     state.isBetLocked = true;
 
-    // 🎡 SET RESULT FIRST (IMPORTANT ORDER)
+    // 🎡 SET RESULT
     setFinalWheelResult(finalIndex);
 
-    // 💰 RUN RESULT ENGINE SAFELY
+    // 💰 RUN RESULT ENGINE
     try {
         runResultEngine(finalIndex);
     } catch (err) {
         console.error("[ENGINE ERROR]", err);
     }
 
-    // 🔓 NOW UNLOCK ROUND
-    state.isBetLocked = false;
-    state.isSpinning = false;
-
-    console.log("[ENGINE] UNLOCKED");
+    // ❌ এখান থেকে state.isBetLocked = false এবং state.isSpinning = false মুছে ফেলা হয়েছে
+    console.log("[ENGINE] Processing Complete. Waiting for UI animation...");
 }
     // ======================================================
 // 🎯  END SPIN
