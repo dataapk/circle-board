@@ -26,7 +26,7 @@ const state = {
     totalBet: 0,
 
     // 🎡 WHEEL SYSTEM
-    wheelRotation: 0,
+    wheelRotation: 10,
     currentIndex: null,
     finalIndex: null,
     finalSymbols: [],
