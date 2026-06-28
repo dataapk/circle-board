@@ -423,7 +423,7 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
             const finalSymbols = GameEngine.getWheelSlots()[finalIndex];
             
             // ৩. UI আপডেট করা
-            updateUI(finalSymbols);
+           updateUI(resultSymbols);
             
             // ৪. বাটন ঠিক করা
             if (spinBtn) {
