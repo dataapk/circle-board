@@ -289,7 +289,11 @@ function startSpin() {
 // 🎯 START: END SPIN (গেম ইঞ্জিন শুধু রেজাল্ট প্রসেস করবে)
 // ======================================================
 function endSpin(finalIndex) {
-    console.log("[ENGINE] SPIN END");
+   console.log(
+    "[END SPIN]",
+    finalIndex,
+    performance.now()
+);
 
     // ১. ইঞ্জিন আগে যা ক্যালকুলেশন করত তা অপরিবর্তিত থাকবে
     if (finalIndex === null || finalIndex === undefined) {
