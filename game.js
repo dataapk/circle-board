@@ -547,20 +547,25 @@ function startWheelSpin() {
                 wheelRot / 20
             );
 
-        console.log(
-            "[WHEEL ROT]",
-            wheelRot
-        );
+       console.log(
+    "[RANDOM INDEX]",
+    finalIndex
+);
 
-        console.log(
-            "[EXPECTED]",
-            finalIndex
-        );
+console.log(
+    "[TARGET SLOT]",
+    GameEngine.getWheelSlots()[finalIndex]
+);
 
-        console.log(
-            "[DETECTED]",
-            detectedSlot
-        );
+console.log(
+    "[CURRENT ROT]",
+    currentRotation
+);
+
+console.log(
+    "[FINAL ANGLE]",
+    finalAngle
+);
 
         GameEngine.endSpin(
             finalIndex
