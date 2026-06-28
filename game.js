@@ -409,17 +409,18 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
         // ১. অ্যানিমেশনের শেষ মুহূর্ত (এখানেই রেজাল্ট সিঙ্ক হবে)
         // অ্যানিমেশন ফ্রেমের ভেতরে:
 if (t >= 0.995) {
-    // ১. আপনার দেওয়া সিরিয়াল অনুযায়ী স্লট ডেটা নিন
-    const slotData = GameEngine.getWheelSlots()[finalIndex]; // এটি ৩টি সিম্বল রিটার্ন করবে
-    
-    // ২. UI আপডেট করুন
-    updateUI(slotData.symbols); 
-    
-    // ৩. গেম আনলক করুন
-    state.isBetLocked = false;
-    state.isSpinning = false;
-    
-    console.log("[DEBUG] Slot symbols rendered:", slotData.symbols);
+
+    t = 1;
+
+    wheel.style.transform =
+        `rotate(${endAngle}deg)`;
+
+    GameEngine.setWheelRotation(endAngle);
+
+    GameEngine.endSpin(finalIndex);
+
+    spinBtn.classList.remove("spinning");
+
     return;
 }
 
@@ -520,7 +521,7 @@ function startWheelSpin() {
 
     const finalAngle = currentRotation + 2160 + ((finalIndex * anglePerSlot) - normalizedRotation);
 
-    GameEngine.setWheelRotation(finalAngle);
+    
     startBonusBubbleShow();
 
     // অ্যানিমেশন শুরু করছি এবং finalIndex পাস করছি
