@@ -396,37 +396,41 @@ function initializeBetSystem() {
 // ======================================================
 // 🎯 START WHEEL ANIMATION FRAME
 // ======================================================
-function animateWheelSpin(startAngle, endAngle) {
-
-    if (wheelAnimationFrame) {
-        cancelAnimationFrame(wheelAnimationFrame);
-    }
-
-    const duration = 16000;
+function animateWheelSpin(currentRotation, finalAngle) {
     const startTime = performance.now();
+    const duration = 16000; // ১৬ সেকেন্ড
 
-    function frame(now) {
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // easeOutQuart এর মতো একটি ইজ ফাংশন ব্যবহার করুন যাতে হুইলটি ন্যাচারালি থামে
+        const easeProgress = 1 - Math.pow(1 - progress, 4);
+        const currentAngle = currentRotation + (finalAngle - currentRotation) * easeProgress;
 
-        let t = (now - startTime) / duration;
-        if (t > 1) t = 1;
+        // হুইল ঘোরান
+        GameEngine.setWheelRotation(currentAngle);
 
-        // ⚡ smooth continuous curve (speed  system)
-        const eased = 1 - Math.pow(1 - t, 2.2);
-
-        const angle =
-            startAngle +
-            (endAngle - startAngle) * eased;
-
-        wheel.style.transform = `rotate(${angle}deg)`;
-
-        if (t < 1) {
-            wheelAnimationFrame = requestAnimationFrame(frame);
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            // এনিমেশন যখন শেষ, ঠিক তখনই রেজাল্ট কল করুন
+            // এখানে কোনো জাম্প হবে না কারণ হুইল আগেই ফাইনাল অ্যাঙ্গেলে পৌঁছে গেছে
+            finishSpin();
         }
     }
 
-    wheelAnimationFrame = requestAnimationFrame(frame);
+    requestAnimationFrame(update);
 }
-// END
+
+function finishSpin() {
+    console.log("[ANIMATION END] Showing result...");
+    // এখানে আপনার রেজাল্ট লজিক কল করুন
+    const finalResult = GameEngine.getWheelSlots()[finalIndex];
+    updateUI(finalResult); 
+    GameEngine.endSpin(finalIndex);
+    spinBtn.classList.remove("spinning");
+}
 
 // ======================================================
 // 🎯 END WHEEL ANIMATION FRAME
