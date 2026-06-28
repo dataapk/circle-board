@@ -451,17 +451,13 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
 // ======================================================
 // 🎯 END WHEEL ANIMATION FRAME
 // ======================================================
-function updateUI(resultSymbols) {
-    // resultSymbols হলো ["diamond", "diamond", "diamond"] টাইপের এরে
-    // symbolBoxes হলো আপনার ক্যাশ করা DOM এলিমেন্টগুলো
+function updateUI(symbols) {
+    // এই লাইনটি আমাদের বলে দেবে কে এই ফাংশনটি কল করছে
+    console.trace("[UI SOURCE TRACE] Who called updateUI?"); 
     
-    console.log("[UI] Updating UI with symbols:", resultSymbols);
-
+    // আপনার আগের আপডেট লজিক...
     symbolBoxes.forEach((box, i) => {
-        // পুরনো সব ক্লাস সরিয়ে দিন যাতে নতুন সিম্বল বসতে পারে
-        box.className = "symbol-box"; 
-        // নতুন সিম্বলটি যোগ করুন
-        box.classList.add(resultSymbols[i]); 
+        box.className = "symbol-box " + symbols[i];
     });
 }
 
