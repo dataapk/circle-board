@@ -441,20 +441,14 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
 // ======================================================
 // 🎯 END WHEEL ANIMATION FRAME
 // ======================================================
-// animateWheelSpin-এর শেষ অংশে:
-
-    // ১. UI আপডেট শেষ
-    updateUI(finalSymbols);
-
-    // ২. এবার গেমকে আনলক করুন
-    // গেম ইঞ্জিন যে গ্লোবাল বা লোকাল state ব্যবহার করে, সেটি এখানে এক্সেস করুন
-    if (typeof GameEngine !== 'undefined') {
-        GameEngine.state.isBetLocked = false;
-        GameEngine.state.isSpinning = false;
-    }
-
-    // ৩. বাটন ঠিক করুন
-    if (spinBtn) spinBtn.classList.remove("spinning");
+function updateUI(symbols) {
+    // symbols হলো ["heart", "heart", "crown"] এই টাইপের এরে
+    symbolBoxes.forEach((box, i) => {
+        // এখানে আপনার ঘর অনুযায়ী ক্লাস আপডেট হবে
+        box.className = "symbol-box " + symbols[i]; 
+    });
+    console.log("[UI UPDATE] Symbols rendered:", symbols);
+}
 
 
 // ======================================================
