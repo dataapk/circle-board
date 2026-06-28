@@ -507,8 +507,7 @@ function startWheelSpin() {
     GameEngine.startSpin();
     playSpinAudio();
 
-    const finalIndex =
-    Math.floor(Math.random() * 18);
+    const finalIndex = 16;
     const anglePerSlot = 360 / 18;
     const currentRotation = GameEngine.getWheelRotation();
     const normalizedRotation = (currentRotation % 360 + 360) % 360;
