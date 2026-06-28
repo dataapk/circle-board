@@ -410,27 +410,27 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
         let t = (now - startTime) / duration;
         
         // অ্যানিমেশনের শেষ মুহূর্ত (৯৯.৫% শেষ হলে ফোর্সড ল্যান্ডিং)
-    
-        if (t >= 0.995) {
+        if (t >= 0.995) { 
             t = 1;
             wheel.style.transform = `rotate(${endAngle}deg)`;
-
-            console.log("[FINAL SYNC] Forcing UI update for index:", finalIndex);
-
-            // ১. গেম ইঞ্জিনের রেজাল্ট কল করুন
+            
+            console.log("[ANIMATION END] Finalizing with index:", finalIndex);
+            
+            // ১. গেম ইঞ্জিনের এন্ড স্পিন কল করা
             GameEngine.endSpin(finalIndex);
-
-            // ২. UI আপডেট করার জন্য একদম সিওর ডেটা নিন
-            const finalSymbols = GameEngine.getWheelSlots()[finalIndex]; 
             
-            // ৩. এখানে আপনার UI আপডেট ফাংশনটি কল করুন
-            // এটি এমন হওয়া উচিত যা সরাসরি DOM এ ডেটা বসায়
+            // ২. UI আপডেট করার জন্য ডাটা নেওয়া
+            const finalSymbols = GameEngine.getWheelSlots()[finalIndex];
+            
+            // ৩. UI আপডেট করা
             updateUI(finalSymbols);
-
-            // ৪. বাটন ঠিক করা
-            if (spinBtn) spinBtn.classList.remove("spinning");
             
-            return; 
+            // ৪. বাটন ঠিক করা
+            if (spinBtn) {
+                spinBtn.classList.remove("spinning");
+            }
+            
+            return; // এখানেই লুপ বন্ধ
         }
 
         // স্মুথ কার্ভ বা স্পিড সিস্টেম
@@ -448,18 +448,22 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
     wheelAnimationFrame = requestAnimationFrame(frame);
 }
 
-function finishSpin() {
-    console.log("[ANIMATION END] Showing result...");
-    // এখানে আপনার রেজাল্ট লজিক কল করুন
-    const finalResult = GameEngine.getWheelSlots()[finalIndex];
-    updateUI(finalResult); 
-    GameEngine.endSpin(finalIndex);
-    spinBtn.classList.remove("spinning");
-}
-
 // ======================================================
 // 🎯 END WHEEL ANIMATION FRAME
 // ======================================================
+function updateUI(resultSymbols) {
+    // resultSymbols হলো ["diamond", "diamond", "diamond"] টাইপের এরে
+    // symbolBoxes হলো আপনার ক্যাশ করা DOM এলিমেন্টগুলো
+    
+    console.log("[UI] Updating UI with symbols:", resultSymbols);
+
+    symbolBoxes.forEach((box, i) => {
+        // পুরনো সব ক্লাস সরিয়ে দিন যাতে নতুন সিম্বল বসতে পারে
+        box.className = "symbol-box"; 
+        // নতুন সিম্বলটি যোগ করুন
+        box.classList.add(resultSymbols[i]); 
+    });
+}
 
 
 // ======================================================
