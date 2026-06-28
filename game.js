@@ -410,24 +410,27 @@ function animateWheelSpin(startAngle, endAngle, finalIndex) {
         let t = (now - startTime) / duration;
         
         // অ্যানিমেশনের শেষ মুহূর্ত (৯৯.৫% শেষ হলে ফোর্সড ল্যান্ডিং)
-        if (t >= 0.995) { 
+    
+        if (t >= 0.995) {
             t = 1;
             wheel.style.transform = `rotate(${endAngle}deg)`;
-            
-            console.log("[ANIMATION END] Finalizing with index:", finalIndex);
-            
-            // গেম ইঞ্জিনের এন্ড স্পিন কল করা
+
+            console.log("[FINAL SYNC] Forcing UI update for index:", finalIndex);
+
+            // ১. গেম ইঞ্জিনের রেজাল্ট কল করুন
             GameEngine.endSpin(finalIndex);
+
+            // ২. UI আপডেট করার জন্য একদম সিওর ডেটা নিন
+            const finalSymbols = GameEngine.getWheelSlots()[finalIndex]; 
             
-            // রেজাল্ট UI আপডেট করা
-            updateUI(GameEngine.getWheelSlots()[finalIndex]);
+            // ৩. এখানে আপনার UI আপডেট ফাংশনটি কল করুন
+            // এটি এমন হওয়া উচিত যা সরাসরি DOM এ ডেটা বসায়
+            updateUI(finalSymbols);
+
+            // ৪. বাটন ঠিক করা
+            if (spinBtn) spinBtn.classList.remove("spinning");
             
-            // স্পিন বাটন থেকে স্পিনিং ক্লাস সরিয়ে দেওয়া
-            if (spinBtn) {
-                spinBtn.classList.remove("spinning");
-            }
-            
-            return; // এখানেই লুপ বন্ধ
+            return; 
         }
 
         // স্মুথ কার্ভ বা স্পিড সিস্টেম
