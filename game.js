@@ -18,6 +18,9 @@ let wheelAnimationFrame = null;
 
 const wheel = document.getElementById("wheel");
 
+// 🎯 DEFAULT POSITION = SLOT #1 CENTER
+wheel.style.transform = "rotate(-10deg)";
+
 const spinBtn = document.getElementById("spinBtn");
 
 const balanceAmount = document.getElementById("balanceAmount");
