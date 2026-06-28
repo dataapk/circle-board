@@ -523,6 +523,22 @@ animateWheelSpin(
     finalAngle
 );
 
+// 🔍 DEBUG
+console.log(
+    "[SPIN] INDEX:",
+    finalIndex
+);
+
+console.log(
+    "[SPIN] CURRENT:",
+    currentRotation % 360
+);
+
+console.log(
+    "[SPIN] TARGET:",
+    finalAngle % 360
+);
+
    spinBtn.classList.add("spinning");
 
     // 🎈 bubble starts instantly
