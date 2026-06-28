@@ -291,28 +291,27 @@ function startSpin() {
 function endSpin(finalIndex) {
     console.log("[ENGINE] SPIN END");
 
-    // 🧠 SAFETY: ensure index exists
+    // ১. ইঞ্জিন আগে যা ক্যালকুলেশন করত তা অপরিবর্তিত থাকবে
     if (finalIndex === null || finalIndex === undefined) {
         finalIndex = Math.floor(Math.random() * 18);
-        console.warn("[FIX] Generated missing finalIndex:", finalIndex);
     }
-
-    // 🎯 LOCK STATE (এটা লক থাকবেই যতক্ষণ না অ্যানিমেশন শেষ হয়)
     state.isSpinning = true;
     state.isBetLocked = true;
-
-    // 🎡 SET RESULT
     setFinalWheelResult(finalIndex);
+    runResultEngine(finalIndex);
 
-    // 💰 RUN RESULT ENGINE
-    try {
-        runResultEngine(finalIndex);
-    } catch (err) {
-        console.error("[ENGINE ERROR]", err);
-    }
+    // ২. [এখানে বসান] ব্রিজিং কোড - ইঞ্জিন তার কাজ শেষ করে সরাসরি UI আপডেট ট্রিগার করবে
+    const resultSymbols = getWheelSlots()[finalIndex]; // অথবা আপনার ইঞ্জিনে যেভাবে স্লট ডেটা পান
+    console.log("[BRIDGE] Forcing UI update from Engine...");
+    
+    // UI আপডেট ফাংশন কল করুন
+    updateUI(resultSymbols); 
 
-    // ❌ এখান থেকে state.isBetLocked = false এবং state.isSpinning = false মুছে ফেলা হয়েছে
-    console.log("[ENGINE] Processing Complete. Waiting for UI animation...");
+    // ৩. গেম আনলক করুন
+    state.isBetLocked = false;
+    state.isSpinning = false;
+
+    console.log("[ENGINE] UNLOCKED and UI Updated.");
 }
     // ======================================================
 // 🎯  END SPIN
