@@ -496,52 +496,82 @@ function startWheelSpin() {
 
     playSpinAudio();
 
-    const finalIndex = Math.floor(Math.random() * 18);
+    const finalIndex =
+        Math.floor(Math.random() * 18);
 
-const anglePerSlot = 360 / 18;
+    const anglePerSlot =
+        360 / 18;
 
-const currentRotation =
-    GameEngine.getWheelRotation();
+    const currentRotation =
+        GameEngine.getWheelRotation();
 
-   const normalizedRotation =
+    const normalizedRotation =
         (
-            GameEngine.getWheelRotation() % 360 +
+            currentRotation % 360 +
             360
         ) % 360;
 
-    const detectedSlot =
-        Math.floor(
-            normalizedRotation / 20
+    const finalAngle =
+        currentRotation +
+        2160 +
+        (
+            (finalIndex * anglePerSlot)
+            - normalizedRotation
         );
 
-    console.log(
-        "[WHEEL ROT]",
-        normalizedRotation
+    GameEngine.setWheelRotation(
+        finalAngle
     );
 
-    console.log(
-        "[EXPECTED]",
-        finalIndex
+    animateWheelSpin(
+        currentRotation,
+        finalAngle
     );
 
-    console.log(
-        "[DETECTED]",
-        detectedSlot
+    spinBtn.classList.add(
+        "spinning"
     );
 
-   spinBtn.classList.add("spinning");
-
-    // 🎈 bubble starts instantly
     startBonusBubbleShow();
 
-    // ⏱️ end spin after 16s
     setTimeout(() => {
 
-        GameEngine.endSpin(finalIndex);
+        const wheelRot =
+            (
+                GameEngine.getWheelRotation() % 360 +
+                360
+            ) % 360;
 
-        spinBtn.classList.remove("spinning");
+        const detectedSlot =
+            Math.floor(
+                wheelRot / 20
+            );
+
+        console.log(
+            "[WHEEL ROT]",
+            wheelRot
+        );
+
+        console.log(
+            "[EXPECTED]",
+            finalIndex
+        );
+
+        console.log(
+            "[DETECTED]",
+            detectedSlot
+        );
+
+        GameEngine.endSpin(
+            finalIndex
+        );
+
+        spinBtn.classList.remove(
+            "spinning"
+        );
 
     }, 16000);
+
 }
 // ======================================================
 // 🎡 END: INITIAL WHEEL EVENTS
