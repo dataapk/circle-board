@@ -547,12 +547,12 @@ const anglePerSlot =
             );
 
        console.log(
-    "[RANDOM INDEX]",
+    "[FINAL INDEX]",
     finalIndex
 );
 
 console.log(
-    "[TARGET SLOT]",
+    "[FINAL SYMBOL]",
     GameEngine.getWheelSlots()[finalIndex]
 );
 
