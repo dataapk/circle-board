@@ -629,47 +629,83 @@ function runResultEngine(finalIndex) {
     // 💰 CALCULATE PAYOUT
     // =========================
 
-    let totalWin = 0;
+// =========================
+// 💰 CALCULATE PAYOUT
+// =========================
 
-    for (let symbol in state.bets) {
+let totalWin = 0;
 
-        let betAmount = state.bets[symbol];
+for (let symbol in state.bets) {
 
-        if (betAmount <= 0) continue;
+    let betAmount =
+        state.bets[symbol];
 
-        let count = symbolCountMap[symbol] || 0;
+    if (betAmount <= 0)
+        continue;
 
+    let count =
+        symbolCountMap[symbol] || 0;
 
+    // ❌ RULE: single symbol = loss
+    if (count < 2) {
 
-        // ❌ RULE: single symbol = loss
-        if (count < 2) {
+        console.log(
+            "[RESULT] LOSS:",
+            symbol
+        );
 
-            console.log("[RESULT] LOSS:", symbol);
-
-            continue;
-
-        }
-
-
-
-        // 🧮 SYMBOL MULTIPLIER
-        let symbolMultiplier = count;
-
-
-
-        // 💰 FINAL CALCULATION
-        let win =
-            (betAmount * symbolMultiplier * bonusMultiplier) + betAmount;
-
-
-
-        console.log("[RESULT] WIN:", symbol, win);
-
-
-
-        totalWin += win;
+        continue;
 
     }
+
+    // =========================
+    // 🎁 BONUS OVERRIDE SYSTEM
+    // =========================
+
+    let finalMultiplier =
+        count;
+
+    if (
+
+        activeBubbleSymbol &&
+        activeBubbleMultiplier &&
+        symbol === activeBubbleSymbol
+
+    ) {
+
+        finalMultiplier =
+            activeBubbleMultiplier;
+
+        console.log(
+            "[BONUS HIT]",
+            symbol,
+            activeBubbleMultiplier + "X"
+        );
+
+    }
+
+    // =========================
+    // 💰 FINAL CALCULATION
+    // =========================
+
+    let win =
+
+        (
+            betAmount *
+            finalMultiplier
+        )
+
+        + betAmount;
+
+    console.log(
+        "[RESULT] WIN:",
+        symbol,
+        win
+    );
+
+    totalWin += win;
+
+}
 
 
 
