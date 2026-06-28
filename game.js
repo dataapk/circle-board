@@ -424,20 +424,8 @@ if (t >= 0.995) {
     return;
 }
 
-        // ২. স্মুথ অ্যানিমেশন লজিক
-        const eased = 1 - Math.pow(1 - t, 2.2);
-        const angle = startAngle + (endAngle - startAngle) * eased;
-        wheel.style.transform = `rotate(${angle}deg)`;
-        console.log(
-    "[ANIMATION END]",
-    finalIndex
-);
-
-        wheelAnimationFrame = requestAnimationFrame(frame);
-    }
-
-    wheelAnimationFrame = requestAnimationFrame(frame);
-}
+wheelAnimationFrame =
+    requestAnimationFrame(frame);
 
 // ======================================================
 // 🎯 END WHEEL ANIMATION FRAME
