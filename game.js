@@ -723,25 +723,18 @@ function lockBoardUI() {
 
 function unlockBoardUI() {
 
+    // ENGINE UNLOCK
+    GameEngine.unlockBets();
+
     if (spinBtn) spinBtn.disabled = false;
 
-
-
     chips.forEach(chip => {
-
         chip.style.pointerEvents = "auto";
-
     });
-
-
 
     symbolBoxes.forEach(box => {
-
         box.style.pointerEvents = "auto";
-
     });
-
-
 
     console.log("[UI] BOARD UNLOCKED");
 
