@@ -520,14 +520,9 @@ function endSpin(finalIndex) {
 
     unlockBoardUI();
 
-    console.log("STEP-2");
+    unlockRound();
 
-    GameEngine.unlockBets();
-
-    console.log("STEP-3");
-
-    console.log("[ENGINE] UNLOCKED");
-
+console.log("[ROUND FLOW] UNLOCK TRIGGERED");
 } // ✅ THIS IS THE IMPORTANT CLOSING BRACKET
 
 
