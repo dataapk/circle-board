@@ -536,7 +536,11 @@ function endSpin(finalIndex) {
     resultSymbols
 );
 
-unlockRound();
+GameEngine.unlockBets();
+
+console.log(
+    "[ENGINE] BETS UNLOCKED"
+);
 
 state.isSpinning = false;
 
