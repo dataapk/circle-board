@@ -475,6 +475,7 @@ console.log(
     "[ENGINE INDEX]",
     finalIndex
 );
+    const currentRotation = 0;
 
     // VISUAL ORDER FIX
     
