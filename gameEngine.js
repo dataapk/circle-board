@@ -533,16 +533,16 @@ function endSpin(finalIndex) {
     );
 
     updateUI(
-        resultSymbols
-    );
-
-    state.isBetLocked = false;
-    state.isSpinning = false;
-
-    console.log(
-    "UNLOCK REACHED"
+    resultSymbols
 );
-}
+
+unlockRound();
+
+state.isSpinning = false;
+
+console.log(
+    "[ENGINE] ROUND UNLOCKED"
+);
     // ======================================================
 // 🎯  END SPIN
 // ======================================================
