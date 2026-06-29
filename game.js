@@ -468,28 +468,7 @@ function startWheelSpin() {
     const currentRotation = 0;
 
     // VISUAL ORDER FIX
-    const visualIndex =
-        (18 - finalIndex) % 18;
-
-    const finalAngle =
-        2160 +
-        (visualIndex * anglePerSlot);
-
-    console.log(
-        "[ENGINE INDEX]",
-        finalIndex
-    );
-
-    console.log(
-        "[VISUAL INDEX]",
-        visualIndex
-    );
-
-    console.log(
-        "[FINAL ANGLE]",
-        finalAngle
-    );
-
+    
     spinBtn.classList.add(
         "spinning"
     );
