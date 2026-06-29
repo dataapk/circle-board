@@ -393,6 +393,109 @@ function initializeBetSystem() {
 // 🎯 END: INITIAL BET EVENTS
 // ======================================================
 
+
+
+// ======================================================
+// 🎡 START: INITIAL WHEEL EVENTS
+// ======================================================
+
+function initializeWheelSystem() {
+
+    console.log("[SPIN] INITIALIZED");
+
+
+
+    spinBtn.addEventListener("click", () => {
+
+
+
+        // =========================
+        // 🚫 SAFETY CHECKS
+        // =========================
+
+              if (
+    GameEngine.isBetLocked() ||
+    GameEngine.getCurrentSpinStatus()
+) {
+    console.log("[SPIN] BLOCKED");
+    return;
+}
+
+if (!GameEngine.hasBets()) {
+    console.log("[SPIN] NO BETS");
+    return;
+}
+
+console.log("[SPIN] BUTTON CLICK");
+
+
+
+        playSpinButtonAudio();
+
+
+
+        startWheelSpin();
+
+    });
+
+}
+
+
+
+// ======================================================
+// 🎡 SPIN FLOW CONTROLLER
+// ======================================================
+
+// ======================================================
+// 🎡 START WHEEL SPIN
+// ======================================================
+
+function startWheelSpin() {
+
+    console.log("[SPIN] START");
+
+    GameEngine.lockBets();
+    GameEngine.startSpin();
+
+    playSpinAudio();
+
+    const finalIndex =
+        Math.floor(Math.random() * 18);
+
+    const anglePerSlot =
+        360 / 18;
+
+    const currentRotation = 0;
+
+    const finalAngle =
+        2160 +
+        (finalIndex * anglePerSlot);
+
+    console.log(
+        "[FINAL INDEX]",
+        finalIndex
+    );
+
+    console.log(
+        "[FINAL ANGLE]",
+        finalAngle
+    );
+
+    spinBtn.classList.add(
+        "spinning"
+    );
+
+    startBonusBubbleShow();
+
+    animateWheelSpin(
+        currentRotation,
+        finalAngle,
+        finalIndex
+    );
+}
+// ======================================================
+// 🎡 END WHEEL SPIN
+// ======================================================
 // ======================================================
 // 🎯 START WHEEL ANIMATION FRAME
 // ======================================================
@@ -511,128 +614,6 @@ function updateUI(resultSymbols) { // প্যারামিটার না�
         }
     });
 }
-
-// ======================================================
-// 🎡 START: INITIAL WHEEL EVENTS
-// ======================================================
-
-function initializeWheelSystem() {
-
-    console.log("[SPIN] INITIALIZED");
-
-
-
-    spinBtn.addEventListener("click", () => {
-
-
-
-        // =========================
-        // 🚫 SAFETY CHECKS
-        // =========================
-
-              if (
-    GameEngine.isBetLocked() ||
-    GameEngine.getCurrentSpinStatus()
-) {
-    console.log("[SPIN] BLOCKED");
-    return;
-}
-
-if (!GameEngine.hasBets()) {
-    console.log("[SPIN] NO BETS");
-    return;
-}
-
-console.log("[SPIN] BUTTON CLICK");
-
-
-
-        playSpinButtonAudio();
-
-
-
-        startWheelSpin();
-
-    });
-
-}
-
-
-
-// ======================================================
-// 🎡 SPIN FLOW CONTROLLER
-// ======================================================
-
-function startWheelSpin() {
-    console.log("[SPIN] START");
-   
-
-    GameEngine.lockBets();
-    GameEngine.startSpin();
-    playSpinAudio();
-
-    const finalIndex =
-    Math.floor(Math.random() * 18);
-
-const anglePerSlot =
-    360 / 18;
-
-// TEST MODE
-const currentRotation = 0;
-
-const normalizedRotation = 0;
-
-const finalAngle =
-    2160 +
-    (finalIndex * anglePerSlot);
-
-    
-    startBonusBubbleShow();
-
-    // অ্যানিমেশন শুরু করছি এবং finalIndex পাস করছি
-    animateWheelSpin(currentRotation, finalAngle, finalIndex);
-}
-
-function animateWheelSpin(startAngle, endAngle, finalIndex) {
-    if (wheelAnimationFrame) {
-        cancelAnimationFrame(wheelAnimationFrame);
-    }
-
-    const duration = 16000;
-    const startTime = performance.now();
-
-    function frame(now) {
-        let t = (now - startTime) / duration;
-
-        // ৯৯.৫% শেষ হলে ফোর্সড ল্যান্ডিং
-        if (t >= 0.995) {
-            t = 1;
-            wheel.style.transform = `rotate(${endAngle}deg)`;
-            
-            // সরাসরি গেম ইঞ্জিনের সাথে সিঙ্ক করা
-            GameEngine.endSpin(finalIndex);
-            
-            spinBtn.classList.remove("spinning");
-            return;
-        }
-
-        // স্মুথ কার্ভ (আপনার দেওয়া স্পিড সিস্টেম)
-        const eased = 1 - Math.pow(1 - t, 2.2);
-        const angle = startAngle + (endAngle - startAngle) * eased;
-
-        wheel.style.transform = `rotate(${angle}deg)`;
-
-        if (t < 1) {
-            wheelAnimationFrame = requestAnimationFrame(frame);
-        }
-    }
-
-    wheelAnimationFrame = requestAnimationFrame(frame);
-}
-// ======================================================
-// 🎡 END: INITIAL WHEEL EVENTS
-// ======================================================
-
 
 // ======================================================
 // 💰 START: INITIAL UI UPDATE SYSTEM
