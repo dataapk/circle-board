@@ -545,10 +545,13 @@ function animateWheelSpin(
     const landedRotation =
         ((endAngle % 360) + 360) % 360;
 
-    const landedSlot =
-        Math.round(
-            landedRotation / 20
-        ) % 18;
+    const visualSlot =
+    Math.round(
+        landedRotation / 20
+    ) % 18;
+
+const landedSlot =
+    (18 - visualSlot) % 18;
 
     console.log(
         "[VISUAL ROTATION]",
