@@ -516,8 +516,6 @@ function endSpin(finalIndex) {
     state.isBetLocked = false;
     state.isSpinning = false;
 
-    console.log("STEP-1");
-
     unlockBoardUI();
 
     unlockRound();
