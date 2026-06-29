@@ -421,25 +421,45 @@ function animateWheelSpin(
 
         if (t >= 0.995) {
 
-            t = 1;
+    t = 1;
 
-            wheel.style.transform =
-                `rotate(${endAngle}deg)`;
+    wheel.style.transform =
+        `rotate(${endAngle}deg)`;
 
-            GameEngine.setWheelRotation(
-                endAngle
-            );
+    GameEngine.setWheelRotation(
+        endAngle
+    );
 
-            GameEngine.endSpin(
-                finalIndex
-            );
+    // 👇 DEBUG START
+    const landedRotation =
+        ((endAngle % 360) + 360) % 360;
 
-            spinBtn.classList.remove(
-                "spinning"
-            );
+    const landedSlot =
+        Math.round(
+            landedRotation / 20
+        ) % 18;
 
-            return;
-        }
+    console.log(
+        "[ENGINE INDEX]",
+        finalIndex
+    );
+
+    console.log(
+        "[LANDED SLOT]",
+        landedSlot
+    );
+    // 👆 DEBUG END
+
+    GameEngine.endSpin(
+        finalIndex
+    );
+
+    spinBtn.classList.remove(
+        "spinning"
+    );
+
+    return;
+}
 
         const eased =
             1 -
