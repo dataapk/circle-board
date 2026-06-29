@@ -491,69 +491,63 @@ function getSlotByIndex(index) {
 // ======================================================
 function endSpin(finalIndex) {
 
-    console.log(
-        "[END SPIN]",
-        finalIndex,
-        performance.now()
-    );
+    console.log("[ENGINE] SPIN END");
 
-    if (
-        finalIndex === null ||
-        finalIndex === undefined
-    ) {
-        finalIndex =
-            Math.floor(
-                Math.random() * 18
-            );
+    // 🧠 SAFETY
+    if (finalIndex === null || finalIndex === undefined) {
+        finalIndex = Math.floor(Math.random() * 18);
+        console.warn(
+            "[FIX] Generated missing finalIndex:",
+            finalIndex
+        );
     }
 
     console.log(
-        "[ENGINE INDEX]",
+        "[VISUAL SLOT RECEIVED]",
         finalIndex
     );
 
+    // 🎯 LOCK STATE
     state.isSpinning = true;
     state.isBetLocked = true;
 
-    setFinalWheelResult(
-        finalIndex
-    );
+    // 🎡 USE VISUAL SLOT DIRECTLY
+    setFinalWheelResult(finalIndex);
 
-    runResultEngine(
-        finalIndex
-    );
+    // 💰 RESULT ENGINE
+    try {
+        runResultEngine(finalIndex);
+    } catch (err) {
+        console.error(
+            "[ENGINE ERROR]",
+            err
+        );
+    }
 
-    const resultSymbols =
-        getWheelSlots()[
-            finalIndex
-        ];
+    // 🔓 UNLOCK ENGINE
+    state.isBetLocked = false;
+    state.isSpinning = false;
+
+    // 🔓 UNLOCK UI
+    if (
+        typeof unlockBoardUI ===
+        "function"
+    ) {
+        unlockBoardUI();
+    }
+
+    // 🔓 UNLOCK API
+    if (
+        typeof GameEngine !==
+            "undefined" &&
+        GameEngine.unlockBets
+    ) {
+        GameEngine.unlockBets();
+    }
 
     console.log(
-        "[BRIDGE] Forcing UI update from Engine..."
+        "[ENGINE] UNLOCKED"
     );
-
-    updateUI(
-    resultSymbols
-);
-
-state.isSpinning = false;
-
-console.log(
-    "STEP-1"
-);
-
-GameEngine.unlockBets();
-
-console.log(
-    "STEP-2"
-);
-
-unlockBoardUI();
-
-console.log(
-    "STEP-3"
-);
-
 }
     // ======================================================
 // 🎯  END SPIN
