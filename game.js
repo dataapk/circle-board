@@ -527,9 +527,10 @@ function animateWheelSpin(
             duration;
 
         if (t >= 0.995) {
-            console.log(
+
+    console.log(
         "LANDING BLOCK HIT"
-         );        
+    );
 
     t = 1;
 
@@ -540,7 +541,7 @@ function animateWheelSpin(
         endAngle
     );
 
-    // 👇 DEBUG START
+    // 👇 VISUAL ONLY DEBUG
     const landedRotation =
         ((endAngle % 360) + 360) % 360;
 
@@ -550,19 +551,15 @@ function animateWheelSpin(
         ) % 18;
 
     console.log(
-        "[ENGINE INDEX]",
-        finalIndex
+        "[VISUAL ROTATION]",
+        landedRotation
     );
 
     console.log(
-        "[LANDED SLOT]",
+        "[VISUAL SLOT]",
         landedSlot
     );
-    // 👆 DEBUG END
-
-    GameEngine.endSpin(
-        finalIndex
-    );
+    // 👆 VISUAL ONLY DEBUG
 
     spinBtn.classList.remove(
         "spinning"
