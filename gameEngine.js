@@ -513,15 +513,16 @@ function endSpin(finalIndex) {
     }
 
     // 🔓 UNLOCK ENGINE
-    state.isBetLocked = false;
-    state.isSpinning = false;
+   state.isBetLocked = false;
+state.isSpinning = false;
 
-    console.log("ABOUT TO UNLOCK");
-unlockRound();
-console.log("AFTER UNLOCK");
-} // ✅ THIS IS THE IMPORTANT CLOSING BRACKET
+GameEngine.unlockBets();
 
+console.log(
+    "[ENGINE] BETS UNLOCKED"
+);
 
+}
 // ======================================================
 // 🎯  END SPIN
 // ======================================================
