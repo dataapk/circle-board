@@ -289,33 +289,68 @@ function startSpin() {
 // 🎯 START: END SPIN (গেম ইঞ্জিন শুধু রেজাল্ট প্রসেস করবে)
 // ======================================================
 function endSpin(finalIndex) {
-   console.log(
-    "[END SPIN]",
-    finalIndex,
-    performance.now()
-);
 
-    // ১. ইঞ্জিন আগে যা ক্যালকুলেশন করত তা অপরিবর্তিত থাকবে
-    if (finalIndex === null || finalIndex === undefined) {
-        finalIndex = Math.floor(Math.random() * 18);
+    console.log(
+        "[END SPIN]",
+        finalIndex,
+        performance.now()
+    );
+
+    if (
+        finalIndex === null ||
+        finalIndex === undefined
+    ) {
+        finalIndex =
+            Math.floor(
+                Math.random() * 18
+            );
     }
+
+    // FIXED INDEX
+    const correctedIndex =
+        (18 - finalIndex) % 18;
+
+    console.log(
+        "[ENGINE INDEX]",
+        finalIndex
+    );
+
+    console.log(
+        "[CORRECTED INDEX]",
+        correctedIndex
+    );
+
     state.isSpinning = true;
     state.isBetLocked = true;
-    setFinalWheelResult(finalIndex);
-    runResultEngine(finalIndex);
 
-    // ২. [এখানে বসান] ব্রিজিং কোড - ইঞ্জিন তার কাজ শেষ করে সরাসরি UI আপডেট ট্রিগার করবে
-    const resultSymbols = getWheelSlots()[finalIndex]; // অথবা আপনার ইঞ্জিনে যেভাবে স্লট ডেটা পান
-    console.log("[BRIDGE] Forcing UI update from Engine...");
-    
-    // UI আপডেট ফাংশন কল করুন
-    updateUI(resultSymbols); 
+    // USE CORRECTED INDEX
+    setFinalWheelResult(
+        correctedIndex
+    );
 
-    // ৩. গেম আনলক করুন
+    runResultEngine(
+        correctedIndex
+    );
+
+    const resultSymbols =
+        getWheelSlots()[
+            correctedIndex
+        ];
+
+    console.log(
+        "[BRIDGE] Forcing UI update from Engine..."
+    );
+
+    updateUI(
+        resultSymbols
+    );
+
     state.isBetLocked = false;
     state.isSpinning = false;
 
-    console.log("[ENGINE] UNLOCKED and UI Updated.");
+    console.log(
+        "[ENGINE] UNLOCKED and UI Updated."
+    );
 }
     // ======================================================
 // 🎯  END SPIN
@@ -529,14 +564,23 @@ function getSlotByIndex(index) {
 
 function setFinalWheelResult(finalIndex) {
 
-    state.finalIndex = finalIndex;
+    const correctedIndex =
+        (18 - finalIndex) % 18;
+
+    state.finalIndex =
+        correctedIndex;
 
     state.finalSymbols =
-        wheelSlots[finalIndex];
+        wheelSlots[correctedIndex];
 
     console.log(
-        "INDEX:",
+        "[ENGINE INDEX]",
         finalIndex
+    );
+
+    console.log(
+        "[CORRECTED INDEX]",
+        correctedIndex
     );
 
     console.log(
