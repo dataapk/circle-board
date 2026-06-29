@@ -674,6 +674,11 @@ function runResultEngine(finalIndex) {
 // =========================
 // 💰 CALCULATE PAYOUT
 // =========================
+    console.log(
+    "[BONUS STATE]",
+    activeBubbleSymbol,
+    activeBubbleMultiplier
+);
 
 let totalWin = 0;
 
@@ -703,28 +708,34 @@ for (let symbol in state.bets) {
     // =========================
     // 🎁 BONUS OVERRIDE SYSTEM
     // =========================
+let finalMultiplier =
+    count;
 
-    let finalMultiplier =
-        count;
+console.log(
+    "[BONUS CHECK]",
+    symbol,
+    activeBubbleSymbol,
+    activeBubbleMultiplier
+);
 
-    if (
+if (
 
-        activeBubbleSymbol &&
-        activeBubbleMultiplier &&
-        symbol === activeBubbleSymbol
+    activeBubbleSymbol &&
+    activeBubbleMultiplier &&
+    symbol === activeBubbleSymbol
 
-    ) {
+) {
 
-        finalMultiplier =
-            activeBubbleMultiplier;
+    finalMultiplier =
+        activeBubbleMultiplier;
 
-        console.log(
-            "[BONUS HIT]",
-            symbol,
-            activeBubbleMultiplier + "X"
-        );
+    console.log(
+        "[BONUS HIT]",
+        symbol,
+        activeBubbleMultiplier + "X"
+    );
 
-    }
+}
 
     // =========================
     // 💰 FINAL CALCULATION
