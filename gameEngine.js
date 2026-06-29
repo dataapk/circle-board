@@ -525,28 +525,20 @@ function endSpin(finalIndex) {
     }
 
     // 🔓 UNLOCK ENGINE
-    state.isBetLocked = false;
-    state.isSpinning = false;
+console.log("STEP-1");
 
-    // 🔓 UNLOCK UI
-    if (
-        typeof unlockBoardUI ===
-        "function"
-    ) {
-        unlockBoardUI();
-    }
+state.isBetLocked = false;
+state.isSpinning = false;
 
-    // 🔓 UNLOCK API
-    if (
-        typeof GameEngine !==
-            "undefined" &&
-        GameEngine.unlockBets
-    ) {
-        GameEngine.unlockBets();
-    }
+console.log("STEP-2");
 
-    console.log(
-        "[ENGINE] UNLOCKED"
+unlockBoardUI();
+
+console.log("STEP-3");
+
+GameEngine.unlockBets();
+
+console.log("STEP-4");
     );
 }
     // ======================================================
