@@ -516,7 +516,11 @@ function endSpin(finalIndex) {
    state.isBetLocked = false;
 state.isSpinning = false;
 
+console.log("[TEST] BEFORE ENGINE UNLOCK");
+
 GameEngine.unlockBets();
+
+console.log("[TEST] AFTER ENGINE UNLOCK");
 
 console.log(
     "[ENGINE] BETS UNLOCKED"
