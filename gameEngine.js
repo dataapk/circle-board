@@ -541,26 +541,16 @@ function setFinalWheelResult(finalIndex) {
 
     state.finalIndex = finalIndex;
 
-    const visualSlot =
-    Math.round(
-        landedRotation / 20
-    ) % 18;
-
     state.finalSymbols =
-        wheelSlots[visualIndex];
+        wheelSlots[finalIndex];
 
     console.log(
-        "ENGINE INDEX:",
+        "FINAL INDEX:",
         finalIndex
     );
 
     console.log(
-    "[VISUAL SLOT]",
-    visualSlot
-);
-
-    console.log(
-        "SYMBOL:",
+        "FINAL SYMBOL:",
         state.finalSymbols
     );
 }
