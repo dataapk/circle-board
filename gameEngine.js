@@ -540,8 +540,8 @@ function endSpin(finalIndex) {
     state.isSpinning = false;
 
     console.log(
-        "[ENGINE] UNLOCKED and UI Updated."
-    );
+    "UNLOCK REACHED"
+);
 }
     // ======================================================
 // 🎯  END SPIN
