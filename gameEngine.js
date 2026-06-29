@@ -540,12 +540,10 @@ state.isSpinning = false;
 
 GameEngine.unlockBets();
 
-console.log(
-    "[ENGINE] BETS UNLOCKED"
-);
+unlockBoardUI();
 
 console.log(
-    "[ENGINE] ROUND UNLOCKED"
+    "[ENDSPIN] EVERYTHING UNLOCKED"
 );
 
 }
