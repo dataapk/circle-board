@@ -573,8 +573,8 @@ const landedSlot =
        // wheel landed
 
     GameEngine.endSpin(
-        visualSlot
-    );
+    landedSlot
+);
 
     // 🔓 CALL HERE
     GameEngine.unlockBets();
