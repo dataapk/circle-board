@@ -538,12 +538,20 @@ function endSpin(finalIndex) {
 
 state.isSpinning = false;
 
+console.log(
+    "STEP-1"
+);
+
 GameEngine.unlockBets();
+
+console.log(
+    "STEP-2"
+);
 
 unlockBoardUI();
 
 console.log(
-    "[ENDSPIN] EVERYTHING UNLOCKED"
+    "STEP-3"
 );
 
 }
