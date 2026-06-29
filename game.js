@@ -459,28 +459,30 @@ function startWheelSpin() {
 
     playSpinAudio();
 
-   const visualSlot =
-    Math.round(
-        landedRotation / 20
-    ) % 18;
+    const finalIndex =
+        Math.floor(
+            Math.random() * 18
+        );
 
-const anglePerSlot =
-    360 / 18;
+    const anglePerSlot =
+        360 / 18;
 
-const currentRotation = 0;
+    const currentRotation = 0;
 
-const finalAngle =
-    2160 +
-    (finalIndex * anglePerSlot);
+    const finalAngle =
+        2160 +
+        (finalIndex * anglePerSlot);
 
-console.log(
-    "[SPIN TARGET]",
-    finalIndex
-);
-    
+    console.log(
+        "[SPIN TARGET]",
+        finalIndex
+    );
 
-    // VISUAL ORDER FIX
-    
+    console.log(
+        "[FINAL ANGLE]",
+        finalAngle
+    );
+
     spinBtn.classList.add(
         "spinning"
     );
