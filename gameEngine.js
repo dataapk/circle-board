@@ -282,80 +282,7 @@ function startSpin() {
  // ======================================================
 // 🎯 END STARTGAME 
 // ======================================================
-    // ======================================================
-// 🎯 START END SPIN
-// ======================================================
-   // ======================================================
-// 🎯 START: END SPIN (গেম ইঞ্জিন শুধু রেজাল্ট প্রসেস করবে)
-// ======================================================
-function endSpin(finalIndex) {
-
-    console.log(
-        "[END SPIN]",
-        finalIndex,
-        performance.now()
-    );
-
-    if (
-        finalIndex === null ||
-        finalIndex === undefined
-    ) {
-        finalIndex =
-            Math.floor(
-                Math.random() * 18
-            );
-    }
-
-    // FIXED INDEX
-    const correctedIndex =
-        (18 - finalIndex) % 18;
-
-    console.log(
-        "[ENGINE INDEX]",
-        finalIndex
-    );
-
-    console.log(
-        "[CORRECTED INDEX]",
-        correctedIndex
-    );
-
-    state.isSpinning = true;
-    state.isBetLocked = true;
-
-    // USE CORRECTED INDEX
-    setFinalWheelResult(
-        correctedIndex
-    );
-
-    runResultEngine(
-        correctedIndex
-    );
-
-    const resultSymbols =
-        getWheelSlots()[
-            correctedIndex
-        ];
-
-    console.log(
-        "[BRIDGE] Forcing UI update from Engine..."
-    );
-
-    updateUI(
-        resultSymbols
-    );
-
-    state.isBetLocked = false;
-    state.isSpinning = false;
-
-    console.log(
-        "[ENGINE] UNLOCKED and UI Updated."
-    );
-}
-    // ======================================================
-// 🎯  END SPIN
-// ======================================================
-
+  
 // ======================================================
 // 🎯 GET BET SYSTEM
 // ======================================================
@@ -556,6 +483,78 @@ function getSlotByIndex(index) {
     return wheelSlots[index];
 
 }
+      // ======================================================
+// 🎯 START END SPIN
+// ======================================================
+   // ======================================================
+// 🎯 START: END SPIN (গেম ইঞ্জিন শুধু রেজাল্ট প্রসেস করবে)
+// ======================================================
+function endSpin(finalIndex) {
+
+    console.log(
+        "[END SPIN]",
+        finalIndex,
+        performance.now()
+    );
+
+    if (
+        finalIndex === null ||
+        finalIndex === undefined
+    ) {
+        finalIndex =
+            Math.floor(
+                Math.random() * 18
+            );
+    }
+
+    const correctedIndex =
+        (18 - finalIndex) % 18;
+
+    console.log(
+        "[ENGINE INDEX]",
+        finalIndex
+    );
+
+    console.log(
+        "[VISUAL INDEX]",
+        correctedIndex
+    );
+
+    state.isSpinning = true;
+    state.isBetLocked = true;
+
+    setFinalWheelResult(
+        correctedIndex
+    );
+
+    runResultEngine(
+        correctedIndex
+    );
+
+    const resultSymbols =
+        getWheelSlots()[
+            correctedIndex
+        ];
+
+    console.log(
+        "[BRIDGE] Forcing UI update from Engine..."
+    );
+
+    updateUI(
+        resultSymbols
+    );
+
+    state.isBetLocked = false;
+    state.isSpinning = false;
+
+    console.log(
+        "[ENGINE] UNLOCKED and UI Updated."
+    );
+}
+    // ======================================================
+// 🎯  END SPIN
+// ======================================================
+
 
 
 // ======================================================
@@ -564,30 +563,28 @@ function getSlotByIndex(index) {
 
 function setFinalWheelResult(finalIndex) {
 
-    const correctedIndex =
+    state.finalIndex = finalIndex;
+
+    const visualIndex =
         (18 - finalIndex) % 18;
 
-    state.finalIndex =
-        correctedIndex;
-
     state.finalSymbols =
-        wheelSlots[correctedIndex];
+        wheelSlots[visualIndex];
 
     console.log(
-        "[ENGINE INDEX]",
+        "ENGINE INDEX:",
         finalIndex
     );
 
     console.log(
-        "[CORRECTED INDEX]",
-        correctedIndex
+        "VISUAL INDEX:",
+        visualIndex
     );
 
     console.log(
         "SYMBOL:",
         state.finalSymbols
     );
-
 }
 
 
