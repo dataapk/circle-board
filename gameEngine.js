@@ -507,33 +507,25 @@ function endSpin(finalIndex) {
             );
     }
 
-    const correctedIndex =
-        (18 - finalIndex) % 18;
-
     console.log(
         "[ENGINE INDEX]",
         finalIndex
-    );
-
-    console.log(
-        "[VISUAL INDEX]",
-        correctedIndex
     );
 
     state.isSpinning = true;
     state.isBetLocked = true;
 
     setFinalWheelResult(
-        correctedIndex
+        finalIndex
     );
 
     runResultEngine(
-        correctedIndex
+        finalIndex
     );
 
     const resultSymbols =
         getWheelSlots()[
-            correctedIndex
+            finalIndex
         ];
 
     console.log(
