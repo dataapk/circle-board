@@ -496,52 +496,42 @@ function endSpin(finalIndex) {
     // 🧠 SAFETY
     if (finalIndex === null || finalIndex === undefined) {
         finalIndex = Math.floor(Math.random() * 18);
-        console.warn(
-            "[FIX] Generated missing finalIndex:",
-            finalIndex
-        );
+        console.warn("[FIX] Generated missing finalIndex:", finalIndex);
     }
 
-    console.log(
-        "[VISUAL SLOT RECEIVED]",
-        finalIndex
-    );
+    console.log("[FINAL INDEX]", finalIndex);
 
-    // 🎯 LOCK STATE
     state.isSpinning = true;
     state.isBetLocked = true;
 
-    // 🎡 USE VISUAL SLOT DIRECTLY
     setFinalWheelResult(finalIndex);
 
-    // 💰 RESULT ENGINE
     try {
         runResultEngine(finalIndex);
     } catch (err) {
-        console.error(
-            "[ENGINE ERROR]",
-            err
-        );
+        console.error("[ENGINE ERROR]", err);
     }
 
     // 🔓 UNLOCK ENGINE
-console.log("STEP-1");
+    state.isBetLocked = false;
+    state.isSpinning = false;
 
-state.isBetLocked = false;
-state.isSpinning = false;
+    console.log("STEP-1");
 
-console.log("STEP-2");
+    unlockBoardUI();
 
-unlockBoardUI();
+    console.log("STEP-2");
 
-console.log("STEP-3");
+    GameEngine.unlockBets();
 
-GameEngine.unlockBets();
+    console.log("STEP-3");
 
-console.log("STEP-4");
+    console.log("[ENGINE] UNLOCKED");
+
+} // ✅ THIS IS THE IMPORTANT CLOSING BRACKET
 
 
-    // ======================================================
+// ======================================================
 // 🎯  END SPIN
 // ======================================================
 
