@@ -493,38 +493,64 @@ function endSpin(finalIndex) {
 
     console.log("[ENGINE] SPIN END");
 
-    // 🧠 SAFETY
-    if (finalIndex === null || finalIndex === undefined) {
-        finalIndex = Math.floor(Math.random() * 18);
-        console.warn("[FIX] Generated missing finalIndex:", finalIndex);
+    if (
+        finalIndex === null ||
+        finalIndex === undefined
+    ) {
+        finalIndex =
+            Math.floor(
+                Math.random() * 18
+            );
+
+        console.warn(
+            "[FIX] Generated missing finalIndex:",
+            finalIndex
+        );
     }
 
-    console.log("[FINAL INDEX]", finalIndex);
+    console.log(
+        "[VISUAL SLOT RECEIVED]",
+        finalIndex
+    );
 
     state.isSpinning = true;
     state.isBetLocked = true;
 
-    setFinalWheelResult(finalIndex);
+    setFinalWheelResult(
+        finalIndex
+    );
 
     try {
-        runResultEngine(finalIndex);
+
+        runResultEngine(
+            finalIndex
+        );
+
     } catch (err) {
-        console.error("[ENGINE ERROR]", err);
+
+        console.error(
+            "[ENGINE ERROR]",
+            err
+        );
+
     }
 
-    // 🔓 UNLOCK ENGINE
-   state.isBetLocked = false;
-state.isSpinning = false;
+    state.isBetLocked = false;
+    state.isSpinning = false;
 
-console.log("[TEST] BEFORE ENGINE UNLOCK");
+    console.log(
+        "[TEST] BEFORE ENGINE UNLOCK"
+    );
 
-GameEngine.unlockBets();
+    GameEngine.unlockBets();
 
-console.log("[TEST] AFTER ENGINE UNLOCK");
+    console.log(
+        "[TEST] AFTER ENGINE UNLOCK"
+    );
 
-console.log(
-    "[ENGINE] BETS UNLOCKED"
-);
+    console.log(
+        "[ENGINE] BETS UNLOCKED"
+    );
 
 }
 // ======================================================
