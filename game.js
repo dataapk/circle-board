@@ -420,6 +420,9 @@ function animateWheelSpin(
             duration;
 
         if (t >= 0.995) {
+            console.log(
+        "LANDING BLOCK HIT"
+         );        
 
     t = 1;
 
