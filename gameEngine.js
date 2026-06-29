@@ -516,11 +516,9 @@ function endSpin(finalIndex) {
     state.isBetLocked = false;
     state.isSpinning = false;
 
-    unlockBoardUI();
-
-    unlockRound();
-
-console.log("[ROUND FLOW] UNLOCK TRIGGERED");
+    console.log("ABOUT TO UNLOCK");
+unlockRound();
+console.log("AFTER UNLOCK");
 } // ✅ THIS IS THE IMPORTANT CLOSING BRACKET
 
 
