@@ -570,6 +570,25 @@ const landedSlot =
         "spinning"
     );
 
+       // wheel landed
+
+    GameEngine.endSpin(
+        visualSlot
+    );
+
+    // 🔓 CALL HERE
+    GameEngine.unlockBets();
+
+    unlockBoardUI();
+
+    console.log(
+        "[UNLOCK CALLED]"
+    );
+
+    spinBtn.classList.remove(
+        "spinning"
+    );
+
     return;
 }
 
