@@ -403,6 +403,10 @@ function animateWheelSpin(
     finalIndex
 ) {
 
+    console.log(
+        "ANIMATE FUNCTION RUNNING"
+    );
+
     if (wheelAnimationFrame) {
         cancelAnimationFrame(
             wheelAnimationFrame
