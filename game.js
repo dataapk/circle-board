@@ -459,10 +459,10 @@ function startWheelSpin() {
 
     playSpinAudio();
 
-   const finalIndex =
-    Math.floor(
-        Math.random() * 18
-    );
+   const visualSlot =
+    Math.round(
+        landedRotation / 20
+    ) % 18;
 
 const anglePerSlot =
     360 / 18;
@@ -474,7 +474,7 @@ const finalAngle =
     (finalIndex * anglePerSlot);
 
 console.log(
-    "[ENGINE INDEX]",
+    "[SPIN TARGET]",
     finalIndex
 );
     
