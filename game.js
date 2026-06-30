@@ -140,6 +140,15 @@ function playBubbleWinAudio() {
         GameEngine.playBubbleWinSound();
     }
 }
+function playBubbleBurstAudio() {
+
+    console.log("[AUDIO] BUBBLE BURST");
+
+    if (typeof GameEngine !== "undefined") {
+        GameEngine.playBubbleBurstSound();
+    }
+
+}
 
 
 // ======================================================
