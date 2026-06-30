@@ -1177,7 +1177,7 @@ function spawnBubbleWave() {
         } else {
 
             setTimeout(() => {
-                playBubbleBurstSound();
+                playBubbleBurstAudio();
 
                 bubble.classList.add(
                     "bubble-explode"
