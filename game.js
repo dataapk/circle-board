@@ -945,13 +945,15 @@ function flyWinningBubble() {
 
     setTimeout(() => {
 
-        bubble.classList.add(
-            "bubble-landed"
-        );
+    playBubbleLandSound();
 
-        attachBubbleToSymbol(
-            bubble,
-            target
+    bubble.classList.add(
+        "bubble-landed"
+    );
+
+    attachBubbleToSymbol(
+        bubble,
+        target
         );
 
     }, 1000);
@@ -960,7 +962,6 @@ function flyWinningBubble() {
 // ======================================
 // ATTACH TO SYMBOL
 // ======================================
-playBubbleLandSound();
 function attachBubbleToSymbol(
     bubble,
     target
