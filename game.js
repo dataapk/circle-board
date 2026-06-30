@@ -1165,7 +1165,7 @@ function spawnBubbleWave() {
 
             bubble.dataset.survivor =
                 "true";
-            playBubbleLandAudio();
+             playBubbleLandAudio();
       
             bubble.classList.add(
                 "bubble-winner"
@@ -1197,7 +1197,11 @@ function spawnBubbleWave() {
 
     setTimeout(() => {
 
-        flyWinningBubble();
+    playBubbleFlyAudio();
+
+    flyWinningBubble();
+
+}, 4500);
 
     }, 4500);
 
