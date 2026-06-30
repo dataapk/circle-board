@@ -1165,7 +1165,7 @@ function spawnBubbleWave() {
 
             bubble.dataset.survivor =
                 "true";
-            playBubbleWinAudio();
+            playBubbleLandAudio();
 
             bubble.classList.add(
                 "bubble-winner"
