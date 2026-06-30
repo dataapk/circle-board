@@ -1203,8 +1203,6 @@ function spawnBubbleWave() {
 
 }, 4500);
 
-    }, 4500);
-
 }
 // ======================================
 // CLEAR BONUS BUBBLES
