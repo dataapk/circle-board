@@ -249,7 +249,7 @@ html, body {
 }
 
 .symbol-box:hover::before {
-    left: 130%;
+    left: 50%;
 }
 
 /* =========================
