@@ -960,7 +960,7 @@ function flyWinningBubble() {
 // ======================================
 // ATTACH TO SYMBOL
 // ======================================
-
+playBubbleLandSound();
 function attachBubbleToSymbol(
     bubble,
     target
@@ -1155,6 +1155,7 @@ function spawnBubbleWave() {
 
             bubble.dataset.survivor =
                 "true";
+            playBubbleWinSound();
 
             bubble.classList.add(
                 "bubble-winner"
@@ -1166,6 +1167,7 @@ function spawnBubbleWave() {
         } else {
 
             setTimeout(() => {
+                playBubbleBurstSound();
 
                 bubble.classList.add(
                     "bubble-explode"
