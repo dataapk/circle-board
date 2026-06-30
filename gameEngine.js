@@ -82,7 +82,8 @@ const audio = {
     // 🎯 ADD BUBBLE SOUNDS
     bubbleFly: null,
     bubbleLand: null,
-    bubbleWin: null
+    bubbleWin: null,
+    bubblebrust: null
 };
     
    audio.chip = new Audio("assets/chip.mp3");
@@ -91,6 +92,7 @@ const audio = {
   audio.spinButton = new Audio("assets/spinbutton.mp3");
     // 🎯 BUBBLE SOUNDS
 audio.bubbleFly = new Audio("assets/bubblebox.mp3");
+audio.bubbleBurst = new Audio("assets/bubblebrust.mp3");
 audio.bubbleLand = new Audio("assets/bubble.mp3");
 audio.bubbleWin = new Audio("assets/bubblewin.mp3");
 
@@ -136,6 +138,14 @@ function playSpinButtonSound() {
     audio.bubbleFly.currentTime = 0;
     audio.bubbleFly.volume = 0.6;
     audio.bubbleFly.play();
+}
+    function playBubbleBurstSound() {
+
+    if (!audio.bubbleBurst) return;
+
+    audio.bubbleBurst.currentTime = 0;
+    audio.bubbleBurst.volume = 0.6;
+    audio.bubbleBurst.play();
 }
     function playBubbleLandSound() {
 
