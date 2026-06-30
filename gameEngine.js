@@ -1219,6 +1219,7 @@ function isRoundActive() {
         playBubbleFlySound,
         playBubbleLandSound,
         playBubbleWinSound,
+        playBubbleBurstSound,
         isBetLocked,
        lockBets: lockRound,
        unlockBets: unlockRound,
