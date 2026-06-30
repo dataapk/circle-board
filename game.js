@@ -954,11 +954,11 @@ function flyWinningBubble() {
 
     setTimeout(() => {
 
-    playBubbleWindAudio();
+   playBubbleWinAudio();
 
-    bubble.classList.add(
-        "bubble-landed"
-    );
+bubble.classList.add(
+    "bubble-landed"
+);
 
     attachBubbleToSymbol(
         bubble,
