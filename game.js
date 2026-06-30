@@ -954,7 +954,7 @@ function flyWinningBubble() {
 
     setTimeout(() => {
 
-    playBubbleLandSound();
+    playBubbleLandAudio();
 
     bubble.classList.add(
         "bubble-landed"
