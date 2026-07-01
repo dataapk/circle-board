@@ -99,44 +99,99 @@
      🪙 CHIPS SECTION (PRO iGaming)
 ========================= -->
 
-<div class="chips-wrapper">
+<!-- =========================
+     🎮 BET TOOLBAR
+========================= -->
 
-    <div class="chips-container closed">
+<div class="bet-toolbar">
 
-        <!-- DEFAULT CHIP (always visible trigger) -->
-        <div class="chip default-chip" data-value="0.10">
-            <img src="assets/chip_0.10c.png" alt="">
-            <span>$0.10</span>
-        </div>
+    <button
+        id="menuBtn"
+        class="toolbar-btn"
+    >
+        ☰ MENU
+    </button>
 
-        <div class="chip" data-value="0.20">
-            <img src="assets/chip_20c.png" alt="">
-            <span>$0.20</span>
-        </div>
+    <button
+        id="undoBtn"
+        class="toolbar-btn"
+    >
+        ↶ UNDO
+    </button>
 
-        <div class="chip" data-value="0.50">
-            <img src="assets/chip_50c.png" alt="">
-            <span>$0.50</span>
-        </div>
+    <!-- =========================
+         🪙 CHIPS SECTION
+    ========================= -->
 
-        <div class="chip" data-value="1">
-            <img src="assets/chip_1.png" alt="">
-            <span>$1</span>
-        </div>
+    <div class="chips-wrapper">
 
-        <div class="chip" data-value="2">
-            <img src="assets/chip_2.png" alt="">
-            <span>$2</span>
-        </div>
+        <div class="chips-container closed">
 
-        <div class="chip" data-value="5">
-            <img src="assets/chip_5.png" alt="">
-            <span>$5</span>
+            <div class="chip default-chip" data-value="0.10">
+                <img src="assets/chip_0.10c.png" alt="">
+                <span>$0.10</span>
+            </div>
+
+            <div class="chip" data-value="0.20">
+                <img src="assets/chip_20c.png" alt="">
+                <span>$0.20</span>
+            </div>
+
+            <div class="chip" data-value="0.50">
+                <img src="assets/chip_50c.png" alt="">
+                <span>$0.50</span>
+            </div>
+
+            <div class="chip" data-value="1">
+                <img src="assets/chip_1.png" alt="">
+                <span>$1</span>
+            </div>
+
+            <div class="chip" data-value="2">
+                <img src="assets/chip_2.png" alt="">
+                <span>$2</span>
+            </div>
+
+            <div class="chip" data-value="5">
+                <img src="assets/chip_5.png" alt="">
+                <span>$5</span>
+            </div>
+
         </div>
 
     </div>
 
-</div> <!-- game-container -->
+    <button
+        id="rebetBtn"
+        class="toolbar-btn"
+    >
+        ⟳ REBET
+    </button>
+
+</div>
+
+<!-- =========================
+     ☰ MENU POPUP
+========================= -->
+
+<div
+    id="menuPopup"
+    class="menu-popup"
+>
+
+    <div class="menu-item">
+        📜 Game History
+    </div>
+
+    <div class="menu-item">
+        🎯 How To Play
+    </div>
+
+    <div class="menu-item">
+        ⚙️ Settings
+    </div>
+
+</div>
     
 <!-- =========================
      📜 SCRIPTS
