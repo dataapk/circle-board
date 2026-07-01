@@ -95,6 +95,7 @@ audio.bubbleFly = new Audio("assets/bubblebox.mp3");
 audio.bubbleBurst = new Audio("assets/bubblebrust.mp3");
 audio.bubbleLand = new Audio("assets/bubble.mp3");
 audio.bubbleWin = new Audio("assets/bubblewin.mp3");
+audio.symbolWin = new Audio("assets/symbolwin.mp3");
 
 function playChipSound() {
 
@@ -162,6 +163,16 @@ function playSpinButtonSound() {
     audio.bubbleWin.currentTime = 0;
     audio.bubbleWin.volume = 0.9;
     audio.bubbleWin.play();
+}
+    function playSymbolWinAudio() {
+
+    if (!audio.symbolWin) return;
+
+    audio.symbolWin.currentTime = 0;
+
+    audio.symbolWin.volume = 0.8;
+
+    audio.symbolWin.play();
 }
     
 
