@@ -600,8 +600,36 @@ function setFinalWheelResult(finalIndex) {
         "FINAL SYMBOL:",
         state.finalSymbols
     );
-}
 
+    // 🎯 WIN SYMBOL HIGHLIGHT
+
+    const winSymbol =
+        state.finalSymbols[0];
+
+    const targetBox =
+        document.querySelector(
+            `[data-symbol="${winSymbol}"]`
+        );
+
+    if (targetBox) {
+
+        playSymbolWinAudio();
+
+        targetBox.classList.add(
+            "winner-highlight"
+        );
+
+        setTimeout(() => {
+
+            targetBox.classList.remove(
+                "winner-highlight"
+            );
+
+        }, 3000);
+
+    }
+
+}
 
 // ======================================================
 // 🧠 NEW: SYMBOL EXTRACTOR (SAFE HELP)
