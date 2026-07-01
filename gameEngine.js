@@ -601,31 +601,20 @@ function setFinalWheelResult(finalIndex) {
         state.finalSymbols
     );
 
-    // 🎯 WIN SYMBOL HIGHLIGHT
-
     const winSymbol =
         state.finalSymbols[0];
 
-    const targetBox =
-        document.querySelector(
-            `[data-symbol="${winSymbol}"]`
-        );
-
-    if (targetBox) {
+    if (
+        state.bets &&
+        state.bets[winSymbol] > 0
+    ) {
 
         playSymbolWinAudio();
 
-        targetBox.classList.add(
-            "winner-highlight"
+        console.log(
+            "[WIN SOUND]",
+            winSymbol
         );
-
-        setTimeout(() => {
-
-            targetBox.classList.remove(
-                "winner-highlight"
-            );
-
-        }, 3000);
 
     }
 
