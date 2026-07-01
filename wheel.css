@@ -1,5 +1,5 @@
 
-/* ======================================================
+/* =====================================================
    🌐 DESIGN SYSTEM (GLOBAL TOKENS - iGAMING CORE)
 ====================================================== */
 
@@ -347,10 +347,22 @@ html, body {
 ====================================================== */
 .bet-toolbar {
 
+    position: relative;
+
+    width: 100%;
+
+    height: 60px;
+
     display: flex;
+
     align-items: center;
 
 }
+
+/* =========================
+   ICON BUTTONS
+========================= */
+
 .tool-icon {
 
     width: 42px;
@@ -358,11 +370,9 @@ html, body {
 
     border-radius: 50%;
 
-    border: 1px solid
-        rgba(255,255,255,.25);
+    border: 1px solid rgba(255,255,255,.25);
 
-    background:
-        rgba(255,255,255,.08);
+    background: rgba(255,255,255,.08);
 
     color: #fff;
 
@@ -374,16 +384,57 @@ html, body {
 
     cursor: pointer;
 
+    z-index: 5;
+
 }
+
+/* =========================
+   MENU
+========================= */
+
+#menuBtn {
+
+    position: absolute;
+
+    left: 10px;
+
+}
+
+/* =========================
+   UNDO
+========================= */
+
 #undoBtn {
 
-    margin-right: 25px;
+    position: absolute;
+
+    left: 70px;
 
 }
+
+/* =========================
+   REBET
+========================= */
 
 #rebetBtn {
 
-    margin-left: 25px;
+    position: absolute;
+
+    right: 10px;
+
+}
+
+/* =========================
+   CHIPS ALWAYS CENTER
+========================= */
+
+.chips-wrapper {
+
+    position: absolute;
+
+    left: 50%;
+
+    transform: translateX(-50%);
 
 }
 /* ======================================================
