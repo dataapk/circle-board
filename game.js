@@ -607,14 +607,12 @@ setTimeout(() => {
     );
 
 }, 2000);
-    
-    );
 
-    spinBtn.classList.remove(
-        "spinning"
-    );
+spinBtn.classList.remove(
+    "spinning"
+);
 
-    return;
+return;
 }
 
         const eased =
