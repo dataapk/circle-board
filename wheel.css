@@ -568,6 +568,7 @@ html, body {
     height: 110px;
     display:flex;
     justify-content:center;
+   transform: translateX(-25px);
     align-items:center;
 }
 
