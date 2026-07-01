@@ -345,7 +345,19 @@ html, body {
 /* ======================================================
    🪙 CHIP SYSTEM — MENU SECTION 
 ====================================================== */
-.bet-toolbar
+.bet-toolbar {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+}
 
 .tool-icon {
 
@@ -408,7 +420,7 @@ html, body {
 
     display: flex;
 
-
+}
 .menu-box {
 
     position: absolute;
@@ -417,7 +429,20 @@ html, body {
 
     left: 10px;
 
-    width: 280px;
+    width: 220px;
+
+    min-height: 280px;
+
+    background: #1f1f1f;
+
+    border-radius: 16px;
+
+    border: 1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.5);
+
+    padding: 15px;
 
 }
 .menu-grid {
