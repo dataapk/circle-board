@@ -33,6 +33,13 @@ const chips = document.querySelectorAll(".chip");
 const symbolBoxes = document.querySelectorAll(".symbol-box");
 
 const pointer = document.getElementById("pointer");
+const menuBtn = document.getElementById( "menuBtn" );
+const menuPopup = document.getElementById("menuPopup");
+menuBtn.addEventListener( "click",() => {
+menuPopup.classList.toggle( "active");
+
+    }
+);
 // ======================================
 // BONUS BUBBLE SYSTEM
 // ======================================
