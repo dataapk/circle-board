@@ -568,7 +568,7 @@ html, body {
     height: 110px;
     display:flex;
     justify-content:center;
-   transform: translateX(-25px);
+   transform: translateX(-30px);
     align-items:center;
 }
 
