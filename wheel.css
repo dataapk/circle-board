@@ -375,6 +375,17 @@ html, body {
     cursor: pointer;
 
 }
+#undoBtn {
+
+    margin-right: 25px;
+
+}
+
+#rebetBtn {
+
+    margin-left: 25px;
+
+}
 /* ======================================================
    🪙 CHIP SYSTEM — PHYSICS SPRING (FINAL)
 ====================================================== */
