@@ -33,6 +33,10 @@ const chips = document.querySelectorAll(".chip");
 const symbolBoxes = document.querySelectorAll(".symbol-box");
 
 const pointer = document.getElementById("pointer");
+// =========================
+// MENU SYSTEM
+// =========================
+
 const menuBtn =
     document.getElementById(
         "menuBtn"
@@ -48,27 +52,35 @@ const closeMenuBtn =
         "closeMenuBtn"
     );
 
-menuBtn.addEventListener(
-    "click",
-    () => {
+if (
+    menuBtn &&
+    menuModal &&
+    closeMenuBtn
+) {
 
-        menuModal.classList.add(
-            "active"
-        );
+    menuBtn.addEventListener(
+        "click",
+        () => {
 
-    }
-);
+            menuModal.classList.add(
+                "active"
+            );
 
-closeMenuBtn.addEventListener(
-    "click",
-    () => {
+        }
+    );
 
-        menuModal.classList.remove(
-            "active"
-        );
+    closeMenuBtn.addEventListener(
+        "click",
+        () => {
 
-    }
-);
+            menuModal.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+}
 // ======================================
 // BONUS BUBBLE SYSTEM
 // ======================================
