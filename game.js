@@ -594,13 +594,20 @@ const landedSlot =
     landedSlot
 );
 
-    // 🔓 CALL HERE
+   // 🔓 DELAY UNLOCK
+
+setTimeout(() => {
+
     GameEngine.unlockBets();
 
     unlockBoardUI();
 
     console.log(
         "[UNLOCK CALLED]"
+    );
+
+}, 2000);
+    
     );
 
     spinBtn.classList.remove(
