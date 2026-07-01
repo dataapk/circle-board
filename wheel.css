@@ -400,19 +400,9 @@ html, body {
 
 /* চিপস র্যাপার পজিশন */
 .chips-wrapper {
-
     position: relative;
-
-    flex: 1;
-
-    display: flex;
-
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    margin-top: 0;
-
+    left: 50%;
+    transform: translateX(-50%);
 }
 .menu-modal {
 
