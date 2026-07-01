@@ -400,7 +400,7 @@ html, body {
 
     position: relative;
 
-    left: -55px;
+    left: -70px;
 
 }
 
@@ -570,7 +570,7 @@ html, body {
     height: 110px;
     display:flex;
     justify-content:center;
-   transform: translateX(-35px);
+   transform: translateX(-45px);
     align-items:center;
 }
 
