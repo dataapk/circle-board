@@ -345,17 +345,82 @@ html, body {
 /* ======================================================
    🪙 CHIP SYSTEM — MENU SECTION 
 ====================================================== */
-.bet-toolbar {
+.menu-modal {
 
-    position: relative;
+    display: none;
 
-    width: 100%;
+    position: fixed;
 
-    height: 60px;
+    inset: 0;
+
+    background:
+        rgba(0,0,0,.45);
+
+    z-index: 9999;
+
+    justify-content: center;
+    align-items: center;
+
+}
+
+.menu-modal.active {
+
+    display: flex;
+
+}
+
+.menu-box {
+
+    width: 280px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(25,25,25,.95);
+
+    padding: 15px;
+
+}
+
+.menu-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+
+}
+
+.menu-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr;
+
+    gap: 10px;
+
+}
+
+.menu-card {
+
+    height: 55px;
+
+    border-radius: 10px;
 
     display: flex;
 
     align-items: center;
+
+    gap: 10px;
+
+    padding: 0 12px;
+
+    background:
+        rgba(255,255,255,.08);
 
 }
 
