@@ -473,20 +473,6 @@ html, body {
 }
 
 
-
-/* =========================
-   CHIPS ALWAYS CENTER
-========================= */
-
-.chips-wrapper {
-
-    position: absolute;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-}
 /* ======================================================
    🪙 CHIP SYSTEM — PHYSICS SPRING (FINAL)
 ====================================================== */
