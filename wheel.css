@@ -449,27 +449,114 @@ html, body {
 
     display: grid;
 
-    gap: 10px;
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-top: 10px;
 
 }
 .menu-card {
 
-    height: 55px;
+    height: 95px;
 
-    border-radius: 12px;
+    border-radius: 14px;
 
     background:
         rgba(255,255,255,.08);
+
+    border: 1px solid
+        rgba(255,255,255,.12);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+
+}
+
+.menu-card:hover {
+
+    transform: scale(1.05);
+
+    background:
+        rgba(255,255,255,.15);
+
+}
+.menu-card .icon {
+
+    font-size: 28px;
+
+    margin-bottom: 8px;
+
+}
+.menu-card span {
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+.menu-header {
 
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
+    justify-content: center;
 
-    padding: 0 12px;
+    position: relative;
+
+    margin-bottom: 15px;
 
 }
+
+.menu-header span {
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+#closeMenuBtn {
+
+    position: absolute;
+
+    right: 0;
+
+    top: 0;
+
+    width: 30px;
+
+    height: 30px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.1);
+
+    color: white;
+
+    cursor: pointer;
+
+}
+
 
 
 /* ======================================================
