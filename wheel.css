@@ -345,15 +345,7 @@ html, body {
 /* ======================================================
    🪙 CHIP SYSTEM — MENU SECTION 
 ====================================================== */
-.bet-toolbar {
-
-    display: flex;
-
-    align-items: center;
-
-    width: 100%;
-
-}
+.bet-toolbar
 
 .tool-icon {
 
@@ -399,11 +391,7 @@ html, body {
 }
 
 /* চিপস র্যাপার পজিশন */
-.chips-wrapper {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-}
+.chips-wrapper
 .menu-modal {
 
     display: none;
