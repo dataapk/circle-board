@@ -399,6 +399,11 @@ html, body {
     left: 10px;
 
 }
+.menu-popup {
+
+    display: none !important;
+
+}
 
 /* =========================
    UNDO
