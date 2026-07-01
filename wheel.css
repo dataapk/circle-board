@@ -401,7 +401,13 @@ html, body {
 }
 .menu-popup {
 
-    display: none !important;
+    display: none;
+
+}
+
+.menu-popup.active {
+
+    display: block !important;
 
 }
 
