@@ -149,6 +149,15 @@ function playBubbleBurstAudio() {
     }
 
 }
+function playSymbolWinSound() {
+
+    if (typeof GameEngine !== "undefined") {
+
+        GameEngine.playSymbolWinAudio();
+
+    }
+
+}
 
 
 // ======================================================
