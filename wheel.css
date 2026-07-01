@@ -392,13 +392,13 @@ html, body {
 
 #undoBtn {
 
-    margin-right: 10px;
+    margin-right: -5px;
 
 }
 
 #rebetBtn {
 
-    margin-left: 5px;
+    margin-left: -5px;
 
 }
 
