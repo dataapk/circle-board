@@ -398,7 +398,9 @@ html, body {
 
 #rebetBtn {
 
-    margin-left: -25px;
+    position: relative;
+
+    left: -40px;
 
 }
 
