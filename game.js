@@ -33,10 +33,39 @@ const chips = document.querySelectorAll(".chip");
 const symbolBoxes = document.querySelectorAll(".symbol-box");
 
 const pointer = document.getElementById("pointer");
-const menuBtn = document.getElementById( "menuBtn" );
-const menuPopup = document.getElementById("menuPopup");
-menuBtn.addEventListener( "click",() => {
-menuPopup.classList.toggle( "active");
+const menuBtn =
+    document.getElementById(
+        "menuBtn"
+    );
+
+const menuModal =
+    document.getElementById(
+        "menuModal"
+    );
+
+const closeMenuBtn =
+    document.getElementById(
+        "closeMenuBtn"
+    );
+
+menuBtn.addEventListener(
+    "click",
+    () => {
+
+        menuModal.classList.add(
+            "active"
+        );
+
+    }
+);
+
+closeMenuBtn.addEventListener(
+    "click",
+    () => {
+
+        menuModal.classList.remove(
+            "active"
+        );
 
     }
 );
