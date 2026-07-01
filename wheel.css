@@ -413,6 +413,66 @@ html, body {
     transform: none !important;
 
 }
+.menu-modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.45);
+
+    z-index: 9999;
+
+    justify-content: center;
+    align-items: center;
+
+}
+
+.menu-modal.active {
+
+    display: flex;
+
+}
+.menu-box {
+
+    position: absolute;
+
+    bottom: 70px;
+
+    left: 10px;
+
+    width: 280px;
+
+}
+.menu-grid {
+
+    display: grid;
+
+    gap: 10px;
+
+}
+.menu-card {
+
+    height: 55px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 12px;
+
+}
+
+
 
 /* =========================
    CHIPS ALWAYS CENTER
