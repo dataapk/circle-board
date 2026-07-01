@@ -404,14 +404,14 @@ html, body {
 
 }
 
+/* চিপস র্যাপার পজিশন */
 .chips-wrapper {
-
-    position: relative !important;
-
-    left: auto !important;
-
-    transform: none !important;
-
+    position: relative;
+   flex: 1;
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+   flex-shrink: 0;
 }
 .menu-modal {
 
@@ -477,15 +477,7 @@ html, body {
    🪙 CHIP SYSTEM — PHYSICS SPRING (FINAL)
 ====================================================== */
 
-/* চিপস র্যাপার পজিশন */
-.chips-wrapper {
-    position: relative;
-   flex: 1;
-    display: flex;
-    justify-content: center;
-    margin-top: 35px;
-   flex-shrink: 0;
-}
+
 
 /* মেইন চিপস কন্টেইনার (ডিফল্ট অবস্থায় চিপগুলো একটার নিচে আরেকটা লুকিয়ে থাকবে) */
 .chips-container {
