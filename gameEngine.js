@@ -602,44 +602,46 @@ function setFinalWheelResult(finalIndex) {
     );
 
     const winSymbol =
-    state.finalSymbols[0];
+        state.finalSymbols[0];
 
-const targetBox =
-    document.querySelector(
-        `[data-symbol="${winSymbol}"]`
-    );
+    const targetBox =
+        document.querySelector(
+            `[data-symbol="${winSymbol}"]`
+        );
 
-if (targetBox) {
+    if (targetBox) {
 
-    // ✨ RESULT HIGHLIGHT
+        // ✨ RESULT HIGHLIGHT
 
-    targetBox.classList.add(
-        "segment-win"
-    );
-
-    setTimeout(() => {
-
-        targetBox.classList.remove(
+        targetBox.classList.add(
             "segment-win"
         );
 
-    }, 2500);
+        setTimeout(() => {
 
-}
+            targetBox.classList.remove(
+                "segment-win"
+            );
 
-// 🔊 SOUND ONLY IF PLAYER BET
+        }, 2500);
 
-if (
-    state.bets &&
-    state.bets[winSymbol] > 0
-) {
+    }
 
-    playSymbolWinAudio();
+    // 🔊 SOUND ONLY IF PLAYER BET
 
-    console.log(
-        "[WIN SOUND]",
-        winSymbol
-    );
+    if (
+        state.bets &&
+        state.bets[winSymbol] > 0
+    ) {
+
+        playSymbolWinAudio();
+
+        console.log(
+            "[WIN SOUND]",
+            winSymbol
+        );
+
+    }
 
 }
 
