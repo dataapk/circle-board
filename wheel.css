@@ -498,22 +498,28 @@ body {
     background:
         rgba(255,255,255,.08);
 
-    border: 1px solid
-        rgba(255,255,255,.12);
+    border:
+        1px solid rgba(255,255,255,.15);
 
     display: flex;
 
     flex-direction: column;
 
-    justify-content: center;
-
     align-items: center;
 
-    cursor: pointer;
+    justify-content: center;
+
+    gap: 6px;
+
+    font-size: 14px;
+
+    color: #fff;
+
+    text-align: center;
 
     transition:
-        transform .2s ease,
-        background .2s ease;
+  transform .2s ease,
+    background .2s ease;
 
 }
 
@@ -572,9 +578,9 @@ body {
 
     top: 0;
 
-    width: 30px;
+    width: 35px;
 
-    height: 30px;
+    height: 35px;
 
     border: none;
 
