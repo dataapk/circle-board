@@ -459,9 +459,9 @@ body {
 
     left: 10px;
 
-    width: 220px;
+    width: 280px;
 
-    min-height: 280px;
+    min-height: 220px;
 
     background: #1f1f1f;
 
@@ -480,11 +480,11 @@ body {
     display: grid;
 
     grid-template-columns:
-        repeat(2, 1fr);
+        repeat(3, 1fr);
 
-    gap: 12px;
+    gap: 10px;
 
-    margin-top: 10px;
+    margin-top: 12px;
 
 }
 .menu-card {
