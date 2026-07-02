@@ -365,13 +365,7 @@ html, body {
 
 .bet-center-group {
 
-    flex: 1;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
+    outline: 2px solid red;
 
 }
 
