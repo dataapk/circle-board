@@ -489,13 +489,15 @@ body {
 
 .menu-grid {
 
-    display: flex;
+    display: flex !important;
+
+    flex-direction: row !important;
 
     justify-content: center;
 
-    gap: 10px;
+    align-items: center;
 
-    margin-top: 12px;
+    gap: 10px;
 
 }
 .menu-card {
@@ -514,7 +516,7 @@ body {
 
     display: flex;
 
-    flex-direction: column;
+    
 
     align-items: center;
 
