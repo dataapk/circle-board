@@ -472,9 +472,8 @@ body {
 
     border-radius: 16px;
 
-    background: rgba(20,20,20,.95);
-
     padding: 15px;
+   padding-bottom: 30px;
 
     opacity: 0;
 
@@ -483,6 +482,15 @@ body {
     transition:
         opacity .25s ease,
         transform .25s ease;
+   .menu-box {
+
+    background:
+        linear-gradient(
+            180deg,
+            #FFD95A 0%,
+            #F5C842 45%,
+            #DFAF1F 100%
+        );
 
 }
 
