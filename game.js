@@ -237,13 +237,13 @@ function initializeChipSystem() {
 
     defaultChip.addEventListener("click", () => {
 
-        console.log("[CHIP] PANEL TOGGLE");
+    console.log("[CHIP] PANEL TOGGLE");
 
-        chipsContainer.classList.toggle("closed");
+    chipsContainer.classList.toggle("open");
 
-        playChipAudio();
+    playChipAudio();
 
-    });
+});
 
 
 
@@ -284,7 +284,7 @@ function initializeChipSystem() {
 
 
 
-            chipsContainer.classList.add("closed");
+            chipsContainer.classList.remove("open");
 
         });
 
