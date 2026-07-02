@@ -373,8 +373,6 @@ html, body {
 
     align-items: center;
 
-    gap: 8px;
-
 }
 
 .tool-icon {
@@ -410,18 +408,15 @@ html, body {
 
 #undoBtn {
 
-    margin-right: -5px;
+    margin-right: 5px;
 
 }
 
 #rebetBtn {
 
-    position: relative;
-
-    left: -70px;
+    margin-left: 5px;
 
 }
-
 /* চিপস র্যাপার পজিশন */
 
 .menu-modal {
