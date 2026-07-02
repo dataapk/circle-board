@@ -241,6 +241,8 @@ function initializeChipSystem() {
 
     chipsContainer.classList.toggle("open");
 
+    console.log(chipsContainer.className);
+
     playChipAudio();
 
 });
