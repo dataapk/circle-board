@@ -516,41 +516,86 @@ body {
     gap:10px;
     justify-content:center;
 }
+/* MENU CARD START */
 
-.menu-card{
-    width:70px;
-    height:70px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-}
-.menu-card:hover {
+.menu-card {
 
-    transform: scale(1.05);
+    width: 70px;
+
+    height: 70px;
+
+    border-radius: 12px;
 
     background:
-        rgba(255,255,255,.15);
+        linear-gradient(
+            180deg,
+            #2B2B2B 0%,
+            #1A1A1A 100%
+        );
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+
+        inset 0 1px 0
+        rgba(255,255,255,.08),
+
+        0 2px 6px
+        rgba(0,0,0,.35);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    flex-shrink: 0;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
 
 }
+
+.menu-card:hover {
+
+    transform: translateY(-2px);
+
+    background:
+        linear-gradient(
+            180deg,
+            #3A3A3A 0%,
+            #222222 100%
+        );
+
+}
+
 .menu-card .icon {
 
-    font-size: 28px;
+    font-size: 24px;
 
-    margin-bottom: 8px;
+    color: #FFD95A;
+
+    margin-bottom: 4px;
 
 }
+
 .menu-card span {
 
-    color: #222;
+    color: #FFFFFF;
 
     font-size: 11px;
 
     font-weight: 600;
 
-    text-align: center;
-
-    margin-top: 4px;
+    line-height: 1.1;
 
 }
 .menu-header {
@@ -576,6 +621,7 @@ body {
     font-weight: 700;
 
 }
+/* MENU CARD CLOSE */
 #closeMenuBtn {
 
     position: absolute;
