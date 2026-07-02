@@ -624,15 +624,9 @@ body {
 /* MENU CARD CLOSE */
 #closeMenuBtn {
 
-    position: absolute;
+    width: 32px;
 
-    right: 0;
-
-    top: 0;
-
-    width: 35px;
-
-    height: 35px;
+    height: 32px;
 
     border: none;
 
@@ -646,8 +640,6 @@ body {
     cursor: pointer;
 
 }
-
-
 
 /* ======================================================
    🪙 CHIP SYSTEM — PHYSICS SPRING (FINAL)
