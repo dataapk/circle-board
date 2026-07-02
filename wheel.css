@@ -462,9 +462,50 @@ body {
 }
 .menu-box {
 
-    overflow: hidden;
+    position: absolute;
+
+    bottom: 80px;
+
+    left: 10px;
+
+    width: 300px;
+
+    max-width: 90vw;
+
+    min-height: 180px;
+
+    padding: 15px;
+
+    padding-bottom: 30px;
 
     box-sizing: border-box;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #FFD95A 0%,
+            #F5C842 45%,
+            #DFAF1F 100%
+        );
+
+    border:
+        2px solid #FFE27A;
+
+    box-shadow:
+        0 0 15px rgba(255,215,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.45);
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    transform: translateY(30px);
+
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
 
 }
 
