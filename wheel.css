@@ -365,7 +365,7 @@ html, body {
 
 .bet-center-group {
    position: relative;
-   top: 20px;
+   top: 30px;
 
     display: flex;
 
@@ -410,13 +410,13 @@ html, body {
 
 #undoBtn {
 
-    margin-right: 10px;
+    margin-right: 12px;
 
 }
 
 #rebetBtn {
 
-    margin-left: 10px;
+    margin-left: 12px;
 
 }
 /* চিপস র্যাপার পজিশন */
@@ -588,6 +588,7 @@ html, body {
     align-items: center;
 
     flex-shrink: 0;
+   left: -4px;
 
 }
 
