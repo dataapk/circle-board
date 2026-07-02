@@ -462,44 +462,9 @@ body {
 }
 .menu-box {
 
-    position: absolute;
+    overflow: hidden;
 
-    bottom: 80px;
-
-    left: 10px;
-
-    width: 300px;
-
-    border-radius: 16px;
-
-    padding: 15px;
-   padding-bottom: 30px;
-
-    opacity: 0;
-
-    transform: translateY(30px);
-
-    transition:
-        opacity .25s ease,
-        transform .25s ease;
-  
-    background:
-        linear-gradient(
-            180deg,
-            #FFD95A 0%,
-            #F5C842 45%,
-            #DFAF1F 100%
-        );
-   border:
-        2px solid #FFE27A;
-
-    box-shadow:
-
-        0 0 20px
-        rgba(255,215,0,.35),
-
-        inset 0 1px 0
-        rgba(255,255,255,.5);
+    box-sizing: border-box;
 
 }
 
