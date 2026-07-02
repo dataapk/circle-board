@@ -408,13 +408,13 @@ html, body {
 
 #undoBtn {
 
-    margin-right: 5px;
+    margin-right: 0px;
 
 }
 
 #rebetBtn {
 
-    margin-left: 5px;
+    margin-left: -5px;
 
 }
 /* চিপস র্যাপার পজিশন */
