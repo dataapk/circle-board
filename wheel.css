@@ -495,12 +495,13 @@ body {
         repeat(3, 1fr);
 
     gap: 10px;
-    width: 100%;
 
 }
 .menu-card {
 
     height: 80px;
+
+    border-radius: 12px;
 
     display: flex;
 
@@ -509,6 +510,8 @@ body {
     align-items: center;
 
     justify-content: center;
+
+    text-align: center;
 
 }
 .menu-card:hover {
