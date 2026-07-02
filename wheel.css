@@ -489,19 +489,28 @@ body {
 
 .menu-grid {
 
-    display: grid;
+    display: flex;
 
-    grid-template-columns:
-        repeat(3, 1fr);
+    justify-content: center;
 
     gap: 10px;
+
+    margin-top: 12px;
 
 }
 .menu-card {
 
+    width: 80px;
+
     height: 80px;
 
     border-radius: 12px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid rgba(255,255,255,.15);
 
     display: flex;
 
@@ -512,6 +521,10 @@ body {
     justify-content: center;
 
     text-align: center;
+
+    flex-shrink: 0;
+
+    font-size: 12px;
 
 }
 .menu-card:hover {
@@ -533,9 +546,13 @@ body {
 
     color: white;
 
-    font-size: 13px;
+    font-size: 11px;
 
     font-weight: 600;
+
+    text-align: center;
+
+    margin-top: 4px;
 
 }
 .menu-header {
