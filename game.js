@@ -777,20 +777,27 @@ undoBtn.addEventListener("click", () => {
     }
 
     const lastBet =
-        betHistory.pop();
+    betHistory.pop();
 
-    console.log(
-        "[UNDO] LAST BET:",
-        lastBet
-    );
+const bets =
+    GameEngine.getCurrentBets();
 
-    GameEngine.restoreBalance(
-        lastBet.amount
-    );
+bets[lastBet.symbol] -=
+    lastBet.amount;
 
-    GameEngine.reduceTotalBet(
-        lastBet.amount
-    );
+if (bets[lastBet.symbol] < 0) {
+
+    bets[lastBet.symbol] = 0;
+
+}
+
+GameEngine.restoreBalance(
+    lastBet.amount
+);
+
+GameEngine.reduceTotalBet(
+    lastBet.amount
+);
 
     updateBalanceUI();
 
