@@ -655,9 +655,6 @@ body {
     align-items: center;
 
     flex-shrink: 0;
-
-    left: -1px;
-
     z-index: 9999;
 
 }
