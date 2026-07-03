@@ -283,6 +283,17 @@ function placeBet(symbol) {
     subtractBalance(state.selectedChip);
 
     console.log("[BET] PLACED:", symbol, state.selectedChip);
+    
+    // =========================
+// 🎯 SAVE FOR UNDO
+// =========================
+
+betHistory.push({
+    symbol: symbol,
+    amount: state.selectedChip
+});
+
+console.log("[UNDO SAVE]", betHistory);
 
     // =========================
     // 🧩 UI HOOK (SAFE)
