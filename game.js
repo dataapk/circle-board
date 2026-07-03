@@ -758,6 +758,35 @@ function updateBetUI() {
     console.log("[UI] BET UPDATED:", bets);
 
 }
+// =========================
+// 🎯 UNDO BUTTON
+// =========================
+
+undoBtn.addEventListener("click", () => {
+
+    if (!betHistory.length) {
+        console.log("[UNDO] EMPTY");
+        return;
+    }
+
+    const lastBet = betHistory.pop();
+
+    state.bets[lastBet.symbol] -= lastBet.amount;
+
+    state.totalBet -= lastBet.amount;
+
+    state.balance += lastBet.amount;
+
+    console.log("[UNDO] REMOVED:", lastBet);
+
+    // =========================
+    // 🔄 UI REFRESH
+    // =========================
+
+    updateBalanceUI();
+    updateBetUI();
+
+});
 
 // =========================
 // 🪙 CHIP UI
