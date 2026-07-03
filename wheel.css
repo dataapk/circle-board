@@ -743,7 +743,7 @@ body {
 
 /* স্লট ১: চরম বামে */
 .chips-container.open .chip:nth-child(2) {
-    transform: translate(-60px, 12px) rotate(-15deg) !important;
+    transform: translate(-50px, 12px) rotate(-15deg) !important;
 }
 
 /* স্লট ২: মাঝামাঝি বামে */
@@ -758,11 +758,11 @@ body {
 
 /* স্লট ৪: মাঝামাঝি ডানে */
 .chips-container.open .chip:nth-child(5) {
-    transform: translate(-40px, -30px) rotate(20deg) !important;
+    transform: translate(40px, -30px) rotate(20deg) !important;
 }
 /* স্লট ۵: চরম ডানে */
 .chips-container.open .chip:nth-child(6) {
-    transform: translate(60px, 12px) rotate(15deg) !important;
+    transform: translate(70px, 12px) rotate(15deg) !important;
 }
 
 /* স্লট ৬: এক্সট্রা ব্যাকআপ স্টেট (সোয়াপিং সেফটি চাইল্ড) */
@@ -799,7 +799,7 @@ body {
     z-index: 15;
 }
 .chips-container.open .chip:nth-child(2):hover {
-    transform: translate(-60px, 12x) rotate(-15deg) scale(1.03) !important;
+    transform: translate(-50px, 12px) rotate(-15deg) scale(1.03) !important;
 }
 
 .chips-container.open .chip:nth-child(3):hover {
@@ -811,11 +811,11 @@ body {
 }
 
 .chips-container.open .chip:nth-child(5):hover {
-    transform: translate(-40px, -30px) rotate(20deg) scale(1.03) !important;
+    transform: translate(40px, -30px) rotate(20deg) scale(1.03) !important;
 }
 
 .chips-container.open .chip:nth-child(6):hover {
-    transform: translate(60px, 12px) rotate(15deg) scale(1.03) !important;
+    transform: translate(70px, 12px) rotate(15deg) scale(1.03) !important;
 }
 
 .chips-container.open .chip:nth-child(7):hover {
