@@ -1233,6 +1233,11 @@ function getFinalSymbols() {
     return state.finalSymbols ?? [];
 
 }
+    function restoreBalance(amount) {
+
+    state.balance += amount;
+
+}
 
 function isBetLocked() {
 
@@ -1298,6 +1303,7 @@ function isRoundActive() {
        clearBets,
       getCurrentBets,
       getBetHistory,
+        restoreBalance,
         
         resetBoard 
         
