@@ -764,16 +764,34 @@ function updateBetUI() {
 
 undoBtn.addEventListener("click", () => {
 
+    const betHistory =
+        GameEngine.getBetHistory();
+
     if (!betHistory.length) {
+
         console.log("[UNDO] EMPTY");
+
         return;
+
     }
 
     const lastBet = betHistory.pop();
 
     state.bets[lastBet.symbol] -= lastBet.amount;
 
+    if (state.bets[lastBet.symbol] < 0) {
+
+        state.bets[lastBet.symbol] = 0;
+
+    }
+
     state.totalBet -= lastBet.amount;
+
+    if (state.totalBet < 0) {
+
+        state.totalBet = 0;
+
+    }
 
     state.balance += lastBet.amount;
 
@@ -784,6 +802,7 @@ undoBtn.addEventListener("click", () => {
     // =========================
 
     updateBalanceUI();
+
     updateBetUI();
 
 });
