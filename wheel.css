@@ -656,7 +656,7 @@ body {
 
     flex-shrink: 0;
 
-    left: 0px;
+    left: -1px;
 
     z-index: 9999;
 
