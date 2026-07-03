@@ -791,17 +791,9 @@ undoBtn.addEventListener("click", () => {
         lastBet.amount
     );
 
-    const bets =
-        GameEngine.getCurrentBets();
-
-    bets[lastBet.symbol] -=
-        lastBet.amount;
-
-    if (bets[lastBet.symbol] < 0) {
-
-        bets[lastBet.symbol] = 0;
-
-    }
+    GameEngine.reduceTotalBet(
+        lastBet.amount
+    );
 
     updateBalanceUI();
 
