@@ -787,7 +787,7 @@ body {
     100% {
         opacity: 1;
         scale: 1;
-        /* এখানে এসে চিপগুলো উপরে দেওয়া তাদের নিজ নিজ translate পজিশন ও অ্যাঙ্গেলে লক হয়ে যাবে */
+        /*এখানে এসে চিপগুলো উপরে দেওয়া তাদের নিজ নিজ translate পজিশন ও অ্যাঙ্গেলে লক হয়ে যাবে */
     }
 }
 
@@ -804,7 +804,7 @@ body {
 
 .chips-container.open .chip:nth-child(3):hover {
     transform: translate(-40px, -30px) rotate(-20deg) scale(1.03) !important;
-}
+} 
 
 .chips-container.open .chip:nth-child(4):hover {
     transform: translate(7px, -50px) rotate(0deg) scale(1.03) !important;
