@@ -646,6 +646,8 @@ body {
 ====================================================== */
 .chips-wrapper {
 
+    position: relative;
+
     display: flex;
 
     justify-content: center;
@@ -653,7 +655,10 @@ body {
     align-items: center;
 
     flex-shrink: 0;
-   left: -4px;
+
+    left: -4px;
+
+    z-index: 9999;
 
 }
 
