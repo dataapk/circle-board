@@ -783,6 +783,28 @@ undoBtn.addEventListener("click", () => {
         lastBet
     );
 
+    // =========================
+    // 🎯 ENGINE BET REMOVE
+    // =========================
+
+    const bets =
+        GameEngine.getCurrentBets();
+
+    bets[lastBet.symbol] -=
+        lastBet.amount;
+
+    if (bets[lastBet.symbol] < 0) {
+
+        bets[lastBet.symbol] = 0;
+
+    }
+
+    // =========================
+    // 🔄 UI REFRESH
+    // =========================
+
+    updateBetUI();
+
 });
 
 // =========================
