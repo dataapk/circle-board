@@ -801,12 +801,29 @@ body {
 .chips-container.open .chip:not(.default-chip):hover {
     z-index: 15;
 }
-.chips-container.open .chip:nth-child(2):hover { transform: translate(-125px, -50px) rotate(-40deg) scale(1.15) !important; }
-.chips-container.open .chip:nth-child(3):hover { transform: translate(-65px, -85px) rotate(-20deg) scale(1.15) !important; }
-.chips-container.open .chip:nth-child(4):hover { transform: translate(15px, -105px) rotate(8deg) scale(1.15) !important; }
-.chips-container.open .chip:nth-child(5):hover { transform: translate(65px, -85px) rotate(22deg) scale(1.15) !important; }
-.chips-container.open .chip:nth-child(6):hover { transform: translate(125px, -50px) rotate(40deg) scale(1.15) !important; }
-.chips-container.open .chip:nth-child(7):hover { transform: translate(175px, -15px) rotate(60deg) scale(1.15) !important; }
+.chips-container.open .chip:nth-child(2):hover {
+    transform: translate(-60px, -5px) rotate(-15deg) scale(1.03) !important;
+}
+
+.chips-container.open .chip:nth-child(3):hover {
+    transform: translate(-45px, -40px) rotate(-20deg) scale(1.03) !important;
+}
+
+.chips-container.open .chip:nth-child(4):hover {
+    transform: translate(0px, -50px) rotate(0deg) scale(1.03) !important;
+}
+
+.chips-container.open .chip:nth-child(5):hover {
+    transform: translate(45px, -40px) rotate(20deg) scale(1.03) !important;
+}
+
+.chips-container.open .chip:nth-child(6):hover {
+    transform: translate(60px, -5px) rotate(15deg) scale(1.03) !important;
+}
+
+.chips-container.open .chip:nth-child(7):hover {
+    transform: translate(0px, -80px) rotate(0deg) scale(1.03) !important;
+}
 
 /* ডিফল্ট চিপ হোভার */
 .chip.default-chip:hover {
