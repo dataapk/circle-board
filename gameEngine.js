@@ -306,6 +306,24 @@ console.log("[UNDO SAVE]", betHistory);
     return true;
 }
 // ======================================================
+// 🎯 START UNDO REDUCE BET AMOUNT 
+// ======================================================
+    function reduceTotalBet(amount) {
+
+    state.totalBet -= amount;
+
+    if (state.totalBet < 0) {
+
+        state.totalBet = 0;
+
+    }
+
+}
+
+// ======================================================
+// 🎯 ENDUNDO REDUCE BET AMOUNT 
+// ======================================================
+// ======================================================
 // 🎯 START STARTGAME 
 // ======================================================
 function startSpin() {
@@ -1304,6 +1322,7 @@ function isRoundActive() {
       getCurrentBets,
       getBetHistory,
         restoreBalance,
+        reduceTotalBet,
         
         resetBoard 
         
