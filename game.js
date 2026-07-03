@@ -807,6 +807,17 @@ GameEngine.reduceTotalBet(
 // =========================
 // 🎯 END UNDO BUTTON
 // =========================
+rebetBtn.addEventListener("click", () => {
+
+    console.log(
+        "[REBET CLICKED]"
+    );
+
+    console.log(
+        GameEngine.getLastRoundBets()
+    );
+
+});
 
 // =========================
 // 🪙 CHIP UI
