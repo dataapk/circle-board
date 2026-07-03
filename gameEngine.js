@@ -254,6 +254,9 @@ function hasSelectedChip() {
 // 🎯 START: INITIAL BET SYSTEM (UPGRADED)
 // ======================================================
     let betHistory = [];
+    function getBetHistory() {
+    return betHistory;
+}
 
 function placeBet(symbol) {
 
@@ -1280,6 +1283,10 @@ function isRoundActive() {
        getCurrentTotalBet,
        getCurrentLastWin,
        getCurrentLastResult,
+      placeBet,
+       clearBets,
+      getCurrentBets,
+      getBetHistory,
         
         resetBoard 
         
