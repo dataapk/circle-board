@@ -254,6 +254,7 @@ function hasSelectedChip() {
 // 🎯 START: INITIAL BET SYSTEM (UPGRADED)
 // ======================================================
     let betHistory = [];
+    let lastRoundBets = {};
     function getBetHistory() {
     return betHistory;
 }
@@ -1267,6 +1268,11 @@ function getFinalSymbols() {
     state.balance += amount;
 
 }
+    function getLastRoundBets() {
+
+    return state.lastRoundBets;
+
+}
 
 function isBetLocked() {
 
@@ -1334,6 +1340,8 @@ function isRoundActive() {
       getBetHistory,
         restoreBalance,
         reduceTotalBet,
+     saveLastRoundBets,
+     getLastRoundBets,
         
         resetBoard 
         
