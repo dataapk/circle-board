@@ -762,6 +762,10 @@ function updateBetUI() {
 // 🎯 UNDO BUTTON
 // =========================
 
+// =========================
+// 🎯 UNDO BUTTON
+// =========================
+
 undoBtn.addEventListener("click", () => {
 
     const betHistory =
@@ -776,24 +780,16 @@ undoBtn.addEventListener("click", () => {
     }
 
     const lastBet =
-    betHistory.pop();
+        betHistory.pop();
 
-console.log(
-    "[UNDO] LAST BET:",
-    lastBet
-);
+    console.log(
+        "[UNDO] LAST BET:",
+        lastBet
+    );
 
-// =========================
-// 💰 RESTORE BALANCE
-// =========================
-
-GameEngine.restoreBalance(
-    lastBet.amount
-);
-
-    // =========================
-    // 🎯 ENGINE BET REMOVE
-    // =========================
+    GameEngine.restoreBalance(
+        lastBet.amount
+    );
 
     const bets =
         GameEngine.getCurrentBets();
@@ -807,12 +803,9 @@ GameEngine.restoreBalance(
 
     }
 
-    // =========================
-    // 🔄 UI REFRESH
-    // =========================
-
     updateBalanceUI();
-updateBetUI();
+
+    updateBetUI();
 
 });
 // =========================
