@@ -758,7 +758,7 @@ body {
 
 /* স্লট ৪: মাঝামাঝি ডানে */
 .chips-container.open .chip:nth-child(5) {
-    transform: translate(40px, -30px) rotate(20deg) !important;
+    transform: translate(50px, -30px) rotate(20deg) !important;
 }
 /* স্লট ۵: চরম ডানে */
 .chips-container.open .chip:nth-child(6) {
@@ -811,7 +811,7 @@ body {
 }
 
 .chips-container.open .chip:nth-child(5):hover {
-    transform: translate(40px, -30px) rotate(20deg) scale(1.03) !important;
+    transform: translate(50px, -30px) rotate(20deg) scale(1.03) !important;
 }
 
 .chips-container.open .chip:nth-child(6):hover {
