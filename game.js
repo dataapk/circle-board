@@ -758,9 +758,6 @@ function updateBetUI() {
     console.log("[UI] BET UPDATED:", bets);
 
 }
-// =========================
-// 🎯 UNDO BUTTON
-// =========================
 
 // =========================
 // 🎯 UNDO BUTTON
