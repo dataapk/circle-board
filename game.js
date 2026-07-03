@@ -230,13 +230,13 @@ function initializeChipSystem() {
     // 🎯 TOGGLE CHIP PANEL (CSS CONTROL ONLY)
     // =========================
 
-    defaultChip.addEventListener("click", () => {
+    defaultChip.addEventListener("click", (e) => {
+
+    e.stopPropagation();
 
     console.log("[CHIP] PANEL TOGGLE");
 
     chipsContainer.classList.toggle("open");
-
-    console.log(chipsContainer.className);
 
     playChipAudio();
 
