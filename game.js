@@ -764,9 +764,23 @@ function updateBetUI() {
 
 undoBtn.addEventListener("click", () => {
 
+    const betHistory =
+        GameEngine.getBetHistory();
+
+    if (!betHistory.length) {
+
+        console.log("[UNDO] EMPTY");
+
+        return;
+
+    }
+
+    const lastBet =
+        betHistory.pop();
+
     console.log(
-        "[UNDO TEST]",
-        GameEngine.getBetHistory()
+        "[UNDO] LAST BET:",
+        lastBet
     );
 
 });
