@@ -328,6 +328,14 @@ console.log("[UNDO SAVE]", betHistory);
 // ======================================================
 function startSpin() {
 
+    if (state.totalBet <= 0) {
+
+        console.log("[SPIN] BLOCKED: No Bet");
+
+        return false;
+
+    }
+
     state.isSpinning = true;
 
     console.log("[ENGINE] SPIN STARTED");
