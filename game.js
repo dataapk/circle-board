@@ -776,12 +776,20 @@ undoBtn.addEventListener("click", () => {
     }
 
     const lastBet =
-        betHistory.pop();
+    betHistory.pop();
 
-    console.log(
-        "[UNDO] LAST BET:",
-        lastBet
-    );
+console.log(
+    "[UNDO] LAST BET:",
+    lastBet
+);
+
+// =========================
+// 💰 RESTORE BALANCE
+// =========================
+
+GameEngine.restoreBalance(
+    lastBet.amount
+);
 
     // =========================
     // 🎯 ENGINE BET REMOVE
@@ -803,9 +811,13 @@ undoBtn.addEventListener("click", () => {
     // 🔄 UI REFRESH
     // =========================
 
-    updateBetUI();
+    updateBalanceUI();
+updateBetUI();
 
 });
+// =========================
+// 🎯 END UNDO BUTTON
+// =========================
 
 // =========================
 // 🪙 CHIP UI
