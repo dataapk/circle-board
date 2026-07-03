@@ -756,7 +756,7 @@ body {
 
 /* স্লট ৩: সোজা উপরে (ওভারল্যাপ এড়াতে সামান্য এক্স-অক্ষ সরানো ও দূরত্ব কমানো হয়েছে) */
 .chips-container.open .chip:nth-child(4) {
-    transform: translate(0px, -50px) rotate(0deg) !important;
+    transform: translate(5px, -50px) rotate(0deg) !important;
 }
 
 /* স্লট ৪: মাঝামাঝি ডানে */
