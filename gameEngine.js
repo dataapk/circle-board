@@ -312,7 +312,10 @@ console.log("[UNDO SAVE]", betHistory);
 
     state.totalBet -= amount;
 
-    if (state.totalBet < 0) {
+    state.totalBet =
+        Number(state.totalBet.toFixed(2));
+
+    if (state.totalBet <= 0.01) {
 
         state.totalBet = 0;
 
@@ -328,13 +331,13 @@ console.log("[UNDO SAVE]", betHistory);
 // ======================================================
 function startSpin() {
 
-    if (state.totalBet <= 0) {
+    if (state.totalBet < 0.01) {
 
-        console.log("[SPIN] BLOCKED: No Bet");
+    console.log("[SPIN] BLOCKED: No Bet");
 
-        return false;
+    return false;
 
-    }
+}
 
     state.isSpinning = true;
 
