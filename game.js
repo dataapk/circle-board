@@ -28,7 +28,9 @@ const chipsContainer = document.querySelector(".chips-container");
 
 const defaultChip = document.querySelector(".default-chip");
 
-const chips = document.querySelectorAll(".chip");
+const chips = document.querySelectorAll(
+    ".chip:not(.default-chip)"
+);
 
 const symbolBoxes = document.querySelectorAll(".symbol-box");
 
@@ -212,13 +214,6 @@ function playSymbolWinSound() {
 // 🔊 END: INITIAL AUDIO EVENTS
 // =======================================================
 
-//======================================================
-// BONUS MULTPLY SECTION START
-// =======================================================
-
-//======================================================
-// BONUS MULTPLY SECTION END
-// =======================================================
 
 
 // ======================================================
