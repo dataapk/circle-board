@@ -807,17 +807,45 @@ GameEngine.reduceTotalBet(
 // =========================
 // 🎯 END UNDO BUTTON
 // =========================
+
+// =========================
+// 🎯 START REBET BUTTON
+// =========================
 rebetBtn.addEventListener("click", () => {
 
-    console.log(
-        "[REBET CLICKED]"
-    );
+    const lastBets =
+        GameEngine.getLastRoundBets();
 
     console.log(
-        GameEngine.getLastRoundBets()
+        "[REBET]",
+        lastBets
     );
+
+    Object.keys(lastBets)
+        .forEach(symbol => {
+
+            const amount =
+                lastBets[symbol];
+
+            if (amount > 0) {
+
+                GameEngine.placeBet(
+                    symbol,
+                    amount
+                );
+
+            }
+
+        });
+
+    updateBalanceUI();
+
+    updateBetUI();
 
 });
+// =========================
+// 🎯 ENF REBET BUTTON
+// =========================
 
 // =========================
 // 🪙 CHIP UI
