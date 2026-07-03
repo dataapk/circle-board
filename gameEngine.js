@@ -253,6 +253,7 @@ function hasSelectedChip() {
 // ======================================================
 // 🎯 START: INITIAL BET SYSTEM (UPGRADED)
 // ======================================================
+    let betHistory = [];
 
 function placeBet(symbol) {
 
