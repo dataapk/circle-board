@@ -1118,29 +1118,20 @@ const BUBBLE_SYMBOLS = [
     "flag"
 ];
 
-function selectBubbleTarget() {
+function setBubbleBonus(
 
-    activeBubbleMultiplier =
-        BUBBLE_MULTIPLIERS[
-            Math.floor(
-                Math.random() *
-                BUBBLE_MULTIPLIERS.length
-            )
-        ];
+    symbol,
 
-    activeBubbleSymbol =
-        BUBBLE_SYMBOLS[
-            Math.floor(
-                Math.random() *
-                BUBBLE_SYMBOLS.length
-            )
-        ];
+    multiplier
 
-    console.log(
-        "[BUBBLE]",
-        activeBubbleMultiplier + "X",
-        activeBubbleSymbol
-    );
+) {
+
+    state.activeBubbleSymbol =
+        symbol;
+
+    state.activeBubbleMultiplier =
+        multiplier;
+
 }
 
 function startBonusBubbleShow() {
@@ -1149,6 +1140,21 @@ function startBonusBubbleShow() {
 
     // next
     spawnBubbleWave();
+}
+ function setBubbleBonus(
+
+    symbol,
+
+    multiplier
+
+) {
+
+    state.activeBubbleSymbol =
+        symbol;
+
+    state.activeBubbleMultiplier =
+        multiplier;
+
 }
 
 
@@ -1341,6 +1347,7 @@ function isRoundActive() {
         reduceTotalBet,
      saveLastRoundBets,
      getLastRoundBets,
+     setBubbleBonus,
         
         resetBoard 
         
