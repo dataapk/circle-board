@@ -800,33 +800,17 @@ for (let symbol in state.bets) {
     let count =
         symbolCountMap[symbol] || 0;
 
-    if (
+    // ❌ RULE: single symbol = loss
+    if (count < 2) {
 
-    activeBubbleSymbol === symbol &&
+        console.log(
+            "[RESULT] LOSS:",
+            symbol
+        );
 
-    activeBubbleMultiplier > 0
+        continue;
 
-) {
-
-    totalWin +=
-        betAmount +
-        (betAmount * activeBubbleMultiplier);
-
-    console.log(
-
-        "[BUBBLE PAYOUT]",
-
-        symbol,
-
-        activeBubbleMultiplier,
-
-        totalWin
-
-    );
-
-    continue;
-
-}
+    }
 
     // =========================
     // 🎁 BONUS OVERRIDE SYSTEM
