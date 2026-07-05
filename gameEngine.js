@@ -1141,21 +1141,6 @@ function startBonusBubbleShow() {
     // next
     spawnBubbleWave();
 }
- function setBubbleBonus(
-
-    symbol,
-
-    multiplier
-
-) {
-
-    state.activeBubbleSymbol =
-        symbol;
-
-    state.activeBubbleMultiplier =
-        multiplier;
-
-}
 
 
 // ======================================================
