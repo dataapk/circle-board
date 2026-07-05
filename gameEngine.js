@@ -7,7 +7,7 @@ const GameEngine = (() => {
 // 🔒 START: PRIVATE GAME STATE
 // ======================================================
 
-const state = {
+ const state = {
 
     // 💰 BALANCE SYSTEM
     balance: 1000,
