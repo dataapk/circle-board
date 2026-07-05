@@ -864,14 +864,21 @@ if (
     // 💰 FINAL CALCULATION
     // =========================
 
-    let win =
+    console.log(
+    "[DEBUG FINAL]",
+    symbol,
+    betAmount,
+    finalMultiplier
+);
 
-        (
-            betAmount *
-            finalMultiplier
-        )
+let win =
 
-        + betAmount;
+    (
+        betAmount *
+        finalMultiplier
+    )
+
+    + betAmount;
 
     console.log(
         "[RESULT] WIN:",
