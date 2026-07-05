@@ -533,8 +533,9 @@ function startWheelSpin() {
     const currentRotation = 0;
 
     const finalAngle =
-        2160 +
-        (finalIndex * anglePerSlot);
+    2160 +
+    (finalIndex * anglePerSlot) +
+    (anglePerSlot / 2);
 
     console.log(
         "[SPIN TARGET]",
