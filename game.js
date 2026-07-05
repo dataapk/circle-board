@@ -1188,16 +1188,24 @@ function selectBubbleTarget() {
             )
         ];
 
-    console.log(
-        "[BUBBLE]",
-        activeBubbleMultiplier + "X",
-        activeBubbleSymbol
+    GameEngine.setBubbleBonus(
+
+        activeBubbleSymbol,
+
+        activeBubbleMultiplier
+
     );
 
     console.log(
-        "[TARGET SYMBOL]",
+
+        "[BUBBLE]",
+
+        activeBubbleMultiplier + "X",
+
         activeBubbleSymbol
+
     );
+
 }
 // ======================================
 // START BONUS BUBBLE SHOW
