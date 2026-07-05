@@ -763,6 +763,11 @@ if (amount <= 0.001) {
         );
 
 }
+ });
+
+console.log("[UI] BET UPDATED:", bets);
+
+}
 
 // =========================
 // 🎯 UNDO BUTTON
