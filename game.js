@@ -531,7 +531,6 @@ function startWheelSpin() {
         360 / 18;
 
     const currentRotation = 0;
-
     const finalAngle =
     2160 +
     (finalIndex * anglePerSlot) +
