@@ -741,21 +741,26 @@ function updateBetUI() {
                 box.dataset.symbol;
 
             const amount =
-                bets[symbol] || 0;
+    Math.max(
+        0,
+        bets[symbol] || 0
+    );
 
-            const amountEl =
-                box.querySelector(".bet-amount");
+const amountEl =
+    box.querySelector(".bet-amount");
 
-            if (!amountEl) return;
+if (!amountEl) return;
 
-            amountEl.textContent =
-    amount > 0
-        ? parseFloat(amount.toFixed(2))
-        : "";
+if (amount <= 0.001) {
 
-        });
+    amountEl.textContent = "";
 
-    console.log("[UI] BET UPDATED:", bets);
+} else {
+
+    amountEl.textContent =
+        parseFloat(
+            amount.toFixed(2)
+        );
 
 }
 
