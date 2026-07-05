@@ -764,7 +764,7 @@ function runResultEngine(finalIndex) {
     // 🎲 BONUS MULTIPLIER (2X - 5X)
     // =========================
 
-    const bonusPool = [2, 3, 4, 5];
+    const bonusPool = [5, 7, 10, 15, 20, 25, 50];
 
     const bonusMultiplier =
         bonusPool[Math.floor(Math.random() * bonusPool.length)];
@@ -801,17 +801,33 @@ for (let symbol in state.bets) {
     let count =
         symbolCountMap[symbol] || 0;
 
-    // ❌ RULE: single symbol = loss
-    if (count < 2) {
+    if (
 
-        console.log(
-            "[RESULT] LOSS:",
-            symbol
-        );
+    activeBubbleSymbol === symbol &&
 
-        continue;
+    activeBubbleMultiplier > 0
 
-    }
+) {
+
+    totalWin +=
+        betAmount +
+        (betAmount * activeBubbleMultiplier);
+
+    console.log(
+
+        "[BUBBLE PAYOUT]",
+
+        symbol,
+
+        activeBubbleMultiplier,
+
+        totalWin
+
+    );
+
+    continue;
+
+}
 
     // =========================
     // 🎁 BONUS OVERRIDE SYSTEM
