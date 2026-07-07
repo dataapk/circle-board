@@ -133,11 +133,11 @@ for (let symbol in bets) {
 
     totalBet += bets[symbol] || 0;
 
-}
+ }
 
-document.getElementById(
+ document.getElementById(
     "total-bet-display"
-).textContent =
+ ).textContent =
 
     "Total Bet: $" +
     totalBet.toFixed(2);
