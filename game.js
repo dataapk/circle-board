@@ -125,25 +125,6 @@ const BUBBLE_SYMBOLS = [
 // 📦 END: DOM CACHE
 // ======================================================
 
-// ========================
-//  💰 user id $ total bet
- //========================== -->
-let totalBet = 0;
-
-for (let symbol in state.bets) {
-
-    totalBet +=
-        state.bets[symbol] || 0;
-
-}
-
-document.getElementById(
-    "total-bet-display"
-).textContent =
-
-    "Total Bet: $" +
-    totalBet.toFixed(2);
-
 
 
 // ======================================================
