@@ -177,21 +177,31 @@ body {
 <!-- ========================
          💰 user id $ total bet
     ========================== -->
-.game-top-bar {
+.wheel-info-bar {
+
+    position: absolute;
+
+    top: 5px;
+
+    left: 0;
+
+    width: 100%;
 
     display: flex;
 
     justify-content: space-between;
 
-    align-items: center;
+    padding: 0 10px;
 
-    padding: 10px 15px;
+    font-size: 10px;
 
-    font-size: 14px;
+    color: yellow;
 
-    font-weight: 600;
+    font-weight: bold;
 
-    color: #fff;
+    pointer-events: none;
+
+    z-index: 999;
 
 }
 
