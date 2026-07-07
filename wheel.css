@@ -192,37 +192,9 @@ body {
     ========================== -->
 #player-id{
 
-    position:fixed;
-
-    top:8px;
-
-    left:8px;
-
-    font-size:10px;
-
-    font-weight:bold;
-
-    color:yellow;
-
-    text-align:left;
-
-    transform:none;
-
-    margin:0;
-
-    padding:0;
-  
-
     background:red;
 
-
-
-    z-index:999999;
-
 }
-
-
-
 
 /* =========================
    🎲 TABLE ESCTION
