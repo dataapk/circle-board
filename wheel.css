@@ -190,40 +190,43 @@ body {
 <!-- ========================
          💰 user id $ total bet
     ========================== -->
-.player-id-box {
+.player-info{
 
-    position: absolute;
+    position:absolute;
 
-    top: 8px;
+    top:8px;
 
-    left: 8px;
+    left:8px;
 
-    display: block;
+    display:flex;
 
-    width: auto;
+    align-items:center;
 
-    margin: 0;
+    gap:4px;
 
-    padding: 0;
-
-    text-align: left;
-
-    font-size: 10px;
-
-    font-weight: bold;
-
-    color: yellow;
-
-    z-index: 99999;
+    z-index:9999;
 
 }
 
-.player-id-value {
+.player-label{
 
-    color: #ffffff;
+    font-size:10px;
+
+    font-weight:bold;
+
+    color:yellow;
 
 }
 
+.player-value{
+
+    font-size:10px;
+
+    font-weight:bold;
+
+    color:#ffffff;
+
+}
 /* =========================
    🎲 TABLE ESCTION
 ========================= */
