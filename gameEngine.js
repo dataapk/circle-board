@@ -1104,8 +1104,8 @@ function resetBoard() {
 // BONUS BUBBLE SYSTEM
 // ======================================
 
-//let activeBubbleMultiplier = null;
-//let activeBubbleSymbol = null;
+let activeBubbleMultiplier = null;
+let activeBubbleSymbol = null;
 
 //const BUBBLE_MULTIPLIERS = [5,7,10,12,15,20,25];
 
