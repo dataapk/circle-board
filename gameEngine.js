@@ -760,10 +760,10 @@ function runResultEngine(finalIndex) {
 
 
     // =========================
-    // 🎲 BONUS MULTIPLIER (2X - 5X)
+    // 🎲 BONUS MULTIPLIER (2X - 3X)
     // =========================
 
-    const bonusPool = [5, 7, 10, 15, 20, 25, 50];
+    const bonusPool = [2, 3];
 
     const bonusMultiplier =
         bonusPool[Math.floor(Math.random() * bonusPool.length)];
@@ -1107,7 +1107,7 @@ function resetBoard() {
 let activeBubbleMultiplier = null;
 let activeBubbleSymbol = null;
 
-const BUBBLE_MULTIPLIERS = [2,3,4,5];
+const BUBBLE_MULTIPLIERS = [5,7,10,12,15,20,25];
 
 const BUBBLE_SYMBOLS = [
     "heart",
