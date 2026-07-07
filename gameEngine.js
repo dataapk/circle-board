@@ -821,26 +821,26 @@ let finalMultiplier =
 console.log(
     "[BONUS CHECK]",
     symbol,
-    activeBubbleSymbol,
-    activeBubbleMultiplier
+    state.activeBubbleSymbol,
+    state.activeBubbleMultiplier
 );
 
 if (
 
-    activeBubbleSymbol &&
-    activeBubbleMultiplier &&
-    symbol === activeBubbleSymbol
+    state.activeBubbleSymbol &&
+    state.activeBubbleMultiplier &&
+    symbol === state.activeBubbleSymbol
 
 ) {
 
     finalMultiplier =
-        activeBubbleMultiplier;
+    state.activeBubbleMultiplier;
 
     console.log(
-        "[BONUS HIT]",
-        symbol,
-        activeBubbleMultiplier + "X"
-    );
+    "[BONUS HIT]",
+    symbol,
+    state.activeBubbleMultiplier + "X"
+ );
 
 }
 
