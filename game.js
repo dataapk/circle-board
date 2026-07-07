@@ -130,15 +130,16 @@ const BUBBLE_SYMBOLS = [
  //========================== -->
 let totalBet = 0;
 
-for (let symbol in bets) {
+for (let symbol in state.bets) {
 
-    totalBet += bets[symbol] || 0;
+    totalBet +=
+        state.bets[symbol] || 0;
 
- }
+}
 
- document.getElementById(
+document.getElementById(
     "total-bet-display"
- ).textContent =
+).textContent =
 
     "Total Bet: $" +
     totalBet.toFixed(2);
