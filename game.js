@@ -35,13 +35,13 @@ const chips = document.querySelectorAll(
 const symbolBoxes = document.querySelectorAll(".symbol-box");
 
 const pointer = document.getElementById("pointer");
-// =========================
-// MENU SYSTEM
-// =========================
 const profile = await getUserProfile();
 
 document.getElementById("playerIdValue").textContent =
     profile.user_id;
+// =========================
+// MENU SYSTEM
+// =========================
 
 const menuBtn =
     document.getElementById(
