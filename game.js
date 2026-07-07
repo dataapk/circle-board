@@ -98,10 +98,12 @@ let bubbleTargetLocked = false;
 let currentBubbleElement = null;
 
 const BUBBLE_MULTIPLIERS = [
-    2,
-    3,
-    4,
-    5
+    5,
+    7,
+    10,
+    12,
+    15,
+    20
 ];
 
 const BUBBLE_SYMBOLS = [
