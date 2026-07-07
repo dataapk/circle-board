@@ -1141,25 +1141,23 @@ padding-bottom: 0;
 
 .balance-box {
 
-    display: flex;
+    position: absolute;
 
-    flex-direction: column;
+    top: 8px;
 
-    align-items: center;
+    right: 8px;
 
-    justify-content: center;
-
-    gap: 2px;
+    text-align: right;
 
 }
 
 .balance-box span {
 
+    display: block;
+
     font-size: 11px;
 
     color: #ffffff;
-
-    font-weight: 500;
 
 }
 
@@ -1167,25 +1165,23 @@ padding-bottom: 0;
 
     margin: 0;
 
-    font-size: 22px;
+    font-size: 18px;
 
-    font-weight: 700;
+    font-weight: bold;
 
     color: #ffffff;
-
-    line-height: 1;
 
 }
 
 #totalBetDisplay {
 
+    margin-top: 2px;
+
     font-size: 10px;
 
-    font-weight: 600;
+    font-weight: bold;
 
     color: yellow;
-
-    line-height: 1;
 
 }
 /* =========================
