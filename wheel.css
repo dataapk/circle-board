@@ -177,31 +177,34 @@ body {
 <!-- ========================
          💰 user id $ total bet
     ========================== -->
-.wheel-info-bar {
+#player-id {
 
     position: absolute;
 
     top: 5px;
 
-    left: 0;
-
-    width: 100%;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    padding: 0 10px;
+    left: 5px;
 
     font-size: 10px;
 
     color: yellow;
 
-    font-weight: bold;
+    z-index: 9999;
 
-    pointer-events: none;
+}
+#total-bet-display {
 
-    z-index: 999;
+    position: absolute;
+
+    top: 5px;
+
+    right: 5px;
+
+    font-size: 10px;
+
+    color: yellow;
+
+    z-index: 9999;
 
 }
 
