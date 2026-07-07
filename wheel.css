@@ -190,9 +190,29 @@ body {
 <!-- ========================
          💰 user id $ total bet
     ========================== -->
-#player-id{
+.player-id-box{
 
-    background:red;
+    position:absolute;
+
+    top:8px;
+
+    left:8px;
+
+    font-size:10px;
+
+    font-weight:bold;
+
+    color:yellow;
+
+    z-index:9999;
+
+    text-align:left;
+
+}
+
+.player-id-value{
+
+    color:#ffffff;
 
 }
 
