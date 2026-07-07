@@ -192,23 +192,51 @@ body {
     ========================== -->
 .player-info{
 
-    position:absolute;
+    position: fixed !important;
 
-    top:8px;
+    left: 10px !important;
 
-    left:8px;
+    bottom: 10px !important;
 
-    display:flex;
+    top: auto !important;
 
-    align-items:center;
+    right: auto !important;
 
-    gap:4px;
+    transform: none !important;
 
-    z-index:9999;
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    z-index: 999999;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
 
 }
 
 .player-label{
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    color: yellow;
+
+}
+
+.player-value{
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    color: #ffffff;
+
+}layer-label{
 
     font-size:10px;
 
