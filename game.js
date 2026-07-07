@@ -1223,6 +1223,11 @@ function startBonusBubbleShow() {
     bubbleTargetLocked = false;
 
     selectBubbleTarget();
+    console.log(
+    "[START BONUS]",
+    activeBubbleSymbol,
+    activeBubbleMultiplier
+);
 
     spawnBubbleWave();
 
