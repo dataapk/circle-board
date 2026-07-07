@@ -177,33 +177,31 @@ body {
 <!-- ========================
          💰 user id $ total bet
     ========================== -->
-#player-id {
+#player-id{
 
-    position: absolute;
+    position:fixed;
 
-    top: 8px;
+    top:8px;
 
-    left: 8px;
+    left:8px;
 
-    font-size: 10px;
+    font-size:10px;
 
-    font-weight: bold;
+    font-weight:bold;
 
-    color: yellow;
+    color:yellow;
 
-    z-index: 9999;
+    text-align:left;
 
-    user-select: none;
+    transform:none;
+
+    margin:0;
+
+    padding:0;
+
+    z-index:999999;
 
 }
-
-#playerIdValue {
-
-    color: #ffffff;
-
-}
-
-
 /* =========================
    🎯 OVERLAY SAFE ZONE (FOR FUTURE UI)
 ========================= */
