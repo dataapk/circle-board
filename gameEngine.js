@@ -1116,7 +1116,7 @@ function resetBoard() {
     "crown",
     "club",
     "flag"
-];
+//];
 
 function setBubbleBonus(
 
