@@ -193,9 +193,13 @@ body {
 
     z-index: 9999;
 
-    line-height: 1;
+    user-select: none;
 
-    pointer-events: none;
+}
+
+#playerIdValue {
+
+    color: #ffffff;
 
 }
 
