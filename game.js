@@ -38,11 +38,10 @@ const pointer = document.getElementById("pointer");
 // =========================
 // MENU SYSTEM
 // =========================
-document.getElementById(
-    "player-id"
-).textContent =
+const profile = await getUserProfile();
 
-    "ID: 32658425";
+document.getElementById("playerIdValue").textContent =
+    profile.user_id;
 
 const menuBtn =
     document.getElementById(
