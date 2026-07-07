@@ -181,15 +181,21 @@ body {
 
     position: absolute;
 
-    top: 5px;
+    top: 8px;
 
-    left: 5px;
+    left: 8px;
 
     font-size: 10px;
+
+    font-weight: bold;
 
     color: yellow;
 
     z-index: 9999;
+
+    line-height: 1;
+
+    pointer-events: none;
 
 }
 
