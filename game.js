@@ -38,6 +38,11 @@ const pointer = document.getElementById("pointer");
 // =========================
 // MENU SYSTEM
 // =========================
+document.getElementById(
+    "player-id"
+).textContent =
+
+    "ID: 32658425";
 
 const menuBtn =
     document.getElementById(
@@ -119,6 +124,23 @@ const BUBBLE_SYMBOLS = [
 // ======================================================
 // 📦 END: DOM CACHE
 // ======================================================
+<!-- ========================
+         💰 user id $ total bet
+    ========================== -->
+let totalBet = 0;
+
+for (let symbol in bets) {
+
+    totalBet += bets[symbol] || 0;
+
+}
+
+document.getElementById(
+    "total-bet-display"
+).textContent =
+
+    "Total Bet: $" +
+    totalBet.toFixed(2);
 
 
 
