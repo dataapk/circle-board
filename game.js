@@ -240,7 +240,19 @@ function initializeChipSystem() {
 
     e.stopPropagation();
 
-    console.log("[CHIP] PANEL TOGGLE");
+    if (state.isBetLocked) {
+
+        console.log(
+            "[CHIP] PANEL LOCKED"
+        );
+
+        return;
+
+    }
+
+    console.log(
+        "[CHIP] PANEL TOGGLE"
+    );
 
     chipsContainer.classList.toggle("open");
 
