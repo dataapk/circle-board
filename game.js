@@ -240,19 +240,7 @@ function initializeChipSystem() {
 
     e.stopPropagation();
 
-    if (state.isBetLocked) {
-
-        console.log(
-            "[CHIP] PANEL LOCKED"
-        );
-
-        return;
-
-    }
-
-    console.log(
-        "[CHIP] PANEL TOGGLE"
-    );
+    console.log("[CHIP] PANEL TOGGLE");
 
     chipsContainer.classList.toggle("open");
 
@@ -918,28 +906,19 @@ function lockBoardUI() {
 
     if (spinBtn) spinBtn.disabled = true;
 
-
+    if (defaultChip)
+        defaultChip.style.pointerEvents = "none";
 
     chips.forEach(chip => {
-
         chip.style.pointerEvents = "none";
-
     });
-
-
 
     symbolBoxes.forEach(box => {
-
         box.style.pointerEvents = "none";
-
     });
 
-
-
     console.log("[UI] BOARD LOCKED");
-
 }
-
 
 // ======================================================
 // 🔓 BOARD UI UNLOCK (VISUAL ONLY)
@@ -947,10 +926,10 @@ function lockBoardUI() {
 
 function unlockBoardUI() {
 
-    // ENGINE UNLOCK
-    GameEngine.unlockBets();
-
     if (spinBtn) spinBtn.disabled = false;
+
+    if (defaultChip)
+        defaultChip.style.pointerEvents = "auto";
 
     chips.forEach(chip => {
         chip.style.pointerEvents = "auto";
@@ -961,9 +940,7 @@ function unlockBoardUI() {
     });
 
     console.log("[UI] BOARD UNLOCKED");
-
 }
-
 
 // ======================================================
 // 🔄 BOARD VISUAL RESET
