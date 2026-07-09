@@ -521,6 +521,14 @@ function startWheelSpin() {
     console.log("[SPIN] START");
 
     GameEngine.lockBets();
+
+    spinBtn.textContent =
+        "LOCK";
+
+    spinBtn.classList.add(
+        "locked"
+    );
+
     GameEngine.startSpin();
 
     playSpinAudio();
@@ -632,13 +640,6 @@ const landedSlot =
     );
     // 👆 VISUAL ONLY DEBUG
             
-    spinBtn.textContent =
-    "LOCK";
-
- spinBtn.classList.add(
-    "locked"
- );
-
     spinBtn.classList.remove(
         "spinning"
     );
