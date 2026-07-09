@@ -489,7 +489,7 @@ const wheelSlots = [
     ["club","club","heart"],
     ["spade","crown","crown"],
     ["diamond","diamond","diamond"],
-    ["club","flag","flag"],
+    ["flag","flag","club"],
     ["heart","heart","crown"],
     ["spade","spade","spade"],
     ["diamond","diamond","flag"],
