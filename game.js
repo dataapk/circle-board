@@ -631,6 +631,13 @@ const landedSlot =
         landedSlot
     );
     // 👆 VISUAL ONLY DEBUG
+            
+    spinBtn.textContent =
+    "LOCK";
+
+ spinBtn.classList.add(
+    "locked"
+ );
 
     spinBtn.classList.remove(
         "spinning"
@@ -649,6 +656,13 @@ setTimeout(() => {
     GameEngine.unlockBets();
 
     unlockBoardUI();
+
+    spinBtn.textContent =
+        "SPIN";
+
+    spinBtn.classList.remove(
+        "locked"
+    );
 
     console.log(
         "[UNLOCK CALLED]"
