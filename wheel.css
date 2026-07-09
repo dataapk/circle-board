@@ -1763,13 +1763,7 @@ button,
         margin-top: -20px;
     }
 }
-/* =========================
-   LAYOUT CHECKER
-========================= */
 
-* {                        
-    outline: none;   
-}
 
 /* =========================
    🔋 REDUCE ANIMATION (LOW-END DEVICES)
