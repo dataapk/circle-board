@@ -14,12 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
 // ======================================================
 // 📦 START: DOM CACHE
 // ======================================================
+
 let wheelAnimationFrame = null;
 
 const wheel = document.getElementById("wheel");
 
 const spinBtn = document.getElementById("spinBtn");
-const spinBtnText = spinBtnText.textContent = "LOCK";
+const spinBtnText =
+    spinBtn.querySelector(".btn-text");
 
 const balanceAmount = document.getElementById("balanceAmount");
 
