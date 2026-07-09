@@ -19,7 +19,7 @@ let wheelAnimationFrame = null;
 const wheel = document.getElementById("wheel");
 
 const spinBtn = document.getElementById("spinBtn");
-const spinBtnText = spinBtn.querySelector(".btn-text")
+const spinBtnText = spinBtnText.textContent = "LOCK";
 
 const balanceAmount = document.getElementById("balanceAmount");
 
@@ -521,14 +521,14 @@ function startWheelSpin() {
 
     console.log("[SPIN] START");
 
-    GameEngine.lockBets();
+   GameEngine.lockBets();
 
-    spinBtn.textContent =
-        "LOCK";
+spinBtnText.textContent =
+    "LOCK";
 
-    spinBtn.classList.add(
-        "locked"
-    );
+spinBtn.classList.add(
+    "locked"
+);
 
     GameEngine.startSpin();
 
@@ -659,8 +659,8 @@ setTimeout(() => {
 
     unlockBoardUI();
 
-    spinBtn.textContent =
-        "SPIN";
+    spinBtnText.textContent =
+    "SPIN";
 
     spinBtn.classList.remove(
         "locked"
