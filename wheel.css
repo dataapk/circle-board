@@ -192,19 +192,9 @@ body {
     ========================== -->
 .player-id-box{
 
-    position: fixed;
+    width:120px;
 
-    right: 5px;
-
-    bottom: 2px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 4px;
-
-    z-index: 999999;
+    background:red;
 
 }
 .player-id-label{
