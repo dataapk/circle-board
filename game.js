@@ -666,11 +666,17 @@ setTimeout(() => {
         "locked"
     );
 
+    spinBtn.classList.remove(
+        "spinning"
+    );
+
     console.log(
         "[UNLOCK CALLED]"
     );
 
 }, 2000);
+
+return;
 
 spinBtn.classList.remove(
     "spinning"
