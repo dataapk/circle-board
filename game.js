@@ -19,10 +19,7 @@ let wheelAnimationFrame = null;
 const wheel = document.getElementById("wheel");
 
 const spinBtn = document.getElementById("spinBtn");
-const spinBtnText = spinBtn.querySelector(".btn-text").textContent =
-    "SPIN";
-const spinBtnText = spinBtn.querySelector(".btn-text").textContent =
-    "LOCK";
+const spinBtnText = spinBtn.querySelector(".btn-text")
 
 const balanceAmount = document.getElementById("balanceAmount");
 
