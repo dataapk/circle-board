@@ -194,9 +194,9 @@ body {
 
     position: fixed;
 
-    bottom: 10px;
+    right: 5px;
 
-    right: 10px;
+    bottom: 2px;
 
     display: flex;
 
@@ -207,7 +207,6 @@ body {
     z-index: 999999;
 
 }
-
 .player-id-label{
 
     font-size: 10px;
